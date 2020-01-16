@@ -1,0 +1,285 @@
+{
+  "Asyncload": {
+    "shaders": [
+      {
+        "name": "FlatColorShader",
+        "filepath": "assets/shaders/flatColour.glsl"
+      },
+      {
+        "name": "PhongShader",
+        "filepath": "assets/shaders/texturedPhong.glsl"
+      }
+    ],
+    "textures": [
+      {
+        "name": "LetterTexture",
+        "filepath": "assets/textures/letterCube.png"
+      },
+      {
+        "name": "NumberTexture",
+        "filepath": "assets/textures/numberCube.png"
+      }
+    ]
+  },
+
+  "MemoryInfo": {
+    "gameObjects": 3,
+    "materials": 3,
+    "position": 3,
+    "velocity": 3,
+    "oscillates": 2,
+    "textures": 1,
+    "controllers": 1
+  },
+
+  "Camera": {
+    "type": "Fps3D",
+    "translationSpeed": 5.0,
+    "rotationSpeed": 1.0,
+    "fov": 45.0,
+    "aspectRatio": 1.33333,
+    "nearClip": 0.1,
+    "farClip": 100.0
+  },
+
+  "Renderer": {
+    "type": "3D"
+  },
+
+  "GameObject": [
+    {
+      "name": "FCCube",
+      "material": {
+        "model": "assets/jsonModels/fcCube.txt",
+        "shader": "FlatColorShader"
+      },
+
+      "position": {
+        "translation": {
+          "x": 1.5,
+          "y": 0.0,
+          "z": 3.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+
+      "velocity": {
+        "linear": {
+          "x": 0.0,
+          "y": 0.1,
+          "z": 0.0
+        },
+        "angular": {
+          "x": 0.0,
+          "y": 20.0,
+          "z": 0.0
+        }
+      },
+
+      "oscillate": {
+        "state": "DOWN",
+        "current time": 2.5,
+        "max time": 5.0,
+        "set texture": false
+      }
+    },
+
+    {
+      "name": "PlayerCube",
+      "material": {
+        "model": "assets/jsonModels/fcCube.txt",
+        "shader": "FlatColorShader"
+      },
+
+      "position": {
+        "translation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 3.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+
+      "velocity": {
+        "linear": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "angular": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+
+      "controller": {
+        "moveSpeed": 150.0,
+        "rotationSpeed": 5000.0
+      }
+    },
+
+    {
+      "name": "PhongCube",
+      "material": {
+        "model": "assets/jsonModels/tpCube.txt",
+        "shader": "PhongShader"
+      },
+
+      "position": {
+        "translation": {
+          "x": -1.5,
+          "y": 0.0,
+          "z": 3.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+
+      "velocity": {
+        "linear": {
+          "x": 0.0,
+          "y": 0.1,
+          "z": 0.0
+        },
+        "angular": {
+          "x": 0.0,
+          "y": 20.0,
+          "z": 0.0
+        }
+      },
+
+      "oscillate": {
+        "state": "UP",
+        "current time": 2.5,
+        "max time": 5.0,
+        "set texture": true
+      },
+
+      "texture": {
+        "name": "NumberTexture"
+      }
+    }
+  ],
+
+  "UBO": [
+    {
+      "name": "ViewProjection",
+      "layout": [
+        "Mat4"
+      ],
+      "shaders": [
+        {
+          "name": "FlatColorShader",
+          "block": "Matrices"
+        },
+        {
+          "name": "PhongShader",
+          "block": "Matrices"
+        }
+      ],
+      "data": [
+        {
+          "type": "pointer",
+          "var": "VP Matrix"
+        }
+      ]
+    },
+    {
+      "name": "LightUBO",
+      "layout": [
+        "Vec3",
+        "Vec3",
+        "Vec3"
+      ],
+      "shaders": [
+        {
+          "name": "PhongShader",
+          "block": "Light"
+        }
+      ],
+      "data": [
+        {
+          "type": "Float3",
+          "x": 1.0,
+          "y": 4.0,
+          "z": -6.0
+        },
+        {
+          "type": "Float3",
+          "x": 0.0,
+          "y": 0.0,
+          "z": -4.5
+        },
+        {
+          "type": "Float3",
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      ]
+
+    }
+  ],
+
+    "RendererCommands":
+    {
+      "init": [
+        {
+          "type": "DepthTestLess",
+          "enabled": true
+        },
+        {
+          "type": "BackfaceCulling",
+          "enabled": true
+        },
+        {
+          "type": "Debug",
+          "enabled": true
+        },
+        {
+          "type": "ClearColor",
+          "r": 0.5,
+          "g": 0.1,
+          "b": 0.5,
+          "a": 1.0
+        }
+      ],
+      "predraw": [
+        {
+          "type": "ClearDepthColorBuffer"
+        }
+      ],
+      "postdraw": [
+      ],
+      "exit": [
+
+      ]
+    }
+}

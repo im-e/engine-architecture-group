@@ -1,0 +1,11 @@
+{
+  "MemoryInfo": {
+    "gameObjects": 2
+  },
+
+  "GameObject": [
+    {
+      "name": "TestCube"
+    }
+  ]
+}
