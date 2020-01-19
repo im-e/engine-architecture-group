@@ -45,7 +45,8 @@ project "Engine"
 		"vendor/glm/",
 		"vendor/stb_image",
 		"vendor/freetype2/include",
-		"vendor/json/single_include/nlohmann"
+		"vendor/json/single_include/nlohmann",
+		"vendor/assimp/include"
 	}
 	
 	links 

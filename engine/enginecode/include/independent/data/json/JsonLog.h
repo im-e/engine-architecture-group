@@ -106,6 +106,10 @@ namespace Engine
 					LogInfo("{0}", go["name"].get<std::string>());
 					if (go.count("material") > 0)
 					{
+						std::string meshType = go["material"]["type"].get<std::string>();
+						
+						LogInfo("Type: {0}", meshType);
+
 						LogInfo("Material:");
 						if (go["material"].count("model") > 0)
 						{

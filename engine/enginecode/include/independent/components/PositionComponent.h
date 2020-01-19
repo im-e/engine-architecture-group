@@ -32,7 +32,7 @@ namespace Engine
 			m_rotation = glm::toMat4(glm::quat(m_rotationVec));
 			m_scale = glm::scale(m_model, m_scaleVec);
 
-			m_model = m_scale * m_translation * m_rotation;
+			m_model = m_scale * m_translation * m_rotation ;
 		}
 
 	public:

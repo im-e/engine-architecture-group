@@ -9,7 +9,8 @@
 
 #include "JsonLog.h"
 #include "JsonLayer.h"
-#include "JsonModelLoader.h" //TODO replace with assimp
+#include "JsonModelLoader.h"
+#include "data/assimp/AssimpModel.h"
 
 namespace Engine
 {
@@ -158,26 +159,74 @@ namespace Engine
 					{
 						if (go["material"].count("model") > 0)
 						{
-							JsonModel model;
+							std::string meshType = go["material"]["type"].get<std::string>();
 
-							JsonModelLoader::loadModel(go["material"]["model"].get<std::string>(), model);
-							ResourceManagerInstance->addVAO(goName+"VAO");
-							ResourceManagerInstance->addVBO(goName+"VBO", model.vertices, sizeof(float) * model.verticesSize, model.shader->getBufferLayout());
-							ResourceManagerInstance->addEBO(goName+"EBO", model.indices, sizeof(unsigned int) * model.indicesSize);
+							if (meshType == "json")
+							{
+								JsonModel model;
 
-							ResourceManagerInstance->getVAO().getAsset(goName + "VAO")->
-								setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(goName + "VBO"));
-							ResourceManagerInstance->getVAO().getAsset(goName + "VAO")->
-								setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(goName + "EBO"));
+								JsonModelLoader::loadModel(go["material"]["model"].get<std::string>(), model);
+								ResourceManagerInstance->addVAO(goName + "VAO");
+								ResourceManagerInstance->addVBO(goName + "VBO", model.vertices, sizeof(float) * model.verticesSize, model.shader->getBufferLayout());
+								ResourceManagerInstance->addEBO(goName + "EBO", model.indices, sizeof(unsigned int) * model.indicesSize);
 
-							ResourceManagerInstance->addMaterial(goName+"Mat",
+								ResourceManagerInstance->getVAO().getAsset(goName + "VAO")->
+									setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(goName + "VBO"));
+								ResourceManagerInstance->getVAO().getAsset(goName + "VAO")->
+									setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(goName + "EBO"));
+
+								ResourceManagerInstance->addMaterial(goName + "Mat",
 									ResourceManagerInstance->getShader().getAsset(go["material"]["shader"].get<std::string>()),
 									ResourceManagerInstance->getVAO().getAsset(goName + "VAO"));
 
-							layer.getMaterials().at(materialsIndex) = std::make_shared<MaterialComponent>
-								(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(goName+"Mat")));
-							gameObject->addComponent(layer.getMaterials().at(materialsIndex));
-							materialsIndex++;
+								layer.getMaterials().at(materialsIndex) = std::make_shared<MaterialComponent>
+									(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(goName + "Mat")));
+								gameObject->addComponent(layer.getMaterials().at(materialsIndex));
+								materialsIndex++;
+							}
+							else if (meshType == "assimp")
+							{
+								//process assimp model
+								AssimpModel assimpModel;
+								AssimpModelLoader::loadModel(go["material"]["model"].get<std::string>(), assimpModel);
+
+								for (int i = 0; i < assimpModel.m_meshes.size(); i++)
+								{
+									Mesh* mesh = &assimpModel.m_meshes.at(i);
+									mesh->m_shader = ResourceManagerInstance->getShader().getAsset(go["material"]["shader"].get<std::string>());
+
+									//set each mesh up
+										// add VAO
+									ResourceManagerInstance->addVAO(goName + "VAO" + std::to_string(i));
+										// add VBO
+									ResourceManagerInstance->addVBO(goName + "VBO" + std::to_string(i),
+										(float*)&mesh->m_vertices.at(0),
+										mesh->m_vertices.size() * sizeof(VertexData),
+										mesh->m_shader->getBufferLayout());
+										// add EBO
+									ResourceManagerInstance->addEBO(goName + "EBO" + std::to_string(i),
+										&mesh->m_indices.at(0),
+										mesh->m_indices.size() * sizeof(unsigned int));
+										// link VBO to VAO
+									ResourceManagerInstance->getVAO().getAsset(goName + "VAO" + std::to_string(i))->
+										setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(goName + "VBO" + std::to_string(i)));
+										// link EBO to VAO
+									ResourceManagerInstance->getVAO().getAsset(goName + "VAO" + std::to_string(i))->
+										setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(goName + "EBO" + std::to_string(i)));
+
+									mesh->setupMesh(mesh->m_vertices.at(0), mesh->m_indices.at(0));
+
+										// add material
+									ResourceManagerInstance->addMaterial(goName + "Mat" + std::to_string(i),
+										ResourceManagerInstance->getShader().getAsset(go["material"]["shader"].get<std::string>()),
+										ResourceManagerInstance->getVAO().getAsset(goName + "VAO" + std::to_string(i)));
+
+									layer.getMaterials().at(materialsIndex) = std::make_shared<MaterialComponent>
+										(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(goName + "Mat" + std::to_string(i))));
+									gameObject->addComponent(layer.getMaterials().at(materialsIndex));
+									materialsIndex++;
+								}
+							}
 
 							if (go.count("texture") > 0)
 							{
@@ -191,6 +240,7 @@ namespace Engine
 						}
 						//TODO add text
 					}
+
 					if (go.count("position") > 0)
 					{
 						glm::vec3 translation(go["position"]["translation"]["x"].get<float>(), go["position"]["translation"]["y"].get<float>(), go["position"]["translation"]["z"].get<float>());
