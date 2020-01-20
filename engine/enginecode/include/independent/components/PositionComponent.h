@@ -30,9 +30,9 @@ namespace Engine
 		{
 			m_translation = glm::translate(glm::mat4(1.0f), m_transformVec);
 			m_rotation = glm::toMat4(glm::quat(m_rotationVec));
-			m_scale = glm::scale(m_model, m_scaleVec);
+			m_scale = glm::scale(m_scaleVec);
 
-			m_model = m_scale * m_translation * m_rotation ;
+			m_model = m_translation * m_rotation * m_scale;
 		}
 
 	public:
@@ -87,10 +87,10 @@ namespace Engine
 					{
 						std::pair<glm::vec3, glm::vec3> vel = std::any_cast<std::pair<glm::vec3, glm::vec3>>(data);
 
-						m_transformVec = vel.first;
-						m_rotationVec.x = glm::radians(vel.second.x);
-						m_rotationVec.y = glm::radians(vel.second.y);
-						m_rotationVec.z = glm::radians(vel.second.z);
+						m_transformVec += vel.first;
+						m_rotationVec.x += glm::radians(vel.second.x);
+						m_rotationVec.y += glm::radians(vel.second.y);
+						m_rotationVec.z += glm::radians(vel.second.z);
 
 						calculateModel();
 						return true;

@@ -43,7 +43,7 @@
     "fov": 45.0,
     "aspectRatio": 1.33333,
     "nearClip": 0.1,
-    "farClip": 100.0
+    "farClip": 10000.0
   },
 
   "Renderer": {
@@ -108,9 +108,9 @@
 
       "position": {
         "translation": {
-          "x": 100.0,
+          "x": 0.0,
           "y": 0.0,
-          "z": 500.0
+          "z": 5.0
         },
         "rotation": {
           "x": 0.0,
@@ -118,9 +118,9 @@
           "z": 0.0
         },
         "scale": {
-          "x": 0.1,
-          "y": 0.1,
-          "z": 0.1
+          "x": 0.01,
+          "y": 0.01,
+          "z": 0.01
         }
       },
 
@@ -139,7 +139,7 @@
 
       "controller": {
         "moveSpeed": 150.0,
-        "rotationSpeed": 5000.0
+        "rotationSpeed": 1000.0
       },
 
       "texture": {
