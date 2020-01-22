@@ -34,7 +34,6 @@ project "IrrXML"
 		}
 		
     filter { "system:windows", "configurations:Release" }
-        buildoptions "/MT"
 		
 		defines 
 		{

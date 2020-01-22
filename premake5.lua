@@ -106,7 +106,8 @@ project "Sandbox"
 		"vendor/spdlog/include",
 		"vendor/stb_image",
 		"vendor/glm/",
-		"vendor/json/single_include/nlohmann"
+		"vendor/json/single_include/nlohmann",
+		"vendor/assimp/include"
 	}
 
 	links
