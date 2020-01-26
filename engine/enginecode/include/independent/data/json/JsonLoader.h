@@ -6,6 +6,7 @@
 
 #include <json.hpp>
 #include <fstream>
+#include <future>
 
 #include "JsonLog.h"
 #include "JsonLayer.h"
@@ -20,7 +21,24 @@ namespace Engine
 	class JsonLoader
 	{
 	private:
+		static std::mutex m_modelMutex;
 	public:
+		static JsonModel loadJsonModelAsync(std::string filepath)
+		{
+			JsonModel model;			
+			JsonModelLoader::loadModel(filepath, model);
+			std::lock_guard<std::mutex> lock(m_modelMutex);
+			return model;
+		}	
+		
+		static AssimpModel loadAssimpModelAsync(std::string filepath)
+		{
+			AssimpModel model;
+			AssimpModelLoader::loadModel(filepath, model);
+			std::lock_guard<std::mutex> lock(m_modelMutex);
+			return model;
+		}
+
 		//! Loads and populates layers defined in json files \param filepath path to the json file \param layer layer to be loaded
 		static void loadJson(const std::string& filepath, JsonLayer& layer)
 		{
@@ -154,7 +172,7 @@ namespace Engine
 					layer.getGameObjects().at(goIndex) = std::make_shared<GameObject>(GameObject(goName));
 					auto gameObject = layer.getGameObjects().at(goIndex);
 					goIndex++;
-
+					
 					if (go.count("material") > 0)
 					{
 						if (go["material"].count("model") > 0)
@@ -164,8 +182,11 @@ namespace Engine
 							if (meshType == "json")
 							{
 								JsonModel model;
+								std::string modelPath = go["material"]["model"].get<std::string>();
+								std::string shader = go["material"]["shader"].get<std::string>();
 
-								JsonModelLoader::loadModel(go["material"]["model"].get<std::string>(), model);
+								std::future<JsonModel> future(std::async(std::launch::async, loadJsonModelAsync, modelPath));
+								model = future.get();
 								ResourceManagerInstance->addVAO(goName + "VAO");
 								ResourceManagerInstance->addVBO(goName + "VBO", model.vertices, sizeof(float) * model.verticesSize, model.shader->getBufferLayout());
 								ResourceManagerInstance->addEBO(goName + "EBO", model.indices, sizeof(unsigned int) * model.indicesSize);
@@ -176,7 +197,7 @@ namespace Engine
 									setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(goName + "EBO"));
 
 								ResourceManagerInstance->addMaterial(goName + "Mat",
-									ResourceManagerInstance->getShader().getAsset(go["material"]["shader"].get<std::string>()),
+									ResourceManagerInstance->getShader().getAsset(shader),
 									ResourceManagerInstance->getVAO().getAsset(goName + "VAO"));
 
 								layer.getMaterials().at(materialsIndex) = std::make_shared<MaterialComponent>
@@ -186,9 +207,12 @@ namespace Engine
 							}
 							else if (meshType == "assimp")
 							{
+								std::string modelPath = go["material"]["model"].get<std::string>();
+
 								//process assimp model
 								AssimpModel assimpModel;
-								AssimpModelLoader::loadModel(go["material"]["model"].get<std::string>(), assimpModel);
+								std::future<AssimpModel> future(std::async(std::launch::async, loadAssimpModelAsync, modelPath));
+								assimpModel = future.get();
 
 								for (int i = 0; i < assimpModel.m_meshes.size(); i++)
 								{

@@ -14,6 +14,17 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+/* QUESTIONS:
+
+	- Issue with test config???
+	- Is multithreading alright???
+	- How to finish the animation??? (get all necessary data and pass it to animator component)
+	- How to create a shader to take care of animation (can I just modify texturedPhong.glsl)?
+	- How to create animator component???
+	- How to get and extract keyframes (to call an animation, or to possibly swap them later in the runtime)???
+
+*/
+
 namespace Engine
 {
 	struct VertexData
@@ -25,15 +36,21 @@ namespace Engine
 		glm::vec2 texCoords;
 	};
 
+	struct BoneData
+	{
+		unsigned int m_IDs[4];
+		float m_weights[4];
+	};
+
 	class Mesh
 	{
 	public:
-		Mesh(std::vector<VertexData> vertexData, std::vector<unsigned int> ind)
-			: m_vertices(vertexData), m_indices(ind) {};
+		Mesh(std::vector<VertexData> vertexData, std::vector<unsigned int> ind, std::vector<BoneData> bones)
+			: m_vertices(vertexData), m_indices(ind), m_bones(bones) {};
 
 		void setupMesh(VertexData vertices, unsigned int indices);
-
 		std::vector<VertexData> m_vertices;
+		std::vector<BoneData> m_bones;
 		std::vector<unsigned int> m_indices;
 
 		std::shared_ptr<Shader> m_shader = nullptr;
@@ -50,19 +67,70 @@ namespace Engine
 	class AssimpModelLoader
 	{
 	public:
+		static const aiScene *m_scene;
 		static bool loadModel(const std::string& filepath, AssimpModel& model)
 		{
 			Assimp::Importer importer;
 
-			const aiScene *scene = importer.ReadFile(filepath, aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_Triangulate);
+			m_scene = importer.ReadFile(filepath, aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_Triangulate);
 
-			if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+			if (!m_scene || m_scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !m_scene->mRootNode)
 			{
 				LogError("Could not load: {0}, error: {1}", filepath, importer.GetErrorString());
 				return false;
 			}
 
-			processNode(scene->mRootNode, scene, model);
+			processNode(m_scene->mRootNode, m_scene, model);
+
+#ifdef NG_DEBUG
+			LogWarn("Animations");
+#endif
+			for (int i = 0; i < m_scene->mNumAnimations; i++) // ???
+			{
+				aiAnimation* animation = m_scene->mAnimations[i];
+#ifdef NG_DEBUG
+				LogInfo("Ticks per second: {0}, duration: {1}", animation->mTicksPerSecond, animation->mDuration);
+#endif
+				for (int j = 0; j < animation->mNumChannels; j++)
+				{
+					aiNodeAnim* nodeAnim = animation->mChannels[j];
+
+#ifdef NG_DEBUG
+					LogInfo("Bone: {0}", nodeAnim->mNodeName.C_Str());
+					LogWarn("Position keyframes");
+#endif
+					for (int k = 0; k < nodeAnim->mNumPositionKeys; k++)
+					{
+						aiVectorKey key = nodeAnim->mPositionKeys[k];
+#ifdef NG_DEBUG
+						LogInfo("Time: {0}, Position: {1}, {2}, {3}", key.mTime, key.mValue.x, key.mValue.y, key.mValue.z);
+#endif
+					}
+
+#ifdef NG_DEBUG
+					LogWarn("Rotation keyframes");
+#endif
+					for (int k = 0; k < nodeAnim->mNumRotationKeys; k++)
+					{
+						aiQuatKey key = nodeAnim->mRotationKeys[k];
+#ifdef NG_DEBUG
+						LogInfo("Time: {0}, Position: {1}, {2}, {3}, {4}", key.mTime, key.mValue.w, key.mValue.x, key.mValue.y, key.mValue.z);
+#endif
+					}
+
+#ifdef NG_DEBUG
+					LogWarn("Scaling keyframes");
+#endif
+					for (int k = 0; k < nodeAnim->mNumScalingKeys; k++)
+					{
+						aiVectorKey key = nodeAnim->mScalingKeys[k];
+#ifdef NG_DEBUG
+						LogInfo("Time: {0}, Position: {1}, {2}, {3}", key.mTime, key.mValue.x, key.mValue.y, key.mValue.z);
+#endif
+					}
+				}
+
+			}
 
 			return true;
 		}
@@ -107,12 +175,39 @@ namespace Engine
 
 		static Mesh processMesh(aiMesh* mesh, const aiScene* scene)
 		{
+			std::multimap<unsigned int, std::pair<unsigned int, float>> vertexBoneWeights;
+
 			std::vector<VertexData> vertices;
+			std::vector<BoneData> bones;
 			std::vector<unsigned int> indices;
+
+			for (unsigned int i = 0; i < mesh->mNumBones; i++) // ???
+			{
+				aiBone* bone = mesh->mBones[i];
+				aiMatrix4x4 transform = bone->mOffsetMatrix;
+
+#ifdef NG_DEBUG
+				LogWarn("BONE TRANSFORM: {0} Name: {1}", i, bone->mName.C_Str());
+				LogInfo("{0} {1} {2} {3}", transform.a1, transform.a2, transform.a3, transform.a4);
+				LogInfo("{0} {1} {2} {3}", transform.b1, transform.b2, transform.b3, transform.b4);
+				LogInfo("{0} {1} {2} {3}", transform.c1, transform.c2, transform.c3, transform.c4);
+				LogInfo("{0} {1} {2} {3}", transform.d1, transform.d2, transform.d3, transform.d4);
+#endif
+				for (int j = 0; j < bone->mNumWeights; j++)
+				{
+				
+#ifdef NG_DEBUG
+					LogWarn("Bone idx: {0} VertexID: {1} Weight: {2}", i, bone->mWeights[j].mVertexId, bone->mWeights[j].mWeight);
+#endif
+					vertexBoneWeights.insert(std::pair<unsigned int, std::pair<unsigned int, float>>
+						(bone->mWeights[j].mVertexId, std::pair<unsigned int, float>(i, bone->mWeights[j].mWeight)));
+				}
+			}
 
 			for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 			{
 				VertexData v;
+				BoneData b;
 
 				glm::vec3 vector;
 
@@ -154,6 +249,19 @@ namespace Engine
 					v.texCoords = glm::vec2(0.0f, 0.0f);
 				}
 
+				auto boneData = vertexBoneWeights.equal_range(i); // ???
+				int j = 0;
+				for (auto it = boneData.first; it != boneData.second; ++it)
+				{
+					if (j > 4)
+						LogError("More than 4 bones influence a vertex");
+					auto pair = it->second;
+					b.m_IDs[j] = pair.first;
+					b.m_weights[j] = pair.second;
+					bones.push_back(b);
+					j++;
+				}
+				
 				//add vertex
 				vertices.push_back(v);
 			}
@@ -167,7 +275,7 @@ namespace Engine
 				}
 			}
 
-			return Mesh(vertices, indices);
+			return Mesh(vertices, indices, bones);
 		}
 	};
 }

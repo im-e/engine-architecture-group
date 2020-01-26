@@ -28,7 +28,7 @@
 
   "MemoryInfo": {
     "gameObjects": 3,
-    "materials": 3,
+    "materials": 4,
     "position": 3,
     "velocity": 3,
     "oscillates": 2,
@@ -102,7 +102,7 @@
       "name": "PlayerShip",
       "material": {
         "type": "assimp",
-        "model": "assets/assimpModels/SM_Ship_Fighter_02.fbx",
+        "model": "assets/assimpModels/Chicken Dance.fbx",
         "shader": "PhongShader"
       },
 

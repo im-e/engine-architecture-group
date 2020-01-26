@@ -5,6 +5,8 @@
 
 namespace Engine
 {
+	const aiScene* AssimpModelLoader::m_scene = nullptr;
+
 	void Mesh::setupMesh(VertexData vertices, unsigned int indices)
 	{
 		//vertex position
@@ -27,6 +29,6 @@ namespace Engine
 		glEnableVertexAttribArray(4);
 		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)offsetof(VertexData, bitangent));
 
-		glBindVertexArray(0); //good practice to unbind everything once done
+		// How to add animation stuff here ???
 	}
 }
