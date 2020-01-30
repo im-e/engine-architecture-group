@@ -8,6 +8,10 @@
       {
         "name": "PhongShader",
         "filepath": "assets/shaders/texturedPhong.glsl"
+      },
+      {
+        "name": "NormalShader",
+        "filepath": "assets/shaders/normalMapping.glsl"
       }
     ],
     "textures": [
@@ -22,6 +26,18 @@
       {
         "name": "SpaceTexture",
         "filepath": "assets/textures/PolygonSciFiSpace_Texture_01_A.png"
+      },
+      {
+        "name": "BrickTexture",
+        "filepath": "assets/textures/Brick_diffuseOriginal.png"
+      },
+      {
+        "name": "NormalTexture",
+        "filepath": "assets/assimpModels/SF_Fighter/SF_Fighter-Normal.jpg"
+      },
+      {
+        "name": "ShipTexture",
+        "filepath": "assets/assimpModels/SF_Fighter/SF_Fighter-Albedo.jpg"
       }
     ]
   },
@@ -102,8 +118,8 @@
       "name": "PlayerShip",
       "material": {
         "type": "assimp",
-        "model": "assets/assimpModels/SM_Ship_Fighter_02.fbx",
-        "shader": "PhongShader"
+        "model": "assets/assimpModels/SF_Fighter/SciFi_Fighter.obj",
+        "shader": "NormalShader"
       },
 
       "position": {
@@ -118,9 +134,9 @@
           "z": 0.0
         },
         "scale": {
-          "x": 0.01,
-          "y": 0.01,
-          "z": 0.01
+          "x": 1.01,
+          "y": 1.01,
+          "z": 1.01
         }
       },
 
@@ -141,9 +157,8 @@
         "moveSpeed": 150.0,
         "rotationSpeed": 1000.0
       },
-
       "texture": {
-        "name": "SpaceTexture"
+        "name": "ShipTexture"
       }
     },
 
