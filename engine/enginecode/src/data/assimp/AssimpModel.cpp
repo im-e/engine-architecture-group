@@ -29,6 +29,13 @@ namespace Engine
 		glEnableVertexAttribArray(4);
 		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)offsetof(VertexData, bitangent));
 
+		//bone weights
+		glEnableVertexAttribArray(5);
+		glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)offsetof(VertexData, boneWeights));
+
+		//bone IDs
+		glEnableVertexAttribArray(6);
+		glVertexAttribPointer(6, 4, GL_INT, GL_FALSE, sizeof(VertexData), (void*)offsetof(VertexData, boneIDs));
 		// How to add animation stuff here ???
 	}
 }

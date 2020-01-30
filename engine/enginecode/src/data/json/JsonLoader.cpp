@@ -3,5 +3,5 @@
 
 namespace Engine
 {
-	std::mutex JsonLoader::m_modelMutex;
+	std::mutex JsonLoader::mutex;
 }

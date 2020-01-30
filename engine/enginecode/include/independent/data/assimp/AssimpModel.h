@@ -25,6 +25,18 @@
 
 */
 
+/* STEPS
+	1. Modify code to set vertex data rather than bone data & add number of bones
+	2. Create shader (look up lecture)
+	3. Test if works --> run and see the T-pose
+	4. Create animator component
+		4a. Contains 3 data structures (position, rotation, scale keyframes)
+		4b. Write onUpdate so it linearly interpolates between keyframes (look up lecture for formulas)
+		4c. Add extra component messages
+		4d. Calculate bone models transforms (array of number of bones) in animator
+		4e. Upload transforms to the shader
+*/
+
 namespace Engine
 {
 	struct VertexData
@@ -34,12 +46,15 @@ namespace Engine
 		glm::vec3 tangent;
 		glm::vec3 bitangent;
 		glm::vec2 texCoords;
+		float boneWeights[4] = { 0.f, 0.f, 0.f, 0.f };
+		unsigned int boneIDs[4] = { 0, 0, 0, 0 };
 	};
+
 
 	struct BoneData
 	{
-		unsigned int m_IDs[4];
-		float m_weights[4];
+		
+		//float m_weights[4];
 	};
 
 	class Mesh
@@ -256,8 +271,8 @@ namespace Engine
 					if (j > 4)
 						LogError("More than 4 bones influence a vertex");
 					auto pair = it->second;
-					b.m_IDs[j] = pair.first;
-					b.m_weights[j] = pair.second;
+					v.boneIDs[j] = pair.first;
+					v.boneWeights[j] = pair.second;
 					bones.push_back(b);
 					j++;
 				}

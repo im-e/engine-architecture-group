@@ -21,13 +21,13 @@ namespace Engine
 	class JsonLoader
 	{
 	private:
-		static std::mutex m_modelMutex;
+		static std::mutex mutex;
 	public:
 		static JsonModel loadJsonModelAsync(std::string filepath)
 		{
 			JsonModel model;			
 			JsonModelLoader::loadModel(filepath, model);
-			std::lock_guard<std::mutex> lock(m_modelMutex);
+			std::lock_guard<std::mutex> lock(mutex);
 			return model;
 		}	
 		
@@ -35,8 +35,16 @@ namespace Engine
 		{
 			AssimpModel model;
 			AssimpModelLoader::loadModel(filepath, model);
-			std::lock_guard<std::mutex> lock(m_modelMutex);
+			std::lock_guard<std::mutex> lock(mutex);
 			return model;
+		}
+
+		static std::shared_ptr<Shader> loadShaderAsync(std::string path)
+		{		
+			std::shared_ptr<Shader> sh;		
+			std::lock_guard<std::mutex> lock(mutex);
+			sh.reset(Shader::create(path));
+			return sh;
 		}
 
 		//! Loads and populates layers defined in json files \param filepath path to the json file \param layer layer to be loaded
@@ -58,14 +66,29 @@ namespace Engine
 
 			if (jsonFile.count("Asyncload") > 0)
 			{
+				
 				if (jsonFile["Asyncload"].count("shaders") > 0)
 				{
+					// create vector of futures
+					std::vector<std::future<std::shared_ptr<Shader>>> futures;
+					std::vector<std::string> names;
+
 					for (auto& fnFilepath : jsonFile["Asyncload"]["shaders"])
 					{
+						// launch async here (return shared ptr to shader -> gets added to resource manager)
 						std::string name = fnFilepath["name"].get<std::string>();
+						names.push_back(name);
 						std::string path = fnFilepath["filepath"].get<std::string>();
-						ResourceManagerInstance->addShader(name, path);
+						futures.push_back(std::async(std::launch::async, loadShaderAsync, path));				
 					}
+
+					// Create extra loop to go over the vector of futures and add them to resource manager instance
+					int i = 0;
+					for (auto& f : futures)
+					{
+						ResourceManagerInstance->addShaderAsync(names.at(i), f.get());
+						i++;
+					}					
 				}
 				if (jsonFile["Asyncload"].count("textures") > 0)
 				{

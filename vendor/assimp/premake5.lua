@@ -66,6 +66,10 @@ project "assimp"
 		defines "DEBUG"
 		runtime "Debug"
 		symbols "On"
+		
+	filter "configurations:Test"
+		runtime "Debug"
+		symbols "On"
 
 	filter "configurations:Release"
 		defines "NDEBUG"

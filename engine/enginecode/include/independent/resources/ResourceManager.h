@@ -55,6 +55,7 @@ namespace Engine
 		\param filepath path to the shader file
 		*/
 		std::shared_ptr<Shader> addShader(const std::string& key, const std::string& filepath);
+		void addShaderAsync(const std::string & key, std::shared_ptr<Shader> shader);
 		/*! Adds shader to collection of shaders
 		\param key key associated with a shader
 		\param vertexPath path to the vertex shader file

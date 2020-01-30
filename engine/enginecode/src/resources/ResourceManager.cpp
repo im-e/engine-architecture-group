@@ -49,6 +49,11 @@ namespace Engine
 		return shader;
 	}
 
+	void ResourceManager::addShaderAsync(const std::string & key, std::shared_ptr<Shader> shader)
+	{
+		m_shaders.add(key, shader);
+	}
+
 	std::shared_ptr<Shader> ResourceManager::addShader(const std::string & key, const std::string & vertexPath, const std::string & fragmentPath)
 	{
 		std::shared_ptr<Shader> shader;
