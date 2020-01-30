@@ -58,6 +58,7 @@ namespace Engine
 
 		std::function<void(Event&)> m_callback; //!< Callback event function
 		static Window* create(const WindowProperties& properties = WindowProperties()); //!< Creates window
+		std::shared_ptr<GraphicsContext> getGraphicsContext() { return m_context; } //!< stef wazz here lol
 
 		//! Virtual destructor
 		virtual ~Window() {};

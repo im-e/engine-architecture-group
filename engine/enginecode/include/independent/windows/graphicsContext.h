@@ -16,5 +16,8 @@ namespace Engine
 	public:
 		virtual void init() = 0; //!< Initializes graphic's context
 		virtual void swapBuffers() = 0; //!< Swaps buffers in a window
+
+		virtual void unbindCurrentThread() = 0;
+		virtual void swapToCurrentThread() = 0;
 	};
 }
