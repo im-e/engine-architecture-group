@@ -26,7 +26,7 @@ namespace Engine
 	public:
 		static JsonModel loadJsonModelAsync(std::string filepath);
 		static AssimpModel loadAssimpModelAsync(std::string filepath);
-		static std::shared_ptr<Shader> loadShaderAsync(std::string path, std::mutex * mutex);
+		static std::shared_ptr<Shader> loadShaderAsync(std::string path);
 		static void loadJson(const std::string& filepath, JsonLayer& layer);
 	};
 }

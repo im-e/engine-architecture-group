@@ -23,13 +23,10 @@ namespace Engine
 		return model;
 	}
 
-	std::shared_ptr<Shader> JsonLoader::loadShaderAsync(std::string path, std::mutex * mutex)
+	std::shared_ptr<Shader> JsonLoader::loadShaderAsync(std::string path)
 	{
 		std::shared_ptr<Shader> sh;
-		std::lock_guard<std::mutex> lock(*mutex);
-		Application::getInstance().getWindow()->getGraphicsContext()->swapToCurrentThread();
 		sh.reset(Shader::create(path));
-		Application::getInstance().getWindow()->getGraphicsContext()->unbindCurrentThread();
 		return sh;
 	}
 
@@ -59,7 +56,6 @@ namespace Engine
 				std::vector<std::future<std::shared_ptr<Shader>>> futures;
 				std::vector<std::string> names;
 
-				std::mutex mutex;
 				Application::getInstance().getWindow()->getGraphicsContext()->unbindCurrentThread();
 				for (auto& fnFilepath : jsonFile["Asyncload"]["shaders"])
 				{
@@ -67,7 +63,7 @@ namespace Engine
 					std::string name = fnFilepath["name"].get<std::string>();
 					names.push_back(name);
 					std::string path = fnFilepath["filepath"].get<std::string>();
-					futures.push_back(std::async(std::launch::async, loadShaderAsync, path, &mutex));
+					futures.push_back(std::async(std::launch::async, loadShaderAsync, path));
 				}
 
 				// Create extra loop to go over the vector of futures and add them to resource manager instance

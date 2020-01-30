@@ -4,6 +4,7 @@
 */
 
 #pragma once
+#include <mutex>
 
 namespace Engine
 {
@@ -13,6 +14,8 @@ namespace Engine
 	*/
 	class GraphicsContext
 	{
+	protected:
+		std::mutex m_gpuAccessMutex;
 	public:
 		virtual void init() = 0; //!< Initializes graphic's context
 		virtual void swapBuffers() = 0; //!< Swaps buffers in a window

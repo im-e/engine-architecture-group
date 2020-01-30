@@ -2,6 +2,7 @@
 #include "resources/OpenGLShader.h"
 
 #include <glad/glad.h>
+#include "core/application.h"
 
 namespace Engine
 {
@@ -156,9 +157,11 @@ namespace Engine
 
 		handleFile.close();
 
+		Application::getInstance().getWindow()->getGraphicsContext()->swapToCurrentThread();
 		compileAndLink(source[Vertex], source[Fragment]);
 
 		cacheUniformsExtractLayout(path);
+		Application::getInstance().getWindow()->getGraphicsContext()->unbindCurrentThread();
 	}
 
 	void OpenGLShader::cacheUniformsExtractLayout(const std::string& path)

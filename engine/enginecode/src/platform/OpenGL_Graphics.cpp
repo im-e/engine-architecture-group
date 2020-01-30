@@ -6,6 +6,8 @@ namespace Engine
 {
 	void OpenGL_Graphics::init()
 	{
+		m_gpuAccessMutex.lock();
+
 		glfwMakeContextCurrent(m_window);
 		int result = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
@@ -30,10 +32,14 @@ namespace Engine
 		else {
 			wglMakeCurrent(NULL, NULL);
 		}
+
+		m_gpuAccessMutex.unlock();
 	}
 
 	void OpenGL_Graphics::swapToCurrentThread()
 	{
+		m_gpuAccessMutex.lock();
+		
 		if (std::this_thread::get_id() != m_initialThreadID) {
 			auto hwnd = glfwGetWin32Window(m_window);
 			auto hdc = GetDC(hwnd);
