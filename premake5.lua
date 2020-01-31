@@ -107,16 +107,12 @@ project "Sandbox"
 		"vendor/stb_image",
 		"vendor/glm/",
 		"vendor/json/single_include/nlohmann",
-		"vendor/assimp/include",
-		"vendor/glfw/include",
-		"vendor/glad/include"
+		"vendor/assimp/include"
 	}
 
 	links
 	{
-		"Engine",
-		"GLFW",
-		"Glad"
+		"Engine"
 	}
 
 	filter "system:windows"
