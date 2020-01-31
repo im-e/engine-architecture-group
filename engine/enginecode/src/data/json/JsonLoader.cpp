@@ -7,17 +7,17 @@ namespace Engine
 	HDC JsonLoader::hdc;
 	HGLRC JsonLoader::glrc;
 
-	JsonModel JsonLoader::loadJsonModelAsync(std::string filepath)
+	std::shared_ptr<JsonModel> JsonLoader::loadJsonModelAsync(std::string filepath)
 	{
-		JsonModel model;
-		JsonModelLoader::loadModel(filepath, model);
+		std::shared_ptr<JsonModel> model;
+		model.reset(JsonModelLoader::loadModel(filepath));
 		return model;
 	}
 
-	AssimpModel JsonLoader::loadAssimpModelAsync(std::string filepath)
+	std::shared_ptr<AssimpModel> JsonLoader::loadAssimpModelAsync(std::string filepath)
 	{
-		AssimpModel model;
-		AssimpModelLoader::loadModel(filepath, model);
+		std::shared_ptr<AssimpModel> model;
+		model.reset(AssimpModelLoader::loadModel(filepath));
 		return model;
 	}
 
@@ -52,6 +52,7 @@ namespace Engine
 		nlohmann::json jsonFile;
 		file >> jsonFile;
 
+		Application::getInstance().getWindow()->getGraphicsContext()->unbindCurrentThread();
 		if (jsonFile.count("Asyncload") > 0)
 		{
 			std::vector<std::string> names;
@@ -61,7 +62,7 @@ namespace Engine
 				// create vector of futures
 				std::vector<std::future<std::shared_ptr<Shader>>> futures;
 				
-				Application::getInstance().getWindow()->getGraphicsContext()->unbindCurrentThread();
+				
 				for (auto& fnFilepath : jsonFile["Asyncload"]["shaders"])
 				{
 					// launch async here
@@ -78,15 +79,12 @@ namespace Engine
 					ResourceManagerInstance->addShaderAsync(names.at(i), f.get());
 					i++;
 				}
-				Application::getInstance().getWindow()->getGraphicsContext()->swapToCurrentThread();
 				futures.clear();
 				names.clear();
 			}
 			if (jsonFile["Asyncload"].count("textures") > 0)
 			{
 				std::vector<std::future<std::shared_ptr<Texture>>> texFutures;
-
-				Application::getInstance().getWindow()->getGraphicsContext()->unbindCurrentThread();
 				for (auto& fnFilepath : jsonFile["Asyncload"]["textures"])
 				{
 					std::string name = fnFilepath["name"].get<std::string>();
@@ -100,21 +98,61 @@ namespace Engine
 				{
 					ResourceManagerInstance->addTextureAsync(names.at(i), f.get());
 					i++;
-				}	
+				}
+
+				// compile textures
 				Application::getInstance().getWindow()->getGraphicsContext()->swapToCurrentThread();
+				for (auto name : names) 
+				{
+					ResourceManagerInstance->getTexture().getAsset(name)->compile();
+				}
+				Application::getInstance().getWindow()->getGraphicsContext()->unbindCurrentThread();
 				names.clear();
 			}
 			if (jsonFile["Asyncload"].count("models") > 0)
 			{
-				std::string type = jsonFile["Asyncload"]["models"]["type"].get<std::string>();
-				if (type == "json")
+				std::vector<std::future<std::shared_ptr<JsonModel>>> jsonModelFutures;
+				std::vector<std::future<std::shared_ptr<AssimpModel>>> assimpModelFutures;
+				std::vector<std::string> jsonNames;
+				std::vector<std::string> assimpNames;
+				for (auto& fnFilepath : jsonFile["Asyncload"]["models"])
 				{
-					//json model
+					std::string type = fnFilepath["type"].get<std::string>();
+					if (type == "json")
+					{
+						//json model
+						std::string name = fnFilepath["name"].get<std::string>();
+						jsonNames.push_back(name);
+						std::string path = fnFilepath["filepath"].get<std::string>();
+						jsonModelFutures.push_back(std::async(std::launch::async, loadJsonModelAsync, path));
+					}
+					if (type == "assimp")
+					{
+						//assimp model
+						std::string name = fnFilepath["name"].get<std::string>();
+						assimpNames.push_back(name);
+						std::string path = fnFilepath["filepath"].get<std::string>();
+						assimpModelFutures.push_back(std::async(std::launch::async, loadAssimpModelAsync, path));
+					}
 				}
-				if (type == "assimp")
+
+				i = 0;
+				for (auto& f : jsonModelFutures)
 				{
-					//assimp model
+					ResourceManagerInstance->addJsonModelAsync(jsonNames.at(i), f.get());
+					i++;
 				}
+				jsonModelFutures.clear();
+				jsonNames.clear();
+
+				i = 0;
+				for (auto& f : assimpModelFutures)
+				{
+					ResourceManagerInstance->addAssimpModelAsync(assimpNames.at(i), f.get());
+					i++;
+				}
+				assimpModelFutures.clear();
+				assimpNames.clear();
 			}
 			if (jsonFile["Asyncload"].count("fonts") > 0)
 			{
@@ -124,6 +162,7 @@ namespace Engine
 				}
 			}
 		}
+		Application::getInstance().getWindow()->getGraphicsContext()->swapToCurrentThread();
 
 		if (jsonFile.count("MemoryInfo") > 0)
 		{
@@ -221,15 +260,14 @@ namespace Engine
 
 						if (meshType == "json")
 						{
-							JsonModel model;
-							std::string modelPath = go["material"]["model"].get<std::string>();
+							std::string modelName = go["material"]["model"].get<std::string>();
+							std::shared_ptr<JsonModel> model = ResourceManagerInstance->getJsonModels().getAsset(modelName);
+							
 							std::string shader = go["material"]["shader"].get<std::string>();
 
-							std::future<JsonModel> future(std::async(std::launch::async, loadJsonModelAsync, modelPath));
-							model = future.get();
 							ResourceManagerInstance->addVAO(goName + "VAO");
-							ResourceManagerInstance->addVBO(goName + "VBO", model.vertices, sizeof(float) * model.verticesSize, model.shader->getBufferLayout());
-							ResourceManagerInstance->addEBO(goName + "EBO", model.indices, sizeof(unsigned int) * model.indicesSize);
+							ResourceManagerInstance->addVBO(goName + "VBO", model->vertices, sizeof(float) * model->verticesSize, model->shader->getBufferLayout());
+							ResourceManagerInstance->addEBO(goName + "EBO", model->indices, sizeof(unsigned int) * model->indicesSize);
 
 							ResourceManagerInstance->getVAO().getAsset(goName + "VAO")->
 								setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(goName + "VBO"));
@@ -247,16 +285,14 @@ namespace Engine
 						}
 						else if (meshType == "assimp")
 						{
-							std::string modelPath = go["material"]["model"].get<std::string>();
+							std::string modelName = go["material"]["model"].get<std::string>();
 
 							//process assimp model
-							AssimpModel assimpModel;
-							std::future<AssimpModel> future(std::async(std::launch::async, loadAssimpModelAsync, modelPath));
-							assimpModel = future.get();
+							std::shared_ptr<AssimpModel> assimpModel = ResourceManagerInstance->getAssimpModels().getAsset(modelName);
 
-							for (int i = 0; i < assimpModel.m_meshes.size(); i++)
+							for (int i = 0; i < assimpModel->m_meshes.size(); i++)
 							{
-								Mesh* mesh = &assimpModel.m_meshes.at(i);
+								Mesh* mesh = &assimpModel->m_meshes.at(i);
 								mesh->m_shader = ResourceManagerInstance->getShader().getAsset(go["material"]["shader"].get<std::string>());
 
 								//set each mesh up
@@ -295,7 +331,7 @@ namespace Engine
 						if (go.count("texture") > 0)
 						{
 							std::string texName = go["texture"]["name"].get<std::string>();
-							LogWarn("slot {0}", ResourceManagerInstance->getTexture().getAsset(texName)->getSlot());
+
 							layer.getTextures().at(textureIndex) = std::make_shared<TextureComponent>
 								(TextureComponent(ResourceManagerInstance->getTexture().getAsset(texName)->getSlot()));
 							gameObject->addComponent(layer.getTextures().at(textureIndex));

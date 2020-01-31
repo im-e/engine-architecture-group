@@ -113,6 +113,16 @@ namespace Engine
 		return ubo;
 	}
 
+	void ResourceManager::addJsonModelAsync(const std::string & key, std::shared_ptr<JsonModel> model)
+	{
+		m_jsonModels.add(key, model);
+	}
+
+	void ResourceManager::addAssimpModelAsync(const std::string & key, std::shared_ptr<AssimpModel> model)
+	{
+		m_assimpModels.add(key, model);
+	}
+
 	AssetManager<VertexArray> ResourceManager::getVAO()
 	{
 		return m_VAOs;
@@ -146,6 +156,16 @@ namespace Engine
 	AssetManager<UniformBuffer> ResourceManager::getUBO()
 	{
 		return m_UBOs;
+	}
+
+	AssetManager<JsonModel> ResourceManager::getJsonModels()
+	{
+		return m_jsonModels;
+	}
+
+	AssetManager<AssimpModel> ResourceManager::getAssimpModels()
+	{
+		return m_assimpModels;
 	}
 
 	ResourceManager::~ResourceManager()

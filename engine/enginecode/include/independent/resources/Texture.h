@@ -18,7 +18,6 @@ namespace Engine
 	protected:
 		unsigned int m_texID; //!< Unique ID
 		unsigned int m_slot; //!< Slot in the memory where a texture is stored
-		
 		unsigned int m_width; //!< Width of a texture
 		unsigned int m_height; //!< Height of a texture 
 		unsigned int m_channels; //!< How many channels does a texture have (RGBA format)
@@ -42,5 +41,7 @@ namespace Engine
 		\return new RenderAPI specific texture
 		*/
 		static Texture* createFromRawData(unsigned int width, unsigned int height, unsigned int channels, unsigned char* texData);
+
+		virtual void compile() = 0;
 	};
 }
