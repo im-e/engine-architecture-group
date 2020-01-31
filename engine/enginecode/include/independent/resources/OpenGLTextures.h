@@ -13,9 +13,12 @@ namespace Engine
 	*/
 	class OpenGLTexture : public Texture
 	{
+	private:
+		int width, height, channels;
+		unsigned char *data;
 	public:
 		OpenGLTexture(); //!< Default constructor 
-		OpenGLTexture(const std::string& path); //!< Custom constructor \param path path to the texture file
+		OpenGLTexture(const std::string path); //!< Custom constructor \param path path to the texture file
 		/*! Custom constructor 
 		\param width width of the texture 
 		\param height height of the texture 

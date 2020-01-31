@@ -104,43 +104,43 @@ namespace Engine
 			{
 				aiAnimation* animation = m_scene->mAnimations[i];
 #ifdef NG_DEBUG
-				LogInfo("Ticks per second: {0}, duration: {1}", animation->mTicksPerSecond, animation->mDuration);
+				//LogInfo("Ticks per second: {0}, duration: {1}", animation->mTicksPerSecond, animation->mDuration);
 #endif
 				for (int j = 0; j < animation->mNumChannels; j++)
 				{
 					aiNodeAnim* nodeAnim = animation->mChannels[j];
 
 #ifdef NG_DEBUG
-					LogInfo("Bone: {0}", nodeAnim->mNodeName.C_Str());
-					LogWarn("Position keyframes");
+					//LogInfo("Bone: {0}", nodeAnim->mNodeName.C_Str());
+					//LogWarn("Position keyframes");
 #endif
 					for (int k = 0; k < nodeAnim->mNumPositionKeys; k++)
 					{
 						aiVectorKey key = nodeAnim->mPositionKeys[k];
 #ifdef NG_DEBUG
-						LogInfo("Time: {0}, Position: {1}, {2}, {3}", key.mTime, key.mValue.x, key.mValue.y, key.mValue.z);
+						//LogInfo("Time: {0}, Position: {1}, {2}, {3}", key.mTime, key.mValue.x, key.mValue.y, key.mValue.z);
 #endif
 					}
 
 #ifdef NG_DEBUG
-					LogWarn("Rotation keyframes");
+					//LogWarn("Rotation keyframes");
 #endif
 					for (int k = 0; k < nodeAnim->mNumRotationKeys; k++)
 					{
 						aiQuatKey key = nodeAnim->mRotationKeys[k];
 #ifdef NG_DEBUG
-						LogInfo("Time: {0}, Position: {1}, {2}, {3}, {4}", key.mTime, key.mValue.w, key.mValue.x, key.mValue.y, key.mValue.z);
+						//LogInfo("Time: {0}, Position: {1}, {2}, {3}, {4}", key.mTime, key.mValue.w, key.mValue.x, key.mValue.y, key.mValue.z);
 #endif
 					}
 
 #ifdef NG_DEBUG
-					LogWarn("Scaling keyframes");
+					//LogWarn("Scaling keyframes");
 #endif
 					for (int k = 0; k < nodeAnim->mNumScalingKeys; k++)
 					{
 						aiVectorKey key = nodeAnim->mScalingKeys[k];
 #ifdef NG_DEBUG
-						LogInfo("Time: {0}, Position: {1}, {2}, {3}", key.mTime, key.mValue.x, key.mValue.y, key.mValue.z);
+						//LogInfo("Time: {0}, Position: {1}, {2}, {3}", key.mTime, key.mValue.x, key.mValue.y, key.mValue.z);
 #endif
 					}
 				}
@@ -160,20 +160,20 @@ namespace Engine
 #ifdef NG_DEBUG
 
 			if (node->mNumMeshes == 0)
-				LogInfo("Unmeshed mode: {0}, parent: {1}", node->mName.C_Str(), parentName);
+				//LogInfo("Unmeshed mode: {0}, parent: {1}", node->mName.C_Str(), parentName);
 
-			else
-				LogInfo("Meshed mode: {0}, parent: {1}", node->mName.C_Str(), parentName);
+			//else
+				//LogInfo("Meshed mode: {0}, parent: {1}", node->mName.C_Str(), parentName);
 #endif // NG_DEBUG
 
 			aiMatrix4x4* transform = &node->mTransformation;
 
 #ifdef NG_DEBUG
-			LogWarn("Transform");
-			LogInfo("{0} {1} {2} {3}", transform->a1, transform->a2, transform->a3, transform->a4);
-			LogInfo("{0} {1} {2} {3}", transform->b1, transform->b2, transform->b3, transform->b4);
-			LogInfo("{0} {1} {2} {3}", transform->c1, transform->c2, transform->c3, transform->c4);
-			LogInfo("{0} {1} {2} {3}", transform->d1, transform->d2, transform->d3, transform->d4);
+			//LogWarn("Transform");
+			//LogInfo("{0} {1} {2} {3}", transform->a1, transform->a2, transform->a3, transform->a4);
+			//LogInfo("{0} {1} {2} {3}", transform->b1, transform->b2, transform->b3, transform->b4);
+			//LogInfo("{0} {1} {2} {3}", transform->c1, transform->c2, transform->c3, transform->c4);
+			//LogInfo("{0} {1} {2} {3}", transform->d1, transform->d2, transform->d3, transform->d4);
 #endif // NG_DEBUG
 
 			for (unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -202,17 +202,17 @@ namespace Engine
 				aiMatrix4x4 transform = bone->mOffsetMatrix;
 
 #ifdef NG_DEBUG
-				LogWarn("BONE TRANSFORM: {0} Name: {1}", i, bone->mName.C_Str());
-				LogInfo("{0} {1} {2} {3}", transform.a1, transform.a2, transform.a3, transform.a4);
-				LogInfo("{0} {1} {2} {3}", transform.b1, transform.b2, transform.b3, transform.b4);
-				LogInfo("{0} {1} {2} {3}", transform.c1, transform.c2, transform.c3, transform.c4);
-				LogInfo("{0} {1} {2} {3}", transform.d1, transform.d2, transform.d3, transform.d4);
+				//LogWarn("BONE TRANSFORM: {0} Name: {1}", i, bone->mName.C_Str());
+				//LogInfo("{0} {1} {2} {3}", transform.a1, transform.a2, transform.a3, transform.a4);
+				//LogInfo("{0} {1} {2} {3}", transform.b1, transform.b2, transform.b3, transform.b4);
+				//LogInfo("{0} {1} {2} {3}", transform.c1, transform.c2, transform.c3, transform.c4);
+				//LogInfo("{0} {1} {2} {3}", transform.d1, transform.d2, transform.d3, transform.d4);
 #endif
 				for (int j = 0; j < bone->mNumWeights; j++)
 				{
 				
 #ifdef NG_DEBUG
-					LogWarn("Bone idx: {0} VertexID: {1} Weight: {2}", i, bone->mWeights[j].mVertexId, bone->mWeights[j].mWeight);
+					//LogWarn("Bone idx: {0} VertexID: {1} Weight: {2}", i, bone->mWeights[j].mVertexId, bone->mWeights[j].mWeight);
 #endif
 					vertexBoneWeights.insert(std::pair<unsigned int, std::pair<unsigned int, float>>
 						(bone->mWeights[j].mVertexId, std::pair<unsigned int, float>(i, bone->mWeights[j].mWeight)));

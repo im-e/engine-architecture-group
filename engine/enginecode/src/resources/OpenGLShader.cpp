@@ -159,7 +159,6 @@ namespace Engine
 
 		Application::getInstance().getWindow()->getGraphicsContext()->swapToCurrentThread();
 		compileAndLink(source[Vertex], source[Fragment]);
-
 		cacheUniformsExtractLayout(path);
 		Application::getInstance().getWindow()->getGraphicsContext()->unbindCurrentThread();
 	}

@@ -72,6 +72,11 @@ namespace Engine
 		return texture;
 	}
 
+	void ResourceManager::addTextureAsync(const std::string & key, std::shared_ptr<Texture> tex)
+	{
+		m_textures.add(key, tex);
+	}
+
 	std::shared_ptr<Texture> ResourceManager::addTexture(const std::string & key, unsigned int width, unsigned int height, unsigned int channels, unsigned char* texData)
 	{
 		std::shared_ptr<Texture> texture;

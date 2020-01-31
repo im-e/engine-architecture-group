@@ -67,6 +67,7 @@ namespace Engine
 		\param filepath path to the texture file
 		*/
 		std::shared_ptr<Texture> addTexture(const std::string& key, const std::string& filepath);
+		void addTextureAsync(const std::string& key, std::shared_ptr<Texture> tex);
 		/*! Adds texture to collection of textures
 		\param key key associated with a texture
 		\param width width of the texture

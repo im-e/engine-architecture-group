@@ -11,7 +11,6 @@ namespace Engine
 	{
 		JsonModel model;
 		JsonModelLoader::loadModel(filepath, model);
-		//std::lock_guard<std::mutex> lock(mutex);
 		return model;
 	}
 
@@ -19,7 +18,6 @@ namespace Engine
 	{
 		AssimpModel model;
 		AssimpModelLoader::loadModel(filepath, model);
-		//std::lock_guard<std::mutex> lock(mutex);
 		return model;
 	}
 
@@ -28,6 +26,13 @@ namespace Engine
 		std::shared_ptr<Shader> sh;
 		sh.reset(Shader::create(path));
 		return sh;
+	}
+
+	std::shared_ptr<Texture> JsonLoader::loadTextureAsync(std::string path)
+	{
+		std::shared_ptr<Texture> tex;
+		tex.reset(Texture::createFromFile(path));
+		return tex;
 	}
 
 	//! Loads and populates layers defined in json files \param filepath path to the json file \param layer layer to be loaded
@@ -49,17 +54,17 @@ namespace Engine
 
 		if (jsonFile.count("Asyncload") > 0)
 		{
-
+			std::vector<std::string> names;
+			int i = 0;
 			if (jsonFile["Asyncload"].count("shaders") > 0)
 			{
 				// create vector of futures
 				std::vector<std::future<std::shared_ptr<Shader>>> futures;
-				std::vector<std::string> names;
-
+				
 				Application::getInstance().getWindow()->getGraphicsContext()->unbindCurrentThread();
 				for (auto& fnFilepath : jsonFile["Asyncload"]["shaders"])
 				{
-					// launch async here (return shared ptr to shader -> gets added to resource manager)
+					// launch async here
 					std::string name = fnFilepath["name"].get<std::string>();
 					names.push_back(name);
 					std::string path = fnFilepath["filepath"].get<std::string>();
@@ -67,21 +72,48 @@ namespace Engine
 				}
 
 				// Create extra loop to go over the vector of futures and add them to resource manager instance
-				int i = 0;
+				i = 0;
 				for (auto& f : futures)
 				{
 					ResourceManagerInstance->addShaderAsync(names.at(i), f.get());
 					i++;
 				}
 				Application::getInstance().getWindow()->getGraphicsContext()->swapToCurrentThread();
+				futures.clear();
+				names.clear();
 			}
 			if (jsonFile["Asyncload"].count("textures") > 0)
 			{
+				std::vector<std::future<std::shared_ptr<Texture>>> texFutures;
+
+				Application::getInstance().getWindow()->getGraphicsContext()->unbindCurrentThread();
 				for (auto& fnFilepath : jsonFile["Asyncload"]["textures"])
 				{
 					std::string name = fnFilepath["name"].get<std::string>();
+					names.push_back(name);
 					std::string path = fnFilepath["filepath"].get<std::string>();
-					ResourceManagerInstance->addTexture(name, path);
+					texFutures.push_back(std::async(std::launch::async, loadTextureAsync, path));
+				}
+
+				i = 0;
+				for (auto& f : texFutures)
+				{
+					ResourceManagerInstance->addTextureAsync(names.at(i), f.get());
+					i++;
+				}	
+				Application::getInstance().getWindow()->getGraphicsContext()->swapToCurrentThread();
+				names.clear();
+			}
+			if (jsonFile["Asyncload"].count("models") > 0)
+			{
+				std::string type = jsonFile["Asyncload"]["models"]["type"].get<std::string>();
+				if (type == "json")
+				{
+					//json model
+				}
+				if (type == "assimp")
+				{
+					//assimp model
 				}
 			}
 			if (jsonFile["Asyncload"].count("fonts") > 0)
@@ -263,7 +295,7 @@ namespace Engine
 						if (go.count("texture") > 0)
 						{
 							std::string texName = go["texture"]["name"].get<std::string>();
-
+							LogWarn("slot {0}", ResourceManagerInstance->getTexture().getAsset(texName)->getSlot());
 							layer.getTextures().at(textureIndex) = std::make_shared<TextureComponent>
 								(TextureComponent(ResourceManagerInstance->getTexture().getAsset(texName)->getSlot()));
 							gameObject->addComponent(layer.getTextures().at(textureIndex));
