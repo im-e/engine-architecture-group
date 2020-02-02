@@ -60,7 +60,8 @@ namespace Engine
 		return m_slot;
 	}
 
-	void OpenGLTexture::compile() {
+	void OpenGLTexture::compile() 
+	{
 		glGenTextures(1, &m_texID);
 		m_slot = s_slot;
 		s_slot++;

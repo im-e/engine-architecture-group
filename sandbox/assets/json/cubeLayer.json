@@ -8,6 +8,10 @@
       {
         "name": "PhongShader",
         "filepath": "assets/shaders/texturedPhong.glsl"
+      },
+      {
+        "name": "AnimPhongShader",
+        "filepath": "assets/shaders/animatedPhong.glsl"
       }
     ],
     "textures": [
@@ -116,11 +120,11 @@
     },
 
     {
-      "name": "PlayerShip",
+      "name": "PlayerCharacter",
       "material": {
         "type": "assimp",
         "model": "bot",
-        "shader": "PhongShader"
+        "shader": "AnimPhongShader"
       },
 
       "position": {
@@ -230,6 +234,10 @@
         {
           "name": "PhongShader",
           "block": "Matrices"
+        },
+        {
+          "name": "AnimPhongShader",
+          "block": "Matrices"
         }
       ],
       "data": [
@@ -249,6 +257,10 @@
       "shaders": [
         {
           "name": "PhongShader",
+          "block": "Light"
+        },
+        {
+          "name": "AnimPhongShader",
           "block": "Light"
         }
       ],

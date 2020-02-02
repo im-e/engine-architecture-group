@@ -14,27 +14,25 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-/* QUESTIONS:
+/* STEPS 
 
-	- Issue with test config???
-	- Is multithreading alright???
-	- How to finish the animation??? (get all necessary data and pass it to animator component)
-	- How to create a shader to take care of animation (can I just modify texturedPhong.glsl)?
-	- How to create animator component???
-	- How to get and extract keyframes (to call an animation, or to possibly swap them later in the runtime)???
+	????????????????????????????????????????????? HOW TO ?????????????????????????????????????????????
 
-*/
-
-/* STEPS
 	1. Modify code to set vertex data rather than bone data & add number of bones
 	2. Create shader (look up lecture)
 	3. Test if works --> run and see the T-pose
 	4. Create animator component
-		4a. Contains 3 data structures (position, rotation, scale keyframes)
-		4b. Write onUpdate so it linearly interpolates between keyframes (look up lecture for formulas)
+		4a. Contains 3 vectors (position, rotation, scale keyframes)
+		4b. Write onUpdate so it linearly interpolates between keyframes in above vectors (look up lecture for formulas)
 		4c. Add extra component messages
-		4d. Calculate bone models transforms (array of number of bones) in animator
+		4d. Calculate bone models transforms (array of number of bones) in animator (look up lecture)
 		4e. Upload transforms to the shader
+
+	ALSO:
+	- what is needed for Lua?
+	- how to make finding and compiling user scripts dynamic (without hardcoding scripts stacks or sth)?
+	- how to make various fucntions (e.g) onUpdate accessible and modifiable from Lua?
+	- how to make Lua scripts components?
 */
 
 namespace Engine
@@ -50,23 +48,16 @@ namespace Engine
 		unsigned int boneIDs[4] = { 0, 0, 0, 0 };
 	};
 
-
-	struct BoneData
-	{
-		
-		//float m_weights[4];
-	};
-
 	class Mesh
 	{
 	public:
-		Mesh(std::vector<VertexData> vertexData, std::vector<unsigned int> ind, std::vector<BoneData> bones)
-			: m_vertices(vertexData), m_indices(ind), m_bones(bones) {};
+		Mesh(std::vector<VertexData> vertexData, std::vector<unsigned int> ind, unsigned int bones)
+			: m_vertices(vertexData), m_indices(ind), m_numBones(bones) {};
 
 		void setupMesh(VertexData vertices, unsigned int indices);
 		std::vector<VertexData> m_vertices;
-		std::vector<BoneData> m_bones;
 		std::vector<unsigned int> m_indices;
+		unsigned int m_numBones;
 
 		std::shared_ptr<Shader> m_shader = nullptr;
 		std::shared_ptr<Texture> m_texture = nullptr;
@@ -75,8 +66,13 @@ namespace Engine
 	class AssimpModel
 	{
 	public:
-		AssimpModel() {};
+		AssimpModel() : m_numBones(0) {};
 		std::vector<Mesh> m_meshes;
+		std::vector<aiVectorKey> m_positionKeys;
+		std::vector<aiQuatKey> m_rotationKeys;
+		std::vector<aiVectorKey> m_scaleKeys;
+
+		unsigned int m_numBones;
 	};
 
 	class AssimpModelLoader
@@ -92,63 +88,40 @@ namespace Engine
 			if (node->mParent != nullptr)
 				parentName = node->mParent->mName.C_Str();
 
-#ifdef NG_DEBUG
-
-			if (node->mNumMeshes == 0)
-				//LogInfo("Unmeshed mode: {0}, parent: {1}", node->mName.C_Str(), parentName);
-
-			//else
-				//LogInfo("Meshed mode: {0}, parent: {1}", node->mName.C_Str(), parentName);
-#endif // NG_DEBUG
-
 			aiMatrix4x4* transform = &node->mTransformation;
 
-#ifdef NG_DEBUG
-			//LogWarn("Transform");
-			//LogInfo("{0} {1} {2} {3}", transform->a1, transform->a2, transform->a3, transform->a4);
-			//LogInfo("{0} {1} {2} {3}", transform->b1, transform->b2, transform->b3, transform->b4);
-			//LogInfo("{0} {1} {2} {3}", transform->c1, transform->c2, transform->c3, transform->c4);
-			//LogInfo("{0} {1} {2} {3}", transform->d1, transform->d2, transform->d3, transform->d4);
-#endif // NG_DEBUG
-
+			
 			for (unsigned int i = 0; i < node->mNumMeshes; i++)
 			{
 				aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 				model.m_meshes.push_back(processMesh(mesh, scene));
+				model.m_numBones = mesh->mNumBones;
 			}
 			
 			for (unsigned int i = 0; i < node->mNumChildren; i++)
 			{
 				processNode(node->mChildren[i], scene, model);
 			}
+			
 		}
 
 		static Mesh processMesh(aiMesh* mesh, const aiScene* scene)
 		{
 			std::multimap<unsigned int, std::pair<unsigned int, float>> vertexBoneWeights;
 
+			int bones;
 			std::vector<VertexData> vertices;
-			std::vector<BoneData> bones;
 			std::vector<unsigned int> indices;
 
 			for (unsigned int i = 0; i < mesh->mNumBones; i++) // ???
 			{
 				aiBone* bone = mesh->mBones[i];
 				aiMatrix4x4 transform = bone->mOffsetMatrix;
+				bones++;
 
-#ifdef NG_DEBUG
-				//LogWarn("BONE TRANSFORM: {0} Name: {1}", i, bone->mName.C_Str());
-				//LogInfo("{0} {1} {2} {3}", transform.a1, transform.a2, transform.a3, transform.a4);
-				//LogInfo("{0} {1} {2} {3}", transform.b1, transform.b2, transform.b3, transform.b4);
-				//LogInfo("{0} {1} {2} {3}", transform.c1, transform.c2, transform.c3, transform.c4);
-				//LogInfo("{0} {1} {2} {3}", transform.d1, transform.d2, transform.d3, transform.d4);
-#endif
 				for (int j = 0; j < bone->mNumWeights; j++)
 				{
-				
-#ifdef NG_DEBUG
 					//LogWarn("Bone idx: {0} VertexID: {1} Weight: {2}", i, bone->mWeights[j].mVertexId, bone->mWeights[j].mWeight);
-#endif
 					vertexBoneWeights.insert(std::pair<unsigned int, std::pair<unsigned int, float>>
 						(bone->mWeights[j].mVertexId, std::pair<unsigned int, float>(i, bone->mWeights[j].mWeight)));
 				}
@@ -157,7 +130,6 @@ namespace Engine
 			for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 			{
 				VertexData v;
-				BoneData b;
 
 				glm::vec3 vector;
 
@@ -208,7 +180,6 @@ namespace Engine
 					auto pair = it->second;
 					v.boneIDs[j] = pair.first;
 					v.boneWeights[j] = pair.second;
-					bones.push_back(b);
 					j++;
 				}
 				

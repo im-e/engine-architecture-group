@@ -36,7 +36,6 @@ namespace Engine
 		//bone IDs
 		glEnableVertexAttribArray(6);
 		glVertexAttribPointer(6, 4, GL_INT, GL_FALSE, sizeof(VertexData), (void*)offsetof(VertexData, boneIDs));
-		// How to add animation stuff here ???
 	}
 
 	AssimpModel * AssimpModelLoader::loadModel(const std::string & filepath)
@@ -54,51 +53,30 @@ namespace Engine
 
 		processNode(m_scene->mRootNode, m_scene, *model);
 
-#ifdef NG_DEBUG
-		LogWarn("Animations");
-#endif
-		for (int i = 0; i < m_scene->mNumAnimations; i++) // ???
+		for (int i = 0; i < m_scene->mNumAnimations; i++) 
 		{
 			aiAnimation* animation = m_scene->mAnimations[i];
-#ifdef NG_DEBUG
-			//LogInfo("Ticks per second: {0}, duration: {1}", animation->mTicksPerSecond, animation->mDuration);
-#endif
+
 			for (int j = 0; j < animation->mNumChannels; j++)
 			{
 				aiNodeAnim* nodeAnim = animation->mChannels[j];
 
-#ifdef NG_DEBUG
-				//LogInfo("Bone: {0}", nodeAnim->mNodeName.C_Str());
-				//LogWarn("Position keyframes");
-#endif
 				for (int k = 0; k < nodeAnim->mNumPositionKeys; k++)
 				{
 					aiVectorKey key = nodeAnim->mPositionKeys[k];
-#ifdef NG_DEBUG
-					//LogInfo("Time: {0}, Position: {1}, {2}, {3}", key.mTime, key.mValue.x, key.mValue.y, key.mValue.z);
-#endif
+					model->m_positionKeys.push_back(key);
 				}
 
-#ifdef NG_DEBUG
-				//LogWarn("Rotation keyframes");
-#endif
 				for (int k = 0; k < nodeAnim->mNumRotationKeys; k++)
 				{
 					aiQuatKey key = nodeAnim->mRotationKeys[k];
-#ifdef NG_DEBUG
-					//LogInfo("Time: {0}, Position: {1}, {2}, {3}, {4}", key.mTime, key.mValue.w, key.mValue.x, key.mValue.y, key.mValue.z);
-#endif
+					model->m_rotationKeys.push_back(key);
 				}
 
-#ifdef NG_DEBUG
-				//LogWarn("Scaling keyframes");
-#endif
 				for (int k = 0; k < nodeAnim->mNumScalingKeys; k++)
 				{
 					aiVectorKey key = nodeAnim->mScalingKeys[k];
-#ifdef NG_DEBUG
-					//LogInfo("Time: {0}, Position: {1}, {2}, {3}", key.mTime, key.mValue.x, key.mValue.y, key.mValue.z);
-#endif
+					model->m_scaleKeys.push_back(key);
 				}
 			}
 
