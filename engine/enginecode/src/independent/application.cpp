@@ -14,6 +14,8 @@ namespace Engine
 {
 	Application* Application::s_instance = nullptr;
 
+	//Hi
+	
 	Application::Application()
 	{
 		if (s_instance == nullptr)
