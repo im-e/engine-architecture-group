@@ -12,6 +12,10 @@
       {
         "name": "NormalShader",
         "filepath": "assets/shaders/normalMapping.glsl"
+      },
+      {
+        "name": "ParallaxShader",
+        "filepath": "assets/shaders/parallaxMapping.glsl"
       }
     ],
     "textures": [
@@ -38,6 +42,10 @@
       {
         "name": "ShipTexture",
         "filepath": "assets/assimpModels/SF_Fighter/SF_Fighter-Albedo.jpg"
+      },
+      {
+        "name": "ParallaxTexture",
+        "filepath": "assets/textures/DisplacementMap.png"
       }
     ]
   },
@@ -119,7 +127,7 @@
       "material": {
         "type": "assimp",
         "model": "assets/assimpModels/SF_Fighter/SciFi_Fighter.obj",
-        "shader": "NormalShader"
+        "shader": "ParallaxShader"
       },
 
       "position": {
@@ -158,7 +166,7 @@
         "rotationSpeed": 1000.0
       },
       "texture": {
-        "name": "NormalTexture"
+        "name": "ParallaxTexture"
       }
     },
 
