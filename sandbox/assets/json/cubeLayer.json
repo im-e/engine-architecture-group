@@ -8,10 +8,6 @@
       {
         "name": "PhongShader",
         "filepath": "assets/shaders/texturedPhong.glsl"
-      },
-      {
-        "name": "AnimPhongShader",
-        "filepath": "assets/shaders/animatedPhong.glsl"
       }
     ],
     "textures": [
@@ -43,13 +39,18 @@
         "type": "assimp",
         "name": "bot",
         "filepath": "assets/assimpModels/Chicken Dance.fbx"
+      },
+      {
+        "type": "assimp",
+        "name": "ship",
+        "filepath": "assets/assimpModels/SM_Ship_Fighter_02.fbx"
       }
     ]
   },
 
   "MemoryInfo": {
     "gameObjects": 3,
-    "materials": 4,
+    "materials": 3,
     "position": 3,
     "velocity": 3,
     "oscillates": 2,
@@ -123,8 +124,8 @@
       "name": "PlayerCharacter",
       "material": {
         "type": "assimp",
-        "model": "bot",
-        "shader": "AnimPhongShader"
+        "model": "ship",
+        "shader": "PhongShader"
       },
 
       "position": {
@@ -234,10 +235,6 @@
         {
           "name": "PhongShader",
           "block": "Matrices"
-        },
-        {
-          "name": "AnimPhongShader",
-          "block": "Matrices"
         }
       ],
       "data": [
@@ -257,10 +254,6 @@
       "shaders": [
         {
           "name": "PhongShader",
-          "block": "Light"
-        },
-        {
-          "name": "AnimPhongShader",
           "block": "Light"
         }
       ],

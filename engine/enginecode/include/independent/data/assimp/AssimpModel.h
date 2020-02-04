@@ -44,20 +44,17 @@ namespace Engine
 		glm::vec3 tangent;
 		glm::vec3 bitangent;
 		glm::vec2 texCoords;
-		float boneWeights[4] = { 0.f, 0.f, 0.f, 0.f };
-		unsigned int boneIDs[4] = { 0, 0, 0, 0 };
 	};
 
 	class Mesh
 	{
 	public:
-		Mesh(std::vector<VertexData> vertexData, std::vector<unsigned int> ind, unsigned int bones)
-			: m_vertices(vertexData), m_indices(ind), m_numBones(bones) {};
+		Mesh(std::vector<VertexData> vertexData, std::vector<unsigned int> ind)
+			: m_vertices(vertexData), m_indices(ind) {};
 
 		void setupMesh(VertexData vertices, unsigned int indices);
 		std::vector<VertexData> m_vertices;
 		std::vector<unsigned int> m_indices;
-		unsigned int m_numBones;
 
 		std::shared_ptr<Shader> m_shader = nullptr;
 		std::shared_ptr<Texture> m_texture = nullptr;
@@ -66,13 +63,8 @@ namespace Engine
 	class AssimpModel
 	{
 	public:
-		AssimpModel() : m_numBones(0) {};
+		AssimpModel(){};
 		std::vector<Mesh> m_meshes;
-		std::vector<aiVectorKey> m_positionKeys;
-		std::vector<aiQuatKey> m_rotationKeys;
-		std::vector<aiVectorKey> m_scaleKeys;
-
-		unsigned int m_numBones;
 	};
 
 	class AssimpModelLoader
@@ -95,7 +87,6 @@ namespace Engine
 			{
 				aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 				model.m_meshes.push_back(processMesh(mesh, scene));
-				model.m_numBones = mesh->mNumBones;
 			}
 			
 			for (unsigned int i = 0; i < node->mNumChildren; i++)
@@ -107,25 +98,8 @@ namespace Engine
 
 		static Mesh processMesh(aiMesh* mesh, const aiScene* scene)
 		{
-			std::multimap<unsigned int, std::pair<unsigned int, float>> vertexBoneWeights;
-
-			int bones;
 			std::vector<VertexData> vertices;
 			std::vector<unsigned int> indices;
-
-			for (unsigned int i = 0; i < mesh->mNumBones; i++) // ???
-			{
-				aiBone* bone = mesh->mBones[i];
-				aiMatrix4x4 transform = bone->mOffsetMatrix;
-				bones++;
-
-				for (int j = 0; j < bone->mNumWeights; j++)
-				{
-					//LogWarn("Bone idx: {0} VertexID: {1} Weight: {2}", i, bone->mWeights[j].mVertexId, bone->mWeights[j].mWeight);
-					vertexBoneWeights.insert(std::pair<unsigned int, std::pair<unsigned int, float>>
-						(bone->mWeights[j].mVertexId, std::pair<unsigned int, float>(i, bone->mWeights[j].mWeight)));
-				}
-			}
 
 			for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 			{
@@ -171,18 +145,6 @@ namespace Engine
 					v.texCoords = glm::vec2(0.0f, 0.0f);
 				}
 
-				auto boneData = vertexBoneWeights.equal_range(i); // ???
-				int j = 0;
-				for (auto it = boneData.first; it != boneData.second; ++it)
-				{
-					if (j > 4)
-						LogError("More than 4 bones influence a vertex");
-					auto pair = it->second;
-					v.boneIDs[j] = pair.first;
-					v.boneWeights[j] = pair.second;
-					j++;
-				}
-				
 				//add vertex
 				vertices.push_back(v);
 			}
@@ -196,7 +158,7 @@ namespace Engine
 				}
 			}
 
-			return Mesh(vertices, indices, bones);
+			return Mesh(vertices, indices);
 		}
 	};
 }

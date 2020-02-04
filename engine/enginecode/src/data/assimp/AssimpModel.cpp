@@ -28,14 +28,6 @@ namespace Engine
 		//bitangent
 		glEnableVertexAttribArray(4);
 		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)offsetof(VertexData, bitangent));
-
-		//bone weights
-		glEnableVertexAttribArray(5);
-		glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)offsetof(VertexData, boneWeights));
-
-		//bone IDs
-		glEnableVertexAttribArray(6);
-		glVertexAttribPointer(6, 4, GL_INT, GL_FALSE, sizeof(VertexData), (void*)offsetof(VertexData, boneIDs));
 	}
 
 	AssimpModel * AssimpModelLoader::loadModel(const std::string & filepath)
@@ -52,35 +44,6 @@ namespace Engine
 		}
 
 		processNode(m_scene->mRootNode, m_scene, *model);
-
-		for (int i = 0; i < m_scene->mNumAnimations; i++) 
-		{
-			aiAnimation* animation = m_scene->mAnimations[i];
-
-			for (int j = 0; j < animation->mNumChannels; j++)
-			{
-				aiNodeAnim* nodeAnim = animation->mChannels[j];
-
-				for (int k = 0; k < nodeAnim->mNumPositionKeys; k++)
-				{
-					aiVectorKey key = nodeAnim->mPositionKeys[k];
-					model->m_positionKeys.push_back(key);
-				}
-
-				for (int k = 0; k < nodeAnim->mNumRotationKeys; k++)
-				{
-					aiQuatKey key = nodeAnim->mRotationKeys[k];
-					model->m_rotationKeys.push_back(key);
-				}
-
-				for (int k = 0; k < nodeAnim->mNumScalingKeys; k++)
-				{
-					aiVectorKey key = nodeAnim->mScalingKeys[k];
-					model->m_scaleKeys.push_back(key);
-				}
-			}
-
-		}
 
 		return model;
 	}
