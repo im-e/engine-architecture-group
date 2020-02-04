@@ -23,6 +23,28 @@
         "name": "SpaceTexture",
         "filepath": "assets/textures/PolygonSciFiSpace_Texture_01_A.png"
       }
+    ],
+    "models": [
+      {
+        "type": "json",
+        "name": "JsonFCCube",
+        "filepath": "assets/jsonModels/fcCube.txt"
+      },
+      {
+        "type": "json",
+        "name": "JsonTPCube",
+        "filepath": "assets/jsonModels/tpCube.txt"
+      },
+      {
+        "type": "assimp",
+        "name": "bot",
+        "filepath": "assets/assimpModels/Chicken Dance.fbx"
+      },
+      {
+        "type": "assimp",
+        "name": "ship",
+        "filepath": "assets/assimpModels/SM_Ship_Fighter_02.fbx"
+      }
     ]
   },
 
@@ -32,7 +54,7 @@
     "position": 3,
     "velocity": 3,
     "oscillates": 2,
-    "textures": 2,
+    "textures": 3,
     "controllers": 1
   },
 
@@ -55,7 +77,7 @@
       "name": "FCCube",
       "material": {
         "type": "json",
-        "model": "assets/jsonModels/fcCube.txt",
+        "model": "JsonFCCube",
         "shader": "FlatColorShader"
       },
 
@@ -99,10 +121,10 @@
     },
 
     {
-      "name": "PlayerShip",
+      "name": "PlayerCharacter",
       "material": {
         "type": "assimp",
-        "model": "assets/assimpModels/SM_Ship_Fighter_02.fbx",
+        "model": "ship",
         "shader": "PhongShader"
       },
 
@@ -151,7 +173,7 @@
       "name": "PhongCube",
       "material": {
         "type": "json",
-        "model": "assets/jsonModels/tpCube.txt",
+        "model": "JsonTPCube",
         "shader": "PhongShader"
       },
 

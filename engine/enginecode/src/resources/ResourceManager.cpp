@@ -49,6 +49,11 @@ namespace Engine
 		return shader;
 	}
 
+	void ResourceManager::addShaderAsync(const std::string & key, std::shared_ptr<Shader> shader)
+	{
+		m_shaders.add(key, shader);
+	}
+
 	std::shared_ptr<Shader> ResourceManager::addShader(const std::string & key, const std::string & vertexPath, const std::string & fragmentPath)
 	{
 		std::shared_ptr<Shader> shader;
@@ -65,6 +70,11 @@ namespace Engine
 		m_textures.add(key, texture);
 
 		return texture;
+	}
+
+	void ResourceManager::addTextureAsync(const std::string & key, std::shared_ptr<Texture> tex)
+	{
+		m_textures.add(key, tex);
 	}
 
 	std::shared_ptr<Texture> ResourceManager::addTexture(const std::string & key, unsigned int width, unsigned int height, unsigned int channels, unsigned char* texData)
@@ -103,6 +113,16 @@ namespace Engine
 		return ubo;
 	}
 
+	void ResourceManager::addJsonModelAsync(const std::string & key, std::shared_ptr<JsonModel> model)
+	{
+		m_jsonModels.add(key, model);
+	}
+
+	void ResourceManager::addAssimpModelAsync(const std::string & key, std::shared_ptr<AssimpModel> model)
+	{
+		m_assimpModels.add(key, model);
+	}
+
 	AssetManager<VertexArray> ResourceManager::getVAO()
 	{
 		return m_VAOs;
@@ -136,6 +156,16 @@ namespace Engine
 	AssetManager<UniformBuffer> ResourceManager::getUBO()
 	{
 		return m_UBOs;
+	}
+
+	AssetManager<JsonModel> ResourceManager::getJsonModels()
+	{
+		return m_jsonModels;
+	}
+
+	AssetManager<AssimpModel> ResourceManager::getAssimpModels()
+	{
+		return m_assimpModels;
 	}
 
 	ResourceManager::~ResourceManager()

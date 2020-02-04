@@ -11,6 +11,13 @@
         "name": "TextTexture",
         "filepath": "assets/textures/Text.png"
       }
+    ],
+    "models": [
+      {
+        "type": "json",
+        "name": "Text",
+        "filepath": "assets/jsonModels/textModel.txt"
+      }
     ]
   },
 
@@ -41,7 +48,7 @@
       "name": "TextModel",
       "material": {
         "type":  "json",
-        "model": "assets/jsonModels/textModel.txt",
+        "model": "Text",
         "shader": "TextShader"
       },
       "position": {

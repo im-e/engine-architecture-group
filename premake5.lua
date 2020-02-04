@@ -165,8 +165,8 @@ project "Sandbox"
 			"vendor/freetype2/include",
 			"vendor/glfw/include",
 			"vendor/glad/include",
-			"vendor/json/single_include/nlohmann"
-			
+			"vendor/json/single_include/nlohmann",
+			"vendor/assimp/include"
 		}
 
         links 

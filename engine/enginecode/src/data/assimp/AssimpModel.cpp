@@ -5,6 +5,8 @@
 
 namespace Engine
 {
+	const aiScene* AssimpModelLoader::m_scene = nullptr;
+
 	void Mesh::setupMesh(VertexData vertices, unsigned int indices)
 	{
 		//vertex position
@@ -26,7 +28,23 @@ namespace Engine
 		//bitangent
 		glEnableVertexAttribArray(4);
 		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)offsetof(VertexData, bitangent));
+	}
 
-		glBindVertexArray(0); //good practice to unbind everything once done
+	AssimpModel * AssimpModelLoader::loadModel(const std::string & filepath)
+	{
+		AssimpModel * model = new AssimpModel();
+		Assimp::Importer importer;
+
+		m_scene = importer.ReadFile(filepath, aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_Triangulate);
+
+		if (!m_scene || m_scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !m_scene->mRootNode)
+		{
+			LogError("Could not load: {0}, error: {1}", filepath, importer.GetErrorString());
+			return false;
+		}
+
+		processNode(m_scene->mRootNode, m_scene, *model);
+
+		return model;
 	}
 }

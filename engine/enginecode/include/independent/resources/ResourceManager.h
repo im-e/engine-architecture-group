@@ -14,6 +14,9 @@
 #include "resources/Shader.h"
 #include "rendering/Material.h"
 
+#include "data/json/JsonModelLoader.h"
+#include "data/assimp/AssimpModel.h"
+
 
 namespace Engine
 {
@@ -32,6 +35,8 @@ namespace Engine
 		AssetManager<Texture> m_textures; //!< Collection of textures
 		AssetManager<Material> m_materials;//!< Collection of materials
 		AssetManager<UniformBuffer> m_UBOs; //!< Collection of UBOs
+		AssetManager<JsonModel> m_jsonModels; //!< Collection of json models
+		AssetManager<AssimpModel> m_assimpModels; //!< Collection of assimp models
 
 		ResourceManager(); //!< Default constructor
 		static ResourceManager* s_instance; //!< Single instance of a class
@@ -55,6 +60,7 @@ namespace Engine
 		\param filepath path to the shader file
 		*/
 		std::shared_ptr<Shader> addShader(const std::string& key, const std::string& filepath);
+		void addShaderAsync(const std::string & key, std::shared_ptr<Shader> shader);
 		/*! Adds shader to collection of shaders
 		\param key key associated with a shader
 		\param vertexPath path to the vertex shader file
@@ -66,6 +72,7 @@ namespace Engine
 		\param filepath path to the texture file
 		*/
 		std::shared_ptr<Texture> addTexture(const std::string& key, const std::string& filepath);
+		void addTextureAsync(const std::string& key, std::shared_ptr<Texture> tex);
 		/*! Adds texture to collection of textures
 		\param key key associated with a texture
 		\param width width of the texture
@@ -93,6 +100,9 @@ namespace Engine
 		*/
 		std::shared_ptr<UniformBuffer> addUBO(const std::string& key, unsigned int size, UniformLayout& layout);
 
+		void addJsonModelAsync(const std::string& key, std::shared_ptr<JsonModel> model);
+		void addAssimpModelAsync(const std::string& key, std::shared_ptr<AssimpModel> model);
+
 		//! Gets class instance \return singleton instance
 		static ResourceManager* getInstance()
 		{
@@ -109,6 +119,8 @@ namespace Engine
 		AssetManager<Texture> getTexture(); //!< Get collection of textures \return m_textures collection of textures
 		AssetManager<Material> getMaterial(); //!< Get collection of materials \return m_materials collection of materials
 		AssetManager<UniformBuffer> getUBO(); //!< Get collection of UBOs \return m_UBOs collection of UBOs
+		AssetManager<JsonModel> getJsonModels(); //!< Get collection of json models \return m_JsonModels collection of json models
+		AssetManager<AssimpModel> getAssimpModels(); //!< Get collection of assimp models \return m_AssimpModels collection of assimp models
 
 		~ResourceManager(); //!< Default destructor
 	};
