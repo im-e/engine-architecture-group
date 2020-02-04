@@ -158,7 +158,7 @@
         "rotationSpeed": 1000.0
       },
       "texture": {
-        "name": "ShipTexture"
+        "name": "NormalTexture"
       }
     },
 
