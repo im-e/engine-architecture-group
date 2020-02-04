@@ -62,7 +62,8 @@
         }
       },
       "texture": {
-        "name": "TextTexture"
+        "name": "TextTexture",
+        "normal": "none"
       }
     }
 

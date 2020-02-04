@@ -62,19 +62,11 @@ in vec3 TangentFragmentPosition;
 
 // uniform sampler2D diffuseMap;
 uniform sampler2D u_texData;
-uniform sampler2D u_texDataTwo;
-// uniform sampler2D normalMap;
-
-layout(std140) uniform Light
-{
-	vec3 u_lightPos; 
-	vec3 u_viewPos; 
-	vec3 u_lightColour;
-};
+uniform sampler2D u_normalTexData;
 
 void main()
 {
-    vec3 normal = texture(u_texData, TexCoords).rgb; //get normals from normal map
+    vec3 normal = texture(u_normalTexData, TexCoords).rgb; //get normals from normal map
 	normal = normalize(normal * 2.0f - 1.0f); //transform normals to be in range <-1; 1> (normal in tangent space)
 
     // get diffuse color

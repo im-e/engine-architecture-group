@@ -231,10 +231,18 @@ namespace Engine
 							if (go.count("texture") > 0)
 							{
 								std::string texName = go["texture"]["name"].get<std::string>();
+								std::string normalTexName = go["texture"]["normal"].get<std::string>();
 
 								layer.getTextures().at(textureIndex) = std::make_shared<TextureComponent>
 									(TextureComponent(ResourceManagerInstance->getTexture().getAsset(texName)->getSlot()));
+
 								gameObject->addComponent(layer.getTextures().at(textureIndex));
+
+								if (normalTexName.compare("none") != 0)
+								{
+									layer.getTextures().at(textureIndex)->assignNormalTexture(ResourceManagerInstance->getTexture().getAsset(normalTexName)->getSlot());
+								}
+
 								textureIndex++;
 							}
 						}

@@ -29,7 +29,7 @@ namespace Engine
 		{ 
 			m_owner = owner; 
 			setTexture(m_texSlot);
-			setNormalTextures(m_texSlot, m_texSlotNormal);
+			//setNormalTextures(m_texSlot, m_texSlotNormal);
 			m_possibleMessages = { ComponentMessageType::TextureSet };
 
 			for (auto& msg : m_possibleMessages)
@@ -60,13 +60,11 @@ namespace Engine
 			sendMessage(msg);
 		}
 
-		void setNormalTextures(unsigned int texOne, unsigned int texTwo)
+		void assignNormalTexture(int index)
 		{
-			std::pair<std::string, void*> dataOne("u_texData", (void*)texOne);
-			std::pair<std::string, void*> dataTwo("u_texDataTwo", (void*)texTwo);
-			ComponentMessage msgOne(ComponentMessageType::UniformSet, dataOne);
-			sendMessage(msgOne);
-			ComponentMessage msg(ComponentMessageType::UniformSet, dataTwo);
+			m_texSlotNormal = index;
+			std::pair<std::string, void*> normalData("u_normalTexData", (void*)m_texSlotNormal);
+			ComponentMessage msg(ComponentMessageType::UniformSet, normalData);
 			sendMessage(msg);
 		}
 	};
