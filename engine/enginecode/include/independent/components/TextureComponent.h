@@ -17,6 +17,8 @@ namespace Engine
 	{
 	private:
 		unsigned int m_texSlot; //!< Texture slot
+		unsigned int m_texSlotNormal; //!< Texture slot
+		unsigned int m_texSlotParallax; //!< Texture slot
 
 	public:
 		//! Custom constructor \param texSlot initial texture slot
@@ -27,7 +29,7 @@ namespace Engine
 		{ 
 			m_owner = owner; 
 			setTexture(m_texSlot);
-
+			setNormalTextures(m_texSlot, m_texSlotNormal);
 			m_possibleMessages = { ComponentMessageType::TextureSet };
 
 			for (auto& msg : m_possibleMessages)
@@ -55,6 +57,16 @@ namespace Engine
 		{		
 			std::pair<std::string, void*> data("u_texData", (void*)tex);
 			ComponentMessage msg(ComponentMessageType::UniformSet, data);
+			sendMessage(msg);
+		}
+
+		void setNormalTextures(unsigned int texOne, unsigned int texTwo)
+		{
+			std::pair<std::string, void*> dataOne("u_texData", (void*)texOne);
+			std::pair<std::string, void*> dataTwo("u_texDataTwo", (void*)texTwo);
+			ComponentMessage msgOne(ComponentMessageType::UniformSet, dataOne);
+			sendMessage(msgOne);
+			ComponentMessage msg(ComponentMessageType::UniformSet, dataTwo);
 			sendMessage(msg);
 		}
 	};

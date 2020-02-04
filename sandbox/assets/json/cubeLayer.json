@@ -127,7 +127,7 @@
       "material": {
         "type": "assimp",
         "model": "assets/assimpModels/SF_Fighter/SciFi_Fighter.obj",
-        "shader": "ParallaxShader"
+        "shader": "NormalShader"
       },
 
       "position": {
@@ -166,7 +166,7 @@
         "rotationSpeed": 1000.0
       },
       "texture": {
-        "name": "ParallaxTexture"
+        "name": "NormalTexture"
       }
     },
 
