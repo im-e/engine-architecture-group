@@ -46,7 +46,8 @@ project "Engine"
 		"vendor/stb_image",
 		"vendor/freetype2/include",
 		"vendor/json/single_include/nlohmann",
-		"vendor/assimp/include"
+		"vendor/assimp/include",
+		"vendor/reactphysics3d/src"
 	}
 	
 	links 
@@ -54,7 +55,8 @@ project "Engine"
 		"GLFW",
 		"Glad",
 		"Freetype",
-		"assimp"
+		"assimp",
+		"reactphysics3d"
 	}
 	
 	filter "system:windows"
@@ -107,7 +109,8 @@ project "Sandbox"
 		"vendor/stb_image",
 		"vendor/glm/",
 		"vendor/json/single_include/nlohmann",
-		"vendor/assimp/include"
+		"vendor/assimp/include",
+		"vendor/reactphysics3d/src"
 	}
 
 	links
@@ -176,7 +179,8 @@ project "Sandbox"
 			"GLFW",
 			"Glad",
 			"Freetype",
-			"assimp"
+			"assimp",
+			"reactdphysics3d"
 		}
 		
 		filter "system:windows"
@@ -220,6 +224,7 @@ project "Spike"
 		"vendor/glm/",
 		"vendor/assimp/include",
 		"vendor/glad/include",
+		"vendor/reactphysics3d/src"
 	}
 	
 	links 
@@ -257,3 +262,4 @@ group "Vendor"
 	include "vendor/zlib"
 	include "vendor/IrrXML"
 	include "vendor/assimp"
+	include "vendor/reactphysics3d"
