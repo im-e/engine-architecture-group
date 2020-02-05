@@ -55,6 +55,8 @@ namespace Engine
 		virtual bool isVSync() const = 0; //!< Is the window vSynched?
 		virtual void setHeight(float h) = 0; //!< Sets window's size on x axis \param h new height
 		virtual void setWidth(float w) = 0; //!< Sets window's size on y axis \param w new width
+		virtual void setCursorDisabled() = 0; //!< Disables cursor
+		virtual void setCursorEnabled() = 0; //!< Enables cursor
 
 		std::function<void(Event&)> m_callback; //!< Callback event function
 		static Window* create(const WindowProperties& properties = WindowProperties()); //!< Creates window

@@ -1,0 +1,116 @@
+{
+  "Asyncload": {
+    "shaders": [
+      {
+        "name": "TextShader",
+        "filepath": "assets/shaders/textShader.glsl"
+      }
+    ],
+    "textures": [
+      {
+        "name": "TextTexture",
+        "filepath": "assets/textures/Text.png"
+      }
+    ],
+    "models": [
+      {
+        "type": "json",
+        "name": "Text",
+        "filepath": "assets/jsonModels/textModel.txt"
+      }
+    ]
+  },
+
+  "MemoryInfo": {
+    "gameObjects": 1,
+    "materials": 1,
+    "position": 1,
+    "velocity": 0,
+    "oscillates": 0,
+    "textures": 1
+  },
+
+  "Camera": {
+    "type": "Ortho2D",
+    "top": 0.0,
+    "left": 0.0,
+    "width": 800.0,
+    "height": 600.0,
+    "translationSpeed": 1.0
+  },
+
+  "Renderer": {
+    "type": "2D"
+  },
+
+  "GameObject": [
+    {
+      "name": "TextModel",
+      "material": {
+        "type":  "json",
+        "model": "Text",
+        "shader": "TextShader"
+      },
+      "position": {
+        "translation": {
+          "x": 550.0,
+          "y": 500.0,
+          "z": 0.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "texture": {
+        "name": "TextTexture"
+      }
+    }
+
+  ],
+
+  "UBO": [
+    {
+      "name": "TextUBO",
+      "layout": [
+        "Mat4"
+      ],
+      "shaders": [
+        {
+          "name": "TextShader",
+          "block": "Matrices"
+        }
+      ],
+      "data": [
+        {
+          "type": "pointer",
+          "var": "VP Matrix"
+        }
+      ]
+    }
+  ],
+
+  "RendererCommands": {
+    "init": [
+      {
+        "type": "MinusOneAlphaBlending",
+        "enabled": true
+      }
+    ],
+    "predraw": [
+
+    ],
+    "postdraw": [
+
+    ],
+    "exit": [
+
+    ]
+  }
+}

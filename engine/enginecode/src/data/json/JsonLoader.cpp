@@ -169,9 +169,6 @@ namespace Engine
 			if (jsonFile["MemoryInfo"].count("gameObjects") > 0)
 				layer.getGameObjects().resize(jsonFile["MemoryInfo"]["gameObjects"].get<int>());
 
-			if (jsonFile["MemoryInfo"].count("materials") > 0)
-				layer.getMaterials().resize(jsonFile["MemoryInfo"]["materials"].get<int>());
-
 			if (jsonFile["MemoryInfo"].count("position") > 0)
 				layer.getPositions().resize(jsonFile["MemoryInfo"]["position"].get<int>());
 
@@ -278,8 +275,8 @@ namespace Engine
 								ResourceManagerInstance->getShader().getAsset(shader),
 								ResourceManagerInstance->getVAO().getAsset(goName + "VAO"));
 
-							layer.getMaterials().at(materialsIndex) = std::make_shared<MaterialComponent>
-								(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(goName + "Mat")));
+							layer.getMaterials().push_back(std::make_shared<MaterialComponent>
+								(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(goName + "Mat"))));
 							gameObject->addComponent(layer.getMaterials().at(materialsIndex));
 							materialsIndex++;
 						}
@@ -321,8 +318,8 @@ namespace Engine
 									ResourceManagerInstance->getShader().getAsset(go["material"]["shader"].get<std::string>()),
 									ResourceManagerInstance->getVAO().getAsset(goName + "VAO" + std::to_string(i)));
 
-								layer.getMaterials().at(materialsIndex) = std::make_shared<MaterialComponent>
-									(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(goName + "Mat" + std::to_string(i))));
+								layer.getMaterials().push_back(std::make_shared<MaterialComponent>
+									(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(goName + "Mat" + std::to_string(i)))));
 								gameObject->addComponent(layer.getMaterials().at(materialsIndex));
 								materialsIndex++;
 							}

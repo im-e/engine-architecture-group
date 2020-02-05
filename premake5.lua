@@ -81,6 +81,59 @@ project "Engine"
 		runtime "Release"
 		optimize "On"
 
+project "LevelEditor"
+	location "levelEditor"
+	kind "ConsoleApp"
+	language "C++"
+	staticruntime "off"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("build/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+		"%{prj.name}/include/**.h",
+		"%{prj.name}/src/**.cpp",
+		"vendor/stb_image/stb_image.cpp"
+	}
+
+	includedirs
+	{
+		"%{prj.name}/include",
+		"engine/enginecode/",
+		"engine/enginecode/include/independent",
+		"engine/precompiled/",
+		"vendor/spdlog/include",
+		"vendor/stb_image",
+		"vendor/glm/",
+		"vendor/json/single_include/nlohmann",
+		"vendor/assimp/include"
+	}
+
+	links
+	{
+		"Engine"
+	}
+
+	filter "system:windows"
+		cppdialect "C++17"
+		systemversion "latest"
+
+		defines
+		{
+			"NG_PLATFORM_WINDOWS"
+		}
+
+	filter "configurations:Debug"
+		defines "NG_DEBUG"
+		runtime "Debug"
+		symbols "On"
+
+	filter "configurations:Release"
+		defines "NG_RELEASE"
+		runtime "Release"
+		optimize "On"
+
 project "Sandbox"
 	location "sandbox"
 	kind "ConsoleApp"
