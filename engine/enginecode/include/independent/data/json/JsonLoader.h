@@ -11,6 +11,7 @@
 #include "JsonLayer.h"
 #include "JsonModelLoader.h"
 #include "data/assimp/AssimpModel.h"
+#include "rendering/TextLabel.h"
 
 namespace Engine
 {
@@ -58,12 +59,26 @@ namespace Engine
 						ResourceManagerInstance->addTexture(name, path);
 					}
 				}
+				/*if (jsonFile["Asyncload"].count("texturesFromData") > 0)
+				{
+					for (auto& fnFilepath : jsonFile["Asyncload"]["texturesFromData"])
+					{
+						std::string name = fnFilepath["name"].get<std::string>();
+						unsigned int width = fnFilepath["width"].get<unsigned int>();
+						unsigned int height = fnFilepath["height"].get<unsigned int>();
+						unsigned int channels = fnFilepath["channels"].get<unsigned int>();
+						unsigned char texData = fnFilepath["texData"].get<unsigned char>();
+						ResourceManagerInstance->addTexture(name, width, height, channels, &texData);
+					}
+				} */
 				if (jsonFile["Asyncload"].count("fonts") > 0)
 				{
-					for (auto& fnFilepath : jsonFile["Asyncload"]["shaders"])
+					std::unordered_map<std::string, unsigned int> fonts;
+					for (auto& fnFilepath : jsonFile["Asyncload"]["fonts"])
 					{
-						//TODO add fonts
+						fonts[fnFilepath["filepath"].get<std::string>()] = fnFilepath["charSize"].get<int>();
 					}
+					if (!fonts.empty()) ResourceManagerInstance->populateCharacters(fonts);
 				}
 			}
 
@@ -238,7 +253,26 @@ namespace Engine
 								textureIndex++;
 							}
 						}
-						//TODO add text
+						
+						else if (go["material"].count("text") > 0)
+						{
+							std::string text = go["material"]["text"].get<std::string>();
+							std::string font = go["material"]["font"].get<std::string>();
+							int charSize = go["material"]["charSize"].get<int>();
+							//float r = go["material"]["colour"]["r"].get<float>();
+							//float g = go["material"]["colour"]["g"].get<float>();
+							//float b = go["material"]["colour"]["b"].get<float>();
+							std::shared_ptr<TextLabel> label(TextLabel::create(font, charSize, text, glm::vec2(), 0.f, 0.f, glm::vec3(r, g, b)));
+							auto& mat = label->getMaterial();
+							layer.getJsonData().push_back((void *) new int(ResourceManagerInstance->getFontTexture()->getSlot()));
+							mat->setDataElement("u_texData", (void*)layer.getJsonData().back());
+							//layer.getJsonData().push_back((void *)new glm::vec3(r, g, b));
+							//mat->setDataElement("u_fontColour", (void*)&(*(glm::vec3*)layer.getJsonData().back())[0]);
+
+							layer.getMaterials().at(materialsIndex) = std::make_shared<MaterialComponent>(MaterialComponent(mat));
+							gameObject->addComponent(layer.getMaterials().at(materialsIndex));
+							materialsIndex++;
+						} 
 					}
 
 					if (go.count("position") > 0)

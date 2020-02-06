@@ -11,8 +11,24 @@
         "name": "TextTexture",
         "filepath": "assets/textures/Text.png"
       }
-    ]
-  },
+    ],
+    "fonts": [
+      {
+        "name": "04b_20__",
+        "filepath": "assets/fonts/04b_20/04b_20__.ttf",
+        "charSize" : ""
+      }
+    ],
+    /*"texturesFromData": [
+      {
+        "name": "TextTextureFromData",
+        "width": "",
+        "height": "",
+        "channels": "",
+        "texData": ""
+      }
+    ] */
+  }, 
 
   "MemoryInfo": {
     "gameObjects": 1,

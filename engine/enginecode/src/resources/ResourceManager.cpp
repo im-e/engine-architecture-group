@@ -1,6 +1,10 @@
 #include "engine_pch.h"
 #include "resources/ResourceManager.h"
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#include "rendering/Character.h"
+
 namespace Engine
 {
 	ResourceManager* ResourceManager::s_instance = nullptr;
@@ -101,6 +105,46 @@ namespace Engine
 		m_UBOs.add(key, ubo);
 
 		return ubo;
+	}
+
+	void ResourceManager::populateCharacters(std::unordered_map<std::string, unsigned int> fontsAndSizes)
+	{
+		/*FT_Library ft;
+		FT_Face face;
+		//std::string filepath("assets/fonts/04b_20/04b_20__.ttf");
+		//int charsize = 128;
+
+		for (auto it : fontsAndSizes)
+		{
+			std::string filepath = it.first;
+			int charsize = it.second;
+
+			if (FT_Init_FreeType(&ft)) LogError("Error: Could not start FreeType");
+
+			if (FT_New_Face(ft, filepath.c_str(), 0, &face)) LogError("Error: Freetype couldn't load font");
+
+			if (FT_Set_Pixel_Sizes(face, 0, charsize)) LogError("Error: Freetype could not set font face size of {0}", charsize);
+
+			for (int i = m_ASCIIstart; i < m_ASCIIend; i++)
+			{
+				if (FT_Load_Char(face, i, FT_LOAD_RENDER)) LogError("Error: Could not load the character");
+
+				//addTexture("", face->glyph->bitmap.width, face->glyph->bitmap.rows, 1, face->glyph->bitmap.buffer);
+				//Texture::createFromRawData(face->glyph->bitmap.width, face->glyph->bitmap.rows, 1, face->glyph->bitmap.buffer);
+				m_characters[""].push_back(Character(glm::vec2(face->glyph->bitmap.width, face->glyph->bitmap.rows), glm::vec2(face->glyph->bitmap_left, face->glyph->bitmap_top), face->glyph->advance.x, glm::vec2(0.0f), glm::vec2(1.0f)));
+			}
+		}
+
+		//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+		unsigned char* texMemory;
+		int memH = 1024;
+		int memW = 1024;
+		int usedX = 0;
+		int usedY = 0;
+
+		texMemory = (unsigned char*)malloc(memH * memW);
+		memset(texMemory, 0, memH * memW); */
 	}
 
 	AssetManager<VertexArray> ResourceManager::getVAO()

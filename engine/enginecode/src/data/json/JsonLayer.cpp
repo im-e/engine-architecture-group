@@ -5,7 +5,6 @@
 
 namespace Engine
 {
-
 	void JsonLayer::onAttach()
 	{
 		Engine::JsonLoader::loadJson(m_filepath, *this);

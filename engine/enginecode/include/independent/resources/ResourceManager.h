@@ -13,6 +13,7 @@
 #include "resources/Texture.h"
 #include "resources/Shader.h"
 #include "rendering/Material.h"
+#include "rendering/Character.h"
 
 
 namespace Engine
@@ -32,6 +33,10 @@ namespace Engine
 		AssetManager<Texture> m_textures; //!< Collection of textures
 		AssetManager<Material> m_materials;//!< Collection of materials
 		AssetManager<UniformBuffer> m_UBOs; //!< Collection of UBOs
+		std::map<std::string, std::vector<Character>> m_characters; //!< Renderable characters
+		const int m_ASCIIstart = 32;
+		const int m_ASCIIend = 126;
+		std::shared_ptr<Texture> m_fontTexture; //!< Texture which stores fonts
 
 		ResourceManager(); //!< Default constructor
 		static ResourceManager* s_instance; //!< Single instance of a class
@@ -109,6 +114,9 @@ namespace Engine
 		AssetManager<Texture> getTexture(); //!< Get collection of textures \return m_textures collection of textures
 		AssetManager<Material> getMaterial(); //!< Get collection of materials \return m_materials collection of materials
 		AssetManager<UniformBuffer> getUBO(); //!< Get collection of UBOs \return m_UBOs collection of UBOs
+		void populateCharacters(std::unordered_map<std::string, unsigned int> fontsAndSizes); //!< Preloads the characters
+		std::shared_ptr<Character> getCharacter(std::string font, unsigned int ASCIIcode); 
+		inline std::shared_ptr<Texture> getFontTexture() { return m_fontTexture; }
 
 		~ResourceManager(); //!< Default destructor
 	};
