@@ -6,18 +6,13 @@ layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aNormal;
 layout (location = 2) in vec2 aTexCoords;
 layout (location = 3) in vec3 aTangentVector;
+layout (location = 4) in vec3 aBitangentVector;
 
 out vec3 FragPos;
 out vec2 TexCoords;
-out vec3 fragNormal;
 out vec3 TangentLightPosition;
 out vec3 TangentViewPosition;
 out vec3 TangentFragmentPosition;
-
-layout (std140) uniform Matrices
-{
-	mat4 u_VP;
-};
 
 layout(std140) uniform Light
 {
@@ -26,18 +21,21 @@ layout(std140) uniform Light
 	vec3 u_lightColour;
 };
 
+layout (std140) uniform Matrices
+{
+	mat4 u_VP;
+};
+
 uniform mat4 u_model;
 
 void main()
 {
-    FragPos = vec3(u_model * vec4(aPos, 1.0));
-    TexCoords = aTexCoords;
-
-	mat3 normalMatrix = transpose(inverse(mat3(u_model)));
-	vec3 tangent = normalize(normalMatrix*aTangentVector);
-	vec3 normal = normalize(normalMatrix*aNormal);
-	tangent = normalize(tangent - dot(tangent, normal) * normal);
-	vec3 bitangent = cross(tangent, normal);
+    FragPos = vec3(u_model * vec4(aPos, 1.0));   
+    TexCoords = aTexCoords;   
+    
+	vec3 tangent = normalize(mat3(u_model) * aTangentVector);
+	vec3 bitangent = normalize(mat3(u_model) * aBitangentVector);
+	vec3 normal = normalize(mat3(u_model) * aNormal);
 
 	mat3 TBNMatrix = transpose(mat3(tangent, bitangent, normal));
 
@@ -54,6 +52,13 @@ void main()
 			
 layout(location = 0) out vec4 colour;
 
+layout(std140) uniform Light
+{
+	vec3 u_lightPos; 
+	vec3 u_viewPos; 
+	vec3 u_lightColour;
+};
+
 in vec3 FragPos;  
 in vec2 TexCoords;
 in vec3 TangentLightPosition;
@@ -66,46 +71,11 @@ uniform sampler2D u_texData;
 uniform sampler2D u_normalTexData;
 uniform sampler2D u_parallaxTexData;
 
-vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir)
-{ 
-    // number of depth layers
-    const float minLayers = 8;
-    const float maxLayers = 32;
-    float numLayers = mix(maxLayers, minLayers, abs(dot(vec3(0.0, 0.0, 1.0), viewDir)));  
-    // calculate the size of each layer
-    float layerDepth = 1.0 / numLayers;
-    // depth of current layer
-    float currentLayerDepth = 0.0;
-    // the amount to shift the texture coordinates per layer (from vector P)
-    vec2 P = viewDir.xy / viewDir.z * heightScale; 
-    vec2 deltaTexCoords = P / numLayers;
-  
-    // get initial values
-    vec2  currentTexCoords     = texCoords;
-    float currentDepthMapValue = texture(u_parallaxTexData, currentTexCoords).r;
-      
-    while(currentLayerDepth < currentDepthMapValue)
-    {
-        // shift texture coordinates along direction of P
-        currentTexCoords -= deltaTexCoords;
-        // get depthmap value at current texture coordinates
-        currentDepthMapValue = texture(u_parallaxTexData, currentTexCoords).r;  
-        // get depth of next layer
-        currentLayerDepth += layerDepth;  
-    }
-    
-    // get texture coordinates before collision (reverse operations)
-    vec2 prevTexCoords = currentTexCoords + deltaTexCoords;
-
-    // get depth after and before collision for linear interpolation
-    float afterDepth  = currentDepthMapValue - currentLayerDepth;
-    float beforeDepth = texture(u_parallaxTexData, prevTexCoords).r - currentLayerDepth + layerDepth;
- 
-    // interpolation of texture coordinates
-    float weight = afterDepth / (afterDepth - beforeDepth);
-    vec2 finalTexCoords = prevTexCoords * weight + currentTexCoords * (1.0 - weight);
-
-    return finalTexCoords;
+vec2 CalculateParallaxDisplacement(vec2 textureCoordinates, vec3 viewDirection)
+{
+	float height = texture(u_parallaxTexData, textureCoordinates).r; //get height data
+	vec2 displacementWeight = viewDirection.xy / viewDirection.z * (height * heightScale); //calculate how far a texture shall be shifted
+	return textureCoordinates - displacementWeight; //shift texture accordingly
 }
 
 void main()
@@ -114,9 +84,7 @@ void main()
     vec3 viewDir = normalize(TangentViewPosition - TangentFragmentPosition);
     vec2 texCoords = TexCoords;
     
-    texCoords = ParallaxMapping(TexCoords,  viewDir);       
-    if(texCoords.x > 1.0 || texCoords.y > 1.0 || texCoords.x < 0.0 || texCoords.y < 0.0);
-        //discard;
+    texCoords = CalculateParallaxDisplacement(TexCoords,  viewDir);  
 
     // obtain normal from normal map
     vec3 normal = texture(u_normalTexData, texCoords).rgb;

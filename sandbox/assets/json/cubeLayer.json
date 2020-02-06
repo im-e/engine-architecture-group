@@ -33,15 +33,15 @@
       },
       {
         "name": "BrickDiffuse",
-        "filepath": "assets/textures/Brick_diffuse.png"
+        "filepath": "assets/textures/brick_diffuse_1.jpg"
       },
       {
         "name": "BrickNormal",
-        "filepath": "assets/textures/Brick_normal.png"
+        "filepath": "assets/textures/brick_normal_2.jpg"
       },
       {
         "name": "BrickHeight",
-        "filepath": "assets/textures/Brick_height.png"
+        "filepath": "assets/textures/brick_height_3.jpg"
       },
       {
         "name": "NormalTexture",
