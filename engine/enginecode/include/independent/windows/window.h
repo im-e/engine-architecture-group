@@ -38,7 +38,6 @@ namespace Engine
 	{
 	protected:
 		std::shared_ptr<GraphicsContext> m_context; //!< OpenGL graphics context
-		 
 		WindowProperties m_properties; //!< Windows properties struct object
 	public:
 		virtual void init(const WindowProperties& properties) = 0; //!< Initialize the window

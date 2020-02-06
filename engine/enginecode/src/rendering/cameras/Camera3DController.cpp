@@ -32,8 +32,9 @@ namespace Engine
 		{
 			m_position += m_camera->getRight() * velocity;
 		}
-		if (InputPoller::isMouseButtonPressed(NG_MOUSE_BUTTON_LEFT))
+		if (InputPoller::isMouseButtonPressed(NG_MOUSE_BUTTON_MIDDLE))
 		{
+
 			Application::getInstance().getWindow()->setCursorDisabled();
 
 			glm::vec2 currentMousePos = InputPoller::getMousePosition();

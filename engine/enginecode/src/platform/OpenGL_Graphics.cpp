@@ -2,6 +2,10 @@
 #include "platform/OpenGL/OpenGL_Graphics.h"
 #pragma comment(lib, "opengl32.lib")
 
+#include <imgui.h>
+#include <examples/imgui_impl_opengl3.h>
+#include <examples/imgui_impl_glfw.h>
+
 namespace Engine
 {
 	void OpenGL_Graphics::init()
@@ -10,6 +14,9 @@ namespace Engine
 
 		glfwMakeContextCurrent(m_window);
 		int result = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+		ImGui_ImplGlfw_InitForOpenGL(m_window, true);
+		ImGui_ImplOpenGL3_Init("#version 440");
 
 		m_initialThreadID = std::this_thread::get_id();
 		m_originalContext = wglGetCurrentContext();
