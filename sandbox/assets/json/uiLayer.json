@@ -63,7 +63,8 @@
       },
       "texture": {
         "name": "TextTexture",
-        "normal": "none"
+        "normal": "none",
+        "parallax":  "none"
       }
     }
 

@@ -232,6 +232,7 @@ namespace Engine
 							{
 								std::string texName = go["texture"]["name"].get<std::string>();
 								std::string normalTexName = go["texture"]["normal"].get<std::string>();
+								std::string parallaxTexName = go["texture"]["parallax"].get<std::string>();
 
 								layer.getTextures().at(textureIndex) = std::make_shared<TextureComponent>
 									(TextureComponent(ResourceManagerInstance->getTexture().getAsset(texName)->getSlot()));
@@ -241,6 +242,10 @@ namespace Engine
 								if (normalTexName.compare("none") != 0)
 								{
 									layer.getTextures().at(textureIndex)->assignNormalTexture(ResourceManagerInstance->getTexture().getAsset(normalTexName)->getSlot());
+								}
+								if (parallaxTexName.compare("none") != 0)
+								{
+									layer.getTextures().at(textureIndex)->assignParallaxTexture(ResourceManagerInstance->getTexture().getAsset(parallaxTexName)->getSlot());
 								}
 
 								textureIndex++;

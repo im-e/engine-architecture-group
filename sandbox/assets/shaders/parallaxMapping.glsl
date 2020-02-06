@@ -60,50 +60,48 @@ in vec3 TangentLightPosition;
 in vec3 TangentViewPosition;
 in vec3 TangentFragmentPosition;
 
-float heightScale = 0.1;
+float heightScale = 0.05;
 
-// uniform sampler2D diffuseMap;
-uniform sampler2D depthMap;
 uniform sampler2D u_texData;
-uniform sampler2D u_texDataTwo;
-// uniform sampler2D normalMap;
-
-layout(std140) uniform Light
-{
-	vec3 u_lightPos; 
-	vec3 u_viewPos; 
-	vec3 u_lightColour;
-};
+uniform sampler2D u_normalTexData;
+uniform sampler2D u_parallaxTexData;
 
 vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir)
 { 
+    // number of depth layers
     const float minLayers = 8;
     const float maxLayers = 32;
     float numLayers = mix(maxLayers, minLayers, abs(dot(vec3(0.0, 0.0, 1.0), viewDir)));  
+    // calculate the size of each layer
     float layerDepth = 1.0 / numLayers;
+    // depth of current layer
     float currentLayerDepth = 0.0;
-
+    // the amount to shift the texture coordinates per layer (from vector P)
     vec2 P = viewDir.xy / viewDir.z * heightScale; 
     vec2 deltaTexCoords = P / numLayers;
   
+    // get initial values
     vec2  currentTexCoords     = texCoords;
-    float currentDepthMapValue = texture(depthMap, currentTexCoords).r;
+    float currentDepthMapValue = texture(u_parallaxTexData, currentTexCoords).r;
       
     while(currentLayerDepth < currentDepthMapValue)
     {
         // shift texture coordinates along direction of P
         currentTexCoords -= deltaTexCoords;
         // get depthmap value at current texture coordinates
-        currentDepthMapValue = texture(u_texData, currentTexCoords).r;  
+        currentDepthMapValue = texture(u_parallaxTexData, currentTexCoords).r;  
         // get depth of next layer
         currentLayerDepth += layerDepth;  
     }
     
+    // get texture coordinates before collision (reverse operations)
     vec2 prevTexCoords = currentTexCoords + deltaTexCoords;
 
+    // get depth after and before collision for linear interpolation
     float afterDepth  = currentDepthMapValue - currentLayerDepth;
-    float beforeDepth = texture(u_texData, prevTexCoords).r - currentLayerDepth + layerDepth;
-
+    float beforeDepth = texture(u_parallaxTexData, prevTexCoords).r - currentLayerDepth + layerDepth;
+ 
+    // interpolation of texture coordinates
     float weight = afterDepth / (afterDepth - beforeDepth);
     vec2 finalTexCoords = prevTexCoords * weight + currentTexCoords * (1.0 - weight);
 
@@ -117,22 +115,22 @@ void main()
     vec2 texCoords = TexCoords;
     
     texCoords = ParallaxMapping(TexCoords,  viewDir);       
-    if(texCoords.x > 1.0 || texCoords.y > 1.0 || texCoords.x < 0.0 || texCoords.y < 0.0)
-        discard;
+    if(texCoords.x > 1.0 || texCoords.y > 1.0 || texCoords.x < 0.0 || texCoords.y < 0.0);
+        //discard;
 
-    vec3 normal = texture(u_texData, TexCoords).rgb; //get normals from normal map
-	normal = normalize(normal * 2.0f - 1.0f); //transform normals to be in range <-1; 1> (normal in tangent space)
-
+    // obtain normal from normal map
+    vec3 normal = texture(u_normalTexData, texCoords).rgb;
+    normal = normalize(normal * 2.0 - 1.0);   
+   
     // get diffuse color
-    vec3 color = texture(u_texData, TexCoords).rgb;
+    vec3 color = texture(u_texData, texCoords).rgb;
     // ambient
     vec3 ambient = 0.1 * color;
     // diffuse
     vec3 lightDir = normalize(TangentLightPosition - TangentFragmentPosition);
     float diff = max(dot(lightDir, normal), 0.0);
     vec3 diffuse = diff * color;
-    // specular
-    // vec3 viewDir = normalize(TangentViewPosition - TangentFragmentPosition);
+    // specular    
     vec3 reflectDir = reflect(-lightDir, normal);
     vec3 halfwayDir = normalize(lightDir + viewDir);  
     float spec = pow(max(dot(normal, halfwayDir), 0.0), 32.0);

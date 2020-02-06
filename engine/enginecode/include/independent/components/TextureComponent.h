@@ -59,12 +59,18 @@ namespace Engine
 			ComponentMessage msg(ComponentMessageType::UniformSet, data);
 			sendMessage(msg);
 		}
-
 		void assignNormalTexture(int index)
 		{
 			m_texSlotNormal = index;
 			std::pair<std::string, void*> normalData("u_normalTexData", (void*)m_texSlotNormal);
 			ComponentMessage msg(ComponentMessageType::UniformSet, normalData);
+			sendMessage(msg);
+		}
+		void assignParallaxTexture(int index)
+		{
+			m_texSlotParallax = index;
+			std::pair<std::string, void*> parallaxData("u_parallaxTexData", (void*)m_texSlotParallax);
+			ComponentMessage msg(ComponentMessageType::UniformSet, parallaxData);
 			sendMessage(msg);
 		}
 	};

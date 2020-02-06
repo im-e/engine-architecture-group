@@ -60,7 +60,6 @@ in vec3 TangentLightPosition;
 in vec3 TangentViewPosition;
 in vec3 TangentFragmentPosition;
 
-// uniform sampler2D diffuseMap;
 uniform sampler2D u_texData;
 uniform sampler2D u_normalTexData;
 

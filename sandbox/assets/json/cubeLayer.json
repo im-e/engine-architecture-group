@@ -12,6 +12,10 @@
       {
         "name": "NormalShader",
         "filepath": "assets/shaders/normalMapping.glsl"
+      },
+      {
+        "name": "ParallaxShader",
+        "filepath": "assets/shaders/parallaxMapping.glsl"
       }
     ],
     "textures": [
@@ -28,8 +32,16 @@
         "filepath": "assets/textures/PolygonSciFiSpace_Texture_01_A.png"
       },
       {
-        "name": "BrickTexture",
-        "filepath": "assets/textures/Brick_diffuseOriginal.png"
+        "name": "BrickDiffuse",
+        "filepath": "assets/textures/Brick_diffuse.png"
+      },
+      {
+        "name": "BrickNormal",
+        "filepath": "assets/textures/Brick_normal.png"
+      },
+      {
+        "name": "BrickHeight",
+        "filepath": "assets/textures/Brick_height.png"
       },
       {
         "name": "NormalTexture",
@@ -47,13 +59,13 @@
   },
 
   "MemoryInfo": {
-    "gameObjects": 3,
-    "materials": 3,
-    "position": 3,
-    "velocity": 3,
+    "gameObjects": 4,
+    "materials": 4,
+    "position": 4,
+    "velocity": 4,
     "oscillates": 2,
-    "textures": 2,
-    "controllers": 1
+    "textures": 3,
+    "controllers": 2
   },
 
   "Camera": {
@@ -134,13 +146,13 @@
         },
         "rotation": {
           "x": 0.0,
-          "y": 0.0,
+          "y": 180.0,
           "z": 0.0
         },
         "scale": {
-          "x": 1.01,
-          "y": 1.01,
-          "z": 1.01
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
         }
       },
 
@@ -163,7 +175,58 @@
       },
       "texture": {
         "name": "ShipTexture",
-        "normal":  "NormalTexture"
+        "normal": "NormalTexture",
+        "parallax": "none"
+      }
+    },
+
+    {
+      "name": "PlayerBox",
+      "material": {
+        "type": "assimp",
+        "model": "assets/assimpModels/RoyaltyFreeBox.obj",
+        "shader": "ParallaxShader"
+      },
+
+      "position": {
+        "translation": {
+          "x": -5.0,
+          "y": 2.0,
+          "z": 10.0
+        }, 
+        "rotation": {
+          "x": 0.0,
+          "y": 270.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 2.04,
+          "y": 2.04,
+          "z": 2.04
+        }
+      },
+
+      "velocity": {
+        "linear": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "angular": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+
+      "controller": {
+        "moveSpeed": 150.0,
+        "rotationSpeed": 1000.0
+      },
+      "texture": {
+        "name": "BrickDiffuse",
+        "normal": "BrickNormal",
+        "parallax": "BrickHeight"
       }
     },
 
@@ -215,7 +278,8 @@
 
       "texture": {
         "name": "NumberTexture",
-        "normal": "none"
+        "normal": "none",
+        "parallax": "none"
       }
     }
   ],
@@ -233,6 +297,14 @@
         },
         {
           "name": "PhongShader",
+          "block": "Matrices"
+        },
+        {
+          "name": "NormalShader",
+          "block": "Matrices"
+        },
+        {
+          "name": "ParallaxShader",
           "block": "Matrices"
         }
       ],
@@ -253,6 +325,14 @@
       "shaders": [
         {
           "name": "PhongShader",
+          "block": "Light"
+        },
+        {
+          "name": "NormalShader",
+          "block": "Light"
+        },
+        {
+          "name": "ParallaxShader",
           "block": "Light"
         }
       ],
