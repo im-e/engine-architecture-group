@@ -46,7 +46,8 @@ project "Engine"
 		"vendor/stb_image",
 		"vendor/freetype2/include",
 		"vendor/json/single_include/nlohmann",
-		"vendor/assimp/include"
+		"vendor/assimp/include",
+		"vendor/ImGui"
 	}
 	
 	links 
@@ -54,7 +55,8 @@ project "Engine"
 		"GLFW",
 		"Glad",
 		"Freetype",
-		"assimp"
+		"assimp",
+		"IMGui"
 	}
 	
 	filter "system:windows"
@@ -107,7 +109,8 @@ project "LevelEditor"
 		"vendor/stb_image",
 		"vendor/glm/",
 		"vendor/json/single_include/nlohmann",
-		"vendor/assimp/include"
+		"vendor/assimp/include",
+		"vendor/ImGui"
 	}
 
 	links
@@ -160,7 +163,8 @@ project "Sandbox"
 		"vendor/stb_image",
 		"vendor/glm/",
 		"vendor/json/single_include/nlohmann",
-		"vendor/assimp/include"
+		"vendor/assimp/include",
+		"vendor/ImGui"
 	}
 
 	links
@@ -310,3 +314,4 @@ group "Vendor"
 	include "vendor/zlib"
 	include "vendor/IrrXML"
 	include "vendor/assimp"
+	include "vendor/ImGui"

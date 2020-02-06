@@ -1,4 +1,4 @@
-/** \file Sandbox.cpp
+/** \file Editor.cpp
 */
 
 #include "Editor.h"
