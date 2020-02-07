@@ -48,15 +48,6 @@
     ]
   },
 
-  "MemoryInfo": {
-    "gameObjects": 3,
-    "position": 3,
-    "velocity": 3,
-    "oscillates": 2,
-    "textures": 3,
-    "controllers": 1
-  },
-
   "Camera": {
     "type": "Fps3D",
     "translationSpeed": 10.0,

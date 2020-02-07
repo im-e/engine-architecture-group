@@ -9,7 +9,7 @@ namespace Engine
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-		ImGui::StyleColorsClassic();
+		ImGui::StyleColorsDark();
 	}
 
 	void ImGuiSystem::stop(SystemSignal close, ...)

@@ -47,7 +47,7 @@ project "Engine"
 		"vendor/freetype2/include",
 		"vendor/json/single_include/nlohmann",
 		"vendor/assimp/include",
-		"vendor/reactphysics3d/src"
+		"vendor/reactphysics3d/src",
 		"vendor/ImGui"
 	}
 	
@@ -57,7 +57,7 @@ project "Engine"
 		"Glad",
 		"Freetype",
 		"assimp",
-		"reactphysics3d"
+		"reactphysics3d",
 		"IMGui"
 	}
 	
@@ -112,6 +112,7 @@ project "LevelEditor"
 		"vendor/glm/",
 		"vendor/json/single_include/nlohmann",
 		"vendor/assimp/include",
+		"vendor/reactphysics3d/src",
 		"vendor/ImGui"
 	}
 
@@ -166,7 +167,7 @@ project "Sandbox"
 		"vendor/glm/",
 		"vendor/json/single_include/nlohmann",
 		"vendor/assimp/include",
-		"vendor/reactphysics3d/src"
+		"vendor/reactphysics3d/src",
 		"vendor/ImGui"
 	}
 
