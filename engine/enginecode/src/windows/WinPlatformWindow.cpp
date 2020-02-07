@@ -33,7 +33,7 @@ namespace Engine
 
 		//create window
 		m_window = glfwCreateWindow(properties.m_width, properties.m_height, properties.m_title.c_str(), NULL, NULL);
-		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		setCursorEnabled();
 
 		//create graphics context for MS Windows
 		m_context = std::shared_ptr<GraphicsContext>(new OpenGL_Graphics(m_window));
@@ -263,5 +263,15 @@ namespace Engine
 	void WinPlatformWindow::setWidth(float w)
 	{
 		m_properties.m_width = w;
+	}
+
+	void WinPlatformWindow::setCursorDisabled()
+	{
+		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
+
+	void WinPlatformWindow::setCursorEnabled()
+	{
+		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 }

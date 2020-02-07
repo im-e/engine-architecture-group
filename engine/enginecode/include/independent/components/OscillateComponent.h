@@ -17,7 +17,7 @@ namespace Engine
 	{
 	public:
 		//! Possible states of a component
-		enum State { STOPPED = 0, DOWN = 1, UP = 2 };
+		enum State { STOPPED = -1, DOWN = 0, UP = 1};
 
 	private:
 		float m_timeAccumulated = 0.0f; //!< Accumulated time

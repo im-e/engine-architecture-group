@@ -10,8 +10,8 @@
 #define		NG_REPEAT				  2
 
 #define		NG_MOUSE_BUTTON_LEFT	  0
-#define		NG_MOUSE_BUTTON_MIDDLE	  1
-#define		NG_MOUSE_BUTTON_RIGHT	  2
+#define		NG_MOUSE_BUTTON_RIGHT	  1
+#define		NG_MOUSE_BUTTON_MIDDLE	  2
 
 #define 	NG_KEY_UNKNOWN   -1
 #define 	NG_KEY_SPACE   32

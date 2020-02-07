@@ -1,6 +1,8 @@
 #include "engine_pch.h"
 #include "rendering/cameras/Camera3DController.h"
 
+#include "core/application.h"
+
 namespace Engine
 {
 	Camera3DController::Camera3DController(float translationSpeed, float rotationSpeed)
@@ -30,8 +32,11 @@ namespace Engine
 		{
 			m_position += m_camera->getRight() * velocity;
 		}
-		if (InputPoller::isMouseButtonPressed(NG_MOUSE_BUTTON_LEFT))
+		if (InputPoller::isMouseButtonPressed(NG_MOUSE_BUTTON_MIDDLE))
 		{
+
+			Application::getInstance().getWindow()->setCursorDisabled();
+
 			glm::vec2 currentMousePos = InputPoller::getMousePosition();
 			glm::vec2 mouseDelta = currentMousePos - m_lastMousePosition;
 
@@ -44,6 +49,10 @@ namespace Engine
 				m_camera->setPitch(-89.0f);
 
 			m_lastMousePosition = currentMousePos;
+		}
+		else
+		{
+			Application::getInstance().getWindow()->setCursorEnabled();
 		}
 
 		m_camera->setPosition(m_position);

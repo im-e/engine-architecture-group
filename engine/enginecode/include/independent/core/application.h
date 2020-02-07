@@ -14,6 +14,7 @@
 
 #include "systems/Timer.h"
 #include "systems/Log.h"
+#include "systems/ImGuiSystem.h"
 
 #include "events/Event.h"
 #include "events/WindowEvent.h"
@@ -49,6 +50,8 @@ namespace Engine {
 		std::shared_ptr<Log> m_logger;
 		//! Pointer to Timer object
 		std::shared_ptr<Timer> m_timer;
+		//! Pointer to ImGuiSystem
+		std::shared_ptr<ImGuiSystem> m_imGui;
 
 #ifdef NG_PLATFORM_WINDOWS
 		std::shared_ptr<WindowsSys> m_windowsSystem; //!< Pointer to Windows platform

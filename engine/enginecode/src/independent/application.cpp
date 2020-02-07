@@ -33,6 +33,9 @@ namespace Engine
 		m_layerStack.reset(new LayerStack());
 		m_layerStack->start(SystemSignal::None);
 
+		m_imGui = std::make_shared<ImGuiSystem>();
+		m_imGui->start(SystemSignal::Windows);
+
 		//initialize windows system
 #ifdef NG_PLATFORM_WINDOWS
 		m_windowsSystem = std::shared_ptr<WindowsSys>(new GLFWWindowsSys());
@@ -181,6 +184,7 @@ namespace Engine
 		m_appWindow->close();
 		m_layerStack->stop(Engine::SystemSignal::None);
 		m_windowsSystem->stop(Engine::SystemSignal::Windows);
+		m_imGui->stop(Engine::SystemSignal::Windows);
 		m_timer->stop(Engine::SystemSignal::None);
 		m_logger->stop(Engine::SystemSignal::None);			
 	}
