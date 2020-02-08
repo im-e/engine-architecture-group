@@ -164,27 +164,6 @@ namespace Engine
 		}
 		Application::getInstance().getWindow()->getGraphicsContext()->swapToCurrentThread();
 
-		if (jsonFile.count("MemoryInfo") > 0)
-		{
-			if (jsonFile["MemoryInfo"].count("gameObjects") > 0)
-				layer.getGameObjects().resize(jsonFile["MemoryInfo"]["gameObjects"].get<int>());
-
-			if (jsonFile["MemoryInfo"].count("position") > 0)
-				layer.getPositions().resize(jsonFile["MemoryInfo"]["position"].get<int>());
-
-			if (jsonFile["MemoryInfo"].count("velocity") > 0)
-				layer.getVelocities().resize(jsonFile["MemoryInfo"]["velocity"].get<int>());
-
-			if (jsonFile["MemoryInfo"].count("oscillates") > 0)
-				layer.getOscillates().resize(jsonFile["MemoryInfo"]["oscillates"].get<int>());
-
-			if (jsonFile["MemoryInfo"].count("textures") > 0)
-				layer.getTextures().resize(jsonFile["MemoryInfo"]["textures"].get<int>());
-
-			if (jsonFile["MemoryInfo"].count("controllers") > 0)
-				layer.getControllers().resize(jsonFile["MemoryInfo"]["controllers"].get<int>());
-		}
-
 		if (jsonFile.count("Camera") > 0)
 		{
 			std::string type = jsonFile["Camera"]["type"].get<std::string>();
@@ -237,17 +216,18 @@ namespace Engine
 				{
 					goName = go["name"].get<std::string>();
 				}
-				layer.getGameObjects().push_back(std::make_shared<GameObject>(GameObject(goName)));
-				auto gameObject = layer.getGameObjects().back();
+				layer.getGameObjects()[goName] = std::make_shared<GameObject>(GameObject(goName));
+				auto gameObject = layer.getGameObjects()[goName];
 
 				if (go.count("material") > 0)
 				{
 					if (go["material"].count("model") > 0)
 					{
 						std::string meshType = go["material"]["type"].get<std::string>();
-
+						
 						if (meshType == "json")
 						{
+							std::shared_ptr<MaterialComponent> mat;
 							std::string modelName = go["material"]["model"].get<std::string>();
 							std::shared_ptr<JsonModel> model = ResourceManagerInstance->getJsonModels().getAsset(modelName);
 							
@@ -328,13 +308,13 @@ namespace Engine
 
 				if (go.count("position") > 0)
 				{
+					std::shared_ptr<PositionComponent> pos;
 					glm::vec3 translation(go["position"]["translation"]["x"].get<float>(), go["position"]["translation"]["y"].get<float>(), go["position"]["translation"]["z"].get<float>());
 					glm::vec3 rotation(go["position"]["rotation"]["x"].get<float>(), go["position"]["rotation"]["y"].get<float>(), go["position"]["rotation"]["z"].get<float>());
 					glm::vec3 scale(go["position"]["scale"]["x"].get<float>(), go["position"]["scale"]["y"].get<float>(), go["position"]["scale"]["z"].get<float>());
 
-					layer.getPositions().push_back(std::make_shared<PositionComponent>
-						(PositionComponent(translation, rotation, scale)));
-					gameObject->addComponent(layer.getPositions().back());
+					pos = std::make_shared<PositionComponent>(PositionComponent(translation, rotation, scale));
+					gameObject->addComponent(pos);
 				}
 
 				if (go.count("velocity") > 0)

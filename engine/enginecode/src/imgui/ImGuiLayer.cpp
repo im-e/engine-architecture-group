@@ -18,6 +18,7 @@ namespace Engine
 	void ImGuiLayer::onAttach()
 	{
 		m_gameObjectWindow = false;
+		m_removeGameObjectWindow = false;
 	}
 
 	void ImGuiLayer::onDetach()
@@ -37,6 +38,10 @@ namespace Engine
 		{
 			m_gameObjectWindow = true;
 		}
+		if (ImGui::Button("Remove GameObject"))
+		{
+			m_removeGameObjectWindow = true;
+		}
 		ImGui::End();
 
 		if (m_gameObjectWindow)
@@ -44,11 +49,44 @@ namespace Engine
 			ImGui::Begin("GameObject");
 
 			static char goName[32] = "Default name";
+			static glm::vec3 translation = glm::vec3(0.0f);
+			static glm::vec3 rotation = glm::vec3(0.0f);
+			static glm::vec3 scale = glm::vec3(1.0f);
+
+			ImGui::InputText("Name", goName, IM_ARRAYSIZE(goName));
+			ImGui::InputFloat3("Position", &translation.x, 2);
+			ImGui::InputFloat3("Rotation", &rotation.x, 2);
+			ImGui::InputFloat3("Scale", &scale.x, 2);
+
+			if (ImGui::Button("Spawn"))
+			{
+				std::shared_ptr<PositionComponent> pos;
+				pos = std::make_shared<PositionComponent>(PositionComponent(translation, rotation, scale));
+				m_layer->getGameObjects()[goName] = std::make_shared<GameObject>(GameObject(goName));
+				m_layer->getGameObjects()[goName]->addComponent(pos);
+			}
+			ImGui::SameLine(150);
+			if (ImGui::Button("Close")) 
+				m_gameObjectWindow = false;
+
+			ImGui::End();
+		}
+
+		if (m_removeGameObjectWindow)
+		{
+			ImGui::Begin("Remove GameObject");
+
+			static char goName[32] = "Default name";
+
 			ImGui::InputText("Name", goName, IM_ARRAYSIZE(goName));
 
-			if (ImGui::Button("Spawn")) LogInfo("{0}", goName);
+			if (ImGui::Button("Remove"))
+			{
+				m_layer->getGameObjects().erase(goName);
+			}
 			ImGui::SameLine(150);
-			if (ImGui::Button("Close")) m_gameObjectWindow = false;
+			if (ImGui::Button("Close"))
+				m_removeGameObjectWindow = false;
 
 			ImGui::End();
 		}
@@ -69,12 +107,8 @@ namespace Engine
 
 
 
-
-
-
-
-//m_layer->getGameObjects().push_back(std::make_shared<GameObject>(GameObject("Spawned cube")));
-//auto go = m_layer->getGameObjects().back();
+//m_layer->getGameObjects()[goName] = std::make_shared<GameObject>(GameObject(goName));
+//auto go = m_layer->getGameObjects()[goName];
 //std::shared_ptr<JsonModel> model = ResourceManagerInstance->getJsonModels().getAsset("JsonFCCube");
 //
 //ResourceManagerInstance->addVAO("Spawned cubeVAO");
@@ -97,3 +131,6 @@ namespace Engine
 //m_layer->getPositions().push_back(std::make_shared<PositionComponent>
 //(PositionComponent(glm::vec3(0.0f, 3.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(2.0f, 2.0f, 2.0f))));
 //go->addComponent(m_layer->getPositions().back());
+
+
+

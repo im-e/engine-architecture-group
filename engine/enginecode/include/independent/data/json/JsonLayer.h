@@ -25,7 +25,8 @@ namespace Engine
 	class JsonLayer : public Layer
 	{
 	protected:
-		std::vector<std::shared_ptr<Engine::GameObject>> m_gameObjects;			//!< Game objects which belong to the layer
+		//std::vector<std::shared_ptr<Engine::GameObject>> m_gameObjects;			//!< Game objects which belong to the layer
+		std::map<std::string, std::shared_ptr<Engine::GameObject>> m_gameObjects;	//!< Game objects which belong to the layer
 		std::vector<std::shared_ptr<Engine::MaterialComponent>> m_materials;	//!< Material components
 		std::vector<std::shared_ptr<Engine::PositionComponent>> m_positions;	//!< Position components
 		std::vector<std::shared_ptr<Engine::VelocityComponent>> m_velocities;	//!< Velocity components
@@ -55,8 +56,10 @@ namespace Engine
 		//! Runs when an event occurs
 		void onEvent(Event& e) override;
 
+
+		//inline std::vector<std::shared_ptr<Engine::GameObject>>& getGameObjects() { return m_gameObjects; }
 		//! Gets a collection of GOs in a layer \return collection of GOs
-		inline std::vector<std::shared_ptr<Engine::GameObject>>& getGameObjects() { return m_gameObjects; }
+		inline std::map<std::string, std::shared_ptr<Engine::GameObject>>& getGameObjects() { return m_gameObjects; }
 		//! Gets a collection of material components in a layer \return collection of material components
 		inline std::vector<std::shared_ptr<Engine::MaterialComponent>>& getMaterials() { return m_materials; }
 		//! Gets a collection of position components in a layer \return collection of position components

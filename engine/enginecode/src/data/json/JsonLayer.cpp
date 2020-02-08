@@ -48,7 +48,7 @@ namespace Engine
 #endif
 			for (auto& GO : m_gameObjects)
 			{
-				GO->onUpdate(timestep);
+				GO.second->onUpdate(timestep);
 			}
 		}
 		
@@ -68,8 +68,11 @@ namespace Engine
 #endif
 			m_renderer->beginScene(m_sceneData);
 
-			for (auto& mat : m_materials)
+			for (auto& GO : m_gameObjects)
 			{
+				MaterialComponent* mat;
+				auto material = GO.second->getComponent<MaterialComponent>();
+				mat = dynamic_cast<MaterialComponent*>((*material).get());
 				m_renderer->submit(mat->getMaterial());
 			}
 		}
@@ -92,7 +95,7 @@ namespace Engine
 
 		for (auto& GO : m_gameObjects)
 		{
-			GO->onEvent(e);
+			GO.second->onEvent(e);
 		}
 	}
 }

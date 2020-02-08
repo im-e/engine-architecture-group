@@ -111,7 +111,7 @@
     },
 
     {
-      "name": "PlayerCharacter",
+      "name": "Player",
       "material": {
         "type": "assimp",
         "model": "ship",

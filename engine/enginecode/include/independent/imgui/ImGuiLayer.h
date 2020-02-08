@@ -10,7 +10,7 @@ namespace Engine
 	private:
 		JsonLayer* m_layer;
 		bool m_gameObjectWindow;
-
+		bool m_removeGameObjectWindow;
 	public:
 		ImGuiLayer(const std::string& name, std::shared_ptr<Layer> layer) : Layer(name)
 		{

@@ -37,14 +37,16 @@ namespace Engine
 		inline std::vector<std::shared_ptr<Component>>::iterator getComponent()
 		{
 			auto result = m_components.end();
-			for (auto& it = m_components.begin(); it != result; ++it)
+			for (auto it = m_components.begin(); it != m_components.end(); ++it)
 			{
-				if (typeid(decltype(*it(it->get()))).hash_code() == typeid(C).hash_code())
+				if (typeid(*(it->get())).hash_code() == typeid(C).hash_code())
+				{
 					return it;
+				}					
 			}
 
-			LogWarn("Component not found!");
-			return result;
+			/*LogWarn("Component not found!");
+			return result;*/
 		}
 
 		//! Gets beginning of components collection associated with a GO \return beginning of collection
