@@ -233,6 +233,7 @@ namespace Engine
 								std::string texName = go["texture"]["name"].get<std::string>();
 								std::string normalTexName = go["texture"]["normal"].get<std::string>();
 								std::string parallaxTexName = go["texture"]["parallax"].get<std::string>();
+								/*std::string shadowTexName = go["texture"]["shadow"].get<std::string>();*/
 
 								layer.getTextures().at(textureIndex) = std::make_shared<TextureComponent>
 									(TextureComponent(ResourceManagerInstance->getTexture().getAsset(texName)->getSlot()));
@@ -247,6 +248,10 @@ namespace Engine
 								{
 									layer.getTextures().at(textureIndex)->assignParallaxTexture(ResourceManagerInstance->getTexture().getAsset(parallaxTexName)->getSlot());
 								}
+								//if (shadowTexName.compare("none") != 0)
+								//{
+								//	layer.getTextures().at(textureIndex)->assignShadowTexture(ResourceManagerInstance->getTexture().getAsset(shadowTexName)->getSlot());
+								//}
 
 								textureIndex++;
 							}
@@ -364,7 +369,11 @@ namespace Engine
 								layer.getJsonData().push_back(new glm::vec3(data["x"].get<float>(), data["y"].get<float>(), data["z"].get<float>()));
 								ptr = (void*)&(*(glm::vec3*)layer.getJsonData().back())[0];
 							}
-
+							//if (type == "Mat4")
+							//{
+							//	layer.getJsonData().push_back(new glm::mat4(data["x"].get<float>(), data["y"].get<float>(), data["z"].get<float>()));
+							//	ptr = (void*)&(*(glm::mat4*)layer.getJsonData().back())[0];
+							//}
 							//TODO add more data types?
 
 							uboData.push_back(ptr);

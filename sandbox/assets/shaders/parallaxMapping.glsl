@@ -14,16 +14,16 @@ out vec3 TangentLightPosition;
 out vec3 TangentViewPosition;
 out vec3 TangentFragmentPosition;
 
+layout (std140) uniform Matrices
+{
+	mat4 u_VP;
+};
+
 layout(std140) uniform Light
 {
 	vec3 u_lightPos; 
 	vec3 u_viewPos; 
 	vec3 u_lightColour;
-};
-
-layout (std140) uniform Matrices
-{
-	mat4 u_VP;
 };
 
 uniform mat4 u_model;
@@ -33,15 +33,14 @@ void main()
     FragPos = vec3(u_model * vec4(aPos, 1.0));   
     TexCoords = aTexCoords;   
     
-	vec3 tangent = normalize(mat3(u_model) * aTangentVector);
-	vec3 bitangent = normalize(mat3(u_model) * aBitangentVector);
-	vec3 normal = normalize(mat3(u_model) * aNormal);
+    vec3 T = normalize(mat3(u_model) * aTangentVector);
+    vec3 B = normalize(mat3(u_model) * aBitangentVector);
+    vec3 N = normalize(mat3(u_model) * aNormal);
+    mat3 TBN = transpose(mat3(T, B, N));
 
-	mat3 TBNMatrix = transpose(mat3(tangent, bitangent, normal));
-
-	TangentLightPosition = TBNMatrix * u_lightPos;
-	TangentViewPosition = TBNMatrix * u_viewPos;
-	TangentFragmentPosition = TBNMatrix * FragPos;
+    TangentLightPosition = TBN * u_lightPos;
+    TangentViewPosition  = TBN * u_viewPos;
+    TangentFragmentPosition  = TBN * FragPos;
     
     gl_Position =  u_VP * u_model * vec4(aPos, 1.0);
 }
@@ -52,20 +51,13 @@ void main()
 			
 layout(location = 0) out vec4 colour;
 
-layout(std140) uniform Light
-{
-	vec3 u_lightPos; 
-	vec3 u_viewPos; 
-	vec3 u_lightColour;
-};
-
 in vec3 FragPos;  
 in vec2 TexCoords;
 in vec3 TangentLightPosition;
 in vec3 TangentViewPosition;
 in vec3 TangentFragmentPosition;
 
-float heightScale = 0.05;
+float heightScale = 0.1;
 
 uniform sampler2D u_texData;
 uniform sampler2D u_normalTexData;
@@ -85,6 +77,8 @@ void main()
     vec2 texCoords = TexCoords;
     
     texCoords = CalculateParallaxDisplacement(TexCoords,  viewDir);  
+	if(texCoords.x > 1.0 || texCoords.y > 1.0 || texCoords.x < 0.0 || texCoords.y < 0.0)
+    discard;
 
     // obtain normal from normal map
     vec3 normal = texture(u_normalTexData, texCoords).rgb;

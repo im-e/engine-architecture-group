@@ -10,6 +10,10 @@
         "filepath": "assets/shaders/texturedPhong.glsl"
       },
       {
+        "name": "BlinnPhongShader",
+        "filepath": "assets/shaders/blinnPhong.glsl"
+      },
+      {
         "name": "NormalShader",
         "filepath": "assets/shaders/normalMapping.glsl"
       },
@@ -54,17 +58,25 @@
       {
         "name": "ParallaxTexture",
         "filepath": "assets/textures/DisplacementMap.png"
+      },
+      {
+        "name": "WoodTexture",
+        "filepath": "assets/textures/wood_diffuse.png"
+      },
+      {
+        "name": "ShadowTexture",
+        "filepath": "assets/textures/wood_diffuse.png"
       }
     ]
   },
 
   "MemoryInfo": {
-    "gameObjects": 4,
-    "materials": 4,
-    "position": 4,
-    "velocity": 4,
+    "gameObjects": 6,
+    "materials": 6,
+    "position": 6,
+    "velocity": 6,
     "oscillates": 2,
-    "textures": 3,
+    "textures": 5,
     "controllers": 2
   },
 
@@ -140,7 +152,7 @@
 
       "position": {
         "translation": {
-          "x": 0.0,
+          "x": -2.5,
           "y": 0.0,
           "z": 5.0
         },
@@ -150,9 +162,9 @@
           "z": 0.0
         },
         "scale": {
-          "x": 0.5,
-          "y": 0.5,
-          "z": 0.5
+          "x": 0.25,
+          "y": 0.25,
+          "z": 0.25
         }
       },
 
@@ -190,19 +202,19 @@
 
       "position": {
         "translation": {
-          "x": -5.0,
-          "y": 2.0,
-          "z": 10.0
-        }, 
+          "x": 0.0,
+          "y": 0.0,
+          "z": 25.0
+        },
         "rotation": {
           "x": 0.0,
           "y": 270.0,
           "z": 0.0
         },
         "scale": {
-          "x": 2.04,
-          "y": 2.04,
-          "z": 2.04
+          "x": 5.04,
+          "y": 5.04,
+          "z": 5.04
         }
       },
 
@@ -227,6 +239,52 @@
         "name": "BrickDiffuse",
         "normal": "BrickNormal",
         "parallax": "BrickHeight"
+      }
+    },
+
+    {
+      "name": "FloorCube",
+      "material": {
+        "type": "json",
+        "model": "assets/jsonModels/tpCube.txt",
+        "shader": "BlinnPhongShader"
+      },
+
+      "position": {
+        "translation": {
+          "x": -2.0,
+          "y": -1.5,
+          "z": 3.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 15.0,
+          "y": 0.5,
+          "z": 15.0
+        }
+      },
+
+      "velocity": {
+        "linear": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "angular": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+
+      "texture": {
+        "name": "WoodTexture",
+        "normal": "none",
+        "parallax": "none"
       }
     },
 
@@ -281,6 +339,51 @@
         "normal": "none",
         "parallax": "none"
       }
+    },
+    {
+      "name": "ShadowCube",
+      "material": {
+        "type": "json",
+        "model": "assets/jsonModels/tpCube.txt",
+        "shader": "PhongShader"
+      },
+
+      "position": {
+        "translation": {
+          "x": -1.5,
+          "y": 0.0,
+          "z": -1.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+
+      "velocity": {
+        "linear": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "angular": {
+          "x": 0.0,
+          "y": 20.0,
+          "z": 0.0
+        }
+      },
+
+      "texture": {
+        "name": "BrickDiffuse",
+        "normal": "none",
+        "parallax": "none"
+      }
     }
   ],
 
@@ -297,6 +400,10 @@
         },
         {
           "name": "PhongShader",
+          "block": "Matrices"
+        },
+        {
+          "name": "BlinnPhongShader",
           "block": "Matrices"
         },
         {
@@ -325,6 +432,10 @@
       "shaders": [
         {
           "name": "PhongShader",
+          "block": "Light"
+        },
+        {
+          "name": "BlinnPhongShader",
           "block": "Light"
         },
         {
