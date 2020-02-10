@@ -39,4 +39,21 @@ namespace Engine
 		}
 		return nullptr;
 	}
+
+	Shader * Shader::create(const std::string & vertexPath, const std::string & fragmentPath, const std::string& geometryPath, const std::string& tessControlPath, const std::string& tessEvalPath)
+	{
+		switch (RenderAPI::getAPI())
+		{
+		case RenderAPI::API::None:
+			LogError("Lack of graphics API not supported!");
+			break;
+		case RenderAPI::API::OpenGL:
+			return new OpenGLShader(vertexPath, fragmentPath, geometryPath, tessControlPath, tessEvalPath);
+			break;
+		case RenderAPI::API::Direct3D:
+			LogError("Direct3D not yet supported!");
+			break;
+		}
+		return nullptr;
+	}
 }

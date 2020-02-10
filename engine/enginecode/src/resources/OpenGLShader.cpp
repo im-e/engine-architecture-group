@@ -42,6 +42,57 @@ namespace Engine
 		cacheUniformsExtractLayout(fShader);
 	}
 
+	OpenGLShader::OpenGLShader(const std::string & vertexPath, const std::string & fragmentPath, const std::string & geometryPath, const std::string & tessellationControlPath, const std::string & tessellationEvalPath)
+	{
+		// v = vertex, f = fragment, g = geometry, tc = tessellation control, te = tessellation evaluation.
+		std::string vCode, fCode, gCode, tcCode, teCode; //shader codes
+
+		std::ifstream vFile, fFile, gFile, tcFile, teFile; //shaderFiles
+
+		//open files
+		vFile.open(vertexPath);		// Open vertex file.
+		fFile.open(fragmentPath);	// Open fragment file.
+		gFile.open(geometryPath);	// Open geometry file.
+		tcFile.open(tessellationControlPath);	// Open the tessellation control file.
+		teFile.open(tessellationEvalPath);		// Open the tessellation evaluation file.
+
+
+		//read files' content and close them
+		std::stringstream vStream, fStream, gStream, tcStream, teStream;
+
+		vStream << vFile.rdbuf();
+		fStream << fFile.rdbuf();
+		gStream << gFile.rdbuf();
+		tcStream << tcFile.rdbuf();
+		teStream << teFile.rdbuf();
+
+		vFile.close();	// Close the vertex file.
+		fFile.close();	// Close the fragment file.
+		gFile.close();	// Close the geometry file.
+		tcFile.close();	// Close the tessellation control file.
+		teFile.close();	// Close the tessellation evaluation file.
+
+		//'feed' the code
+		vCode = vStream.str();
+		fCode = fStream.str();
+		gCode = gStream.str();
+		tcCode = tcStream.str();
+		teCode = teStream.str();
+
+		const char* vShader = vCode.c_str();
+		const char* fShader = fCode.c_str();
+		const char* gShader = gCode.c_str();
+		const char* tcShader = tcCode.c_str();
+		const char* teShader = teCode.c_str();
+
+		compileAndLink(vShader, fShader, gShader, tcShader, teShader); // Compile and link the shaders.
+		cacheUniformsExtractLayout(vShader);
+		cacheUniformsExtractLayout(fShader);
+		cacheUniformsExtractLayout(gShader);
+		cacheUniformsExtractLayout(tcShader);
+		cacheUniformsExtractLayout(teShader);
+	}
+
 	unsigned int OpenGLShader::getID()
 	{
 		return m_ID;
@@ -135,10 +186,158 @@ namespace Engine
 		glDetachShader(m_ID, m_fragID);
 	}
 
+	void OpenGLShader::compileAndLink(const std::string & vertex, const std::string & fragment, const std::string & geometry, const std::string & tessellationControl, const std::string & tessellationEval)
+	{
+		//vertex shader
+		m_vertID = glCreateShader(GL_VERTEX_SHADER);
+
+		const GLchar* source = vertex.c_str(); //source code
+		glShaderSource(m_vertID, 1, &source, 0);
+		glCompileShader(m_vertID);
+
+		GLint isCompiled = 0;
+		glGetShaderiv(m_vertID, GL_COMPILE_STATUS, &isCompiled);
+
+		if (isCompiled == GL_FALSE) //if failed to compile
+		{
+			GLint maxLength = 0;
+			glGetShaderiv(m_vertID, GL_INFO_LOG_LENGTH, &maxLength);
+
+			std::vector<GLchar> infoLog(maxLength);
+			glGetShaderInfoLog(m_vertID, maxLength, &maxLength, infoLog.data());
+			LogError("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
+
+			//glDeleteShader(m_vertID);
+			return;
+		}
+
+		//fragment shader
+		m_fragID = glCreateShader(GL_FRAGMENT_SHADER);
+
+		source = fragment.c_str();
+		glShaderSource(m_fragID, 1, &source, 0);
+		glCompileShader(m_fragID);
+
+		glGetShaderiv(m_fragID, GL_COMPILE_STATUS, &isCompiled);
+
+		if (isCompiled == GL_FALSE)
+		{
+			GLint maxLength = 0;
+			glGetShaderiv(m_fragID, GL_INFO_LOG_LENGTH, &maxLength);
+
+			std::vector<GLchar> infoLog(maxLength);
+			glGetShaderInfoLog(m_fragID, maxLength, &maxLength, infoLog.data());
+			LogError("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
+
+			//glDeleteShader(m_fragID);
+			//glDeleteShader(m_vertID);
+
+			return;
+		}
+
+		//geometry shader
+		m_geometryID = glCreateShader(GL_GEOMETRY_SHADER);
+		source = geometry.c_str();
+		glShaderSource(m_geometryID, 1, &source, 0);
+		glCompileShader(m_geometryID);
+		glGetShaderiv(m_geometryID, GL_COMPILE_STATUS, &isCompiled);
+
+		if (isCompiled == GL_FALSE)
+		{
+			GLint maxLength = 0;
+			glGetShaderiv(m_geometryID, GL_INFO_LOG_LENGTH, &maxLength);
+			std::vector<GLchar> infoLog(maxLength);
+			glGetShaderInfoLog(m_geometryID, maxLength, &maxLength, infoLog.data());
+			LogError("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
+			//glDeleteShader(m_fragID);
+			//glDeleteShader(m_vertID);
+			//glDeleteShader(m_geometryID);
+		}
+
+		//tessellation control shader
+		m_tessellationControlID = glCreateShader(GL_TESS_CONTROL_SHADER);
+		source = tessellationControl.c_str();
+		glShaderSource(m_tessellationControlID, 1, &source, 0);
+		glCompileShader(m_tessellationControlID);
+		glGetShaderiv(m_tessellationControlID, GL_COMPILE_STATUS, &isCompiled);
+
+		if (isCompiled == GL_FALSE)
+		{
+			GLint maxLength = 0;
+			glGetShaderiv(m_tessellationControlID, GL_INFO_LOG_LENGTH, &maxLength);
+			std::vector<GLchar> infoLog(maxLength);
+			glGetShaderInfoLog(m_geometryID, maxLength, &maxLength, infoLog.data());
+			LogError("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
+			//glDeleteShader(m_fragID);
+			//glDeleteShader(m_vertID);
+			//glDeleteShader(m_geometryID);
+			//glDeleteShader(m_tessellationControlID);
+		}
+
+		//tessellation evaluation shader
+		m_tessellationEvalID = glCreateShader(GL_TESS_EVALUATION_SHADER);
+		source = tessellationEval.c_str();
+		glShaderSource(m_tessellationEvalID, 1, &source, 0);
+		glCompileShader(m_tessellationEvalID);
+		glGetShaderiv(m_tessellationEvalID, GL_COMPILE_STATUS, &isCompiled);
+
+		if (isCompiled == GL_FALSE)
+		{
+			GLint maxLength = 0;
+			glGetShaderiv(m_tessellationEvalID, GL_INFO_LOG_LENGTH, &maxLength);
+			std::vector<GLchar> infoLog(maxLength);
+			glGetShaderInfoLog(m_geometryID, maxLength, &maxLength, infoLog.data());
+			LogError("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
+			glDeleteShader(m_fragID);
+			glDeleteShader(m_vertID);
+			glDeleteShader(m_geometryID);
+			glDeleteShader(m_tessellationControlID);
+			glDeleteShader(m_tessellationEvalID);
+		}
+
+		m_ID = glCreateProgram();
+		glAttachShader(m_ID, m_vertID);
+		glAttachShader(m_ID, m_tessellationControlID);
+		glAttachShader(m_ID, m_tessellationEvalID);
+		glAttachShader(m_ID, m_geometryID);
+		glAttachShader(m_ID, m_fragID);
+		glLinkProgram(m_ID);
+
+		GLint isLinked = 0; //success?
+		glGetProgramiv(m_ID, GL_LINK_STATUS, (int*)&isLinked);
+
+		if (isLinked == GL_FALSE) //if failed to link
+		{
+			GLint maxLength = 0;
+			glGetProgramiv(m_ID, GL_INFO_LOG_LENGTH, &maxLength);
+
+			std::vector<GLchar> infoLog(maxLength);
+			glGetProgramInfoLog(m_ID, maxLength, &maxLength, &infoLog[0]);
+			LogError("Shader linking error: {0}", std::string(infoLog.begin(), infoLog.end()));
+
+			glDeleteProgram(m_ID);
+			glDeleteShader(m_vertID);
+			glDeleteShader(m_tessellationControlID);
+			glDeleteShader(m_tessellationEvalID);
+			glDeleteShader(m_geometryID);
+			glDeleteShader(m_fragID);
+
+			return;
+		}
+
+		//delete shaders as no longer needed
+		glDetachShader(m_ID, m_vertID);
+		glDetachShader(m_ID, m_tessellationControlID);
+		glDetachShader(m_ID, m_tessellationEvalID);
+		glDetachShader(m_ID, m_geometryID);
+		glDetachShader(m_ID, m_fragID);
+	}
+
 	void OpenGLShader::parseSource(const std::string & path)
 	{
 		std::fstream handleFile(path, std::ios::in);
-		enum { None = -1, Vertex = 0, Fragment = 1 } regions;
+		enum { None = -1, Vertex = 0, Fragment = 1, Geometry = 2, TessellationControl = 3, TessellationEval = 4
+		} regions;
 
 		if (handleFile.is_open() == false)
 			LogError("Could not open file at {0}", path);
@@ -149,8 +348,9 @@ namespace Engine
 		{
 			if (line.find("#region Vertex") != std::string::npos) { regions = Vertex;		continue; }
 			if (line.find("#region Fragment") != std::string::npos) { regions = Fragment;	continue; }
-			if (line.find("#region Geometry") != std::string::npos) { regions = None;		continue; }
-			if (line.find("#region Tesselation") != std::string::npos) { regions = None;		continue; }
+			if (line.find("#region Geometry") != std::string::npos) { regions = Geometry;		continue; }
+			if (line.find("#region Tessellation Control") != std::string::npos) { regions = TessellationControl;		continue; }
+			if (line.find("#region Tessellation Eval") != std::string::npos) { regions = TessellationEval; continue; }
 
 			if (regions != None) source[regions] += (line + "\n");
 		}
@@ -158,7 +358,7 @@ namespace Engine
 		handleFile.close();
 
 		Application::getInstance().getWindow()->getGraphicsContext()->swapToCurrentThread();
-		compileAndLink(source[Vertex], source[Fragment]);
+		compileAndLink(source[Vertex], source[Fragment], source[Geometry], source[TessellationControl], source[TessellationEval]);
 		cacheUniformsExtractLayout(path);
 		Application::getInstance().getWindow()->getGraphicsContext()->unbindCurrentThread();
 	}

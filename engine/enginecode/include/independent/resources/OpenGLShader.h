@@ -27,13 +27,23 @@ namespace Engine
 		\param fragmentPath path to the fragment shader file
 		*/
 		OpenGLShader(const std::string& vertexPath, const std::string& fragmentPath);
+		/*! Custom constructor
+		\param vertexPath path to the vertex shader file
+		\param fragmentPath path to the fragment shader file
+		\param geometryPath path to the geometry shader file
+		\param tessellationPath path to the tessellation shader file
+		*/
+		OpenGLShader(const std::string& vertexPath, const std::string& fragmentPath, const std::string & geometryPath, const std::string & tessellationControlPath, const std::string & tessellationEvalPath);
 
 		// Inherited via Shader
 		unsigned int getID() override; //!< Get unique shader ID
 		void bind() override; //!< Use shader in the application
 		void unbind() override; //!< Stop using shader in the application
 		//! Compile shader code and link the shader in the memory
-		void compileAndLink(const std::string& vertex, const std::string& fragment); 
+		void compileAndLink(const std::string& vertex, const std::string& fragment);
+		//! Compile shader code and link the shader in the memory
+		void compileAndLink(const std::string& vertex, const std::string& fragment, const std::string & geometry, const std::string & tessellationControl, const std::string & tessellationEval);
+		/*! Feed shader with data
 		/*! Feed shader with data 
 		\param dataName name of the uniform 
 		\param data data to be passed
