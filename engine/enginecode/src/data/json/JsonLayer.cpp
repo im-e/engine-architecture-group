@@ -61,7 +61,7 @@ namespace Engine
 				m_renderer->actionCommand(renderCommand.get());
 			}
 		}
-		
+
 		{
 #ifdef NG_DEBUG
 			NG_PROFILER_SCOPE("Renderer");
@@ -71,9 +71,12 @@ namespace Engine
 			for (auto& GO : m_gameObjects)
 			{
 				MaterialComponent* mat;
-				auto material = GO.second->getComponent<MaterialComponent>();
-				mat = dynamic_cast<MaterialComponent*>((*material).get());
-				m_renderer->submit(mat->getMaterial());
+				auto& material = GO.second->getComponent<MaterialComponent>();			
+				if ((*material).get()) // Doesn't work ???
+				{	
+					mat = dynamic_cast<MaterialComponent*>((*material).get());
+					m_renderer->submit(mat->getMaterial());
+				}			
 			}
 		}
 		

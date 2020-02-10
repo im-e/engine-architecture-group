@@ -18,7 +18,10 @@ namespace Engine
 	void ImGuiLayer::onAttach()
 	{
 		m_gameObjectWindow = false;
+		m_addComponentWindow = false;
+		m_changeComponentWindow = false;
 		m_removeGameObjectWindow = false;
+		m_removeComponentWindow = false;
 	}
 
 	void ImGuiLayer::onDetach()
@@ -31,12 +34,23 @@ namespace Engine
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-
 		// https://eliasdaler.github.io/using-imgui-with-sfml-pt2/
 		ImGui::Begin("Editor window");
 		if(ImGui::Button("Add GameObject"))
 		{
 			m_gameObjectWindow = true;
+		}
+		if (ImGui::Button("Add component"))
+		{
+			m_addComponentWindow = true;
+		}
+		if (ImGui::Button("Change component"))
+		{
+			m_changeComponentWindow = true;
+		}
+		if (ImGui::Button("Remove component"))
+		{
+			m_removeComponentWindow = true;
 		}
 		if (ImGui::Button("Remove GameObject"))
 		{
@@ -44,6 +58,26 @@ namespace Engine
 		}
 		ImGui::End();
 
+		addGO();
+		addComp();
+		changeComp();
+		removeComp();
+		removeGO();
+
+		ImGuiIO& io = ImGui::GetIO();
+		glm::vec2 res = glm::vec2(800, 600);
+		io.DisplaySize = ImVec2((float)res.x, (float)res.y);
+		
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	}
+
+	void ImGuiLayer::onEvent(Event & e)
+	{
+	}
+
+	void ImGuiLayer::addGO()
+	{
 		if (m_gameObjectWindow)
 		{
 			ImGui::Begin("GameObject");
@@ -66,12 +100,149 @@ namespace Engine
 				m_layer->getGameObjects()[goName]->addComponent(pos);
 			}
 			ImGui::SameLine(150);
-			if (ImGui::Button("Close")) 
+			if (ImGui::Button("Close"))
 				m_gameObjectWindow = false;
 
 			ImGui::End();
 		}
+	}
 
+	void ImGuiLayer::addComp()
+	{
+		if (m_addComponentWindow)
+		{
+			ImGui::Begin("Add component");
+
+			static char goName[32] = "Default name";
+			ImGui::InputText("Name", goName, IM_ARRAYSIZE(goName));
+			std::string name;
+
+			if (ImGui::CollapsingHeader("Material"))
+			{
+				static bool json;
+				static bool assimp;
+				static char modelName[32] = "none";
+				static char shaderName[32] = "none";
+
+				ImGui::Checkbox("Json", &json);
+				ImGui::SameLine(100);
+				ImGui::Checkbox("Assimp", &assimp);
+
+				ImGui::InputText("Model", modelName, IM_ARRAYSIZE(modelName));
+				ImGui::InputText("Shader", shaderName, IM_ARRAYSIZE(shaderName));
+
+				if (ImGui::Button("Add"))
+				{
+					// check if component does not exist yet
+						// set material up
+						// add component
+				}				
+			}
+
+			if (ImGui::CollapsingHeader("Texture"))
+			{
+				static char tex[32] = "none";
+				ImGui::InputText("Diffuse texture", tex, IM_ARRAYSIZE(tex));
+
+				if (ImGui::Button("Add"))
+				{
+					// check if component does not exist yet
+						// get texture (possibly need to consider more textures?)
+						// add component
+				}
+			}
+
+			if (ImGui::CollapsingHeader("Velocity"))
+			{
+				static glm::vec3 linear = glm::vec3(0.0f);
+				static glm::vec3 angular = glm::vec3(0.0f);
+
+				ImGui::InputFloat3("Linear", &linear.x, 3);
+				ImGui::InputFloat3("Angular", &angular.x, 3);
+
+				if (ImGui::Button("Add"))
+				{
+					// check if component does not exist yet
+						// add component
+				}
+			}
+
+			if (ImGui::CollapsingHeader("Controller"))
+			{
+				static float moveSpeed = 0.0f;
+				static float rotationSpeed = 0.0f;
+
+				ImGui::InputFloat("Move speed", &moveSpeed, 0.01f, 1.0f, 2);
+				ImGui::InputFloat("Rotation speed", &rotationSpeed, 0.01f, 1.0f, 2);
+
+				if (ImGui::Button("Add"))
+				{
+					// check if component does not exist yet
+						// add component
+				}
+			}
+
+			if (ImGui::CollapsingHeader("Oscillate"))
+			{
+				// TODO state
+
+				static float currTime;
+				static float maxTime;
+				static bool setTexture;
+
+				ImGui::InputFloat("Current time", &currTime, 0.01f, 1.0f, 2);
+				ImGui::InputFloat("Max time", &maxTime, 0.01f, 1.0f, 2);
+				ImGui::Checkbox("Set texture?", &setTexture);
+
+				if (ImGui::Button("Add"))
+				{
+					//check if component does not exist yet
+						// add component
+				}
+			}
+			
+			ImGui::Spacing();
+			if (ImGui::Button("Close"))
+				m_addComponentWindow = false;
+			ImGui::End();
+		}
+		
+	}
+
+	void ImGuiLayer::changeComp()
+	{
+		if (m_changeComponentWindow)
+		{
+			ImGui::Begin("Change component");
+
+			static char goName[32] = "Default name";
+			ImGui::InputText("Name", goName, IM_ARRAYSIZE(goName));
+			std::string name;
+
+			if (ImGui::Button("Close"))
+				m_changeComponentWindow = false;
+			ImGui::End();
+		}
+	}
+
+	void ImGuiLayer::removeComp()
+	{
+		if (m_removeComponentWindow)
+		{
+			ImGui::Begin("Remove component");
+
+			static char goName[32] = "Default name";
+			ImGui::InputText("Name", goName, IM_ARRAYSIZE(goName));
+			std::string name;
+
+			if (ImGui::Button("Close"))
+				m_removeComponentWindow = false;
+			ImGui::End();
+		}
+	}
+
+	void ImGuiLayer::removeGO()
+	{
 		if (m_removeGameObjectWindow)
 		{
 			ImGui::Begin("Remove GameObject");
@@ -90,47 +261,31 @@ namespace Engine
 
 			ImGui::End();
 		}
-
-		ImGuiIO& io = ImGui::GetIO();
-		glm::vec2 res = glm::vec2(800, 600);
-		io.DisplaySize = ImVec2((float)res.x, (float)res.y);
-		
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	}
-
-	void ImGuiLayer::onEvent(Event & e)
-	{
 	}
 }
 
 
 
 
-//m_layer->getGameObjects()[goName] = std::make_shared<GameObject>(GameObject(goName));
-//auto go = m_layer->getGameObjects()[goName];
+//std::shared_ptr<MaterialComponent> mat;
 //std::shared_ptr<JsonModel> model = ResourceManagerInstance->getJsonModels().getAsset("JsonFCCube");
+//std::string name = goName;
+//ResourceManagerInstance->addVAO(name + "VAO");
+//ResourceManagerInstance->addVBO(name + "VBO", model->vertices, sizeof(float) * model->verticesSize, model->shader->getBufferLayout());
+//ResourceManagerInstance->addEBO(name + "EBO", model->indices, sizeof(unsigned int) * model->indicesSize);
 //
-//ResourceManagerInstance->addVAO("Spawned cubeVAO");
-//ResourceManagerInstance->addVBO("Spawned cubeVBO", model->vertices, sizeof(float) * model->verticesSize, model->shader->getBufferLayout());
-//ResourceManagerInstance->addEBO("Spawned cubeEBO", model->indices, sizeof(unsigned int) * model->indicesSize);
+//ResourceManagerInstance->getVAO().getAsset(name + "VAO")->
+//setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(name + "VBO"));
+//ResourceManagerInstance->getVAO().getAsset(name + "VAO")->
+//setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(name + "EBO"));
 //
-//ResourceManagerInstance->getVAO().getAsset("Spawned cubeVAO")->
-//setVertexBuffer(ResourceManagerInstance->getVBO().getAsset("Spawned cubeVBO"));
-//ResourceManagerInstance->getVAO().getAsset("Spawned cubeVAO")->
-//setIndexBuffer(ResourceManagerInstance->getEBO().getAsset("Spawned cubeEBO"));
-//
-//ResourceManagerInstance->addMaterial("Spawned cubeMat",
+//ResourceManagerInstance->addMaterial(name + "Mat",
 //	ResourceManagerInstance->getShader().getAsset("FlatColorShader"),
-//	ResourceManagerInstance->getVAO().getAsset("Spawned cubeVAO"));
+//	ResourceManagerInstance->getVAO().getAsset(name + "VAO"));
 //
-//m_layer->getMaterials().push_back(std::make_shared<MaterialComponent>
-//(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset("Spawned cubeMat"))));
-//go->addComponent(m_layer->getMaterials().back());
-//
-//m_layer->getPositions().push_back(std::make_shared<PositionComponent>
-//(PositionComponent(glm::vec3(0.0f, 3.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(2.0f, 2.0f, 2.0f))));
-//go->addComponent(m_layer->getPositions().back());
+//mat = std::make_shared<MaterialComponent>
+//(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(name + "Mat")));
+//m_layer->getGameObjects()[goName]->addComponent(mat);
 
 
 

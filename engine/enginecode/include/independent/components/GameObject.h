@@ -45,8 +45,8 @@ namespace Engine
 				}					
 			}
 
-			/*LogWarn("Component not found!");
-			return result;*/
+			LogWarn("Component not found");
+			return result;
 		}
 
 		//! Gets beginning of components collection associated with a GO \return beginning of collection
