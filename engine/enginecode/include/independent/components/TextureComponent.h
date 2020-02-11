@@ -57,5 +57,10 @@ namespace Engine
 			ComponentMessage msg(ComponentMessageType::UniformSet, data);
 			sendMessage(msg);
 		}
+
+		inline const std::type_info& getType() override
+		{
+			return typeid(decltype(*this));
+		}
 	};
 }

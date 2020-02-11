@@ -78,6 +78,7 @@ namespace Engine
 			return false;
 		}
 
+		//! Get type info of the component \return unique type of the ptr to the component
 		virtual const std::type_info& getType()
 		{
 			return typeid(decltype(*this));

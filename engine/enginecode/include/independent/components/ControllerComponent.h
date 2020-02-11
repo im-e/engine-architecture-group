@@ -80,5 +80,10 @@ namespace Engine
 		{
 			m_owner = owner;
 		}
+
+		inline const std::type_info& getType() override
+		{
+			return typeid(decltype(*this));
+		}
 	};
 }

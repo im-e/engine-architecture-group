@@ -67,6 +67,11 @@ namespace Engine
 		//! Gets angular velocity of a component \return angular velocity
 		inline glm::vec3& getAngular() { return m_angular; }
 
+		inline const std::type_info& getType() override
+		{
+			return typeid(decltype(*this));
+		}
+
 		//! Virtual destructor
 		~VelocityComponent() {};
 	};

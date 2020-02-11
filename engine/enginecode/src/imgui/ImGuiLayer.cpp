@@ -40,6 +40,14 @@ namespace Engine
 		{
 			m_gameObjectWindow = true;
 		}
+		ImGui::SameLine(150);
+		if (ImGui::Button("List"))
+		{
+			for (auto& go : m_layer->getGameObjects())
+			{
+				LogInfo("{0}", go.second->getName());
+			}
+		}
 		if (ImGui::Button("Add component"))
 		{
 			m_addComponentWindow = true;
@@ -94,10 +102,17 @@ namespace Engine
 
 			if (ImGui::Button("Spawn"))
 			{
-				std::shared_ptr<PositionComponent> pos;
-				pos = std::make_shared<PositionComponent>(PositionComponent(translation, rotation, scale));
-				m_layer->getGameObjects()[goName] = std::make_shared<GameObject>(GameObject(goName));
-				m_layer->getGameObjects()[goName]->addComponent(pos);
+				if (m_layer->getGameObjects()[goName] == NULL)
+				{
+					std::shared_ptr<PositionComponent> pos;
+					pos = std::make_shared<PositionComponent>(PositionComponent(translation, rotation, scale));
+					m_layer->getGameObjects()[goName] = std::make_shared<GameObject>(GameObject(goName));
+					m_layer->getGameObjects()[goName]->addComponent(pos);
+				}
+				else
+				{
+					LogWarn("GameObject with name {0} already exists!", goName);
+				}
 			}
 			ImGui::SameLine(150);
 			if (ImGui::Button("Close"))
@@ -137,7 +152,69 @@ namespace Engine
 					if (m_layer->getGameObjects()[name]->getComponent<MaterialComponent>() == nullptr)
 					{
 						// set material up
-						// add component
+						if (json)
+						{
+							std::shared_ptr<MaterialComponent> mat;
+							std::shared_ptr<JsonModel> model = ResourceManagerInstance->getJsonModels().getAsset(modelName);							
+
+							ResourceManagerInstance->addVAO(name + "VAO");
+							ResourceManagerInstance->addVBO(name + "VBO", model->vertices, sizeof(float) * model->verticesSize, model->shader->getBufferLayout());
+							ResourceManagerInstance->addEBO(name + "EBO", model->indices, sizeof(unsigned int) * model->indicesSize);
+							
+							ResourceManagerInstance->getVAO().getAsset(name + "VAO")->
+							setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(name + "VBO"));
+							ResourceManagerInstance->getVAO().getAsset(name + "VAO")->
+							setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(name + "EBO"));
+							
+							ResourceManagerInstance->addMaterial(name + "Mat",
+								ResourceManagerInstance->getShader().getAsset(shaderName),
+								ResourceManagerInstance->getVAO().getAsset(name + "VAO"));
+							
+							mat = std::make_shared<MaterialComponent>
+							(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(name + "Mat")));
+							m_layer->getGameObjects()[goName]->addComponent(mat);
+						}
+						else if (assimp)
+						{
+							std::shared_ptr<AssimpModel> assimpModel = ResourceManagerInstance->getAssimpModels().getAsset(modelName);
+
+							for (int i = 0; i < assimpModel->m_meshes.size(); i++)
+							{
+								std::shared_ptr<MaterialComponent> mat;
+								Mesh* mesh = &assimpModel->m_meshes.at(i);
+								mesh->m_shader = ResourceManagerInstance->getShader().getAsset(shaderName);
+
+								//set each mesh up
+									// add VAO
+								ResourceManagerInstance->addVAO(name + "VAO" + std::to_string(i));
+								// add VBO
+								ResourceManagerInstance->addVBO(name + "VBO" + std::to_string(i),
+									(float*)&mesh->m_vertices.at(0),
+									mesh->m_vertices.size() * sizeof(VertexData),
+									mesh->m_shader->getBufferLayout());
+								// add EBO
+								ResourceManagerInstance->addEBO(name + "EBO" + std::to_string(i),
+									&mesh->m_indices.at(0),
+									mesh->m_indices.size() * sizeof(unsigned int));
+								// link VBO to VAO
+								ResourceManagerInstance->getVAO().getAsset(name + "VAO" + std::to_string(i))->
+									setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(name + "VBO" + std::to_string(i)));
+								// link EBO to VAO
+								ResourceManagerInstance->getVAO().getAsset(name + "VAO" + std::to_string(i))->
+									setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(name + "EBO" + std::to_string(i)));
+
+								mesh->setupMesh(mesh->m_vertices.at(0), mesh->m_indices.at(0));
+
+								// add material
+								ResourceManagerInstance->addMaterial(name + "Mat" + std::to_string(i),
+									mesh->m_shader,
+									ResourceManagerInstance->getVAO().getAsset(name + "VAO" + std::to_string(i)));
+
+								mat = std::make_shared<MaterialComponent>
+									(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(name + "Mat" + std::to_string(i))));
+								m_layer->getGameObjects()[goName]->addComponent(mat);
+							}
+						}
 					}
 				}				
 			}
@@ -149,9 +226,14 @@ namespace Engine
 
 				if (ImGui::Button("Add"))
 				{
-					// check if component does not exist yet
+					if (m_layer->getGameObjects()[goName]->getComponent<TextureComponent>() == nullptr)
+					{
 						// get texture (possibly need to consider more textures?)
-						// add component
+						std::shared_ptr<TextureComponent> texComp;
+						texComp = std::make_shared<TextureComponent>
+							(TextureComponent(ResourceManagerInstance->getTexture().getAsset(tex)->getSlot()));
+						m_layer->getGameObjects()[goName]->addComponent(texComp);
+					}
 				}
 			}
 
@@ -165,8 +247,12 @@ namespace Engine
 
 				if (ImGui::Button("Add"))
 				{
-					// check if component does not exist yet
-						// add component
+					if (m_layer->getGameObjects()[goName]->getComponent<VelocityComponent>() == nullptr)
+					{
+						std::shared_ptr<VelocityComponent> vel;
+						vel = std::make_shared<VelocityComponent>(VelocityComponent(linear, angular));
+						m_layer->getGameObjects()[goName]->addComponent(vel);
+					}
 				}
 			}
 
@@ -180,18 +266,45 @@ namespace Engine
 
 				if (ImGui::Button("Add"))
 				{
-					// check if component does not exist yet
-						// add component
+					if (m_layer->getGameObjects()[goName]->getComponent<ControllerComponent>() == nullptr)
+					{
+						std::shared_ptr<ControllerComponent> ctr;
+						ctr = std::make_shared<ControllerComponent>
+							(ControllerComponent(moveSpeed, rotationSpeed));
+						m_layer->getGameObjects()[goName]->addComponent(ctr);
+					}
 				}
 			}
 
 			if (ImGui::CollapsingHeader("Oscillate"))
 			{
 				// TODO state
+				const char* items[3] = { "Stopped", "Down", "Up" };
+				static const char* currentItem = items[0];
+
+				OscillateComponent::State state = OscillateComponent::State::STOPPED;
 
 				static float currTime;
 				static float maxTime;
 				static bool setTexture;
+
+				if (ImGui::BeginCombo("State", currentItem))
+				{
+					for (int i = 0; i < IM_ARRAYSIZE(items); i++)
+					{
+						bool selected = (currentItem == items[i]);
+
+						if (ImGui::Selectable(items[i], selected))
+						{
+							currentItem = items[i];
+						}
+
+						if (selected)
+							ImGui::SetItemDefaultFocus();
+					}
+
+					ImGui::EndCombo();
+				}
 
 				ImGui::InputFloat("Current time", &currTime, 0.01f, 1.0f, 2);
 				ImGui::InputFloat("Max time", &maxTime, 0.01f, 1.0f, 2);
@@ -200,7 +313,21 @@ namespace Engine
 				if (ImGui::Button("Add"))
 				{
 					//check if component does not exist yet
-						// add component
+					if (m_layer->getGameObjects()[goName]->getComponent<OscillateComponent>() == nullptr)
+					{
+						std::shared_ptr<OscillateComponent> osc;
+						VelocityComponent* vel = m_layer->getGameObjects()[goName]->getComponent<VelocityComponent>();
+
+						std::string stateStr = currentItem;
+
+						if (stateStr.compare("Stopped") == 0) state = OscillateComponent::State::STOPPED;
+						if (stateStr.compare("Down") == 0) state = OscillateComponent::State::DOWN;
+						if (stateStr.compare("Up") == 0) state = OscillateComponent::State::UP;
+
+						osc = std::make_shared<OscillateComponent>
+							(OscillateComponent(state, currTime, maxTime, setTexture, vel->getLinear()));
+						m_layer->getGameObjects()[goName]->addComponent(osc);
+					}
 				}
 			}
 			
@@ -221,14 +348,6 @@ namespace Engine
 			static char goName[32] = "Default name";
 			ImGui::InputText("Name", goName, IM_ARRAYSIZE(goName));
 			std::string name;
-
-			if (ImGui::Button("List"))
-			{
-				for (auto& go : m_layer->getGameObjects())
-				{
-					LogInfo("{0}", go.second->getName());
-				}
-			}
 
 			if (ImGui::Button("Close"))
 				m_changeComponentWindow = false;
@@ -278,25 +397,7 @@ namespace Engine
 
 
 
-//std::shared_ptr<MaterialComponent> mat;
-//std::shared_ptr<JsonModel> model = ResourceManagerInstance->getJsonModels().getAsset("JsonFCCube");
-//std::string name = goName;
-//ResourceManagerInstance->addVAO(name + "VAO");
-//ResourceManagerInstance->addVBO(name + "VBO", model->vertices, sizeof(float) * model->verticesSize, model->shader->getBufferLayout());
-//ResourceManagerInstance->addEBO(name + "EBO", model->indices, sizeof(unsigned int) * model->indicesSize);
-//
-//ResourceManagerInstance->getVAO().getAsset(name + "VAO")->
-//setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(name + "VBO"));
-//ResourceManagerInstance->getVAO().getAsset(name + "VAO")->
-//setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(name + "EBO"));
-//
-//ResourceManagerInstance->addMaterial(name + "Mat",
-//	ResourceManagerInstance->getShader().getAsset("FlatColorShader"),
-//	ResourceManagerInstance->getVAO().getAsset(name + "VAO"));
-//
-//mat = std::make_shared<MaterialComponent>
-//(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(name + "Mat")));
-//m_layer->getGameObjects()[goName]->addComponent(mat);
+
 
 
 

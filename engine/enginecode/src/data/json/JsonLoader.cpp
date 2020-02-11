@@ -286,7 +286,7 @@ namespace Engine
 
 								// add material
 								ResourceManagerInstance->addMaterial(goName + "Mat" + std::to_string(i),
-									ResourceManagerInstance->getShader().getAsset(go["material"]["shader"].get<std::string>()),
+									mesh->m_shader,
 									ResourceManagerInstance->getVAO().getAsset(goName + "VAO" + std::to_string(i)));
 
 								 mat = std::make_shared<MaterialComponent>
