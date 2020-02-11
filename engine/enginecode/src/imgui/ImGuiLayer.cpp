@@ -115,7 +115,7 @@ namespace Engine
 
 			static char goName[32] = "Default name";
 			ImGui::InputText("Name", goName, IM_ARRAYSIZE(goName));
-			std::string name;
+			std::string name = goName;
 
 			if (ImGui::CollapsingHeader("Material"))
 			{
@@ -134,8 +134,11 @@ namespace Engine
 				if (ImGui::Button("Add"))
 				{
 					// check if component does not exist yet
+					if (m_layer->getGameObjects()[name]->getComponent<MaterialComponent>() == nullptr)
+					{
 						// set material up
 						// add component
+					}
 				}				
 			}
 
@@ -218,6 +221,14 @@ namespace Engine
 			static char goName[32] = "Default name";
 			ImGui::InputText("Name", goName, IM_ARRAYSIZE(goName));
 			std::string name;
+
+			if (ImGui::Button("List"))
+			{
+				for (auto& go : m_layer->getGameObjects())
+				{
+					LogInfo("{0}", go.second->getName());
+				}
+			}
 
 			if (ImGui::Button("Close"))
 				m_changeComponentWindow = false;

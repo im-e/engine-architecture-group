@@ -34,18 +34,17 @@ namespace Engine
 
 		//! Gets component \return component if existing on a gameobjects
 		template<typename C>
-		inline std::vector<std::shared_ptr<Component>>::iterator getComponent()
+		inline C* getComponent()
 		{
-			auto result = m_components.end();
+			auto result = nullptr;
 			for (auto it = m_components.begin(); it != m_components.end(); ++it)
 			{
-				if (typeid(*(it->get())).hash_code() == typeid(C).hash_code())
+				if (it->get()->getType().hash_code() == typeid(C).hash_code())
 				{
-					return it;
+					return dynamic_cast<C*>((*it).get());
 				}					
 			}
 
-			LogWarn("Component not found");
 			return result;
 		}
 
@@ -62,6 +61,8 @@ namespace Engine
 		inline std::multimap<ComponentMessageType, Component*>::iterator beginMap() { return m_dispatchMap.begin(); }
 		//! Gets an end of a dispatch map associated with a GO \return end of a dispatch map
 		inline std::multimap<ComponentMessageType, Component*>::iterator endMap() { return m_dispatchMap.end(); }
+
+		inline std::string& getName() { return m_name; }
 
 		//! Virtual destructor
 		virtual ~GameObject() {};

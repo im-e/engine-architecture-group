@@ -78,6 +78,11 @@ namespace Engine
 			return false;
 		}
 
+		virtual const std::type_info& getType()
+		{
+			return typeid(decltype(*this));
+		}
+
 		//! Default destructor
 		virtual ~Component() {};
 	};
