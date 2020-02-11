@@ -362,7 +362,10 @@ namespace Engine
 								{
 									ptr = (void*)&layer.getCamera()->getCamera()->getViewProjection();
 								}
-
+								if (data["var"].get<std::string>().compare("Eye") == 0)
+								{
+									ptr = (void*)&layer.getCamera()->getCamera()->getPosition();
+								}
 							}
 							if (type == "Float3")
 							{

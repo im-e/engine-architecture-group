@@ -33,16 +33,31 @@ void main()
     FragPos = vec3(u_model * vec4(aPos, 1.0));   
     TexCoords = aTexCoords;   
     
-    vec3 T = normalize(mat3(u_model) * aTangentVector);
-    vec3 B = normalize(mat3(u_model) * aBitangentVector);
-    vec3 N = normalize(mat3(u_model) * aNormal);
-    mat3 TBN = transpose(mat3(T, B, N));
+	mat3 normalMatrix = transpose(inverse(mat3(u_model)));
+	vec3 tangent = normalize(normalMatrix*aTangentVector);
+	vec3 normal = normalize(normalMatrix*aNormal);
+	tangent = normalize(tangent - dot(tangent, normal) * normal);
+	vec3 bitangent = cross(tangent, normal);
 
-    TangentLightPosition = TBN * u_lightPos;
-    TangentViewPosition  = TBN * u_viewPos;
-    TangentFragmentPosition  = TBN * FragPos;
+	mat3 TBNMatrix = transpose(mat3(tangent, bitangent, normal));
+
+	TangentLightPosition = TBNMatrix * u_lightPos;
+	TangentViewPosition = TBNMatrix * u_viewPos;
+	TangentFragmentPosition = TBNMatrix * FragPos;
     
     gl_Position =  u_VP * u_model * vec4(aPos, 1.0);
+ 
+	
+	// vec3 T = normalize(mat3(u_model) * aTangentVector);
+    // vec3 B = normalize(mat3(u_model) * aBitangentVector);
+    // vec3 N = normalize(mat3(u_model) * aNormal);
+    // mat3 TBN = transpose(mat3(T, B, N));
+
+    //TangentLightPosition = TBN * u_lightPos;
+    //TangentViewPosition  = TBN * u_viewPos;
+    //TangentFragmentPosition  = TBN * FragPos;
+    //
+    //gl_Position =  u_VP * u_model * vec4(aPos, 1.0);
 }
 				
 #region Fragment
@@ -77,8 +92,6 @@ void main()
     vec2 texCoords = TexCoords;
     
     texCoords = CalculateParallaxDisplacement(TexCoords,  viewDir);  
-	if(texCoords.x > 1.0 || texCoords.y > 1.0 || texCoords.x < 0.0 || texCoords.y < 0.0)
-    discard;
 
     // obtain normal from normal map
     vec3 normal = texture(u_normalTexData, texCoords).rgb;
