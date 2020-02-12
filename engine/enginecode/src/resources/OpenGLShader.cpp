@@ -41,7 +41,7 @@ namespace Engine
 		cacheUniformsExtractLayout(vShader);
 		cacheUniformsExtractLayout(fShader);
 	}
-
+	
 	OpenGLShader::OpenGLShader(const std::string & vertexPath, const std::string & fragmentPath, const std::string & geometryPath, const std::string & tessellationControlPath, const std::string & tessellationEvalPath)
 	{
 		// v = vertex, f = fragment, g = geometry, tc = tessellation control, te = tessellation evaluation.
@@ -331,7 +331,7 @@ namespace Engine
 		glDetachShader(m_ID, m_tessellationEvalID);
 		glDetachShader(m_ID, m_geometryID);
 		glDetachShader(m_ID, m_fragID);
-	}
+	} 
 
 	void OpenGLShader::parseSource(const std::string & path)
 	{
