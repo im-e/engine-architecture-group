@@ -10,11 +10,8 @@ namespace Engine
 	private:
 		JsonLayer* m_layer;
 		bool m_gameObjectWindow;
-		bool m_removeGameObjectWindow;
-		bool m_addComponentWindow;
-		bool m_changeComponentWindow;
-		bool m_removeComponentWindow;
-
+		bool m_manageCompWindow;
+		std::string m_name;
 	public:
 		ImGuiLayer(const std::string& name, std::shared_ptr<Layer> layer) : Layer(name)
 		{
@@ -28,9 +25,6 @@ namespace Engine
 		void onEvent(Event & e) override;
 
 		void addGO();
-		void addComp();
-		void changeComp();
-		void removeComp();
-		void removeGO();
+		void manageComponents();
 	};
 }

@@ -30,18 +30,18 @@ namespace Engine
 		void onUpdate(float timestep); //!< Called every tick \param timestep delta time
 		void onEvent(Event& e); //!< Called on event \param e event occured
 		void addComponent(const std::shared_ptr<Component>& comp); //!< Adds components \param comp component to be added
-		void removeComponent(std::shared_ptr<Component>& comp); //!< Removes components \param comp component to be removed
+		void removeComponent(std::shared_ptr<Component> comp); //!< Removes components \param comp component to be removed
 
 		//! Gets component \return component if existing on a gameobjects
 		template<typename C>
-		inline C* getComponent()
+		inline std::shared_ptr<C> getComponent()
 		{
 			auto result = nullptr;
 			for (auto it = m_components.begin(); it != m_components.end(); ++it)
 			{
 				if (it->get()->getType().hash_code() == typeid(C).hash_code())
 				{
-					return dynamic_cast<C*>((*it).get());
+					return std::static_pointer_cast<C>(*it);
 				}					
 			}
 

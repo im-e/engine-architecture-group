@@ -108,5 +108,40 @@ namespace Engine
 		{
 			return typeid(decltype(*this));
 		}
+
+		inline glm::vec3 getPosition()
+		{
+			return m_transformVec;
+		}
+
+		inline glm::vec3 getRotation()
+		{
+			return m_rotationVec;
+		}
+
+		inline glm::vec3 getScale()
+		{
+			return m_scaleVec;
+		}
+
+		inline void setPosition(glm::vec3 newPos)
+		{
+			m_transformVec = newPos;
+			calculateModel();
+		}
+
+		inline void setRotation(glm::vec3 newRot)
+		{
+			m_rotationVec.x = glm::radians(newRot.x);
+			m_rotationVec.y = glm::radians(newRot.y);
+			m_rotationVec.z = glm::radians(newRot.z);
+			calculateModel();
+		}
+
+		inline void setScale(glm::vec3 newScale)
+		{
+			m_scaleVec = newScale;
+			calculateModel();
+		}
 	};
 }

@@ -25,7 +25,7 @@ namespace Engine
 		m_components.push_back(comp);
 	}
 
-	void GameObject::removeComponent(std::shared_ptr<Component>& comp)
+	void GameObject::removeComponent(std::shared_ptr<Component> comp)
 	{
 		auto iter = std::find(begin(), end(), comp);
 

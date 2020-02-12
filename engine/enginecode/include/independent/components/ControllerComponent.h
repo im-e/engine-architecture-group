@@ -85,5 +85,15 @@ namespace Engine
 		{
 			return typeid(decltype(*this));
 		}
+
+		inline void setMoveSpeed(float speed)
+		{
+			m_moveSpeed = speed;
+		}
+
+		inline void setRotationSpeeed(float speed)
+		{
+			m_rotationSpeed = speed;
+		}
 	};
 }

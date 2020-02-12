@@ -71,6 +71,7 @@ namespace Engine
 	template<typename T>
 	inline void AssetManager<T>::remove(const std::string & key)
 	{
-		m_assets.erase(key);
+		if(contains(key) == true)
+			m_assets.erase(key);
 	}
 }

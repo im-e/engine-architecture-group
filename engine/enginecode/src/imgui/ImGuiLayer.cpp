@@ -13,15 +13,16 @@
 #include "components/TextureComponent.h"
 #include "components/ControllerComponent.h"
 
+#include "platform/GLFW_KeyCodes.h"
+
 namespace Engine
 {
 	void ImGuiLayer::onAttach()
 	{
 		m_gameObjectWindow = false;
-		m_addComponentWindow = false;
-		m_changeComponentWindow = false;
-		m_removeGameObjectWindow = false;
-		m_removeComponentWindow = false;
+		m_manageCompWindow = false;
+
+		ImGui::GetIO().KeyMap[ImGuiKey_Backspace] = NG_KEY_BACKSPACE;
 	}
 
 	void ImGuiLayer::onDetach()
@@ -48,29 +49,14 @@ namespace Engine
 				LogInfo("{0}", go.second->getName());
 			}
 		}
-		if (ImGui::Button("Add component"))
+		if (ImGui::Button("Manage components"))
 		{
-			m_addComponentWindow = true;
-		}
-		if (ImGui::Button("Change component"))
-		{
-			m_changeComponentWindow = true;
-		}
-		if (ImGui::Button("Remove component"))
-		{
-			m_removeComponentWindow = true;
-		}
-		if (ImGui::Button("Remove GameObject"))
-		{
-			m_removeGameObjectWindow = true;
+			m_manageCompWindow = true;
 		}
 		ImGui::End();
 
 		addGO();
-		addComp();
-		changeComp();
-		removeComp();
-		removeGO();
+		manageComponents();
 
 		ImGuiIO& io = ImGui::GetIO();
 		glm::vec2 res = glm::vec2(800, 600);
@@ -115,6 +101,10 @@ namespace Engine
 				}
 			}
 			ImGui::SameLine(150);
+			if (ImGui::Button("Delete"))
+			{
+				m_layer->getGameObjects().erase(goName);
+			}			
 			if (ImGui::Button("Close"))
 				m_gameObjectWindow = false;
 
@@ -122,15 +112,15 @@ namespace Engine
 		}
 	}
 
-	void ImGuiLayer::addComp()
+	void ImGuiLayer::manageComponents()
 	{
-		if (m_addComponentWindow)
+		if (m_manageCompWindow)
 		{
-			ImGui::Begin("Add component");
+			ImGui::Begin("Manage Components");
 
 			static char goName[32] = "Default name";
 			ImGui::InputText("Name", goName, IM_ARRAYSIZE(goName));
-			std::string name = goName;
+			m_name = goName;
 
 			if (ImGui::CollapsingHeader("Material"))
 			{
@@ -149,7 +139,7 @@ namespace Engine
 				if (ImGui::Button("Add"))
 				{
 					// check if component does not exist yet
-					if (m_layer->getGameObjects()[name]->getComponent<MaterialComponent>() == nullptr)
+					if (m_layer->getGameObjects()[m_name]->getComponent<MaterialComponent>() == nullptr)
 					{
 						// set material up
 						if (json)
@@ -157,21 +147,21 @@ namespace Engine
 							std::shared_ptr<MaterialComponent> mat;
 							std::shared_ptr<JsonModel> model = ResourceManagerInstance->getJsonModels().getAsset(modelName);							
 
-							ResourceManagerInstance->addVAO(name + "VAO");
-							ResourceManagerInstance->addVBO(name + "VBO", model->vertices, sizeof(float) * model->verticesSize, model->shader->getBufferLayout());
-							ResourceManagerInstance->addEBO(name + "EBO", model->indices, sizeof(unsigned int) * model->indicesSize);
+							ResourceManagerInstance->addVAO(m_name + "VAO");
+							ResourceManagerInstance->addVBO(m_name + "VBO", model->vertices, sizeof(float) * model->verticesSize, model->shader->getBufferLayout());
+							ResourceManagerInstance->addEBO(m_name + "EBO", model->indices, sizeof(unsigned int) * model->indicesSize);
 							
-							ResourceManagerInstance->getVAO().getAsset(name + "VAO")->
-							setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(name + "VBO"));
-							ResourceManagerInstance->getVAO().getAsset(name + "VAO")->
-							setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(name + "EBO"));
+							ResourceManagerInstance->getVAO().getAsset(m_name + "VAO")->
+							setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(m_name + "VBO"));
+							ResourceManagerInstance->getVAO().getAsset(m_name + "VAO")->
+							setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(m_name + "EBO"));
 							
-							ResourceManagerInstance->addMaterial(name + "Mat",
+							ResourceManagerInstance->addMaterial(m_name + "Mat",
 								ResourceManagerInstance->getShader().getAsset(shaderName),
-								ResourceManagerInstance->getVAO().getAsset(name + "VAO"));
+								ResourceManagerInstance->getVAO().getAsset(m_name + "VAO"));
 							
 							mat = std::make_shared<MaterialComponent>
-							(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(name + "Mat")));
+								(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(m_name + "Mat")));
 							m_layer->getGameObjects()[goName]->addComponent(mat);
 						}
 						else if (assimp)
@@ -186,37 +176,71 @@ namespace Engine
 
 								//set each mesh up
 									// add VAO
-								ResourceManagerInstance->addVAO(name + "VAO" + std::to_string(i));
+								ResourceManagerInstance->addVAO(m_name + "VAO" + std::to_string(i));
 								// add VBO
-								ResourceManagerInstance->addVBO(name + "VBO" + std::to_string(i),
+								ResourceManagerInstance->addVBO(m_name + "VBO" + std::to_string(i),
 									(float*)&mesh->m_vertices.at(0),
 									mesh->m_vertices.size() * sizeof(VertexData),
 									mesh->m_shader->getBufferLayout());
 								// add EBO
-								ResourceManagerInstance->addEBO(name + "EBO" + std::to_string(i),
+								ResourceManagerInstance->addEBO(m_name + "EBO" + std::to_string(i),
 									&mesh->m_indices.at(0),
 									mesh->m_indices.size() * sizeof(unsigned int));
 								// link VBO to VAO
-								ResourceManagerInstance->getVAO().getAsset(name + "VAO" + std::to_string(i))->
-									setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(name + "VBO" + std::to_string(i)));
+								ResourceManagerInstance->getVAO().getAsset(m_name + "VAO" + std::to_string(i))->
+									setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(m_name + "VBO" + std::to_string(i)));
 								// link EBO to VAO
-								ResourceManagerInstance->getVAO().getAsset(name + "VAO" + std::to_string(i))->
-									setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(name + "EBO" + std::to_string(i)));
+								ResourceManagerInstance->getVAO().getAsset(m_name + "VAO" + std::to_string(i))->
+									setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(m_name + "EBO" + std::to_string(i)));
 
 								mesh->setupMesh(mesh->m_vertices.at(0), mesh->m_indices.at(0));
 
 								// add material
-								ResourceManagerInstance->addMaterial(name + "Mat" + std::to_string(i),
+								ResourceManagerInstance->addMaterial(m_name + "Mat" + std::to_string(i),
 									mesh->m_shader,
-									ResourceManagerInstance->getVAO().getAsset(name + "VAO" + std::to_string(i)));
+									ResourceManagerInstance->getVAO().getAsset(m_name + "VAO" + std::to_string(i)));
 
 								mat = std::make_shared<MaterialComponent>
-									(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(name + "Mat" + std::to_string(i))));
+									(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(m_name + "Mat" + std::to_string(i))));
 								m_layer->getGameObjects()[goName]->addComponent(mat);
 							}
 						}
 					}
-				}				
+				}
+				ImGui::SameLine(100);
+				if (ImGui::Button("Remove")) // Problem with asset manager???
+				{
+					if (m_layer->getGameObjects()[m_name]->getComponent<MaterialComponent>() != nullptr)
+					{
+						// set material up
+						if (json)
+						{
+							ResourceManagerInstance->getVAO().remove(m_name + "VAO");
+							ResourceManagerInstance->getVBO().remove(m_name + "VBO");
+							ResourceManagerInstance->getEBO().remove(m_name + "EBO");
+							ResourceManagerInstance->getMaterial().remove(m_name + "Mat");
+							m_layer->getGameObjects()[goName]->removeComponent(m_layer->getGameObjects()[goName]->getComponent<MaterialComponent>());
+						}
+						else if (assimp)
+						{
+							std::shared_ptr<AssimpModel> assimpModel = ResourceManagerInstance->getAssimpModels().getAsset(modelName);
+
+							for (int i = 0; i < assimpModel->m_meshes.size(); i++)
+							{
+								ResourceManagerInstance->getVAO().remove(m_name + "VAO" + std::to_string(i));
+								ResourceManagerInstance->getVBO().remove(m_name + "VBO");
+								ResourceManagerInstance->getEBO().remove(m_name + "EBO" + std::to_string(i));
+								ResourceManagerInstance->getMaterial().remove(m_name + "Mat" + std::to_string(i));
+
+								m_layer->getGameObjects()[goName]->removeComponent(m_layer->getGameObjects()[goName]->getComponent<MaterialComponent>());
+							}
+						}
+						else
+						{
+							LogWarn("Component did not exist anyway!");
+						}
+					}
+				}
 			}
 
 			if (ImGui::CollapsingHeader("Texture"))
@@ -228,12 +252,60 @@ namespace Engine
 				{
 					if (m_layer->getGameObjects()[goName]->getComponent<TextureComponent>() == nullptr)
 					{
-						// get texture (possibly need to consider more textures?)
+						// TODO more textures
 						std::shared_ptr<TextureComponent> texComp;
 						texComp = std::make_shared<TextureComponent>
 							(TextureComponent(ResourceManagerInstance->getTexture().getAsset(tex)->getSlot()));
 						m_layer->getGameObjects()[goName]->addComponent(texComp);
 					}
+					else
+					{
+						LogWarn("Component already exists!");
+					}
+				}
+				ImGui::SameLine(100);
+				if (ImGui::Button("Change"))
+				{
+					auto comp = m_layer->getGameObjects()[goName]->getComponent<TextureComponent>();
+					if (comp != nullptr)
+					{
+						comp->setTexture(ResourceManagerInstance->getTexture().getAsset(tex)->getSlot());
+					}
+					else
+					{
+						LogError("Can't change - add first!");
+					}				
+				}
+				ImGui::SameLine(200);
+				if (ImGui::Button("Remove"))
+				{
+					if (m_layer->getGameObjects()[goName]->getComponent<TextureComponent>() != nullptr)
+					{
+						auto comp = m_layer->getGameObjects()[goName]->getComponent<TextureComponent>();
+						m_layer->getGameObjects()[goName]->removeComponent(comp);
+					}
+					else
+					{
+						LogWarn("Component did not exist anyway!");
+					}
+				}
+			}
+
+			if (ImGui::CollapsingHeader("Position"))
+			{
+				if (m_layer->getGameObjects().find(goName) != m_layer->getGameObjects().end())
+				{
+					static glm::vec3 pos = m_layer->getGameObjects()[goName]->getComponent<PositionComponent>()->getPosition();
+					static glm::vec3 rot = m_layer->getGameObjects()[goName]->getComponent<PositionComponent>()->getRotation();
+					static glm::vec3 scl = m_layer->getGameObjects()[goName]->getComponent<PositionComponent>()->getScale();
+
+					ImGui::InputFloat3("Position", &pos.x, 2);
+					ImGui::InputFloat3("Rotation", &rot.x, 2);
+					ImGui::InputFloat3("Scale", &scl.x, 2);
+
+					m_layer->getGameObjects()[goName]->getComponent<PositionComponent>()->setPosition(pos);
+					m_layer->getGameObjects()[goName]->getComponent<PositionComponent>()->setRotation(rot);
+					m_layer->getGameObjects()[goName]->getComponent<PositionComponent>()->setScale(scl);
 				}
 			}
 
@@ -254,6 +326,33 @@ namespace Engine
 						m_layer->getGameObjects()[goName]->addComponent(vel);
 					}
 				}
+				ImGui::SameLine(100);
+				if (ImGui::Button("Change"))
+				{
+					auto comp = m_layer->getGameObjects()[goName]->getComponent<VelocityComponent>();
+					if (comp)
+					{
+						comp->setLinear(linear);
+						comp->setAngular(angular);
+					}
+					else
+					{
+						LogError("Can't change - add first!");
+					}
+				}
+				ImGui::SameLine(200);
+				if (ImGui::Button("Remove"))
+				{
+					if (m_layer->getGameObjects()[goName]->getComponent<VelocityComponent>())
+					{
+						auto comp = m_layer->getGameObjects()[goName]->getComponent<VelocityComponent>();
+						m_layer->getGameObjects()[goName]->removeComponent(comp);
+					}
+					else
+					{
+						LogWarn("Component did not exist anyway!");
+					}
+				}
 			}
 
 			if (ImGui::CollapsingHeader("Controller"))
@@ -272,6 +371,33 @@ namespace Engine
 						ctr = std::make_shared<ControllerComponent>
 							(ControllerComponent(moveSpeed, rotationSpeed));
 						m_layer->getGameObjects()[goName]->addComponent(ctr);
+					}
+				}
+				ImGui::SameLine(100);
+				if (ImGui::Button("Change"))
+				{
+					auto comp = m_layer->getGameObjects()[goName]->getComponent<ControllerComponent>();
+					if (comp)
+					{
+						comp->setMoveSpeed(moveSpeed);
+						comp->setRotationSpeeed(rotationSpeed);
+					}
+					else
+					{
+						LogError("Can't change - add first!");
+					}
+				}
+				ImGui::SameLine(200);
+				if (ImGui::Button("Remove"))
+				{
+					if (m_layer->getGameObjects()[goName]->getComponent<ControllerComponent>())
+					{
+						auto comp = m_layer->getGameObjects()[goName]->getComponent<ControllerComponent>();
+						m_layer->getGameObjects()[goName]->removeComponent(comp);
+					}
+					else
+					{
+						LogWarn("Component did not exist anyway!");
 					}
 				}
 			}
@@ -316,7 +442,7 @@ namespace Engine
 					if (m_layer->getGameObjects()[goName]->getComponent<OscillateComponent>() == nullptr)
 					{
 						std::shared_ptr<OscillateComponent> osc;
-						VelocityComponent* vel = m_layer->getGameObjects()[goName]->getComponent<VelocityComponent>();
+						std::shared_ptr<VelocityComponent> vel = m_layer->getGameObjects()[goName]->getComponent<VelocityComponent>();
 
 						std::string stateStr = currentItem;
 
@@ -329,68 +455,32 @@ namespace Engine
 						m_layer->getGameObjects()[goName]->addComponent(osc);
 					}
 				}
+				ImGui::SameLine(100);
+				if (ImGui::Button("Change"))
+				{
+					LogWarn("Oscillate component will be deprecated - can't change!");
+				}
+				ImGui::SameLine(200);
+				if (ImGui::Button("Remove"))
+				{
+					if (m_layer->getGameObjects()[goName]->getComponent<OscillateComponent>())
+					{
+						auto comp = m_layer->getGameObjects()[goName]->getComponent<OscillateComponent>();
+						m_layer->getGameObjects()[goName]->removeComponent(comp);
+					}
+					else
+					{
+						LogWarn("Component did not exist anyway!");
+					}
+				}
 			}
 			
 			ImGui::Spacing();
 			if (ImGui::Button("Close"))
-				m_addComponentWindow = false;
+				m_manageCompWindow = false;
 			ImGui::End();
 		}
 		
-	}
-
-	void ImGuiLayer::changeComp()
-	{
-		if (m_changeComponentWindow)
-		{
-			ImGui::Begin("Change component");
-
-			static char goName[32] = "Default name";
-			ImGui::InputText("Name", goName, IM_ARRAYSIZE(goName));
-			std::string name;
-
-			if (ImGui::Button("Close"))
-				m_changeComponentWindow = false;
-			ImGui::End();
-		}
-	}
-
-	void ImGuiLayer::removeComp()
-	{
-		if (m_removeComponentWindow)
-		{
-			ImGui::Begin("Remove component");
-
-			static char goName[32] = "Default name";
-			ImGui::InputText("Name", goName, IM_ARRAYSIZE(goName));
-			std::string name;
-
-			if (ImGui::Button("Close"))
-				m_removeComponentWindow = false;
-			ImGui::End();
-		}
-	}
-
-	void ImGuiLayer::removeGO()
-	{
-		if (m_removeGameObjectWindow)
-		{
-			ImGui::Begin("Remove GameObject");
-
-			static char goName[32] = "Default name";
-
-			ImGui::InputText("Name", goName, IM_ARRAYSIZE(goName));
-
-			if (ImGui::Button("Remove"))
-			{
-				m_layer->getGameObjects().erase(goName);
-			}
-			ImGui::SameLine(150);
-			if (ImGui::Button("Close"))
-				m_removeGameObjectWindow = false;
-
-			ImGui::End();
-		}
 	}
 }
 
