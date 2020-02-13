@@ -43,6 +43,7 @@ namespace Engine
 		void bind() override; //!< Binds VBO
 		void unbind() override; //!< Unbinds vbo
 		void setLayout(const BufferLayout& layout) override; //!< Sets layout
+		void edit(float* vertices, unsigned int size, unsigned int offset); //!< Edit the data stored in the buffer
 		const BufferLayout& getLayout() const override; //!< Gets current layout \return current layout
 
 		~OpenGLVertexBuffer(); //!< Default destructor

@@ -112,6 +112,12 @@ namespace Engine
 		m_layout = layout;
 	}
 
+	void OpenGLVertexBuffer::edit(float* vertices, unsigned int size, unsigned int offset)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuff);
+		glBufferSubData(GL_ARRAY_BUFFER, offset, size, vertices);
+	}
+
 	const BufferLayout& OpenGLVertexBuffer::getLayout() const
 	{
 		return m_layout;

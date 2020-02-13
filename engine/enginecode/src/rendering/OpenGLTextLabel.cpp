@@ -3,7 +3,7 @@
 
 namespace Engine
 {
-	OpenGLTextLabel::OpenGLTextLabel(const std::string& fontName, unsigned int charSize, const std::string& text, const glm::vec2& position, float orientation, float scale, const glm::vec3& colour)
+	OpenGLTextLabel::OpenGLTextLabel(const std::string& key, const std::string& fontName, unsigned int charSize, const std::string& text, const glm::vec2& position, float orientation, float scale, const glm::vec3& colour)
 	{
 		setFont(fontName);
 		setCharSize(charSize);
@@ -19,6 +19,8 @@ namespace Engine
 		unsigned int textIndices[4] = { 0, 1, 2, 3 };
 
 		m_VAO->setIndexBuffer(ResourceManagerInstance->addEBO(text, textIndices, 4));
+
+		unsigned int loopCount = 0;
 
 		std::string::const_iterator c;
 		for (c = text.begin(); c != text.end(); c++)
@@ -38,11 +40,23 @@ namespace Engine
 				0, height, startPos.x, endPos.y
 			};
 
-			//m_VAO->setVertexBuffer(ResourceManagerInstance->addVBO(text, textVertices, sizeof(textVertices), m_textShader->getBufferLayout()));
+			if (loopCount == 0)
+			{
+				m_VBO = ResourceManagerInstance->addVBO(text, textVertices, sizeof(textVertices), m_textShader->getBufferLayout());
+			}
+
+			else
+			{
+				m_VBO->edit(textVertices, sizeof(textVertices), 0);
+			}
+
+			loopCount++;
 		}
 		
+		m_VAO->setVertexBuffer(m_VBO);
 		m_material = ResourceManagerInstance->addMaterial(text, m_textShader, m_VAO);
 
 		//https://learnopengl.com/In-Practice/Text-Rendering
 	}
 }
+

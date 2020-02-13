@@ -40,6 +40,6 @@ namespace Engine
 		glm::mat4 getModel() const override { return m_model; }
 		std::shared_ptr<Material> getMaterial() const override { return m_material; }
 
-		OpenGLTextLabel(const std::string& fontName, unsigned int charSize, const std::string& text, const glm::vec2& position, float orientation, float scale, const glm::vec3& colour);
+		OpenGLTextLabel(const std::string& key, const std::string& fontName, unsigned int charSize, const std::string& text, const glm::vec2& position, float orientation, float scale, const glm::vec3& colour);
 	};
 }
