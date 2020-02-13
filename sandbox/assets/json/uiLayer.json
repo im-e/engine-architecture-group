@@ -14,7 +14,7 @@
     ],
     "fonts": [
       {
-        "name": "04b_20__",
+        //"name": "04b_20__",
         "filepath": "assets/fonts/04b_20/04b_20__.ttf",
         "charSize": 32
       }
@@ -22,12 +22,12 @@
   },
 
   "MemoryInfo": {
-    "gameObjects": 1,
-    "materials": 1,
-    "position": 1,
+    "gameObjects": 2,
+    "materials": 2,
+    "position": 2,
     "velocity": 0,
     "oscillates": 0,
-    "textures": 1
+    "textures": 2
   },
 
   "Camera": {
@@ -74,7 +74,7 @@
 
     },
     {
-      "name": "TextModel1",
+      "name": "TextLabel",
       "material": {
         "text": "Hello",
         "font": "assets/fonts/04b_20/04b_20__.ttf",
@@ -83,30 +83,27 @@
           "r": 0.9,
           "g": 0.4,
           "b": 0.4
-        },
-        "position": {
-          "translation": {
-            "x": 300.0,
-            "y": 500.0,
-            "z": 0.0
-          },
-          "rotation": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-          },
-          "scale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-          }
-        },
-        "texture": {
-          "name": "TextTexture1"
         }
-    },
-    ]
-
+      },
+      "position": {
+        "trans": {
+          "x": 250.0,
+          "y": 500.0,
+          "z": 0.0
+        },
+        "rot": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      }
+    } 
+  ],
   "UBO": [
     {
       "name": "TextUBO",
@@ -116,6 +113,10 @@
       "shaders": [
         {
           "name": "TextShader",
+          "block": "Matrices"
+        },
+        {
+          "name": "TextShaderFT",
           "block": "Matrices"
         }
       ],

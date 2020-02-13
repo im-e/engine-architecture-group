@@ -68,6 +68,7 @@ namespace Engine
 						fonts[fnFilepath["filepath"].get<std::string>()] = fnFilepath["charSize"].get<int>();
 					}
 					if (!fonts.empty()) ResourceManagerInstance->populateCharacters(fonts);
+					// Json Error is occuring here somewhere, worked on home pc for some reason 
 				}
 			}
 
@@ -255,22 +256,19 @@ namespace Engine
 							auto& mat = label->getMaterial();
 							//layer.getJsonData().push_back((void *) new int(ResourceManagerInstance->getFontTexture()->getSlot()));
 							//mat->setShaderDataElement("u_texData", (void*)layer.getJsonData().back());
+
+							layer.getTextures().at(textureIndex) = std::make_shared<TextureComponent>
+								(TextureComponent(ResourceManagerInstance->getFontTexture()->getSlot()));
+							gameObject->addComponent(layer.getTextures().at(textureIndex));
+							textureIndex++;
+
+
 							layer.getJsonData().push_back((void *)new glm::vec3(r, g, b));
 							mat->setShaderDataElement("u_fontColour", (void*)&(*(glm::vec3*)layer.getJsonData().back())[0]);
 
 							layer.getMaterials().at(materialsIndex) = std::make_shared<MaterialComponent>(MaterialComponent(mat));
 							gameObject->addComponent(layer.getMaterials().at(materialsIndex));
 							materialsIndex++;
-
-							if (go.count("texture") > 0)
-							{
-								std::string texName = go["texture"]["name"].get<std::string>();
-
-								layer.getTextures().at(textureIndex) = std::make_shared<TextureComponent>
-									(TextureComponent(ResourceManagerInstance->getFontTexture()->getSlot()));
-								gameObject->addComponent(layer.getTextures().at(textureIndex));
-								textureIndex++;
-							}
 						} 
 					}
 

@@ -14,11 +14,11 @@ namespace Engine
 		setColour(colour);
 
 		m_textShader = ResourceManagerInstance->addShader("textShaderFT", "assets/shaders/textShaderFT.glsl");
-		m_VAO = ResourceManagerInstance->addVAO(text);
+		m_VAO = ResourceManagerInstance->addVAO(key + "VAO");
 
 		unsigned int textIndices[4] = { 0, 1, 2, 3 };
 
-		m_VAO->setIndexBuffer(ResourceManagerInstance->addEBO(text, textIndices, 4));
+		m_VAO->setIndexBuffer(ResourceManagerInstance->addEBO(key + "IBO", textIndices, 4));
 
 		unsigned int loopCount = 0;
 
@@ -42,7 +42,7 @@ namespace Engine
 
 			if (loopCount == 0)
 			{
-				m_VBO = ResourceManagerInstance->addVBO(text, textVertices, sizeof(textVertices), m_textShader->getBufferLayout());
+				m_VBO = ResourceManagerInstance->addVBO(key + "VBO", textVertices, sizeof(textVertices), m_textShader->getBufferLayout());
 			}
 
 			else
@@ -54,7 +54,7 @@ namespace Engine
 		}
 		
 		m_VAO->setVertexBuffer(m_VBO);
-		m_material = ResourceManagerInstance->addMaterial(text, m_textShader, m_VAO);
+		m_material = ResourceManagerInstance->addMaterial(key + "Mat", m_textShader, m_VAO);
 
 		//https://learnopengl.com/In-Practice/Text-Rendering
 	}
