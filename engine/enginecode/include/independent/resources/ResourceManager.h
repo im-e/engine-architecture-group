@@ -112,15 +112,15 @@ namespace Engine
 			return s_instance;
 		};
 
-		AssetManager<VertexArray> getVAO(); //!< Get collection of the VAOs \return m_VAOs collection of the VAOs
-		AssetManager<VertexBuffer> getVBO(); //!< Get collection of the VBOs \return m_VBOs collection of the VBOs
-		AssetManager<IndexBuffer> getEBO(); //!< Get collection of the index buffers \return m_EBOs collection of index buffers
-		AssetManager<Shader> getShader(); //!< Get collection of shaders \return m_shaders collection of shaders
-		AssetManager<Texture> getTexture(); //!< Get collection of textures \return m_textures collection of textures
-		AssetManager<Material> getMaterial(); //!< Get collection of materials \return m_materials collection of materials
-		AssetManager<UniformBuffer> getUBO(); //!< Get collection of UBOs \return m_UBOs collection of UBOs
-		AssetManager<JsonModel> getJsonModels(); //!< Get collection of json models \return m_JsonModels collection of json models
-		AssetManager<AssimpModel> getAssimpModels(); //!< Get collection of assimp models \return m_AssimpModels collection of assimp models
+		AssetManager<VertexArray>& getVAO(); //!< Get collection of the VAOs \return m_VAOs collection of the VAOs
+		AssetManager<VertexBuffer>& getVBO(); //!< Get collection of the VBOs \return m_VBOs collection of the VBOs
+		AssetManager<IndexBuffer>& getEBO(); //!< Get collection of the index buffers \return m_EBOs collection of index buffers
+		AssetManager<Shader>& getShader(); //!< Get collection of shaders \return m_shaders collection of shaders
+		AssetManager<Texture>& getTexture(); //!< Get collection of textures \return m_textures collection of textures
+		AssetManager<Material>& getMaterial(); //!< Get collection of materials \return m_materials collection of materials
+		AssetManager<UniformBuffer>& getUBO(); //!< Get collection of UBOs \return m_UBOs collection of UBOs
+		AssetManager<JsonModel>& getJsonModels(); //!< Get collection of json models \return m_JsonModels collection of json models
+		AssetManager<AssimpModel>& getAssimpModels(); //!< Get collection of assimp models \return m_AssimpModels collection of assimp models
 
 		~ResourceManager(); //!< Default destructor
 	};

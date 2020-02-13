@@ -9,6 +9,7 @@ namespace Engine
 	void JsonLayer::onAttach()
 	{
 		Engine::JsonLoader::loadJson(m_filepath, *this);
+		Engine::JsonLoader::loadGameObjects(m_gameobjectsFilepath, *this);
 
 		for (auto& renderCommand : m_initCommands)
 		{

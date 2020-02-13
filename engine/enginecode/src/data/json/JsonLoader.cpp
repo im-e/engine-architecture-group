@@ -207,161 +207,6 @@ namespace Engine
 				layer.getRenderer().reset(Engine::Renderer::create3D());
 		}
 
-		if (jsonFile.count("GameObject") > 0)
-		{
-			for (auto& go : jsonFile["GameObject"])
-			{
-				std::string goName = "Name";
-				if (go.count("name") > 0)
-				{
-					goName = go["name"].get<std::string>();
-				}
-				layer.getGameObjects()[goName] = std::make_shared<GameObject>(GameObject(goName));
-				auto gameObject = layer.getGameObjects()[goName];
-
-				if (go.count("material") > 0)
-				{
-					if (go["material"].count("model") > 0)
-					{
-						std::string meshType = go["material"]["type"].get<std::string>();
-						
-						if (meshType == "json")
-						{
-							std::shared_ptr<MaterialComponent> mat;
-							std::string modelName = go["material"]["model"].get<std::string>();
-							std::shared_ptr<JsonModel> model = ResourceManagerInstance->getJsonModels().getAsset(modelName);
-							
-							std::string shader = go["material"]["shader"].get<std::string>();
-
-							ResourceManagerInstance->addVAO(goName + "VAO");
-							ResourceManagerInstance->addVBO(goName + "VBO", model->vertices, sizeof(float) * model->verticesSize, model->shader->getBufferLayout());
-							ResourceManagerInstance->addEBO(goName + "EBO", model->indices, sizeof(unsigned int) * model->indicesSize);
-
-							ResourceManagerInstance->getVAO().getAsset(goName + "VAO")->
-								setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(goName + "VBO"));
-							ResourceManagerInstance->getVAO().getAsset(goName + "VAO")->
-								setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(goName + "EBO"));
-
-							ResourceManagerInstance->addMaterial(goName + "Mat",
-								ResourceManagerInstance->getShader().getAsset(shader),
-								ResourceManagerInstance->getVAO().getAsset(goName + "VAO"));
-
-							mat = std::make_shared<MaterialComponent>
-								(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(goName + "Mat")));
-							gameObject->addComponent(mat);
-						}
-						else if (meshType == "assimp")
-						{
-							std::string modelName = go["material"]["model"].get<std::string>();
-
-							//process assimp model
-							std::shared_ptr<AssimpModel> assimpModel = ResourceManagerInstance->getAssimpModels().getAsset(modelName);
-
-							for (int i = 0; i < assimpModel->m_meshes.size(); i++)
-							{
-								std::shared_ptr<MaterialComponent> mat;
-								Mesh* mesh = &assimpModel->m_meshes.at(i);
-								mesh->m_shader = ResourceManagerInstance->getShader().getAsset(go["material"]["shader"].get<std::string>());
-
-								//set each mesh up
-									// add VAO
-								ResourceManagerInstance->addVAO(goName + "VAO" + std::to_string(i));
-								// add VBO
-								ResourceManagerInstance->addVBO(goName + "VBO" + std::to_string(i),
-									(float*)&mesh->m_vertices.at(0),
-									mesh->m_vertices.size() * sizeof(VertexData),
-									mesh->m_shader->getBufferLayout());
-								// add EBO
-								ResourceManagerInstance->addEBO(goName + "EBO" + std::to_string(i),
-									&mesh->m_indices.at(0),
-									mesh->m_indices.size() * sizeof(unsigned int));
-								// link VBO to VAO
-								ResourceManagerInstance->getVAO().getAsset(goName + "VAO" + std::to_string(i))->
-									setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(goName + "VBO" + std::to_string(i)));
-								// link EBO to VAO
-								ResourceManagerInstance->getVAO().getAsset(goName + "VAO" + std::to_string(i))->
-									setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(goName + "EBO" + std::to_string(i)));
-
-								mesh->setupMesh(mesh->m_vertices.at(0), mesh->m_indices.at(0));
-
-								// add material
-								ResourceManagerInstance->addMaterial(goName + "Mat" + std::to_string(i),
-									mesh->m_shader,
-									ResourceManagerInstance->getVAO().getAsset(goName + "VAO" + std::to_string(i)));
-
-								 mat = std::make_shared<MaterialComponent>
-									(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(goName + "Mat" + std::to_string(i))));
-								 gameObject->addComponent(mat);
-							}
-						}
-
-						if (go.count("texture") > 0)
-						{
-							std::shared_ptr<TextureComponent> tex;
-							std::string texName = go["texture"]["name"].get<std::string>();
-
-							tex = std::make_shared<TextureComponent>
-								(TextureComponent(ResourceManagerInstance->getTexture().getAsset(texName)->getSlot()));
-							gameObject->addComponent(tex);
-						}
-					}
-					//TODO add text
-				}
-
-				if (go.count("position") > 0)
-				{
-					std::shared_ptr<PositionComponent> pos;
-					glm::vec3 translation(go["position"]["translation"]["x"].get<float>(), go["position"]["translation"]["y"].get<float>(), go["position"]["translation"]["z"].get<float>());
-					glm::vec3 rotation(go["position"]["rotation"]["x"].get<float>(), go["position"]["rotation"]["y"].get<float>(), go["position"]["rotation"]["z"].get<float>());
-					glm::vec3 scale(go["position"]["scale"]["x"].get<float>(), go["position"]["scale"]["y"].get<float>(), go["position"]["scale"]["z"].get<float>());
-
-					pos = std::make_shared<PositionComponent>(PositionComponent(translation, rotation, scale));
-					gameObject->addComponent(pos);
-				}
-
-				if (go.count("velocity") > 0)
-				{
-					std::shared_ptr<VelocityComponent> vel;
-					glm::vec3 linear(go["velocity"]["linear"]["x"].get<float>(), go["velocity"]["linear"]["y"].get<float>(), go["velocity"]["linear"]["z"].get<float>());
-					glm::vec3 angular(go["velocity"]["angular"]["x"].get<float>(), go["velocity"]["angular"]["y"].get<float>(), go["velocity"]["angular"]["z"].get<float>());
-
-					vel = std::make_shared<VelocityComponent>
-						(VelocityComponent(linear, angular));
-					gameObject->addComponent(vel);
-
-					if (go.count("oscillate") > 0)
-					{
-						std::shared_ptr<OscillateComponent> osc;
-						OscillateComponent::State state = OscillateComponent::State::DOWN;
-
-						auto stateStr = go["oscillate"]["state"].get<std::string>();
-						if (stateStr.compare("DOWN") == 0) state = OscillateComponent::State::DOWN;
-						if (stateStr.compare("STOPPED") == 0) state = OscillateComponent::State::STOPPED;
-						if (stateStr.compare("UP") == 0) state = OscillateComponent::State::UP;
-
-						float currTime = go["oscillate"]["current time"].get<float>();
-						float maxTime = go["oscillate"]["max time"].get<float>();
-						bool setT = go["oscillate"]["set texture"].get<bool>();
-
-						osc = std::make_shared<OscillateComponent>
-							(OscillateComponent(state, currTime, maxTime, setT, vel->getLinear()));
-						gameObject->addComponent(osc);
-					}
-
-					if (go.count("controller") > 0)
-					{
-						std::shared_ptr<ControllerComponent> ctr;
-						float moveSpeed = go["controller"]["moveSpeed"].get<float>();
-						float rotationSpeed = go["controller"]["rotationSpeed"].get<float>();
-
-						ctr = std::make_shared<ControllerComponent>
-							(ControllerComponent(moveSpeed, rotationSpeed));
-						gameObject->addComponent(ctr);
-					}
-				}
-			}
-		}
-
 		if (jsonFile.count("UBO") > 0)
 		{
 			for (auto& ubo : jsonFile["UBO"])
@@ -495,6 +340,179 @@ namespace Engine
 								}
 							}
 						}
+					}
+				}
+			}
+		}
+	}
+
+	void JsonLoader::loadGameObjects(const std::string& filepath, JsonLayer& layer)
+	{
+
+#ifdef NG_DEBUG
+		Engine::JsonLog::loadLog(filepath);
+#endif
+		std::fstream file(filepath, std::ios::in);
+
+		if (!file.is_open())
+		{
+			LogError("Could not open {0}", filepath);
+			return;
+		}
+
+		nlohmann::json jsonFile;
+		file >> jsonFile;
+
+		if (jsonFile.count("GameObject") > 0)
+		{
+			for (auto& go : jsonFile["GameObject"])
+			{
+				std::string goName = "Name";
+				if (go.count("name") > 0)
+				{
+					goName = go["name"].get<std::string>();
+				}
+				layer.getGameObjects()[goName] = std::make_shared<GameObject>(GameObject(goName));
+				auto gameObject = layer.getGameObjects()[goName];
+
+				if (go.count("material") > 0)
+				{
+					if (go["material"].count("model") > 0)
+					{
+						std::string meshType = go["material"]["type"].get<std::string>();
+
+						if (meshType == "json")
+						{
+							std::shared_ptr<MaterialComponent> mat;
+							std::string modelName = go["material"]["model"].get<std::string>();
+							std::shared_ptr<JsonModel> model = ResourceManagerInstance->getJsonModels().getAsset(modelName);
+
+							std::string shader = go["material"]["shader"].get<std::string>();
+
+							ResourceManagerInstance->addVAO(goName + "VAO");
+							ResourceManagerInstance->addVBO(goName + "VBO", model->vertices, sizeof(float) * model->verticesSize, model->shader->getBufferLayout());
+							ResourceManagerInstance->addEBO(goName + "EBO", model->indices, sizeof(unsigned int) * model->indicesSize);
+
+							ResourceManagerInstance->getVAO().getAsset(goName + "VAO")->
+								setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(goName + "VBO"));
+							ResourceManagerInstance->getVAO().getAsset(goName + "VAO")->
+								setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(goName + "EBO"));
+
+							ResourceManagerInstance->addMaterial(goName + "Mat",
+								ResourceManagerInstance->getShader().getAsset(shader),
+								ResourceManagerInstance->getVAO().getAsset(goName + "VAO"));
+
+							mat = std::make_shared<MaterialComponent>
+								(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(goName + "Mat")));
+							gameObject->addComponent(mat);
+						}
+						else if (meshType == "assimp")
+						{
+							std::string modelName = go["material"]["model"].get<std::string>();
+
+							//process assimp model
+							std::shared_ptr<AssimpModel> assimpModel = ResourceManagerInstance->getAssimpModels().getAsset(modelName);
+
+							for (int i = 0; i < assimpModel->m_meshes.size(); i++)
+							{
+								std::shared_ptr<MaterialComponent> mat;
+								Mesh* mesh = &assimpModel->m_meshes.at(i);
+								mesh->m_shader = ResourceManagerInstance->getShader().getAsset(go["material"]["shader"].get<std::string>());
+
+								//set each mesh up
+									// add VAO
+								ResourceManagerInstance->addVAO(goName + "VAO" + std::to_string(i));
+								// add VBO
+								ResourceManagerInstance->addVBO(goName + "VBO" + std::to_string(i),
+									(float*)&mesh->m_vertices.at(0),
+									mesh->m_vertices.size() * sizeof(VertexData),
+									mesh->m_shader->getBufferLayout());
+								// add EBO
+								ResourceManagerInstance->addEBO(goName + "EBO" + std::to_string(i),
+									&mesh->m_indices.at(0),
+									mesh->m_indices.size() * sizeof(unsigned int));
+								// link VBO to VAO
+								ResourceManagerInstance->getVAO().getAsset(goName + "VAO" + std::to_string(i))->
+									setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(goName + "VBO" + std::to_string(i)));
+								// link EBO to VAO
+								ResourceManagerInstance->getVAO().getAsset(goName + "VAO" + std::to_string(i))->
+									setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(goName + "EBO" + std::to_string(i)));
+
+								mesh->setupMesh(mesh->m_vertices.at(0), mesh->m_indices.at(0));
+
+								// add material
+								ResourceManagerInstance->addMaterial(goName + "Mat" + std::to_string(i),
+									mesh->m_shader,
+									ResourceManagerInstance->getVAO().getAsset(goName + "VAO" + std::to_string(i)));
+
+								mat = std::make_shared<MaterialComponent>
+									(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(goName + "Mat" + std::to_string(i))));
+								gameObject->addComponent(mat);
+							}
+						}
+
+						if (go.count("texture") > 0)
+						{
+							std::shared_ptr<TextureComponent> tex;
+							std::string texName = go["texture"]["name"].get<std::string>();
+
+							tex = std::make_shared<TextureComponent>
+								(TextureComponent(ResourceManagerInstance->getTexture().getAsset(texName)->getSlot()));
+							gameObject->addComponent(tex);
+						}
+					}
+					//TODO add text
+				}
+
+				if (go.count("position") > 0)
+				{
+					std::shared_ptr<PositionComponent> pos;
+					glm::vec3 translation(go["position"]["translation"]["x"].get<float>(), go["position"]["translation"]["y"].get<float>(), go["position"]["translation"]["z"].get<float>());
+					glm::vec3 rotation(go["position"]["rotation"]["x"].get<float>(), go["position"]["rotation"]["y"].get<float>(), go["position"]["rotation"]["z"].get<float>());
+					glm::vec3 scale(go["position"]["scale"]["x"].get<float>(), go["position"]["scale"]["y"].get<float>(), go["position"]["scale"]["z"].get<float>());
+
+					pos = std::make_shared<PositionComponent>(PositionComponent(translation, rotation, scale));
+					gameObject->addComponent(pos);
+				}
+
+				if (go.count("velocity") > 0)
+				{
+					std::shared_ptr<VelocityComponent> vel;
+					glm::vec3 linear(go["velocity"]["linear"]["x"].get<float>(), go["velocity"]["linear"]["y"].get<float>(), go["velocity"]["linear"]["z"].get<float>());
+					glm::vec3 angular(go["velocity"]["angular"]["x"].get<float>(), go["velocity"]["angular"]["y"].get<float>(), go["velocity"]["angular"]["z"].get<float>());
+
+					vel = std::make_shared<VelocityComponent>
+						(VelocityComponent(linear, angular));
+					gameObject->addComponent(vel);
+
+					if (go.count("oscillate") > 0)
+					{
+						std::shared_ptr<OscillateComponent> osc;
+						OscillateComponent::State state = OscillateComponent::State::DOWN;
+
+						auto stateStr = go["oscillate"]["state"].get<std::string>();
+						if (stateStr.compare("DOWN") == 0) state = OscillateComponent::State::DOWN;
+						if (stateStr.compare("STOPPED") == 0) state = OscillateComponent::State::STOPPED;
+						if (stateStr.compare("UP") == 0) state = OscillateComponent::State::UP;
+
+						float currTime = go["oscillate"]["current time"].get<float>();
+						float maxTime = go["oscillate"]["max time"].get<float>();
+						bool setT = go["oscillate"]["set texture"].get<bool>();
+
+						osc = std::make_shared<OscillateComponent>
+							(OscillateComponent(state, currTime, maxTime, setT, vel->getLinear()));
+						gameObject->addComponent(osc);
+					}
+
+					if (go.count("controller") > 0)
+					{
+						std::shared_ptr<ControllerComponent> ctr;
+						float moveSpeed = go["controller"]["moveSpeed"].get<float>();
+						float rotationSpeed = go["controller"]["rotationSpeed"].get<float>();
+
+						ctr = std::make_shared<ControllerComponent>
+							(ControllerComponent(moveSpeed, rotationSpeed));
+						gameObject->addComponent(ctr);
 					}
 				}
 			}

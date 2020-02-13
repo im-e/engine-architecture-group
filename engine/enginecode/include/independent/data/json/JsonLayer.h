@@ -35,10 +35,11 @@ namespace Engine
 		std::list<void*> m_data;			//!< Misc data
 		SceneData m_sceneData;				//!< SceneData
 		std::string m_filepath;				//!< JSON filepath
+		std::string m_gameobjectsFilepath;  //!< JSON gameobjects filepath
 
 	public:
 		//! Custom constructor \param filepath path to the json file \param name name of the layer
-		JsonLayer(const std::string& filepath, const std::string& name) : m_filepath(filepath), Layer(name) {}	
+		JsonLayer(const std::string& filepath, const std::string& gameobjectsFilepath, const std::string& name) : m_filepath(filepath), m_gameobjectsFilepath(gameobjectsFilepath), Layer(name) {}	
 
 		//! Runs when layer is attached
 		void onAttach() override;
