@@ -236,64 +236,76 @@ namespace Engine
 		}
 
 		//geometry shader
-		m_geometryID = glCreateShader(GL_GEOMETRY_SHADER);
-		source = geometry.c_str();
-		glShaderSource(m_geometryID, 1, &source, 0);
-		glCompileShader(m_geometryID);
-		glGetShaderiv(m_geometryID, GL_COMPILE_STATUS, &isCompiled);
 
-		if (isCompiled == GL_FALSE)
+		if (!geometry.empty())
 		{
-			GLint maxLength = 0;
-			glGetShaderiv(m_geometryID, GL_INFO_LOG_LENGTH, &maxLength);
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(m_geometryID, maxLength, &maxLength, infoLog.data());
-			LogError("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
-			//glDeleteShader(m_fragID);
-			//glDeleteShader(m_vertID);
-			//glDeleteShader(m_geometryID);
+			source = geometry.c_str();
+			m_geometryID = glCreateShader(GL_GEOMETRY_SHADER);
+
+			glShaderSource(m_geometryID, 1, &source, 0);
+			glCompileShader(m_geometryID);
+			glGetShaderiv(m_geometryID, GL_COMPILE_STATUS, &isCompiled);
+
+			if (isCompiled == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetShaderiv(m_geometryID, GL_INFO_LOG_LENGTH, &maxLength);
+				std::vector<GLchar> infoLog(maxLength);
+				glGetShaderInfoLog(m_geometryID, maxLength, &maxLength, infoLog.data());
+				LogError("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
+				//glDeleteShader(m_fragID);
+				//glDeleteShader(m_vertID);
+				//glDeleteShader(m_geometryID);
+			}
 		}
 
 		//tessellation control shader
-		m_tessellationControlID = glCreateShader(GL_TESS_CONTROL_SHADER);
-		source = tessellationControl.c_str();
-		glShaderSource(m_tessellationControlID, 1, &source, 0);
-		glCompileShader(m_tessellationControlID);
-		glGetShaderiv(m_tessellationControlID, GL_COMPILE_STATUS, &isCompiled);
 
-		if (isCompiled == GL_FALSE)
+		if (!tessellationControl.empty())
 		{
-			GLint maxLength = 0;
-			glGetShaderiv(m_tessellationControlID, GL_INFO_LOG_LENGTH, &maxLength);
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(m_geometryID, maxLength, &maxLength, infoLog.data());
-			LogError("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
-			//glDeleteShader(m_fragID);
-			//glDeleteShader(m_vertID);
-			//glDeleteShader(m_geometryID);
-			//glDeleteShader(m_tessellationControlID);
+			source = tessellationControl.c_str();
+			m_tessellationControlID = glCreateShader(GL_TESS_CONTROL_SHADER);
+			glShaderSource(m_tessellationControlID, 1, &source, 0);
+			glCompileShader(m_tessellationControlID);
+			glGetShaderiv(m_tessellationControlID, GL_COMPILE_STATUS, &isCompiled);
+
+			if (isCompiled == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetShaderiv(m_tessellationControlID, GL_INFO_LOG_LENGTH, &maxLength);
+				std::vector<GLchar> infoLog(maxLength);
+				glGetShaderInfoLog(m_geometryID, maxLength, &maxLength, infoLog.data());
+				LogError("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
+				//glDeleteShader(m_fragID);
+				//glDeleteShader(m_vertID);
+				//glDeleteShader(m_geometryID);
+				//glDeleteShader(m_tessellationControlID);
+			}
 		}
 
-		//tessellation evaluation shader
-		m_tessellationEvalID = glCreateShader(GL_TESS_EVALUATION_SHADER);
-		source = tessellationEval.c_str();
-		glShaderSource(m_tessellationEvalID, 1, &source, 0);
-		glCompileShader(m_tessellationEvalID);
-		glGetShaderiv(m_tessellationEvalID, GL_COMPILE_STATUS, &isCompiled);
-
-		if (isCompiled == GL_FALSE)
+		if (!tessellationEval.empty())
 		{
-			GLint maxLength = 0;
-			glGetShaderiv(m_tessellationEvalID, GL_INFO_LOG_LENGTH, &maxLength);
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(m_geometryID, maxLength, &maxLength, infoLog.data());
-			LogError("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
-			glDeleteShader(m_fragID);
-			glDeleteShader(m_vertID);
-			glDeleteShader(m_geometryID);
-			glDeleteShader(m_tessellationControlID);
-			glDeleteShader(m_tessellationEvalID);
+			source = tessellationEval.c_str();
+			m_tessellationEvalID = glCreateShader(GL_TESS_EVALUATION_SHADER);
+			glShaderSource(m_tessellationEvalID, 1, &source, 0);
+			glCompileShader(m_tessellationEvalID);
+			glGetShaderiv(m_tessellationEvalID, GL_COMPILE_STATUS, &isCompiled);
+
+			if (isCompiled == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetShaderiv(m_tessellationEvalID, GL_INFO_LOG_LENGTH, &maxLength);
+				std::vector<GLchar> infoLog(maxLength);
+				glGetShaderInfoLog(m_geometryID, maxLength, &maxLength, infoLog.data());
+				LogError("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
+				glDeleteShader(m_fragID);
+				glDeleteShader(m_vertID);
+				glDeleteShader(m_geometryID);
+				glDeleteShader(m_tessellationControlID);
+				glDeleteShader(m_tessellationEvalID);
+			}
 		}
+		
 
 		m_ID = glCreateProgram();
 		glAttachShader(m_ID, m_vertID);
@@ -342,7 +354,7 @@ namespace Engine
 		if (handleFile.is_open() == false)
 			LogError("Could not open file at {0}", path);
 
-		std::string line, source[2];
+		std::string line, source[5];
 
 		while (getline(handleFile, line))
 		{
