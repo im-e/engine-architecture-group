@@ -196,7 +196,7 @@
       "name": "PlayerBox",
       "material": {
         "type": "assimp",
-        "model": "assets/assimpModels/RoyaltyFreeBox.obj",
+        "model": "assets/assimpModels/Cube_obj.obj",
         "shader": "ParallaxShader"
       },
 
@@ -212,9 +212,9 @@
           "z": 0.0
         },
         "scale": {
-          "x": 5.04,
-          "y": 5.04,
-          "z": 5.04
+          "x": 0.05,
+          "y": 0.05,
+          "z": 0.05
         }
       },
 
@@ -236,9 +236,9 @@
         "rotationSpeed": 1000.0
       },
       "texture": {
+        "parallax": "BrickHeight",
         "name": "BrickDiffuse",
-        "normal": "BrickNormal",
-        "parallax": "BrickHeight"
+        "normal": "BrickNormal"
       }
     },
 
@@ -345,7 +345,7 @@
       "material": {
         "type": "json",
         "model": "assets/jsonModels/tpCube.txt",
-        "shader": "PhongShader"
+        "shader": "NormalShader"
       },
 
       "position": {
@@ -381,7 +381,7 @@
 
       "texture": {
         "name": "BrickDiffuse",
-        "normal": "none",
+        "normal": "BrickNormal",
         "parallax": "none"
       }
     }
