@@ -240,6 +240,10 @@ namespace Engine
 
 								gameObject->addComponent(layer.getTextures().at(textureIndex));
 
+								if (specularTexName.compare("none") != 0)
+								{
+									layer.getTextures().at(textureIndex)->assignSpecularTexture(ResourceManagerInstance->getTexture().getAsset(specularTexName)->getSlot());
+								}
 								if (normalTexName.compare("none") != 0)
 								{
 									layer.getTextures().at(textureIndex)->assignNormalTexture(ResourceManagerInstance->getTexture().getAsset(normalTexName)->getSlot());
@@ -247,10 +251,6 @@ namespace Engine
 								if (parallaxTexName.compare("none") != 0)
 								{
 									layer.getTextures().at(textureIndex)->assignParallaxTexture(ResourceManagerInstance->getTexture().getAsset(parallaxTexName)->getSlot());
-								}
-								if (specularTexName.compare("none") != 0)
-								{
-									layer.getTextures().at(textureIndex)->assignSpecularTexture(ResourceManagerInstance->getTexture().getAsset(specularTexName)->getSlot());
 								}
 
 								textureIndex++;
@@ -326,6 +326,7 @@ namespace Engine
 						for (auto& lay : ubo["layout"])
 						{
 							std::string SDT = lay.get<std::string>();
+							if (SDT.compare("Float") == 0) { uboLayout.addElement(ShaderDataType::Float); }
 							if (SDT.compare("Vec3") == 0) { uboLayout.addElement(ShaderDataType::Float3); }
 							if (SDT.compare("Mat4") == 0) { uboLayout.addElement(ShaderDataType::Mat4); }
 							//TODO add all shader data types
@@ -375,7 +376,7 @@ namespace Engine
 							if (type == "Float")
 							{
 								layer.getJsonData().push_back(new float(data["x"].get<float>()));
-								ptr = (void*)&((float*)layer.getJsonData().back())[0];
+								ptr = (void*)&(*(float*)layer.getJsonData().back());
 							}
 							//TODO add more data types?
 
