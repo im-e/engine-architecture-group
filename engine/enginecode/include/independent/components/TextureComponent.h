@@ -19,7 +19,7 @@ namespace Engine
 		unsigned int m_texSlot; //!< Texture slot
 		unsigned int m_texSlotNormal; //!< Texture slot
 		unsigned int m_texSlotParallax; //!< Texture slot
-		unsigned int m_texSlotShadow; //!< Texture slot
+		unsigned int m_texSlotSpecular; //!< Texture slot
 
 	public:
 		//! Custom constructor \param texSlot initial texture slot
@@ -74,11 +74,11 @@ namespace Engine
 			ComponentMessage msg(ComponentMessageType::UniformSet, parallaxData);
 			sendMessage(msg);
 		}
-		void assignShadowTexture(int index)
+		void assignSpecularTexture(int index)
 		{
-			m_texSlotShadow = index;
-			std::pair<std::string, void*> shadowData("u_shadowTexData", (void*)m_texSlotShadow);
-			ComponentMessage msg(ComponentMessageType::UniformSet, shadowData);
+			m_texSlotSpecular = index;
+			std::pair<std::string, void*> specularData("u_specularTexData", (void*)m_texSlotSpecular);
+			ComponentMessage msg(ComponentMessageType::UniformSet, specularData);
 			sendMessage(msg);
 		}
 	};

@@ -20,6 +20,10 @@
       {
         "name": "ParallaxShader",
         "filepath": "assets/shaders/parallaxMapping.glsl"
+      },
+      {
+        "name": "PointLightShader",
+        "filepath": "assets/shaders/pointLight.glsl"
       }
     ],
     "textures": [
@@ -64,8 +68,8 @@
         "filepath": "assets/textures/wood_diffuse.png"
       },
       {
-        "name": "ShadowTexture",
-        "filepath": "assets/textures/wood_diffuse.png"
+        "name": "SpecularTexture",
+        "filepath": "assets/textures/brick_specular.png"
       }
     ]
   },
@@ -187,6 +191,7 @@
       },
       "texture": {
         "name": "ShipTexture",
+        "specular": "none",
         "normal": "NormalTexture",
         "parallax": "none"
       }
@@ -237,6 +242,7 @@
       },
       "texture": {
         "parallax": "BrickHeight",
+        "specular": "none",
         "name": "BrickDiffuse",
         "normal": "BrickNormal"
       }
@@ -283,6 +289,7 @@
 
       "texture": {
         "name": "WoodTexture",
+        "specular": "none",
         "normal": "none",
         "parallax": "none"
       }
@@ -336,16 +343,17 @@
 
       "texture": {
         "name": "NumberTexture",
+        "specular": "none",
         "normal": "none",
         "parallax": "none"
       }
     },
     {
-      "name": "ShadowCube",
+      "name": "PointCube",
       "material": {
         "type": "json",
         "model": "assets/jsonModels/tpCube.txt",
-        "shader": "NormalShader"
+        "shader": "PointLightShader"
       },
 
       "position": {
@@ -381,7 +389,8 @@
 
       "texture": {
         "name": "BrickDiffuse",
-        "normal": "BrickNormal",
+        "specular": "SpecularTexture",
+        "normal": "none",
         "parallax": "none"
       }
     }
@@ -400,6 +409,10 @@
         },
         {
           "name": "PhongShader",
+          "block": "Matrices"
+        },
+        {
+          "name": "PointLightShader",
           "block": "Matrices"
         },
         {
@@ -439,6 +452,10 @@
           "block": "Light"
         },
         {
+          "name": "PointLightShader",
+          "block": "Matrices"
+        },
+        {
           "name": "NormalShader",
           "block": "Light"
         },
@@ -467,42 +484,89 @@
           "z": 1.0
         }
       ]
-
+    },
+    {
+      "name": "SettingsUBO",
+      "layout": [
+        "Vec3",
+        "Vec3",
+        "Vec3",
+        "Float",
+        "Float",
+        "Float"
+      ],
+      "shaders": [
+        {
+          "name": "PointLightShader",
+          "block": "Settings"
+        }
+      ],
+      "data": [
+        {
+          "type": "Float3",
+          "x": 1.0,
+          "y": 4.0,
+          "z": -6.0
+        },
+        {
+          "type": "Float3",
+          "x": 0.0,
+          "y": 0.0,
+          "z": -4.5
+        },
+        {
+          "type": "Float3",
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        },
+        {
+          "type": "Float",
+          "x": 1.0
+        },
+        {
+          "type": "Float",
+          "x": 0.09
+        },
+        {
+          "type": "Float",
+          "x": 0.032
+        }
+      ]
     }
   ],
 
-    "RendererCommands":
-    {
-      "init": [
-        {
-          "type": "DepthTestLess",
-          "enabled": true
-        },
-        {
-          "type": "BackfaceCulling",
-          "enabled": true
-        },
-        {
-          "type": "Debug",
-          "enabled": true
-        },
-        {
-          "type": "ClearColor",
-          "r": 0.5,
-          "g": 0.1,
-          "b": 0.5,
-          "a": 1.0
-        }
-      ],
-      "predraw": [
-        {
-          "type": "ClearDepthColorBuffer"
-        }
-      ],
-      "postdraw": [
-      ],
-      "exit": [
+      "RendererCommands": {
+        "init": [
+          {
+            "type": "DepthTestLess",
+            "enabled": true
+          },
+          {
+            "type": "BackfaceCulling",
+            "enabled": true
+          },
+          {
+            "type": "Debug",
+            "enabled": true
+          },
+          {
+            "type": "ClearColor",
+            "r": 0.5,
+            "g": 0.1,
+            "b": 0.5,
+            "a": 1.0
+          }
+        ],
+        "predraw": [
+          {
+            "type": "ClearDepthColorBuffer"
+          }
+        ],
+        "postdraw": [
+        ],
+        "exit": [
 
-      ]
+        ]
+      }
     }
-}
