@@ -8,6 +8,10 @@
       {
         "name": "PhongShader",
         "filepath": "assets/shaders/texturedPhong.glsl"
+      },
+      {
+        "name": "TessShader",
+        "filepath": "assets/shaders/tessShader.glsl"
       }
     ],
     "textures": [
