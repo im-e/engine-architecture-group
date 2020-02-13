@@ -16,19 +16,10 @@
       {
         "name": "04b_20__",
         "filepath": "assets/fonts/04b_20/04b_20__.ttf",
-        "charSize" : ""
+        "charSize": 32
       }
-    ],
-    /*"texturesFromData": [
-      {
-        "name": "TextTextureFromData",
-        "width": "",
-        "height": "",
-        "channels": "",
-        "texData": ""
-      }
-    ] */
-  }, 
+    ]
+  },
 
   "MemoryInfo": {
     "gameObjects": 1,
@@ -56,7 +47,7 @@
     {
       "name": "TextModel",
       "material": {
-        "type":  "json",
+        "type": "json",
         "model": "assets/jsonModels/textModel.txt",
         "shader": "TextShader"
       },
@@ -123,3 +114,4 @@
     ]
   }
 }
+© 2020 GitHub, Inc.

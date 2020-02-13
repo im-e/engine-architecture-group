@@ -4,6 +4,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include "rendering/Character.h"
+#include <glad/glad.h>
 
 namespace Engine
 {
@@ -109,10 +110,12 @@ namespace Engine
 
 	void ResourceManager::populateCharacters(std::unordered_map<std::string, unsigned int> fontsAndSizes)
 	{
-		/*FT_Library ft;
+		FT_Library ft;
 		FT_Face face;
 		//std::string filepath("assets/fonts/04b_20/04b_20__.ttf");
 		//int charsize = 128;
+
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 		for (auto it : fontsAndSizes)
 		{
@@ -125,19 +128,18 @@ namespace Engine
 
 			if (FT_Set_Pixel_Sizes(face, 0, charsize)) LogError("Error: Freetype could not set font face size of {0}", charsize);
 
-			for (int i = m_ASCIIstart; i < m_ASCIIend; i++)
+			for (int i = m_ASCIIstart; i <= m_ASCIIend; i++)
 			{
 				if (FT_Load_Char(face, i, FT_LOAD_RENDER)) LogError("Error: Could not load the character");
-
-				//addTexture("", face->glyph->bitmap.width, face->glyph->bitmap.rows, 1, face->glyph->bitmap.buffer);
-				//Texture::createFromRawData(face->glyph->bitmap.width, face->glyph->bitmap.rows, 1, face->glyph->bitmap.buffer);
-				m_characters[""].push_back(Character(glm::vec2(face->glyph->bitmap.width, face->glyph->bitmap.rows), glm::vec2(face->glyph->bitmap_left, face->glyph->bitmap_top), face->glyph->advance.x, glm::vec2(0.0f), glm::vec2(1.0f)));
+				m_fontTexture.reset(Texture::createFromRawData(face->glyph->bitmap.width, face->glyph->bitmap.rows, 1, face->glyph->bitmap.buffer));
+				m_characters[filepath].push_back(Character(glm::vec2(face->glyph->bitmap.width, face->glyph->bitmap.rows), glm::vec2(face->glyph->bitmap_left, face->glyph->bitmap_top), face->glyph->advance.x, glm::vec2(0.0f), glm::vec2(1.0f)));
 			}
 		}
 
-		//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		FT_Done_Face(face);
+		FT_Done_FreeType(ft);
 
-		unsigned char* texMemory;
+		/*unsigned char* texMemory;
 		int memH = 1024;
 		int memW = 1024;
 		int usedX = 0;
@@ -147,6 +149,20 @@ namespace Engine
 		memset(texMemory, 0, memH * memW); */
 	}
 
+	std::shared_ptr<Character> ResourceManager::getCharacter(std::string font, unsigned int ASCIIcode)
+	{
+		std::shared_ptr<Character> chosenCharacter;
+
+		for (auto it : m_characters)
+		{
+			if (it.first == font)
+			{
+				chosenCharacter.reset(&it.second[ASCIIcode]);
+				return chosenCharacter;
+			}
+		}
+	}
+	
 	AssetManager<VertexArray> ResourceManager::getVAO()
 	{
 		return m_VAOs;
