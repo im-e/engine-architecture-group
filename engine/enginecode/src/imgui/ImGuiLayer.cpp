@@ -22,7 +22,30 @@ namespace Engine
 		m_gameObjectWindow = false;
 		m_manageCompWindow = false;
 
-		ImGui::GetIO().KeyMap[ImGuiKey_Backspace] = NG_KEY_BACKSPACE;
+		auto textures = ResourceManagerInstance->getTexture().getCollection();
+		auto jsonModels = ResourceManagerInstance->getJsonModels().getCollection();
+		auto assimpModels = ResourceManagerInstance->getAssimpModels().getCollection();
+		auto shaders = ResourceManagerInstance->getShader().getCollection();
+
+		for (auto& t : textures)
+		{
+			m_texturesNames.push_back(t.first);
+		}
+
+		for (auto& jM : jsonModels)
+		{
+			m_jsonModelNames.push_back(jM.first);
+		}
+
+		for (auto& aM : assimpModels)
+		{
+			m_assimpModelNames.push_back(aM.first);
+		}
+
+		for (auto& s : shaders)
+		{
+			m_shadersNames.push_back(s.first);
+		}
 	}
 
 	void ImGuiLayer::onDetach()
@@ -67,20 +90,48 @@ namespace Engine
 
 				std::ofstream outputStream;
 				outputStream.open(path);
-				// write header
+				outputStream << "{ \"GameObject\": [ ";
+
+				int i = 0;
+				int j = 0;
 
 				// save each gameobject
 				for (auto& go : m_layer->getGameObjects())
 				{
 					auto comps = go.second->getComponents();
+					std::string name = go.second->getName();
+					outputStream << "{ ";
+					outputStream << "\"name\": \"" + name + "\",";
+
 					for (auto& c : comps)
 					{
-
+						const std::type_info& t = c->getType();
+						
+						if (j < comps.size() - 1)
+						{
+							outputStream << "},";
+						}
+						else
+						{
+							outputStream << "}";
+						}
+						j++;
 					}
+					if (i < m_layer->getGameObjects().size() - 1)
+					{
+						outputStream << "},";
+					}
+					else
+					{
+						outputStream << "}";
+					}
+					i++;
 				}
 
 				// write footer
+				outputStream << "] }";
 				// flush stream
+				outputStream.flush();
 			}
 		}
 		ImGui::End();
@@ -148,23 +199,103 @@ namespace Engine
 		{
 			ImGui::Begin("Manage Components");
 
-			static char goName[32] = "Default name";
-			ImGui::InputText("Name", goName, IM_ARRAYSIZE(goName));
+			static const char* goName = "";
+			if (ImGui::BeginCombo("GameObject", goName))
+			{
+				for (auto& go : m_layer->getGameObjects())
+				{
+					bool selected = (goName == go.second->getName().c_str());
+
+					if (ImGui::Selectable(go.second->getName().c_str(), selected))
+					{
+						goName = go.second->getName().c_str();
+					}
+
+					if (selected)
+						ImGui::SetItemDefaultFocus();
+				}
+				ImGui::EndCombo();
+			}
 			m_name = goName;
 
 			if (ImGui::CollapsingHeader("Material"))
 			{
-				static bool json;
-				static bool assimp;
-				static char modelName[32] = "none";
-				static char shaderName[32] = "none";
+				const char* types[2] = { "Json", "Assimp" };
+				static const char* currentItem = types[0];
+				if (ImGui::BeginCombo("Type", currentItem))
+				{
+					for (int i = 0; i < IM_ARRAYSIZE(types); i++)
+					{
+						bool selected = (currentItem == types[i]);
 
-				ImGui::Checkbox("Json", &json);
-				ImGui::SameLine(100);
-				ImGui::Checkbox("Assimp", &assimp);
+						if (ImGui::Selectable(types[i], selected))
+						{
+							currentItem = types[i];
+						}
 
-				ImGui::InputText("Model", modelName, IM_ARRAYSIZE(modelName));
-				ImGui::InputText("Shader", shaderName, IM_ARRAYSIZE(shaderName));
+						if (selected)
+							ImGui::SetItemDefaultFocus();
+					}
+					ImGui::EndCombo();
+				}
+
+				static const char* meshItem = "";
+				if (currentItem == "Json")
+				{
+					if (ImGui::BeginCombo("Json Mesh", meshItem))
+					{
+						for (int i = 0; i < m_jsonModelNames.size(); i++)
+						{
+							bool selected = (meshItem == m_jsonModelNames[i]);
+
+							if (ImGui::Selectable(m_jsonModelNames[i].c_str(), selected))
+							{
+								meshItem = m_jsonModelNames[i].c_str();
+							}
+
+							if (selected)
+								ImGui::SetItemDefaultFocus();
+						}
+						ImGui::EndCombo();
+					}
+				}
+				else if (currentItem == "Assimp")
+				{
+					if (ImGui::BeginCombo("Assimp Mesh", meshItem))
+					{
+						for (int i = 0; i < m_assimpModelNames.size(); i++)
+						{
+							bool selected = (meshItem == m_assimpModelNames[i]);
+
+							if (ImGui::Selectable(m_assimpModelNames[i].c_str(), selected))
+							{
+								meshItem = m_assimpModelNames[i].c_str();
+							}
+
+							if (selected)
+								ImGui::SetItemDefaultFocus();
+						}
+						ImGui::EndCombo();
+					}
+				}
+
+				static const char* shaderName = "";
+				if (ImGui::BeginCombo("Shader", shaderName))
+				{
+					for (int i = 0; i < m_shadersNames.size(); i++)
+					{
+						bool selected = (shaderName == m_shadersNames[i]);
+
+						if (ImGui::Selectable(m_shadersNames[i].c_str(), selected))
+						{
+							shaderName = m_shadersNames[i].c_str();
+						}
+
+						if (selected)
+							ImGui::SetItemDefaultFocus();
+					}
+					ImGui::EndCombo();
+				}
 
 				if (ImGui::Button("Add"))
 				{
@@ -172,10 +303,10 @@ namespace Engine
 					if (m_layer->getGameObjects()[m_name]->getComponent<MaterialComponent>() == nullptr)
 					{
 						// set material up
-						if (json)
+						if (currentItem == "Json")
 						{
 							std::shared_ptr<MaterialComponent> mat;
-							std::shared_ptr<JsonModel> model = ResourceManagerInstance->getJsonModels().getAsset(modelName);							
+							std::shared_ptr<JsonModel> model = ResourceManagerInstance->getJsonModels().getAsset(meshItem);
 
 							ResourceManagerInstance->addVAO(m_name + "VAO");
 							ResourceManagerInstance->addVBO(m_name + "VBO", model->vertices, sizeof(float) * model->verticesSize, model->shader->getBufferLayout());
@@ -194,9 +325,9 @@ namespace Engine
 								(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(m_name + "Mat")));
 							m_layer->getGameObjects()[goName]->addComponent(mat);
 						}
-						else if (assimp)
+						else if (currentItem == "Assimp")
 						{
-							std::shared_ptr<AssimpModel> assimpModel = ResourceManagerInstance->getAssimpModels().getAsset(modelName);
+							std::shared_ptr<AssimpModel> assimpModel = ResourceManagerInstance->getAssimpModels().getAsset(meshItem);
 
 							for (int i = 0; i < assimpModel->m_meshes.size(); i++)
 							{
@@ -243,7 +374,7 @@ namespace Engine
 					if (m_layer->getGameObjects()[m_name]->getComponent<MaterialComponent>() != nullptr)
 					{
 						// set material up
-						if (json)
+						if (currentItem == "Json")
 						{
 							ResourceManagerInstance->getVAO().remove(m_name + "VAO");
 							ResourceManagerInstance->getVBO().remove(m_name + "VBO");
@@ -251,9 +382,9 @@ namespace Engine
 							ResourceManagerInstance->getMaterial().remove(m_name + "Mat");
 							m_layer->getGameObjects()[goName]->removeComponent(m_layer->getGameObjects()[goName]->getComponent<MaterialComponent>());
 						}
-						else if (assimp)
+						else if (currentItem == "Assimp")
 						{
-							std::shared_ptr<AssimpModel> assimpModel = ResourceManagerInstance->getAssimpModels().getAsset(modelName);
+							std::shared_ptr<AssimpModel> assimpModel = ResourceManagerInstance->getAssimpModels().getAsset(meshItem);
 
 							for (int i = 0; i < assimpModel->m_meshes.size(); i++)
 							{
@@ -275,10 +406,24 @@ namespace Engine
 
 			if (ImGui::CollapsingHeader("Texture"))
 			{
-				static char tex[32] = "none";
-				static char normalTex[32] = "none";
-				ImGui::InputText("Diffuse texture", tex, IM_ARRAYSIZE(tex));
-				ImGui::InputText("Normal texture", normalTex, IM_ARRAYSIZE(normalTex));
+				static const char* tex = "";
+
+				if (ImGui::BeginCombo("Diffuse texture", tex))
+				{
+					for (int i = 0; i < m_texturesNames.size(); i++)
+					{
+						bool selected = (tex == m_texturesNames[i]);
+
+						if (ImGui::Selectable(m_texturesNames[i].c_str(), selected))
+						{
+							tex = m_texturesNames[i].c_str();
+						}
+
+						if (selected)
+							ImGui::SetItemDefaultFocus();
+					}
+					ImGui::EndCombo();
+				}
 
 				if (ImGui::Button("Add"))
 				{
@@ -289,12 +434,6 @@ namespace Engine
 						texComp = std::make_shared<TextureComponent>
 							(TextureComponent(ResourceManagerInstance->getTexture().getAsset(tex)->getSlot()));
 
-						std::string temp = normalTex;
-						if (temp.compare("none") != 0)
-						{
-							// set normal slot
-							LogInfo("{0}", temp);
-						}
 						m_layer->getGameObjects()[goName]->addComponent(texComp);
 					}
 					else
