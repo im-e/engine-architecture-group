@@ -29,5 +29,6 @@ namespace Engine
 		static std::shared_ptr<Shader> loadShaderAsync(std::string path);
 		static std::shared_ptr<Texture> loadTextureAsync(std::string path);
 		static void loadJson(const std::string& filepath, JsonLayer& layer);
+		static void loadGameObjects(const std::string& filepath, JsonLayer& layer);
 	};
 }
