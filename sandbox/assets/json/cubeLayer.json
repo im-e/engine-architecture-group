@@ -277,6 +277,18 @@
       "name": "EyeUBO",
       "layout": [
         "Vec3"
+      ],
+      "shaders": [
+        {
+          "name": "TessShader",
+          "block": "CameraPosition"
+        }
+      ],
+      "data": [
+        {
+          "type": "pointer",
+          "var":  "eye"
+        }
       ]
     }
   ],

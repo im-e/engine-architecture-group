@@ -128,7 +128,10 @@ out vec3 posTC[] ;
 out vec3 normTC[] ;
 out vec3 fragPosCS[];
 
-uniform vec3 eyePos;
+layout(std140) uniform CameraPosition
+{
+	vec3 u_eyePos;
+}
 
 float GetTessLevel(float, float);
 
