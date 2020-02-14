@@ -93,20 +93,54 @@ namespace Engine
 				outputStream << "{ \"GameObject\": [ ";
 
 				int i = 0;
-				int j = 0;
 
 				// save each gameobject
 				for (auto& go : m_layer->getGameObjects())
 				{
 					auto comps = go.second->getComponents();
 					std::string name = go.second->getName();
+
 					outputStream << "{ ";
 					outputStream << "\"name\": \"" + name + "\",";
 
+					bool hasMat = false;
+					int j = 0;
+
 					for (auto& c : comps)
 					{
-						const std::type_info& t = c->getType();
-						
+						if (c->getType().hash_code() == typeid(MaterialComponent).hash_code() && hasMat == false)
+						{
+							hasMat = true;
+							std::shared_ptr<MaterialComponent> comp = std::static_pointer_cast<MaterialComponent>(c);
+
+							std::string type = comp->getTypeName();
+							std::string model = comp->getModelName();
+							std::string shader = comp->getShaderName();
+
+							outputStream << "\"material\": { \"type\": \"" + type + "\", \"model\": \"" + model + "\", \"shader\": \"" + shader + "\"";
+						}
+						else if (c->getType().hash_code() == typeid(TextureComponent).hash_code())
+						{
+							std::shared_ptr<TextureComponent> comp = std::static_pointer_cast<TextureComponent>(c);
+						}
+						else if (c->getType().hash_code() == typeid(PositionComponent).hash_code())
+						{
+							std::shared_ptr<PositionComponent> comp = std::static_pointer_cast<PositionComponent>(c);
+						}
+						else if (c->getType().hash_code() == typeid(VelocityComponent).hash_code())
+						{
+							std::shared_ptr<VelocityComponent> comp = std::static_pointer_cast<VelocityComponent>(c);
+						}
+						else if (c->getType().hash_code() == typeid(ControllerComponent).hash_code())
+						{
+							std::shared_ptr<ControllerComponent> comp = std::static_pointer_cast<ControllerComponent>(c);
+						}
+						else if (c->getType().hash_code() == typeid(OscillateComponent).hash_code())
+						{
+							std::shared_ptr<OscillateComponent> comp = std::static_pointer_cast<OscillateComponent>(c);
+						}
+
+
 						if (j < comps.size() - 1)
 						{
 							outputStream << "},";
@@ -116,6 +150,7 @@ namespace Engine
 							outputStream << "}";
 						}
 						j++;
+						
 					}
 					if (i < m_layer->getGameObjects().size() - 1)
 					{
@@ -130,8 +165,6 @@ namespace Engine
 
 				// write footer
 				outputStream << "] }";
-				// flush stream
-				outputStream.flush();
 			}
 		}
 		ImGui::End();
@@ -323,12 +356,15 @@ namespace Engine
 							
 							mat = std::make_shared<MaterialComponent>
 								(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(m_name + "Mat")));
+							mat->setTypeName("json");
+							mat->setModelName(meshItem);
+							mat->setShaderName(shaderName);
 							m_layer->getGameObjects()[goName]->addComponent(mat);
 						}
 						else if (currentItem == "Assimp")
 						{
 							std::shared_ptr<AssimpModel> assimpModel = ResourceManagerInstance->getAssimpModels().getAsset(meshItem);
-
+							
 							for (int i = 0; i < assimpModel->m_meshes.size(); i++)
 							{
 								std::shared_ptr<MaterialComponent> mat;
@@ -363,6 +399,9 @@ namespace Engine
 
 								mat = std::make_shared<MaterialComponent>
 									(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(m_name + "Mat" + std::to_string(i))));
+								mat->setTypeName("assimp");
+								mat->setModelName(meshItem);
+								mat->setShaderName(shaderName);
 								m_layer->getGameObjects()[goName]->addComponent(mat);
 							}
 						}
@@ -380,6 +419,7 @@ namespace Engine
 							ResourceManagerInstance->getVBO().remove(m_name + "VBO");
 							ResourceManagerInstance->getEBO().remove(m_name + "EBO");
 							ResourceManagerInstance->getMaterial().remove(m_name + "Mat");
+
 							m_layer->getGameObjects()[goName]->removeComponent(m_layer->getGameObjects()[goName]->getComponent<MaterialComponent>());
 						}
 						else if (currentItem == "Assimp")

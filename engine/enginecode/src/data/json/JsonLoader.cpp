@@ -404,6 +404,9 @@ namespace Engine
 
 							mat = std::make_shared<MaterialComponent>
 								(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(goName + "Mat")));
+							mat->setTypeName(meshType);
+							mat->setModelName(modelName);
+							mat->setShaderName(shader);
 							gameObject->addComponent(mat);
 						}
 						else if (meshType == "assimp")
@@ -416,6 +419,7 @@ namespace Engine
 							for (int i = 0; i < assimpModel->m_meshes.size(); i++)
 							{
 								std::shared_ptr<MaterialComponent> mat;
+
 								Mesh* mesh = &assimpModel->m_meshes.at(i);
 								mesh->m_shader = ResourceManagerInstance->getShader().getAsset(go["material"]["shader"].get<std::string>());
 
@@ -447,6 +451,9 @@ namespace Engine
 
 								mat = std::make_shared<MaterialComponent>
 									(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(goName + "Mat" + std::to_string(i))));
+								mat->setTypeName(meshType);
+								mat->setModelName(modelName);
+								mat->setShaderName(go["material"]["shader"].get<std::string>());
 								gameObject->addComponent(mat);
 							}
 						}

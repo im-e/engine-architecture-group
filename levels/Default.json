@@ -1,1 +1,1 @@
-{ "GameObject": [ { "name": "FCCube",},},},}},{ "name": "PhongCube",}}}}}},{ "name": "Player",}}}}}}] }
+{ "GameObject": [ { "name": "FCCube","material": { "type": "json", "model": "JsonFCCube", "shader": "FlatColorShader"},},},}},{ "name": "PhongCube","material": { "type": "json", "model": "JsonTPCube", "shader": "PhongShader"},},},},}},{ "name": "Player","material": { "type": "assimp", "model": "ship", "shader": "PhongShader"},},},},}}] }
