@@ -53,6 +53,36 @@ namespace Engine
 		{
 			m_manageCompWindow = true;
 		}
+		if (ImGui::CollapsingHeader("Save"))
+		{
+			static char fileName[32] = "Default";
+			ImGui::InputText("", fileName, IM_ARRAYSIZE(fileName));
+			ImGui::SameLine();
+			ImGui::Text(".json");
+
+			if (ImGui::Button("Save to file"))
+			{
+				std::string file = fileName;
+				std::string path = "../levels/" + file + ".json";
+
+				std::ofstream outputStream;
+				outputStream.open(path);
+				// write header
+
+				// save each gameobject
+				for (auto& go : m_layer->getGameObjects())
+				{
+					auto comps = go.second->getComponents();
+					for (auto& c : comps)
+					{
+
+					}
+				}
+
+				// write footer
+				// flush stream
+			}
+		}
 		ImGui::End();
 
 		addGO();
@@ -208,7 +238,7 @@ namespace Engine
 					}
 				}
 				ImGui::SameLine(100);
-				if (ImGui::Button("Remove")) // Problem with asset manager???
+				if (ImGui::Button("Remove"))
 				{
 					if (m_layer->getGameObjects()[m_name]->getComponent<MaterialComponent>() != nullptr)
 					{
@@ -235,10 +265,10 @@ namespace Engine
 								m_layer->getGameObjects()[goName]->removeComponent(m_layer->getGameObjects()[goName]->getComponent<MaterialComponent>());
 							}
 						}
-						else
-						{
-							LogWarn("Component did not exist anyway!");
-						}
+					}
+					else
+					{
+						LogWarn("Component did not exist anyway!");
 					}
 				}
 			}
@@ -246,7 +276,9 @@ namespace Engine
 			if (ImGui::CollapsingHeader("Texture"))
 			{
 				static char tex[32] = "none";
+				static char normalTex[32] = "none";
 				ImGui::InputText("Diffuse texture", tex, IM_ARRAYSIZE(tex));
+				ImGui::InputText("Normal texture", normalTex, IM_ARRAYSIZE(normalTex));
 
 				if (ImGui::Button("Add"))
 				{
@@ -256,6 +288,13 @@ namespace Engine
 						std::shared_ptr<TextureComponent> texComp;
 						texComp = std::make_shared<TextureComponent>
 							(TextureComponent(ResourceManagerInstance->getTexture().getAsset(tex)->getSlot()));
+
+						std::string temp = normalTex;
+						if (temp.compare("none") != 0)
+						{
+							// set normal slot
+							LogInfo("{0}", temp);
+						}
 						m_layer->getGameObjects()[goName]->addComponent(texComp);
 					}
 					else
@@ -404,9 +443,11 @@ namespace Engine
 
 			if (ImGui::CollapsingHeader("Oscillate"))
 			{
-				// TODO state
-				const char* items[3] = { "Stopped", "Down", "Up" };
-				static const char* currentItem = items[0];
+				std::vector<const char*> chars;
+				chars.push_back("Stopped");
+				chars.push_back("Down");
+				chars.push_back("Up");
+				static const char* currentItem = chars[0];
 
 				OscillateComponent::State state = OscillateComponent::State::STOPPED;
 
@@ -416,13 +457,13 @@ namespace Engine
 
 				if (ImGui::BeginCombo("State", currentItem))
 				{
-					for (int i = 0; i < IM_ARRAYSIZE(items); i++)
+					for (int i = 0; i < chars.size(); i++)
 					{
-						bool selected = (currentItem == items[i]);
+						bool selected = (currentItem == chars[i]);
 
-						if (ImGui::Selectable(items[i], selected))
+						if (ImGui::Selectable(chars[i], selected))
 						{
-							currentItem = items[i];
+							currentItem = chars[i];
 						}
 
 						if (selected)

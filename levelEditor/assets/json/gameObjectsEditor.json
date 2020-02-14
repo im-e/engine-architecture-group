@@ -1,0 +1,150 @@
+{
+  "GameObject": [
+    {
+      "name": "FCCube",
+      "material": {
+        "type": "json",
+        "model": "JsonFCCube",
+        "shader": "FlatColorShader"
+      },
+
+      "position": {
+        "translation": {
+          "x": 1.5,
+          "y": 0.0,
+          "z": 3.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+
+      "velocity": {
+        "linear": {
+          "x": 0.0,
+          "y": 0.1,
+          "z": 0.0
+        },
+        "angular": {
+          "x": 0.0,
+          "y": 20.0,
+          "z": 0.0
+        }
+      },
+
+      "oscillate": {
+        "state": "DOWN",
+        "current time": 2.5,
+        "max time": 5.0,
+        "set texture": false
+      }
+    },
+
+    {
+      "name": "Player",
+      "material": {
+        "type": "assimp",
+        "model": "ship",
+        "shader": "PhongShader"
+      },
+
+      "position": {
+        "translation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 5.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 0.01,
+          "y": 0.01,
+          "z": 0.01
+        }
+      },
+
+      "velocity": {
+        "linear": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "angular": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+
+      "controller": {
+        "moveSpeed": 150.0,
+        "rotationSpeed": 1000.0
+      },
+
+      "texture": {
+        "name": "SpaceTexture"
+      }
+    },
+
+    {
+      "name": "PhongCube",
+      "material": {
+        "type": "json",
+        "model": "JsonTPCube",
+        "shader": "PhongShader"
+      },
+
+      "position": {
+        "translation": {
+          "x": -1.5,
+          "y": 0.0,
+          "z": 3.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+
+      "velocity": {
+        "linear": {
+          "x": 0.0,
+          "y": 0.1,
+          "z": 0.0
+        },
+        "angular": {
+          "x": 0.0,
+          "y": 20.0,
+          "z": 0.0
+        }
+      },
+
+      "oscillate": {
+        "state": "UP",
+        "current time": 2.5,
+        "max time": 5.0,
+        "set texture": true
+      },
+
+      "texture": {
+        "name": "NumberTexture"
+      }
+    }
+  ]
+}

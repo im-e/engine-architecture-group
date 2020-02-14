@@ -11,7 +11,7 @@ namespace Editor
 {
 	LevelEditor::LevelEditor()
 	{
-		m_layerStack->push(std::make_shared<Engine::JsonLayer>(Engine::JsonLayer("assets/json/editorLayer.json", "Editor Layer")));
+		m_layerStack->push(std::make_shared<Engine::JsonLayer>(Engine::JsonLayer("assets/json/editorLayer.json", "assets/json/gameObjectsEditor.json", "Editor Layer")));
 		// ImGui layer
 		m_layerStack->push(std::make_shared<Engine::ImGuiLayer>(Engine::ImGuiLayer("ImGui Layer", (*m_layerStack->begin()))));
 	}
