@@ -461,10 +461,11 @@ namespace Engine
 						if (go.count("texture") > 0)
 						{
 							std::shared_ptr<TextureComponent> tex;
-							std::string texName = go["texture"]["name"].get<std::string>();
+							std::string texName = go["texture"]["diffuse"].get<std::string>();
 
 							tex = std::make_shared<TextureComponent>
 								(TextureComponent(ResourceManagerInstance->getTexture().getAsset(texName)->getSlot()));
+							tex->setDiffuseTextureName(texName);
 							gameObject->addComponent(tex);
 						}
 					}

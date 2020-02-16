@@ -25,6 +25,10 @@ namespace Engine
 		glm::vec3 m_rotationVec; //!< Rotation vector of GO
 		glm::vec3 m_scaleVec; //!< Scale vector of GO
 
+		glm::vec3 m_initialTransformVec; //!< Initial position vector of a GO
+		glm::vec3 m_initialRotationVec; //!< Initial rotation vector of GO
+		glm::vec3 m_initialScaleVec; //!< Initial scale vector of GO
+
 		//! Calculates model matrix to be displayed on a screen
 		inline void calculateModel()
 		{
@@ -44,6 +48,11 @@ namespace Engine
 		PositionComponent(glm::vec3 translation, glm::vec3 rotation, glm::vec3 scale)
 			: m_transformVec(translation), m_rotationVec(rotation), m_scaleVec(scale), m_model(glm::mat4(1.0f))
 		{
+
+			m_initialTransformVec = m_transformVec;
+			m_initialRotationVec = m_rotationVec;
+			m_initialScaleVec = m_scaleVec;
+
 			m_rotationVec.x = glm::radians(m_rotationVec.x);
 			m_rotationVec.y = glm::radians(m_rotationVec.y);
 			m_rotationVec.z = glm::radians(m_rotationVec.z);
@@ -109,29 +118,32 @@ namespace Engine
 			return typeid(decltype(*this));
 		}
 
-		inline glm::vec3 getPosition()
+		inline glm::vec3 getCurrentPosition()
 		{
 			return m_transformVec;
 		}
 
-		inline glm::vec3 getRotation()
+		inline glm::vec3 getCurrentRotation()
 		{
-			return m_rotationVec;
+			return glm::degrees(m_rotationVec);
 		}
 
-		inline glm::vec3 getScale()
+		inline glm::vec3 getCurrentScale()
 		{
 			return m_scaleVec;
 		}
 
 		inline void setPosition(glm::vec3 newPos)
 		{
+			m_initialTransformVec = newPos;
 			m_transformVec = newPos;
 			calculateModel();
 		}
 
 		inline void setRotation(glm::vec3 newRot)
 		{
+			m_initialRotationVec = newRot;
+
 			m_rotationVec.x = glm::radians(newRot.x);
 			m_rotationVec.y = glm::radians(newRot.y);
 			m_rotationVec.z = glm::radians(newRot.z);
@@ -140,8 +152,24 @@ namespace Engine
 
 		inline void setScale(glm::vec3 newScale)
 		{
+			m_initialScaleVec = newScale;
 			m_scaleVec = newScale;
 			calculateModel();
+		}
+
+		inline glm::vec3 getInitialPosition()
+		{
+			return m_initialTransformVec;
+		}
+
+		inline glm::vec3 getInitialRotation()
+		{
+			return m_initialRotationVec;
+		}
+
+		inline glm::vec3 getInitialScale()
+		{
+			return m_initialScaleVec;
 		}
 	};
 }

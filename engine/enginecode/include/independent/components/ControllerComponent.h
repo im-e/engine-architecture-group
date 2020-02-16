@@ -95,5 +95,8 @@ namespace Engine
 		{
 			m_rotationSpeed = speed;
 		}
+
+		inline float getMoveSpeed() { return m_moveSpeed; }
+		inline float getRotationSpeed() { return m_rotationSpeed; }
 	};
 }

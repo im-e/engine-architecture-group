@@ -37,13 +37,6 @@
           "y": 20.0,
           "z": 0.0
         }
-      },
-
-      "oscillate": {
-        "state": "DOWN",
-        "current time": 2.5,
-        "max time": 5.0,
-        "set texture": false
       }
     },
 
@@ -92,7 +85,7 @@
       },
 
       "texture": {
-        "name": "SpaceTexture"
+        "diffuse": "SpaceTexture"
       }
     },
 
@@ -135,15 +128,8 @@
         }
       },
 
-      "oscillate": {
-        "state": "UP",
-        "current time": 2.5,
-        "max time": 5.0,
-        "set texture": true
-      },
-
       "texture": {
-        "name": "NumberTexture"
+        "diffuse": "NumberTexture"
       }
     }
   ]

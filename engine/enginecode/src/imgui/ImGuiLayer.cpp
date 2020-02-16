@@ -122,22 +122,41 @@ namespace Engine
 						else if (c->getType().hash_code() == typeid(TextureComponent).hash_code())
 						{
 							std::shared_ptr<TextureComponent> comp = std::static_pointer_cast<TextureComponent>(c);
+							
+							std::string diffuse = comp->getDiffName();
+
+							outputStream << "\"texture\": { \"diffuse\": \"" + diffuse + "\"";
 						}
 						else if (c->getType().hash_code() == typeid(PositionComponent).hash_code())
 						{
 							std::shared_ptr<PositionComponent> comp = std::static_pointer_cast<PositionComponent>(c);
+
+							glm::vec3 pos(comp->getInitialPosition().x, comp->getInitialPosition().y, comp->getInitialPosition().z);
+							glm::vec3 rot(comp->getInitialRotation().x, comp->getInitialRotation().y, comp->getInitialRotation().z);
+							glm::vec3 scl(comp->getInitialScale().x, comp->getInitialScale().y, comp->getInitialScale().z);
+
+							outputStream << "\"position\": { \"translation\": { \"x\": " + std::to_string(pos.x) + ", \"y\": " + std::to_string(pos.y) + ",\"z\": " + std::to_string(pos.z) + "},"
+								+ "\"rotation\": { \"x\": " + std::to_string(rot.x) + ", \"y\": " + std::to_string(rot.y) + ",\"z\": " + std::to_string(rot.z) + "},"
+								+ "\"scale\": { \"x\": " + std::to_string(scl.x) + ", \"y\": " + std::to_string(scl.y) + ",\"z\": " + std::to_string(scl.z) + "}";
 						}
 						else if (c->getType().hash_code() == typeid(VelocityComponent).hash_code())
 						{
 							std::shared_ptr<VelocityComponent> comp = std::static_pointer_cast<VelocityComponent>(c);
+
+							glm::vec3 linear(comp->getLinear().x, comp->getLinear().y, comp->getLinear().z);
+							glm::vec3 angular(comp->getAngular().x, comp->getAngular().y, comp->getAngular().z);
+
+							outputStream << "\"velocity\": { \"linear\": { \"x\": " + std::to_string(linear.x) + ", \"y\": " + std::to_string(linear.y) + ",\"z\": " + std::to_string(linear.z) + "},"
+								+ "\"angular\": { \"x\": " + std::to_string(angular.x) + ", \"y\": " + std::to_string(angular.y) + ",\"z\": " + std::to_string(angular.z) + "}";
 						}
 						else if (c->getType().hash_code() == typeid(ControllerComponent).hash_code())
 						{
 							std::shared_ptr<ControllerComponent> comp = std::static_pointer_cast<ControllerComponent>(c);
-						}
-						else if (c->getType().hash_code() == typeid(OscillateComponent).hash_code())
-						{
-							std::shared_ptr<OscillateComponent> comp = std::static_pointer_cast<OscillateComponent>(c);
+
+							float move = comp->getMoveSpeed();
+							float rotation = comp->getRotationSpeed();
+
+							outputStream << "\"controller\": { \"moveSpeed\": " + std::to_string(move) + ",\"rotationSpeed\": " + std::to_string(rotation);
 						}
 
 
@@ -474,6 +493,7 @@ namespace Engine
 						texComp = std::make_shared<TextureComponent>
 							(TextureComponent(ResourceManagerInstance->getTexture().getAsset(tex)->getSlot()));
 
+						texComp->setDiffuseTextureName(tex);
 						m_layer->getGameObjects()[goName]->addComponent(texComp);
 					}
 					else
@@ -488,6 +508,7 @@ namespace Engine
 					if (comp != nullptr)
 					{
 						comp->setTexture(ResourceManagerInstance->getTexture().getAsset(tex)->getSlot());
+						comp->setDiffuseTextureName(tex);
 					}
 					else
 					{
@@ -513,9 +534,9 @@ namespace Engine
 			{
 				if (m_layer->getGameObjects().find(goName) != m_layer->getGameObjects().end())
 				{
-					static glm::vec3 pos = m_layer->getGameObjects()[goName]->getComponent<PositionComponent>()->getPosition();
-					static glm::vec3 rot = m_layer->getGameObjects()[goName]->getComponent<PositionComponent>()->getRotation();
-					static glm::vec3 scl = m_layer->getGameObjects()[goName]->getComponent<PositionComponent>()->getScale();
+					static glm::vec3 pos = m_layer->getGameObjects()[goName]->getComponent<PositionComponent>()->getCurrentPosition();
+					static glm::vec3 rot = m_layer->getGameObjects()[goName]->getComponent<PositionComponent>()->getCurrentRotation();
+					static glm::vec3 scl = m_layer->getGameObjects()[goName]->getComponent<PositionComponent>()->getCurrentScale();
 
 					ImGui::InputFloat3("Position", &pos.x, 2);
 					ImGui::InputFloat3("Rotation", &rot.x, 2);
