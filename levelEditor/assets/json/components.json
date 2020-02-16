@@ -1,0 +1,11 @@
+{
+  "Functions": 
+  {
+    "Material": true,
+    "Texture": true,
+    "Position": true,
+    "Velocity": true,
+    "Controller": true,
+    "Oscillate": true
+  }
+}

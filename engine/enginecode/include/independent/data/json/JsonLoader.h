@@ -10,6 +10,7 @@
 
 #include "JsonLog.h"
 #include "JsonLayer.h"
+#include "imgui/ImGuiLayer.h"
 #include "JsonModelLoader.h"
 #include "data/assimp/AssimpModel.h"
 
@@ -30,5 +31,6 @@ namespace Engine
 		static std::shared_ptr<Texture> loadTextureAsync(std::string path);
 		static void loadJson(const std::string& filepath, JsonLayer& layer);
 		static void loadGameObjects(const std::string& filepath, JsonLayer& layer);
+		static void loadImGui(const std::string& filepath, ImGuiLayer& layer);
 	};
 }
