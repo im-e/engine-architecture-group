@@ -24,6 +24,10 @@
       {
         "name": "PointLightShader",
         "filepath": "assets/shaders/pointLight.glsl"
+      },
+      {
+        "name": "DirectionalLightShader",
+        "filepath": "assets/shaders/directionalLight.glsl"
       }
     ],
     "textures": [
@@ -76,20 +80,20 @@
         "filepath": "assets/textures/wood_diffuse.png"
       },
       {
-        "name": "SpecularTexture",
+        "name": "BrickSpecular",
         "filepath": "assets/textures/brick_specular.png"
       }
     ]
   },
 
   "MemoryInfo": {
-    "gameObjects": 6,
-    "materials": 6,
-    "position": 6,
-    "velocity": 6,
+    "gameObjects": 7,
+    "materials": 7,
+    "position": 7,
+    "velocity": 7,
     "oscillates": 2,
-    "textures": 5,
-    "controllers": 2
+    "textures": 7,
+    "controllers": 4
   },
 
   "Camera": {
@@ -201,6 +205,107 @@
         "name": "BrickDiffuse",
         "specular": "none",
         "normal": "BrickNormal",
+        "parallax": "none"
+      }
+    },
+
+    {
+      "name": "TorchWall",
+      "material": {
+        "type": "assimp",
+        "model": "assets/assimpModels/royaltyfreebox.obj",
+        "shader": "NormalShader"
+      },
+
+      "position": {
+        "translation": {
+          "x": -4.0,
+          "y": 0.0,
+          "z": 5.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": -90.0,
+          "z": 180.0
+        },
+        "scale": {
+          "x": 1.55,
+          "y": 1.55,
+          "z": 1.55
+        }
+      },
+
+      "velocity": {
+        "linear": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "angular": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+
+      "controller": {
+        "moveSpeed": 150.0,
+        "rotationSpeed": 1000.0
+      },
+      "texture": {
+        "name": "BrickDiffuse",
+        "specular": "none",
+        "normal": "BrickNormal",
+        "parallax": "none"
+      }
+    },
+    {
+      "name": "SpotlightWall",
+      "material": {
+        "type": "assimp",
+        "model": "assets/assimpModels/royaltyfreebox.obj",
+        "shader": "PointLightShader"
+      },
+
+      "position": {
+        "translation": {
+          "x": -6.0,
+          "y": 0.0,
+          "z": 5.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": -90.0,
+          "z": 180.0
+        },
+        "scale": {
+          "x": 1.55,
+          "y": 1.55,
+          "z": 1.55
+        }
+      },
+
+      "velocity": {
+        "linear": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "angular": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+
+      "controller": {
+        "moveSpeed": 150.0,
+        "rotationSpeed": 1000.0
+      },
+      "texture": {
+        "name": "BrickDiffuse",
+        "specular": "BrickSpecular",
+        "normal": "none",
         "parallax": "none"
       }
     },
@@ -355,52 +460,6 @@
         "normal": "none",
         "parallax": "none"
       }
-    },
-    {
-      "name": "PointCube",
-      "material": {
-        "type": "json",
-        "model": "assets/jsonModels/tpCube.txt",
-        "shader": "PointLightShader"
-      },
-
-      "position": {
-        "translation": {
-          "x": -1.5,
-          "y": 0.0,
-          "z": -1.0
-        },
-        "rotation": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "scale": {
-          "x": 1.0,
-          "y": 1.0,
-          "z": 1.0
-        }
-      },
-
-      "velocity": {
-        "linear": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "angular": {
-          "x": 0.0,
-          "y": 20.0,
-          "z": 0.0
-        }
-      },
-
-      "texture": {
-        "name": "BrickDiffuse",
-        "specular": "SpecularTexture",
-        "normal": "none",
-        "parallax": "none"
-      }
     }
   ],
 
@@ -422,6 +481,10 @@
         {
           "name": "PointLightShader",
           "block": "Matrices"
+        },
+        {
+          "name": "DirectionalLightShader",
+          "block": "Light"
         },
         {
           "name": "BlinnPhongShader",
@@ -464,6 +527,10 @@
           "block": "Light"
         },
         {
+          "name": "DirectionalLightShader",
+          "block": "Light"
+        },
+        {
           "name": "NormalShader",
           "block": "Light"
         },
@@ -494,18 +561,16 @@
       ]
     },
     {
-      "name": "SettingsUBO",
+      "name": "Settings",
       "layout": [
         "Vec3",
         "Vec3",
         "Vec3",
-        "Float",
-        "Float",
-        "Float"
+        "Vec3"
       ],
       "shaders": [
         {
-          "name": "PointLightShader",
+          "name": "DirectionalLightShader",
           "block": "Settings"
         }
       ],
@@ -529,16 +594,10 @@
           "z": 1.0
         },
         {
-          "type": "Float",
-          "x": 0.5
-        },
-        {
-          "type": "Float",
-          "x": 0.09
-        },
-        {
-          "type": "Float",
-          "x": 0.032
+          "type": "Float3",
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
         }
       ]
     }
