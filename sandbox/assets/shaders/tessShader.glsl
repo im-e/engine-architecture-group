@@ -107,7 +107,7 @@ vec3 getNormal()
     return normalize(cross(a, b));
 }
 
-#region TessellationControl
+#region Tessellation Control
 
 // first step of tesselation shader
 // tesselation control shader add/deletes control points and determines the tesselatation level
@@ -130,10 +130,26 @@ out vec3 fragPosCS[];
 
 layout(std140) uniform CameraPosition
 {
-	vec3 u_eyePos;
-}
+	vec3 eyePos;
+};
 
-float GetTessLevel(float, float);
+float GetTessLevel(float Distance0, float Distance1)
+{
+	float lambda = -0.5f;
+	float alpha = 15f;
+	float AverageDist = (Distance0 + Distance1) / 2.0;
+	float expValue = ceil(round(exp(lambda*AverageDist) * alpha));
+	if(expValue < 1.0f)
+	{
+		expValue = 1.0f;
+		return expValue;
+	}
+	else
+	{
+		expValue = ceil(round(exp(lambda*AverageDist) * alpha));
+		return expValue;
+	}
+}
 
 void main()
 {
@@ -166,25 +182,8 @@ void main()
 
 }
 
-float GetTessLevel(float Distance0, float Distance1)
-{
-	float lambda = -0.5f;
-	float alpha = 15f;
-	float AverageDist = (Distance0 + Distance1) / 2.0;
-	float expValue = ceil(round(exp(lambda*AverageDist) * alpha));
-	if(expValue < 1.0f)
-	{
-		expValue = 1.0f;
-		return expValue;
-	}
-	else
-	{
-		expValue = ceil(round(exp(lambda*AverageDist) * alpha));
-		return expValue;
-	}
-}
 
-#region TessellationEval
+#region Tessellation Eval
 
 #version 450 core
 
