@@ -60,6 +60,7 @@ namespace Engine
 		\param filepath path to the shader file
 		*/
 		std::shared_ptr<Shader> addShader(const std::string& key, const std::string& filepath);
+		//! Adds a compiled shader to the collection \param key key associated with a shader \param shader shader to be added
 		void addShaderAsync(const std::string & key, std::shared_ptr<Shader> shader);
 		/*! Adds shader to collection of shaders
 		\param key key associated with a shader
@@ -72,6 +73,7 @@ namespace Engine
 		\param filepath path to the texture file
 		*/
 		std::shared_ptr<Texture> addTexture(const std::string& key, const std::string& filepath);
+		//! Adds a compiled texture to the collection \param key key associated with a texture \param texture texture to be added
 		void addTextureAsync(const std::string& key, std::shared_ptr<Texture> tex);
 		/*! Adds texture to collection of textures
 		\param key key associated with a texture
@@ -100,7 +102,9 @@ namespace Engine
 		*/
 		std::shared_ptr<UniformBuffer> addUBO(const std::string& key, unsigned int size, UniformLayout& layout);
 
+		//! Adds a compiled json model to the collection \param key key associated with a model \param model model to be added
 		void addJsonModelAsync(const std::string& key, std::shared_ptr<JsonModel> model);
+		//! Adds a compiled assimp model to the collection \param key key associated with a model \param model model to be added
 		void addAssimpModelAsync(const std::string& key, std::shared_ptr<AssimpModel> model);
 
 		//! Gets class instance \return singleton instance

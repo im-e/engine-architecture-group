@@ -38,7 +38,7 @@ namespace Engine
 		std::string m_gameobjectsFilepath;  //!< JSON gameobjects filepath
 
 	public:
-		//! Custom constructor \param filepath path to the json file \param name name of the layer
+		//! Custom constructor \param filepath path to the json file \param gameObjectsFilepath path to the gameObjects file \param name name of the layer
 		JsonLayer(const std::string& filepath, const std::string& gameobjectsFilepath, const std::string& name) : m_filepath(filepath), m_gameobjectsFilepath(gameobjectsFilepath), Layer(name) {}	
 
 		//! Runs when layer is attached

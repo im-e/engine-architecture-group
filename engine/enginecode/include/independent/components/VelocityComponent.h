@@ -67,11 +67,13 @@ namespace Engine
 		//! Gets angular velocity of a component \return angular velocity
 		inline glm::vec3& getAngular() { return m_angular; }
 
+		//! Sets linear velocity \param newLin new linear velocity
 		inline void setLinear(glm::vec3 newLin)
 		{
 			m_linear = newLin;
 		}
 
+		//! Sets angular velocity \param newAng new angular velocity
 		inline void setAngular(glm::vec3 newAng)
 		{
 			m_angular = newAng;

@@ -24,7 +24,9 @@ namespace Engine
 		//! Pointer to GLFW window
 		GLFWwindow* m_window;
 
+		//! Initial thread ID
 		std::thread::id m_initialThreadID;
+		//! Original graphics context
 		HGLRC m_originalContext;
 	public:
 		//! Constructor

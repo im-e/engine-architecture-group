@@ -118,21 +118,25 @@ namespace Engine
 			return typeid(decltype(*this));
 		}
 
+		//! Returns position \return current position
 		inline glm::vec3 getCurrentPosition()
 		{
 			return m_transformVec;
 		}
 
+		//! Returns rotation \return current rotation
 		inline glm::vec3 getCurrentRotation()
 		{
 			return glm::degrees(m_rotationVec);
 		}
 
+		//! Returns scale \return current scale
 		inline glm::vec3 getCurrentScale()
 		{
 			return m_scaleVec;
 		}
 
+		//! Sets position \param newPos new position
 		inline void setPosition(glm::vec3 newPos)
 		{
 			m_initialTransformVec = newPos;
@@ -140,6 +144,7 @@ namespace Engine
 			calculateModel();
 		}
 
+		//! Sets rotation \param newRot new rotation
 		inline void setRotation(glm::vec3 newRot)
 		{
 			m_initialRotationVec = newRot;
@@ -150,6 +155,7 @@ namespace Engine
 			calculateModel();
 		}
 
+		//! Sets scale \param newScale new scale
 		inline void setScale(glm::vec3 newScale)
 		{
 			m_initialScaleVec = newScale;
@@ -157,16 +163,19 @@ namespace Engine
 			calculateModel();
 		}
 
+		//! Gets initial position \return initial position
 		inline glm::vec3 getInitialPosition()
 		{
 			return m_initialTransformVec;
 		}
 
+		//! Gets initial rotation \return initial rotation
 		inline glm::vec3 getInitialRotation()
 		{
 			return m_initialRotationVec;
 		}
 
+		//! Gets initial scale \return initial scale
 		inline glm::vec3 getInitialScale()
 		{
 			return m_initialScaleVec;

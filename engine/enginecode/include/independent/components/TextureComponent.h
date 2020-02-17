@@ -17,8 +17,7 @@ namespace Engine
 	{
 	private:
 		unsigned int m_texSlot; //!< Texture slot
-
-		std::string m_diffName;
+		std::string m_diffName; //!< Diffuse texture name
 
 	public:
 		//! Custom constructor \param texSlot initial texture slot
@@ -65,7 +64,9 @@ namespace Engine
 			return typeid(decltype(*this));
 		}
 
+		//! Sets diffuse texture name \param name new diffuse texture name
 		inline void setDiffuseTextureName(std::string name) { m_diffName = name; }
+		//! Gets diffuse texture name \return current diffuse texture name
 		inline std::string& getDiffName() { return m_diffName; }
 	};
 }

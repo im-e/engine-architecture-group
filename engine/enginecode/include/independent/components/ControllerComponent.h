@@ -86,17 +86,22 @@ namespace Engine
 			return typeid(decltype(*this));
 		}
 
+		//! Sets move speed \param speed new speed
 		inline void setMoveSpeed(float speed)
 		{
 			m_moveSpeed = speed;
 		}
 
+		//! Sets move speed \param speed new speed
 		inline void setRotationSpeeed(float speed)
 		{
 			m_rotationSpeed = speed;
 		}
 
+		//! Gets move speed \return current move speed
 		inline float getMoveSpeed() { return m_moveSpeed; }
+
+		//! Gets rotation speed \return current rotation speed
 		inline float getRotationSpeed() { return m_rotationSpeed; }
 	};
 }

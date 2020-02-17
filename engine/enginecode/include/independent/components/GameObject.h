@@ -32,7 +32,7 @@ namespace Engine
 		void addComponent(const std::shared_ptr<Component>& comp); //!< Adds components \param comp component to be added
 		void removeComponent(std::shared_ptr<Component> comp); //!< Removes components \param comp component to be removed
 
-		//! Gets component \return component if existing on a gameobjects
+		//! Gets component \return component if exists on a gameobject
 		template<typename C>
 		inline std::shared_ptr<C> getComponent()
 		{
@@ -62,6 +62,7 @@ namespace Engine
 		//! Gets an end of a dispatch map associated with a GO \return end of a dispatch map
 		inline std::multimap<ComponentMessageType, Component*>::iterator endMap() { return m_dispatchMap.end(); }
 
+		//! Gets GO's name \return GameObject's name
 		inline std::string& getName() { return m_name; }
 
 		//! Virtual destructor
