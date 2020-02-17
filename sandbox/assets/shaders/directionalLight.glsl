@@ -2,16 +2,15 @@
 
 #version 440 core
 			
-layout (location = 0) in vec3 aPos;
-layout (location = 1) in vec3 aNormal;
-layout (location = 2) in vec2 aTexCoords;
+layout(location = 0) in vec3 a_vertexPosition;
+layout(location = 1) in vec3 a_vertexNormal;
+layout(location = 2) in vec2 a_texCoord;
 
-out vec3 FragPos;
-out vec3 Normal;
-out vec2 TexCoords;
+out vec3 fragmentPos;
+out vec3 normal;
+out vec2 texCoord;
 
-
-layout (std140) uniform Matrices
+layout(std140) uniform Matrices
 {
 	mat4 u_VP;
 };
@@ -20,11 +19,10 @@ uniform mat4 u_model;
 
 void main()
 {
-    FragPos = vec3(u_model * vec4(aPos, 1.0));
-    Normal = mat3(transpose(inverse(u_model))) * aNormal;  
-    TexCoords = aTexCoords;
-    
-    gl_Position = u_VP * vec4(FragPos, 1.0);
+	fragmentPos = vec3(u_model * vec4(a_vertexPosition, 1.0));
+	normal = mat3(transpose(inverse(u_model))) * a_vertexNormal;
+	texCoord = vec2(a_texCoord.x, a_texCoord.y);
+	gl_Position =  u_VP * u_model * vec4(a_vertexPosition, 1.0);
 }
 				
 #region Fragment
@@ -33,12 +31,9 @@ void main()
 			
 layout(location = 0) out vec4 colour;
 
-in vec3 FragPos;  
-in vec3 Normal;  
-in vec2 TexCoords;
-
-uniform sampler2D u_texData;
-uniform sampler2D u_specularTexData;
+in vec3 normal;
+in vec3 fragmentPos;
+in vec2 texCoord;
 
 layout(std140) uniform Light
 {
@@ -47,32 +42,23 @@ layout(std140) uniform Light
 	vec3 u_lightColour;
 };
 
-layout(std140) uniform Settings
-{
-    vec3 u_direction;
-    vec3 u_ambient;
-    vec3 u_diffuse;
-    vec3 u_specular;
-};
+uniform sampler2D u_texData;
 
 void main()
 {
-    // ambient
-    vec3 ambient = u_ambient * texture(u_texData, TexCoords).rgb;
-  	
-    // diffuse 
-    vec3 norm = normalize(Normal);
-    // vec3 lightDir = normalize(u_lightPos - FragPos);
-    vec3 lightDir = normalize(-u_direction);  
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = u_diffuse * diff * texture(u_texData, TexCoords).rgb;  
-    
-    // specular
-    vec3 viewDir = normalize(u_viewPos - FragPos);
-    vec3 reflectDir = reflect(-lightDir, norm);  
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 0.2);
-    vec3 specular = u_specular * spec * texture(u_specularTexData, TexCoords).rgb;  
-        
-    vec3 result = ambient + diffuse + specular;
-    colour = vec4(result, 1.0);
-}  
+	float ambientStrength = 0.4;
+	vec3 ambient = ambientStrength * u_lightColour;
+	
+	vec3 norm = normalize(normal);
+	vec3 lightDir = normalize(u_lightPos - fragmentPos);
+	float diff = max(dot(norm, lightDir), 0.0);
+	vec3 diffuse = diff * u_lightColour;
+	
+	float specularStrength = 0.8;
+	vec3 viewDir = normalize(u_viewPos - fragmentPos);
+	vec3 reflectDir = reflect(-lightDir, norm);  
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 64);
+	vec3 specular = specularStrength * spec * u_lightColour;  
+	
+	colour = vec4((ambient + diffuse + specular), 1.0) * texture(u_texData, texCoord);
+}

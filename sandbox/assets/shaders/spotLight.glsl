@@ -14,7 +14,9 @@ out vec2 TexCoords;
 layout (std140) uniform Matrices
 {
 	mat4 u_VP;
-	mat4 u_camPos;
+	vec3 u_camPos;
+	vec3 u_camForward;
+	float u_cutOff;
 };
 
 uniform mat4 u_model;
@@ -38,6 +40,14 @@ in vec3 FragPos;
 in vec2 TexCoords;
 in vec3 Normal;
 
+layout (std140) uniform Matrices
+{
+	mat4 u_VP;
+	vec3 u_camPos;
+	vec3 u_camForward;
+	float u_cutOff;
+};
+
 layout(std140) uniform Light
 {
 	vec3 u_lightPos; 
@@ -45,29 +55,28 @@ layout(std140) uniform Light
 	vec3 u_lightColour;
 };
 
-//layout(std140) uniform Settings
-//{
-//	vec3 u_ambient; 
-//	vec3 u_diffuse; 
-//	vec3 u_specular;
-//	float u_constant;
-//	float u_linear;
-//	float u_quadratic;
-//};
+vec3 position = u_camPos;
+vec3 direction = u_camForward;
+float outerCutOff;
 
 uniform sampler2D u_texData;
 uniform sampler2D u_specularTexData;
 
 void main()
 {
-
+	vec3 lightDir = normalize(position - FragPos);
+    
+    // check if lighting is inside the spotlight cone
+    float theta = dot(lightDir, normalize(direction)); 
+    
+    if(theta > u_cutOff) // remember that we're working with angles as cosines instead of degrees so a '>' is used.
+	{
 	vec3 color = texture(u_texData, TexCoords).rgb;
     // ambient
     vec3 ambient = 0.25 * color;  
 	
     // diffuse 
     vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(u_lightPos - FragPos);
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = diff * color; 
     
@@ -83,13 +92,20 @@ void main()
 	float quadratic = 0.032;
 
     // attenuation
-    float distance    = length(u_lightPos - FragPos);
+    float distance    = length(position - FragPos);
     float attenuation = 1.0 / (constant + linear * distance + quadratic * (distance * distance));    
-
-    ambient  *= attenuation;  
+ 
     diffuse   *= attenuation;
     specular *= attenuation;   
         
     vec3 result = ambient + diffuse + specular;
     FragColor = vec4(result, 1.0);
+	}
+	else
+	{
+		vec3 color = texture(u_texData, TexCoords).rgb;
+		// ambient
+		vec3 ambient = 0.25 * color; 
+        FragColor = vec4(ambient, 1.0);
+	}
 } 

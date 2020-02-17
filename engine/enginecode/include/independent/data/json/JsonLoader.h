@@ -363,9 +363,19 @@ namespace Engine
 								{
 									ptr = (void*)&layer.getCamera()->getCamera()->getViewProjection();
 								}
-								if (data["var"].get<std::string>().compare("Eye") == 0)
+								if (data["var"].get<std::string>().compare("camPosition") == 0)
 								{
 									ptr = (void*)&layer.getCamera()->getCamera()->getPosition();
+								}
+								if (data["var"].get<std::string>().compare("cutOff") == 0)
+								{
+									ptr = (void*)&layer.getCamera()->getCamera()->getCutOff();
+								}
+								if (data["var"].get<std::string>().compare("camForward") == 0)
+								{
+									auto cam = layer.getCamera()->getCamera();
+									auto cam3D = std::static_pointer_cast<Camera3D>(cam);
+									ptr = (void*)&cam3D->getForward();
 								}
 							}
 							if (type == "Float3")

@@ -28,6 +28,10 @@
       {
         "name": "DirectionalLightShader",
         "filepath": "assets/shaders/directionalLight.glsl"
+      },
+      {
+        "name": "SpotLightShader",
+        "filepath": "assets/shaders/spotLight.glsl"
       }
     ],
     "textures": [
@@ -178,9 +182,9 @@
           "z": 180.0
         },
         "scale": {
-          "x": 1.55,
-          "y": 1.55,
-          "z": 1.55
+          "x": 1.25,
+          "y": 1.25,
+          "z": 1.25
         }
       },
 
@@ -210,57 +214,7 @@
     },
 
     {
-      "name": "TorchWall",
-      "material": {
-        "type": "assimp",
-        "model": "assets/assimpModels/royaltyfreebox.obj",
-        "shader": "NormalShader"
-      },
-
-      "position": {
-        "translation": {
-          "x": -4.0,
-          "y": 0.0,
-          "z": 5.0
-        },
-        "rotation": {
-          "x": 0.0,
-          "y": -90.0,
-          "z": 180.0
-        },
-        "scale": {
-          "x": 1.55,
-          "y": 1.55,
-          "z": 1.55
-        }
-      },
-
-      "velocity": {
-        "linear": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "angular": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        }
-      },
-
-      "controller": {
-        "moveSpeed": 150.0,
-        "rotationSpeed": 1000.0
-      },
-      "texture": {
-        "name": "BrickDiffuse",
-        "specular": "none",
-        "normal": "BrickNormal",
-        "parallax": "none"
-      }
-    },
-    {
-      "name": "SpotlightWall",
+      "name": "PointLightWall",
       "material": {
         "type": "assimp",
         "model": "assets/assimpModels/royaltyfreebox.obj",
@@ -269,7 +223,7 @@
 
       "position": {
         "translation": {
-          "x": -6.0,
+          "x": -5.0,
           "y": 0.0,
           "z": 5.0
         },
@@ -279,9 +233,59 @@
           "z": 180.0
         },
         "scale": {
-          "x": 1.55,
-          "y": 1.55,
-          "z": 1.55
+          "x": 1.25,
+          "y": 1.25,
+          "z": 1.25
+        }
+      },
+
+      "velocity": {
+        "linear": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "angular": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+
+      "controller": {
+        "moveSpeed": 150.0,
+        "rotationSpeed": 1000.0
+      },
+      "texture": {
+        "name": "BrickDiffuse",
+        "specular": "BrickSpecular",
+        "normal": "none",
+        "parallax": "none"
+      }
+    },
+    {
+      "name": "SpotlightWall",
+      "material": {
+        "type": "assimp",
+        "model": "assets/assimpModels/royaltyfreebox.obj",
+        "shader": "SpotLightShader"
+      },
+
+      "position": {
+        "translation": {
+          "x": -8.0,
+          "y": 0.0,
+          "z": 5.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": -90.0,
+          "z": 180.0
+        },
+        "scale": {
+          "x": 1.25,
+          "y": 1.25,
+          "z": 1.25
         }
       },
 
@@ -311,7 +315,7 @@
     },
 
     {
-      "name": "PlayerBox",
+      "name": "ParallaxWall",
       "material": {
         "type": "assimp",
         "model": "assets/assimpModels/royaltyfreebox.obj",
@@ -381,9 +385,9 @@
           "z": 0.0
         },
         "scale": {
-          "x": 15.0,
+          "x": 25.0,
           "y": 0.5,
-          "z": 15.0
+          "z": 20.0
         }
       },
 
@@ -467,7 +471,10 @@
     {
       "name": "ViewProjection",
       "layout": [
-        "Mat4"
+        "Mat4",
+        "Vec3",
+        "Vec3",
+        "Float"
       ],
       "shaders": [
         {
@@ -487,6 +494,10 @@
           "block": "Light"
         },
         {
+          "name": "SpotLightShader",
+          "block": "Matrices"
+        },
+        {
           "name": "BlinnPhongShader",
           "block": "Matrices"
         },
@@ -503,6 +514,18 @@
         {
           "type": "pointer",
           "var": "VP Matrix"
+        },
+        {
+          "type": "pointer",
+          "var": "camPosition"
+        },
+        {
+          "type": "pointer",
+          "var": "camForward"
+        },
+        {
+          "type": "pointer",
+          "var": "cutOff"
         }
       ]
     },
@@ -527,6 +550,10 @@
           "block": "Light"
         },
         {
+          "name": "SpotLightShader",
+          "block": "Light"
+        },
+        {
           "name": "DirectionalLightShader",
           "block": "Light"
         },
@@ -542,9 +569,9 @@
       "data": [
         {
           "type": "Float3",
-          "x": 1.0,
-          "y": 4.0,
-          "z": -6.0
+          "x": -2.0,
+          "y": 1.5,
+          "z": 2.0
         },
         {
           "type": "Float3",
