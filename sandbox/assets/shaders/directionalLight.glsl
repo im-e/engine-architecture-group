@@ -46,7 +46,7 @@ uniform sampler2D u_texData;
 
 void main()
 {
-	float ambientStrength = 0.4;
+	float ambientStrength = 0.6;
 	vec3 ambient = ambientStrength * u_lightColour;
 	
 	vec3 norm = normalize(normal);
