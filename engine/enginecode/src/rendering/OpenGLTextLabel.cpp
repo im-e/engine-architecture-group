@@ -13,7 +13,7 @@ namespace Engine
 		setScale(scale);
 		setColour(colour);
 
-		m_textShader = ResourceManagerInstance->addShader("textShaderFT", "assets/shaders/textShaderFT.glsl");
+		m_textShader = ResourceManagerInstance->getShader().getAsset("TextShaderFT");
 		m_VAO = ResourceManagerInstance->addVAO(key + "VAO");
 
 		unsigned int textIndices[4] = { 0, 1, 2, 3 };
@@ -25,7 +25,8 @@ namespace Engine
 		std::string::const_iterator c;
 		for (c = text.begin(); c != text.end(); c++)
 		{
-			std::shared_ptr<Character> ch = ResourceManagerInstance->getCharacter(fontName, *c);
+			LogInfo("a");
+		    std::shared_ptr<Character> ch = ResourceManagerInstance->getCharacter(fontName, (*c));
 
 			glm::vec2 startPos = glm::vec2(ch->getStartUV().x, ch->getStartUV().y) * scale;
 			glm::vec2 endPos = glm::vec2(ch->getEndUV().x, ch->getEndUV().y) * scale;

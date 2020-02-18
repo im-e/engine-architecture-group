@@ -131,9 +131,11 @@ namespace Engine
 			for (int i = m_ASCIIstart; i <= m_ASCIIend; i++)
 			{
 				if (FT_Load_Char(face, i, FT_LOAD_RENDER)) LogError("Error: Could not load the character");
-				m_fontTexture.reset(Texture::createFromRawData(face->glyph->bitmap.width, face->glyph->bitmap.rows, 1, face->glyph->bitmap.buffer));
+				
 				m_characters[filepath].push_back(Character(glm::vec2(face->glyph->bitmap.width, face->glyph->bitmap.rows), glm::vec2(face->glyph->bitmap_left, face->glyph->bitmap_top), face->glyph->advance.x, glm::vec2(0.0f), glm::vec2(1.0f)));
 			}
+
+			m_fontTexture.reset(Texture::createFromRawData(face->glyph->bitmap.width, face->glyph->bitmap.rows, 1, face->glyph->bitmap.buffer));
 		}
 
 		FT_Done_Face(face);
@@ -153,11 +155,11 @@ namespace Engine
 	{
 		std::shared_ptr<Character> chosenCharacter;
 
-		for (auto it : m_characters)
+		for (auto& it : m_characters)
 		{
 			if (it.first == font)
 			{
-				chosenCharacter.reset(&it.second[ASCIIcode]);
+				chosenCharacter = std::make_shared<Character>(it.second[ASCIIcode-32]);
 				return chosenCharacter;
 			}
 		}

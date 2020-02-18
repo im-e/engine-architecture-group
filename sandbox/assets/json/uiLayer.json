@@ -4,6 +4,10 @@
       {
         "name": "TextShader",
         "filepath": "assets/shaders/textShader.glsl"
+      },
+      {
+        "name": "TextShaderFT",
+        "filepath": "assets/shaders/textShaderFT.glsl"
       }
     ],
     "textures": [
@@ -14,8 +18,9 @@
     ],
     "fonts": [
       {
+        "name": "04b_20__",
         "filepath": "assets/fonts/04b_20/04b_20__.ttf",
-        "charsize": 32
+        "charSize": 32
       }
     ]
   },
@@ -26,7 +31,7 @@
     "position": 2,
     "velocity": 0,
     "oscillates": 0,
-    "textures": 1
+    "textures": 2
   },
 
   "Camera": {
@@ -85,12 +90,12 @@
         }
       },
       "position": {
-        "trans": {
+        "translation": {
           "x": 250.0,
           "y": 500.0,
           "z": 0.0
         },
-        "rot": {
+        "rotation": {
           "x": 0.0,
           "y": 0.0,
           "z": 0.0
@@ -115,7 +120,7 @@
           "block": "Matrices"
         },
         {
-          "name": "textShaderFT",
+          "name": "TextShaderFT",
           "block": "Matrices"
         }
       ],

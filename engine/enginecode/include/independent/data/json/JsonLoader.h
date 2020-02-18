@@ -26,7 +26,7 @@ namespace Engine
 		static void loadJson(const std::string& filepath, JsonLayer& layer)
 		{
 #ifdef NG_DEBUG
-			Engine::JsonLog::loadLog(filepath);
+			//Engine::JsonLog::loadLog(filepath);
 #endif
 			std::fstream file(filepath, std::ios::in);
 
@@ -64,7 +64,9 @@ namespace Engine
 					std::unordered_map<std::string, unsigned int> fonts;
 					for (auto& fnFilepath : jsonFile["Asyncload"]["fonts"])
 					{
-						fonts[fnFilepath["filepath"].get<std::string>()] = fnFilepath["charSize"].get<int>();
+						std::string filepath = fnFilepath["filepath"].get<std::string>();
+						int size = fnFilepath["charSize"].get<int>();
+						fonts[filepath] = size;
 					}
 					if (!fonts.empty()) ResourceManagerInstance->populateCharacters(fonts);
 					// Json Error is occuring here somewhere, worked on home pc for some reason 
