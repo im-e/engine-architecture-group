@@ -59,7 +59,6 @@ namespace Engine
 						ResourceManagerInstance->addTexture(name, path);
 					}
 				}
-		
 				if (jsonFile["Asyncload"].count("fonts") > 0)
 				{
 					std::unordered_map<std::string, unsigned int> fonts;

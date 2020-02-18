@@ -14,9 +14,8 @@
     ],
     "fonts": [
       {
-        //"name": "04b_20__",
         "filepath": "assets/fonts/04b_20/04b_20__.ttf",
-        "charSize": 32
+        "charsize": 32
       }
     ]
   },
@@ -27,7 +26,7 @@
     "position": 2,
     "velocity": 0,
     "oscillates": 0,
-    "textures": 2
+    "textures": 1
   },
 
   "Camera": {
@@ -116,7 +115,7 @@
           "block": "Matrices"
         },
         {
-          "name": "TextShaderFT",
+          "name": "textShaderFT",
           "block": "Matrices"
         }
       ],
