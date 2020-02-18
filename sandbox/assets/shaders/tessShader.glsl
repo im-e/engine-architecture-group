@@ -130,7 +130,7 @@ out vec3 fragPosCS[];
 
 layout(std140) uniform CameraPosition
 {
-	vec3 eyePos;
+	vec3 camPosition;
 };
 
 float GetTessLevel(float Distance0, float Distance1)
@@ -165,9 +165,9 @@ void main()
 		 // fragPosCS[0] = posVS[0];
 		  //fragPosCS[1] = posVS[1];
 		 // fragPosCS[2] = posVS[2];
-		  float eyeToVertexDist0 = distance(eyePos, posVS[0]);
-		  float eyeToVertexDist1 = distance(eyePos, posVS[1]);
-		  float eyeToVertexDist2 = distance(eyePos, posVS[2]);
+		  float eyeToVertexDist0 = distance(camPosition, posVS[0]);
+		  float eyeToVertexDist1 = distance(camPosition, posVS[1]);
+		  float eyeToVertexDist2 = distance(camPosition, posVS[2]);
 		   // Calculate the tessellation levels
           gl_TessLevelOuter[0] = GetTessLevel(eyeToVertexDist1, eyeToVertexDist2); 
           gl_TessLevelOuter[1] = GetTessLevel(eyeToVertexDist2, eyeToVertexDist0); 

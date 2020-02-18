@@ -410,7 +410,7 @@ namespace Engine
 							{
 								ptr = (void*)&layer.getCamera()->getCamera()->getViewProjection();
 							}
-							if (data["var"].get<std::string>().compare("eyePos") == 0)
+							if (data["var"].get<std::string>().compare("camPosition") == 0)
 							{
 								ptr = (void*)&layer.getCamera()->getCamera()->getPosition();
 							}
