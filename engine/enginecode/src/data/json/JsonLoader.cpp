@@ -406,15 +406,14 @@ namespace Engine
 						auto& type = data["type"];
 						if (type == "pointer")
 						{
+							if (data["var"].get<std::string>().compare("Camera Position") == 0)
+							{
+								ptr = (void*)&layer.getCamera()->getCamera()->getPosition();
+							}
 							if (data["var"].get<std::string>().compare("VP Matrix") == 0)
 							{
 								ptr = (void*)&layer.getCamera()->getCamera()->getViewProjection();
 							}
-							if (data["var"].get<std::string>().compare("camPosition") == 0)
-							{
-								ptr = (void*)&layer.getCamera()->getCamera()->getPosition();
-							}
-
 						}
 						if (type == "Float3")
 						{

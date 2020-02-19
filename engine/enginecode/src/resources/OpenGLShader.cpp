@@ -207,7 +207,7 @@ namespace Engine
 			glGetShaderInfoLog(m_vertID, maxLength, &maxLength, infoLog.data());
 			LogError("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
 
-			//glDeleteShader(m_vertID);
+			glDeleteShader(m_vertID);
 			return;
 		}
 
@@ -229,8 +229,8 @@ namespace Engine
 			glGetShaderInfoLog(m_fragID, maxLength, &maxLength, infoLog.data());
 			LogError("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
 
-			//glDeleteShader(m_fragID);
-			//glDeleteShader(m_vertID);
+			glDeleteShader(m_fragID);
+			glDeleteShader(m_vertID);
 
 			return;
 		}
@@ -253,9 +253,9 @@ namespace Engine
 				std::vector<GLchar> infoLog(maxLength);
 				glGetShaderInfoLog(m_geometryID, maxLength, &maxLength, infoLog.data());
 				LogError("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
-				//glDeleteShader(m_fragID);
-				//glDeleteShader(m_vertID);
-				//glDeleteShader(m_geometryID);
+				glDeleteShader(m_fragID);
+				glDeleteShader(m_vertID);
+				glDeleteShader(m_geometryID);
 			}
 		}
 
@@ -276,10 +276,10 @@ namespace Engine
 				std::vector<GLchar> infoLog(maxLength);
 				glGetShaderInfoLog(m_geometryID, maxLength, &maxLength, infoLog.data());
 				LogError("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
-				//glDeleteShader(m_fragID);
-				//glDeleteShader(m_vertID);
-				//glDeleteShader(m_geometryID);
-				//glDeleteShader(m_tessellationControlID);
+				glDeleteShader(m_fragID);
+				glDeleteShader(m_vertID);
+				glDeleteShader(m_geometryID);
+				glDeleteShader(m_tessellationControlID);
 			}
 		}
 
