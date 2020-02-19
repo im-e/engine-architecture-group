@@ -1,6 +1,6 @@
 #pragma once
 
-/*! \file Shader.h
+/*! \file Skybox.h
 \brief Base implementation of a shader
 */
 
