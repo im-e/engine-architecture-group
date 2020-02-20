@@ -10,8 +10,8 @@ namespace Sandbox
 {
 	Sandbox::Sandbox()
 	{
-		m_layerStack->push(std::make_shared<Engine::JsonLayer>(Engine::JsonLayer("assets/json/cubeLayer.json", "Game Layer")));
-		m_layerStack->push(std::make_shared<Engine::JsonLayer>(Engine::JsonLayer("assets/json/uiLayer.json", "UI Layer")));
+		m_layerStack->push(std::make_shared<Engine::JsonLayer>(Engine::JsonLayer("assets/json/cubeLayer.json", "../levels/Default.json", "Game Layer")));
+		m_layerStack->push(std::make_shared<Engine::JsonLayer>(Engine::JsonLayer("assets/json/uiLayer.json", "../levels/2d/ui2d.json", "UI Layer")));
 	}
 
 	Sandbox::~Sandbox()
