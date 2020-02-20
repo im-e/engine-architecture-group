@@ -820,9 +820,9 @@ namespace Engine
 					{
 						if (lay->getGameObjects().find(layer.getGOName()) != lay->getGameObjects().end())
 						{
-							static glm::vec3 pos = lay->getGameObjects()[layer.getGOName()]->getComponent<PositionComponent>()->getCurrentPosition();
-							static glm::vec3 rot = lay->getGameObjects()[layer.getGOName()]->getComponent<PositionComponent>()->getCurrentRotation();
-							static glm::vec3 scl = lay->getGameObjects()[layer.getGOName()]->getComponent<PositionComponent>()->getCurrentScale();
+							glm::vec3& pos = lay->getGameObjects()[layer.getGOName()]->getComponent<PositionComponent>()->getCurrentPosition();
+							glm::vec3& rot = lay->getGameObjects()[layer.getGOName()]->getComponent<PositionComponent>()->getCurrentRotation();
+							glm::vec3& scl = lay->getGameObjects()[layer.getGOName()]->getComponent<PositionComponent>()->getCurrentScale();
 
 							ImGui::InputFloat3("Position", &pos.x, 2);
 							ImGui::InputFloat3("Rotation", &rot.x, 2);

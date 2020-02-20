@@ -119,7 +119,7 @@ namespace Engine
 		}
 
 		//! Returns position \return current position
-		inline glm::vec3 getCurrentPosition()
+		inline glm::vec3& getCurrentPosition()
 		{
 			return m_transformVec;
 		}
