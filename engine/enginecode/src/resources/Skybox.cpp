@@ -13,14 +13,12 @@ namespace Engine
 {
 	Skybox::Skybox()
 	{
-		std::string dir/* = SOLUTION_DIR*/;
-
-		m_paths.push_back(dir + "Assets/Textures/Skybox/bkg1_right.png");
-		m_paths.push_back(dir + "Assets/Textures/Skybox/bkg1_left.png");
-		m_paths.push_back(dir + "Assets/Textures/Skybox/bkg1_top.png");
-		m_paths.push_back(dir + "Assets/Textures/Skybox/bkg1_bot.png");
-		m_paths.push_back(dir + "Assets/Textures/Skybox/bkg1_front.png");
-		m_paths.push_back(dir + "Assets/Textures/Skybox/bkg1_back.png");
+		m_paths.push_back("Assets/Textures/Skybox/bkg1_right.png");
+		m_paths.push_back("Assets/Textures/Skybox/bkg1_left.png");
+		m_paths.push_back("Assets/Textures/Skybox/bkg1_top.png");
+		m_paths.push_back("Assets/Textures/Skybox/bkg1_bot.png");
+		m_paths.push_back("Assets/Textures/Skybox/bkg1_front.png");
+		m_paths.push_back("Assets/Textures/Skybox/bkg1_back.png");
 	}
 
 	void Skybox::createSkyboxCube()
@@ -87,12 +85,12 @@ namespace Engine
 	void Skybox::draw(unsigned int texID)
 	{
 		glDepthFunc(GL_LEQUAL); //change depth function so depth test passes when values are equal to depth buffer's content
-		glBindVertexArray(vao);
+		//glBindVertexArray(vao);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, texID);
 
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		//glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		glBindVertexArray(0);
 		glDepthFunc(GL_LESS); //change depth check back to normal
