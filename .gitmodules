@@ -16,3 +16,9 @@
 [submodule "vendor/ImGui"]
 	path = vendor/ImGui
 	url = https://github.com/TheCherno/imgui.git
+[submodule "vendor/luaAPI"]
+	path = vendor/luaAPI
+	url = https://github.com/IMAT3905/lua
+[submodule "vendor/LuaBridge"]
+	path = vendor/LuaBridge
+	url = https://github.com/vinniefalco/LuaBridge.git
