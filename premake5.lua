@@ -48,7 +48,9 @@ project "Engine"
 		"vendor/json/single_include/nlohmann",
 		"vendor/assimp/include",
 		"vendor/reactphysics3d/src",
-		"vendor/ImGui"
+		"vendor/ImGui",
+		"vendor/lua",
+		"vendor/LuaBridge"
 	}
 	
 	links 
@@ -58,7 +60,8 @@ project "Engine"
 		"Freetype",
 		"assimp",
 		"reactphysics3d",
-		"IMGui"
+		"IMGui",
+		"lua"
 	}
 	
 	filter "system:windows"
@@ -322,3 +325,4 @@ group "Vendor"
 	include "vendor/assimp"
 	include "vendor/reactphysics3d"
 	include "vendor/ImGui"
+	include "vendor/lua"
