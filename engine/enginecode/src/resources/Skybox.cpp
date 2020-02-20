@@ -13,8 +13,7 @@ namespace Engine
 {
 	Skybox::Skybox()
 	{
-		//Skyboxes link: https://opengameart.org/content/space-skyboxes-0
-		std::string dir = SOLUTION_DIR;
+		std::string dir/* = SOLUTION_DIR*/;
 
 		m_paths.push_back(dir + "Assets/Textures/Skybox/bkg1_right.png");
 		m_paths.push_back(dir + "Assets/Textures/Skybox/bkg1_left.png");
