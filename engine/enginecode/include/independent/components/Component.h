@@ -26,7 +26,6 @@ namespace Engine
 		PositionIntegrate, PositionSet, RelativePositionSet,
 		VelocityIntegrate, VelocitySetLinear, VelocitySetAngular,
 		AccelerationSet,
-		BoneSet,
 		KeyPressed, KeyReleased, MouseButton, MouseScroll, MouseMoved,
 		UniformSet, TextureSet
 	};

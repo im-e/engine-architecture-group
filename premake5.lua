@@ -116,7 +116,9 @@ project "LevelEditor"
 		"vendor/json/single_include/nlohmann",
 		"vendor/assimp/include",
 		"vendor/reactphysics3d/src",
-		"vendor/ImGui"
+		"vendor/ImGui",
+		"vendor/lua",
+		"vendor/LuaBridge"
 	}
 
 	links
@@ -171,7 +173,9 @@ project "Sandbox"
 		"vendor/json/single_include/nlohmann",
 		"vendor/assimp/include",
 		"vendor/reactphysics3d/src",
-		"vendor/ImGui"
+		"vendor/ImGui",
+		"vendor/lua",
+		"vendor/LuaBridge"
 	}
 
 	links

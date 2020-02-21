@@ -14,18 +14,10 @@
 
 extern Engine::Application* Engine::startApplication();
 
-
-extern "C"
-{
-#include "../lua/lua.h" 
-#include "../lua/lualib.h"
-#include "../lua/lauxlib.h"
-}
-
 int main(int argc, char** argv)
 {
 	auto application = Engine::startApplication();
-
+	
 #ifdef NG_DEBUG
 	NG_PROFILER_BEGIN_SESSION("Run", "../testing/Run_Profiler.json");
 #endif
