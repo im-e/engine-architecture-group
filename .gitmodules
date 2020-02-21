@@ -22,3 +22,6 @@
 [submodule "vendor/LuaBridge"]
 	path = vendor/LuaBridge
 	url = https://github.com/vinniefalco/LuaBridge.git
+[submodule "vendor/lua"]
+	path = vendor/lua
+	url = https://github.com/IMAT3905/lua.git
