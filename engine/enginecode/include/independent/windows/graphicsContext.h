@@ -15,7 +15,7 @@ namespace Engine
 	class GraphicsContext
 	{
 	protected:
-		std::mutex m_gpuAccessMutex; //! Mutex to access GPU (graphics context)
+		std::mutex m_gpuAccessMutex; //!< Mutex to access GPU (graphics context)
 	public:
 		virtual void init() = 0; //!< Initializes graphic's context
 		virtual void swapBuffers() = 0; //!< Swaps buffers in a window

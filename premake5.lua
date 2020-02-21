@@ -49,7 +49,7 @@ project "Engine"
 		"vendor/assimp/include",
 		"vendor/reactphysics3d/src",
 		"vendor/ImGui",
-		"vendor/lua",
+		"vendor/luaAPI",
 		"vendor/LuaBridge"
 	}
 	
@@ -325,4 +325,4 @@ group "Vendor"
 	include "vendor/assimp"
 	include "vendor/reactphysics3d"
 	include "vendor/ImGui"
-	include "vendor/lua"
+	include "vendor/luaAPI"

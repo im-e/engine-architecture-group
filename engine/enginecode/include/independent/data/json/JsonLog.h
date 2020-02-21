@@ -38,7 +38,6 @@ namespace Engine
 				std::cerr << e.what() << std::endl;
 			}
 
-
 			LogWarn("RESOURCES");
 			if (jsonFile.count("Asyncload") > 0)
 			{
@@ -53,18 +52,6 @@ namespace Engine
 				}
 			}
 			else LogInfo("No resources");
-
-			LogWarn("Array sizes for layer");
-			if (jsonFile.count("MemoryInfo") > 0)
-			{
-				std::string arrayStrings[7] = { "gameObjects", "materials", "position", "velocity", "oscillates", "textures", "controllers" };
-				for (int i = 0; i < 6; i++)
-				{
-					if(jsonFile["MemoryInfo"].count(arrayStrings[i].c_str()) > 0)
-						LogInfo("\t{0}\t{1}", arrayStrings[i], jsonFile["MemoryInfo"][arrayStrings[i].c_str()].get<int>());
-				}
-			}
-			else LogInfo("No memory info");
 
 			LogWarn("Cameras");
 			if (jsonFile.count("Camera") > 0)
@@ -116,7 +103,6 @@ namespace Engine
 							LogInfo("\tVAO: {0}", go["material"]["model"].get<std::string>());
 							LogInfo("\tShader: {0}", go["material"]["shader"].get<std::string>());
 						}
-						// TODO text
 					}
 					if (go.count("position") > 0)
 					{
@@ -142,7 +128,7 @@ namespace Engine
 					if (go.count("texture") > 0)
 					{
 						LogInfo("Texture component");
-						LogInfo("\tTexture: {0}", go["texture"]["name"].get<std::string>());
+						LogInfo("\tTexture: {0}", go["texture"]["diffuse"].get<std::string>());
 					}
 					if (go.count("controller") > 0)
 					{
