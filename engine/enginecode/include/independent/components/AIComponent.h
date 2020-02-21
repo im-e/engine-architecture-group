@@ -27,22 +27,48 @@ namespace Engine
 
 		glm::vec3 m_currentRotation;
 		glm::vec3 m_desiredRotation;
+
+		float m_stopSize;
 	public:
-		AIComponent() {};
+		AIComponent(float stop) : m_stopSize(stop) {};
 
 		void onAttach(GameObject* owner) override 
 		{ 
 			m_owner = owner; 
-
-			//TODO add message
-
 		}
+
 		GameObject* getOwner() override { return m_owner; }
+
 		void onDetach() override {};
+
 		void onUpdate(float timestep) override 
 		{
+			if ((m_desiredPosition - m_currentPosition).length() < m_stopSize)
+			{
+				if (m_waypoints.empty() == false)
+				{
+					m_waypoints.pop_front();
+				}
 
+				luaUpdate(); // check for lua stuff
+
+				if (m_waypoints.empty() == false)
+				{
+					m_desiredPosition = m_waypoints.front();
+
+					// find orientation
+						// calculate acos of the dot product in each component
+				}
+				else 
+				{
+					m_desiredPosition = m_currentPosition;
+					m_desiredRotation = m_currentRotation;
+				}
+			}
+
+			// Send messages to other (velocity/rigidbody if physics implemented) components
 		};
+
 		void onEvent(Event& e) override {};
 
 		inline const std::type_info& getType() override
