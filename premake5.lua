@@ -48,7 +48,10 @@ project "Engine"
 		"vendor/json/single_include/nlohmann",
 		"vendor/assimp/include",
 		"vendor/reactphysics3d/src",
-		"vendor/ImGui"
+		"vendor/ImGui",
+		"vendor/FMOD/core/inc",
+		"vendor/FMOD/fsbank/inc",
+		"vendor/FMOD/studio/inc"
 	}
 	
 	links 
@@ -69,7 +72,7 @@ project "Engine"
 		{
 			"NG_PLATFORM_WINDOWS"
 		}
-
+		
 	filter "configurations:Debug"
 		defines "NG_DEBUG"
 		runtime "Debug"
@@ -168,7 +171,10 @@ project "Sandbox"
 		"vendor/json/single_include/nlohmann",
 		"vendor/assimp/include",
 		"vendor/reactphysics3d/src",
-		"vendor/ImGui"
+		"vendor/ImGui",
+		"vendor/FMOD/core/inc",
+		"vendor/FMOD/fsbank/inc",
+		"vendor/FMOD/studio/inc"
 	}
 
 	links
@@ -184,16 +190,36 @@ project "Sandbox"
 		{
 			"NG_PLATFORM_WINDOWS"
 		}
+		
+		debugenvs
+		{
+			"PATH=PATH;../vendor/FMOD/core/lib/x64;../vendor/FMOD/studio/lib/x64"
+		}
+		
 
 	filter "configurations:Debug"
 		defines "NG_DEBUG"
 		runtime "Debug"
 		symbols "On"
+		
+		links
+		{
+			"Engine",
+			"fmodL_vc.lib",
+			"fmodstudioL_vc.lib"
+		}
 
 	filter "configurations:Release"
 		defines "NG_RELEASE"
 		runtime "Release"
 		optimize "On"
+		
+		links
+		{
+			"Engine",
+			"fmodL_vc.lib",
+			"fmodstudioL_vc.lib"
+		}
 
  project "EngineTests"
 		location "engineTests"
@@ -228,6 +254,13 @@ project "Sandbox"
 			"vendor/glad/include",
 			"vendor/json/single_include/nlohmann",
 			"vendor/assimp/include"
+		}
+		
+		libdirs
+		{
+			"vendor/FMOD/core/lib/x64",
+			"vendor/FMOD/fsbank/lib/x64",
+			"vendor/FMOD/studio/lib/x64"
 		}
 
         links 
