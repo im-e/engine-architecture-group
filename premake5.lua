@@ -49,7 +49,7 @@ project "Engine"
 		"vendor/assimp/include",
 		"vendor/reactphysics3d/src",
 		"vendor/ImGui",
-		"vendor/lua/",
+		"vendor/lua",
 		"vendor/LuaBridge"
 	}
 	

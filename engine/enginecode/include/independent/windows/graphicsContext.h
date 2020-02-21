@@ -24,5 +24,11 @@ namespace Engine
 		virtual void unbindCurrentThread() = 0;
 		//! Swaps to current thread (and graphics context)
 		virtual void swapToCurrentThread() = 0;
+
+		//! Destructor
+		~GraphicsContext()
+		{ 
+			m_gpuAccessMutex.unlock();
+		}
 	};
 }
