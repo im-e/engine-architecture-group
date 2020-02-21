@@ -49,7 +49,7 @@ project "Engine"
 		"vendor/assimp/include",
 		"vendor/reactphysics3d/src",
 		"vendor/ImGui",
-		"vendor/lua",
+		"vendor/lua/",
 		"vendor/LuaBridge"
 	}
 	
@@ -61,7 +61,7 @@ project "Engine"
 		"assimp",
 		"reactphysics3d",
 		"IMGui",
-		"lua"
+		"Lua"
 	}
 	
 	filter "system:windows"

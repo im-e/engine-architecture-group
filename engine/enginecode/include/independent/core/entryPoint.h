@@ -14,6 +14,14 @@
 
 extern Engine::Application* Engine::startApplication();
 
+
+extern "C"
+{
+#include "../lua/lua.h" // Why this way??? Is my premake correct?
+#include "../lua/lualib.h"
+#include "../lua/lauxlib.h"
+}
+
 int main(int argc, char** argv)
 {
 	auto application = Engine::startApplication();
