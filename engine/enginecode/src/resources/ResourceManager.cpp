@@ -110,12 +110,21 @@ namespace Engine
 
 	void ResourceManager::populateCharacters(std::unordered_map<std::string, unsigned int> fontsAndSizes)
 	{
+		unsigned char* texMemory;
+		int memH = 1024;
+		int memW = 1024;
+		int usedX = 0;
+		int usedY = 0;
+
+		texMemory = (unsigned char*)malloc(memH * memW);
+		memset(texMemory, 0, memH * memW);
+
 		FT_Library ft;
 		FT_Face face;
 		//std::string filepath("assets/fonts/04b_20/04b_20__.ttf");
 		//int charsize = 128;
 
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 		for (auto it : fontsAndSizes)
 		{
@@ -140,15 +149,6 @@ namespace Engine
 
 		FT_Done_Face(face);
 		FT_Done_FreeType(ft);
-
-		/*unsigned char* texMemory;
-		int memH = 1024;
-		int memW = 1024;
-		int usedX = 0;
-		int usedY = 0;
-
-		texMemory = (unsigned char*)malloc(memH * memW);
-		memset(texMemory, 0, memH * memW); */
 	}
 
 	std::shared_ptr<Character> ResourceManager::getCharacter(std::string font, unsigned int ASCIIcode)
@@ -159,7 +159,7 @@ namespace Engine
 		{
 			if (it.first == font)
 			{
-				chosenCharacter = std::make_shared<Character>(it.second[ASCIIcode-32]);
+				chosenCharacter = std::make_shared<Character>(it.second[ASCIIcode - m_ASCIIstart]);
 				return chosenCharacter;
 			}
 		}

@@ -25,14 +25,13 @@ namespace Engine
 		std::string::const_iterator c;
 		for (c = text.begin(); c != text.end(); c++)
 		{
-			LogInfo("a");
 		    std::shared_ptr<Character> ch = ResourceManagerInstance->getCharacter(fontName, (*c));
 
-			glm::vec2 startPos = glm::vec2(ch->getStartUV().x, ch->getStartUV().y) * scale;
-			glm::vec2 endPos = glm::vec2(ch->getEndUV().x, ch->getEndUV().y) * scale;
+			glm::vec2 startPos = glm::vec2(ch->getStartUV().x, ch->getStartUV().y);
+			glm::vec2 endPos = glm::vec2(ch->getEndUV().x, ch->getEndUV().y);
 
-			float width = ch->getSize().x * scale;
-			float height = ch->getSize().y * scale;
+			float width = ch->getSize().x;
+			float height = ch->getSize().y;
 
 			float textVertices[4 * 4] = {
 				0, 0, startPos.x, startPos.y,

@@ -82,6 +82,7 @@ namespace Engine
 		glCreateBuffers(1, &m_vertexBuff);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuff);
 		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_DYNAMIC_DRAW);
+		m_layout = layout;
 
 		unsigned int index = 0;
 		for (std::vector<BufferElement>::iterator it = layout.begin(); it != layout.end(); ++it)
@@ -116,6 +117,7 @@ namespace Engine
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuff);
 		glBufferSubData(GL_ARRAY_BUFFER, offset, size, vertices);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 	const BufferLayout& OpenGLVertexBuffer::getLayout() const

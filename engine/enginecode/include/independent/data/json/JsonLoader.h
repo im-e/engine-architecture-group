@@ -253,7 +253,7 @@ namespace Engine
 							float r = go["material"]["colour"]["r"].get<float>();
 							float g = go["material"]["colour"]["g"].get<float>();
 							float b = go["material"]["colour"]["b"].get<float>();
-							std::shared_ptr<TextLabel> label(TextLabel::create(goName, font, charSize, text, glm::vec2(), 0.f, 0.f, glm::vec3(r, g, b)));
+							std::shared_ptr<TextLabel> label(TextLabel::create(goName, font, charSize, text, glm::vec2(), 0.0f, 0.0f, glm::vec3(r, g, b)));
 							auto& mat = label->getMaterial();
 							//layer.getJsonData().push_back((void *) new int(ResourceManagerInstance->getFontTexture()->getSlot()));
 							//mat->setShaderDataElement("u_texData", (void*)layer.getJsonData().back());
@@ -262,7 +262,6 @@ namespace Engine
 								(TextureComponent(ResourceManagerInstance->getFontTexture()->getSlot()));
 							gameObject->addComponent(layer.getTextures().at(textureIndex));
 							textureIndex++;
-
 
 							layer.getJsonData().push_back((void *)new glm::vec3(r, g, b));
 							mat->setShaderDataElement("u_fontColour", (void*)&(*(glm::vec3*)layer.getJsonData().back())[0]);
