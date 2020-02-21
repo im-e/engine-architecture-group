@@ -15,7 +15,7 @@ namespace Engine
 	public:
 		Character() {};
 		Character(glm::ivec2 size, glm::ivec2 bearing, int advance, glm::vec2 startUV = glm::vec2(0.0f, 0.0f), glm::vec2 endUV = glm::vec2(0.0f, 0.0f)) : m_startUV(startUV), m_endUV(endUV), m_size(size), m_bearing(bearing), m_advance(advance) {};
-		void setUVs(glm::vec2 startUV, glm::vec2 endUV) { m_startUV; m_endUV = endUV; } //!< Set the UV co-ords
+		void setUVs(glm::vec2 startUV, glm::vec2 endUV) { m_startUV = startUV; m_endUV = endUV; } //!< Set the UV co-ords
 		inline glm::vec2 getStartUV() { return m_startUV; } //!< Get the top left UV coords
 		inline glm::vec2 getEndUV() { return m_endUV; }  //!< Get the bottom right UV coords
 		inline glm::ivec2 getSize() { return m_size; } //!< Get the size

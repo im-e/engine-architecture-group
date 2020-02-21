@@ -50,7 +50,7 @@ namespace Engine
 
 		glGenTextures(1, &m_texID);
 		m_slot = m_texID;
-		glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE0 + m_slot);
 		glBindTexture(GL_TEXTURE_2D, m_slot);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);

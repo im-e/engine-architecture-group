@@ -111,25 +111,25 @@ namespace Engine
 	void ResourceManager::populateCharacters(std::unordered_map<std::string, unsigned int> fontsAndSizes)
 	{
 		unsigned char* texMemory;
-		int memH = 1024;
-		int memW = 1024;
-		int usedX = 0;
-		int usedY = 0;
+		unsigned int memH = 1024;
+		unsigned int memW = 1024;
+		unsigned int usedX = 0;
+		unsigned int usedY = 0;
+		unsigned int nextUsedY = 0;
+		const unsigned int padding = 1u;
 
 		texMemory = (unsigned char*)malloc(memH * memW);
 		memset(texMemory, 0, memH * memW);
 
 		FT_Library ft;
 		FT_Face face;
-		//std::string filepath("assets/fonts/04b_20/04b_20__.ttf");
-		//int charsize = 128;
-
-		//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 		for (auto it : fontsAndSizes)
 		{
 			std::string filepath = it.first;
 			int charsize = it.second;
+
+			unsigned int maxCharHeight = 0;
 
 			if (FT_Init_FreeType(&ft)) LogError("Error: Could not start FreeType");
 
@@ -141,11 +141,53 @@ namespace Engine
 			{
 				if (FT_Load_Char(face, i, FT_LOAD_RENDER)) LogError("Error: Could not load the character");
 				
-				m_characters[filepath].push_back(Character(glm::vec2(face->glyph->bitmap.width, face->glyph->bitmap.rows), glm::vec2(face->glyph->bitmap_left, face->glyph->bitmap_top), face->glyph->advance.x, glm::vec2(0.0f), glm::vec2(1.0f)));
+				m_characters[filepath].push_back(Character(
+					glm::vec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
+					glm::vec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
+					face->glyph->advance.x,
+					glm::vec2(0.0f),
+					glm::vec2(1.0f)));
+
+				maxCharHeight = std::max(maxCharHeight, face->glyph->bitmap.rows);
 			}
 
-			m_fontTexture.reset(Texture::createFromRawData(face->glyph->bitmap.width, face->glyph->bitmap.rows, 1, face->glyph->bitmap.buffer));
+			for (int i = m_ASCIIstart; i <= m_ASCIIend; i++)
+			{
+				if (FT_Load_Char(face, i, FT_LOAD_RENDER)) LogError("Error: Could not load the character");
+				
+				glm::ivec2 charSize = glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows);
+
+				if (usedX + charSize.x + padding >= memW) {
+					usedX = 0;
+					usedY = nextUsedY + padding;
+					nextUsedY = usedY + maxCharHeight;
+				}
+
+				nextUsedY = std::max(nextUsedY, usedY + charSize.y);
+				for (unsigned int y = 0; y < charSize.y; y++) 
+				{
+					unsigned int yOffsetChar = y * charSize.x;
+					unsigned int yOffsetMain = (y + usedY) * memW;
+
+					for (unsigned int x = 0; x < charSize.x; x++) 
+					{
+						unsigned int offsetChar = yOffsetChar + x;
+						unsigned int offsetMain = yOffsetMain + (x + usedX);
+
+						*(texMemory + offsetMain) = *(face->glyph->bitmap.buffer + offsetChar);
+					}
+				}
+
+				glm::vec2 topLeft = glm::vec2((float)usedX / (float)memW, (float)usedY / (float)memH);
+				glm::vec2 bottomRight = glm::vec2((float)(usedX + charSize.x) / (float)memW, (float)(usedY + charSize.y) / (float)memH);
+
+				m_characters[filepath][i - m_ASCIIstart].setUVs(topLeft, bottomRight);
+
+				usedX += charSize.x + padding;
+			}
 		}
+
+		m_fontTexture = ResourceManager::addTexture("fontTexture", memW, memH, 1, texMemory);
 
 		FT_Done_Face(face);
 		FT_Done_FreeType(ft);

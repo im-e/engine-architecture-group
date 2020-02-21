@@ -84,15 +84,15 @@
         "font": "assets/fonts/04b_20/04b_20__.ttf",
         "charSize": 32,
         "colour": {
-          "r": 0.9,
-          "g": 0.4,
-          "b": 0.4
+          "r": 0.1,
+          "g": 0.1,
+          "b": 0.1
         }
       },
       "position": {
         "translation": {
-          "x": 100.0,
-          "y": 200.0,
+          "x": 400.0,
+          "y": 400.0,
           "z": 0.0
         },
         "rotation": {
