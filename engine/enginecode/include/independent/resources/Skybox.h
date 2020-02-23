@@ -21,6 +21,16 @@ namespace Engine
 		void draw(unsigned int texID); // Draw skybox
 		void stop(); // Free resources
 
+		std::vector<std::string> faces
+		{
+			"Assets/Textures/Skybox/Space_Right.png",
+			"Assets/Textures/Skybox/Space_left.png",
+			"Assets/Textures/Skybox/Space_top.png",
+			"Assets/Textures/Skybox/Space_bot.png",
+			"Assets/Textures/Skybox/Space_front.png",
+			"Assets/Textures/Skybox/Space_back.png"
+		};
+
 		~Skybox();
 	};
 }

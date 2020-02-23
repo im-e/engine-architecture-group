@@ -6,6 +6,10 @@
         "filepath": "assets/shaders/flatColour.glsl"
       },
       {
+        "name": "SkyboxShader",
+        "filepath": "assets/shaders/skybox.glsl"
+      },
+      {
         "name": "PhongShader",
         "filepath": "assets/shaders/texturedPhong.glsl"
       },
@@ -491,7 +495,7 @@
         },
         {
           "name": "DirectionalLightShader",
-          "block": "Light"
+          "block": "Matrices"
         },
         {
           "name": "SpotLightShader",
@@ -630,37 +634,37 @@
     }
   ],
 
-      "RendererCommands": {
-        "init": [
-          {
-            "type": "DepthTestLess",
-            "enabled": true
-          },
-          {
-            "type": "BackfaceCulling",
-            "enabled": true
-          },
-          {
-            "type": "Debug",
-            "enabled": true
-          },
-          {
-            "type": "ClearColor",
-            "r": 0.5,
-            "g": 0.1,
-            "b": 0.5,
-            "a": 1.0
-          }
-        ],
-        "predraw": [
-          {
-            "type": "ClearDepthColorBuffer"
-          }
-        ],
-        "postdraw": [
-        ],
-        "exit": [
-
-        ]
+  "RendererCommands": {
+    "init": [
+      {
+        "type": "DepthTestLess",
+        "enabled": true
+      },
+      {
+        "type": "BackfaceCulling",
+        "enabled": true
+      },
+      {
+        "type": "Debug",
+        "enabled": true
+      },
+      {
+        "type": "ClearColor",
+        "r": 0.5,
+        "g": 0.1,
+        "b": 0.5,
+        "a": 1.0
       }
-    }
+    ],
+    "predraw": [
+      {
+        "type": "ClearDepthColorBuffer"
+      }
+    ],
+    "postdraw": [
+    ],
+    "exit": [
+
+    ]
+  }
+}

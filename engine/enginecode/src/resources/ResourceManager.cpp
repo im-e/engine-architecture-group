@@ -76,6 +76,14 @@ namespace Engine
 		return texture;
 	}
 
+	std::shared_ptr<Texture> ResourceManager::addSkybox(const std::string & key, std::vector<std::string> faces)
+	{
+		std::shared_ptr<Texture> texture;
+		texture.reset(Texture::createSkybox(faces));
+		m_textures.add(key, texture);
+		return texture;
+	}
+
 	std::shared_ptr<Material> ResourceManager::addMaterial(const std::string & key, const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO)
 	{
 		std::shared_ptr<Material> material;

@@ -42,5 +42,6 @@ namespace Engine
 		\return new RenderAPI specific texture
 		*/
 		static Texture* createFromRawData(unsigned int width, unsigned int height, unsigned int channels, unsigned char* texData);
+		static Texture* createSkybox(std::vector<std::string> faces);
 	};
 }
