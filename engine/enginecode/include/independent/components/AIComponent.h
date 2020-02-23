@@ -6,13 +6,12 @@ extern "C"
 #include "lualib.h"
 #include "lauxlib.h"
 }
-
 #include <../LuaBridge/Source/LuaBridge/LuaBridge.h>
 
+#include <deque>
 #include "Component.h"
 #include "systems/Log.h"
-
-#include <deque>
+#include "core/application.h"
 
 namespace Engine
 {
@@ -34,7 +33,12 @@ namespace Engine
 
 		void onAttach(GameObject* owner) override 
 		{ 
-			m_owner = owner; 
+			m_owner = owner;		
+
+			luaUpdate();
+
+			m_currentPosition = owner->getComponent<PositionComponent>()->getCurrentPosition();
+			m_desiredPosition = m_waypoints.front();
 		}
 
 		GameObject* getOwner() override { return m_owner; }
@@ -43,7 +47,7 @@ namespace Engine
 
 		void onUpdate(float timestep) override 
 		{
-			if ((m_desiredPosition - m_currentPosition).length() < m_stopSize)
+			if (glm::distance(m_desiredPosition, m_currentPosition) < m_stopSize)
 			{
 				if (m_waypoints.empty() == false)
 				{
@@ -58,15 +62,25 @@ namespace Engine
 
 					// find orientation
 						// calculate acos of the dot product in each component
+
+					LogInfo("Going to: {0}, {1}, {2}", m_desiredPosition.x, m_desiredPosition.y, m_desiredPosition.z);
 				}
 				else 
 				{
 					m_desiredPosition = m_currentPosition;
 					m_desiredRotation = m_currentRotation;
-				}
+				}			
 			}
 
 			// Send messages to other (velocity/rigidbody if physics implemented) components
+			ComponentMessage posMsg(ComponentMessageType::AIPositionSet, m_desiredPosition);
+			ComponentMessage rotMsg(ComponentMessageType::AIRotationSet, m_desiredRotation);
+
+			sendMessage(posMsg);
+			sendMessage(rotMsg);
+
+			m_currentPosition = m_owner->getComponent<PositionComponent>()->getCurrentPosition();
+
 		};
 
 		void onEvent(Event& e) override {};
@@ -107,6 +121,46 @@ namespace Engine
 					std::cout << e.what() << std::endl;
 				}
 			}
+		}
+
+		void registerClass()
+		{
+			luabridge::getGlobalNamespace(Application::getInstance().getLuaState()) // TODO improve
+				.beginClass<AIComponent>("AI")
+				.addFunction("numWaypoints", &AIComponent::numWaypoints)
+				.addFunction("addWaypoint", &AIComponent::addWaypoint)
+				.addFunction("addWaypointFront", &AIComponent::addWaypointFront)
+				.endClass();
+		}
+
+		void doFile(std::string luaScriptPath, std::string tableName, std::string luaFuncName)
+		{
+			if (luaL_dofile(Application::getInstance().getLuaState(), luaScriptPath.c_str()) == 0)
+			{
+				luabridge::LuaRef table = luabridge::getGlobal(Application::getInstance().getLuaState(), tableName.c_str());
+
+				if (table.isTable())
+				{
+					if (table[luaFuncName].isFunction())
+					{
+						this->setLuaFunction(table[luaFuncName]);
+					}
+				}
+			}
+			else
+			{
+				LogError("Couldn't load {0}", luaScriptPath);
+			}
+		}
+
+		float getStopDist()
+		{
+			return m_stopSize;
+		}
+
+		~AIComponent()
+		{
+			m_lua.reset();
 		}
 	};
 }

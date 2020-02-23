@@ -34,7 +34,8 @@ namespace Engine
 		{
 			m_owner = owner;
 
-			m_possibleMessages = { ComponentMessageType::VelocitySetLinear, ComponentMessageType::VelocitySetAngular };
+			m_possibleMessages = { ComponentMessageType::VelocitySetLinear, ComponentMessageType::VelocitySetAngular,
+									ComponentMessageType::AIPositionSet,	ComponentMessageType::AIRotationSet };
 
 			for (auto& msg : m_possibleMessages)
 			{
@@ -55,6 +56,32 @@ namespace Engine
 					{
 						glm::vec3 angular = std::any_cast<glm::vec3>(data);
 						m_angular = angular;
+						return true;
+					};
+					break;
+
+				case ComponentMessageType::AIPositionSet:
+					m_msgsMap[msg] = [owner, this](std::any data)
+					{
+						glm::vec3 desired = std::any_cast<glm::vec3>(data);
+						glm::vec3 current = owner->getComponent<PositionComponent>()->getCurrentPosition();
+						
+						float magnitude = glm::distance(desired, current);
+
+						LogInfo("{0}", magnitude);
+
+						m_linear = desired; // TODO change
+							// Is it enough to just rotate the GO towards waypoint and add velocity forward???
+
+						return true;
+					};
+					break;
+
+				case ComponentMessageType::AIRotationSet:
+					m_msgsMap[msg] = [this](std::any data)
+					{
+						// TODO rotation
+							// How to???
 						return true;
 					};
 					break;

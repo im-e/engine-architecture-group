@@ -160,6 +160,14 @@ namespace Engine
 
 							outputStream << "\"controller\": { \"moveSpeed\": " + std::to_string(move) + ",\"rotationSpeed\": " + std::to_string(rotation);
 						}
+						else if (c->getType().hash_code() == typeid(AIComponent).hash_code())
+						{
+							std::shared_ptr<AIComponent> comp = std::static_pointer_cast<AIComponent>(c);
+
+							float stopDist = comp->getStopDist();
+
+							outputStream << "\"AI\": { \"stopDist\": " + std::to_string(stopDist);
+						}
 
 
 						if (j < comps.size() - 1)

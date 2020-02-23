@@ -522,6 +522,19 @@ namespace Engine
 							(ControllerComponent(moveSpeed, rotationSpeed));
 						gameObject->addComponent(ctr);
 					}
+
+					if (go.count("AI") > 0)
+					{
+						std::shared_ptr<AIComponent> ai;
+
+						float stop = go["AI"]["stopDist"].get<float>();
+
+						ai = std::make_shared<AIComponent>(AIComponent(stop));
+						ai->registerClass();
+						ai->doFile("../scripts/patrol.lua", "Patrol", "update");
+
+						gameObject->addComponent(ai);
+					}
 				}
 			}
 		}

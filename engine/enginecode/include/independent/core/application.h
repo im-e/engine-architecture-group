@@ -64,6 +64,8 @@ namespace Engine {
 		//! Timestep
 		float m_timestep;
 
+		lua_State *lua; //!< Lua state
+
 	public:
 		virtual ~Application(); //!< Deconstructor
 		inline static Application& getInstance() { return *s_instance; } //!< Instance getter from singleton pattern
@@ -87,6 +89,8 @@ namespace Engine {
 		Window* getWindow(); //!< Returns current window \return currently opened window
 
 		void run(); //!< Main loop
+
+		lua_State* getLuaState();
 	};
 
 	// To be defined in users code

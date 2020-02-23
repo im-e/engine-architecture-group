@@ -13,6 +13,7 @@
 #include "components/OscillateComponent.h"
 #include "components/TextureComponent.h"
 #include "components/ControllerComponent.h"
+#include "components/AIComponent.h"
 
 namespace Engine
 {

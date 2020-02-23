@@ -50,7 +50,7 @@ project "Engine"
 		"vendor/reactphysics3d/src",
 		"vendor/ImGui",
 		"vendor/lua",
-		"vendor/LuaBridge"
+		"vendor/LuaBridge/Source"
 	}
 	
 	links 
@@ -118,7 +118,7 @@ project "LevelEditor"
 		"vendor/reactphysics3d/src",
 		"vendor/ImGui",
 		"vendor/lua",
-		"vendor/LuaBridge"
+		"vendor/LuaBridge/Source"
 	}
 
 	links
@@ -175,7 +175,7 @@ project "Sandbox"
 		"vendor/reactphysics3d/src",
 		"vendor/ImGui",
 		"vendor/lua",
-		"vendor/LuaBridge"
+		"vendor/LuaBridge/Source"
 	}
 
 	links
