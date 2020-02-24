@@ -37,6 +37,8 @@ namespace Engine
 			m_possibleMessages = { ComponentMessageType::VelocitySetLinear, ComponentMessageType::VelocitySetAngular,
 									ComponentMessageType::AIPositionSet,	ComponentMessageType::AIRotationSet };
 
+			glm::vec3 temp = m_linear;
+
 			for (auto& msg : m_possibleMessages)
 			{
 				m_owner->getMap().insert(std::pair<ComponentMessageType, Component*>(msg, this));
@@ -61,17 +63,105 @@ namespace Engine
 					break;
 
 				case ComponentMessageType::AIPositionSet:
-					m_msgsMap[msg] = [owner, this](std::any data)
+					m_msgsMap[msg] = [temp, owner, this](std::any data)
 					{
+						m_linear = temp;
 						glm::vec3 desired = std::any_cast<glm::vec3>(data);
 						glm::vec3 current = owner->getComponent<PositionComponent>()->getCurrentPosition();
 						
-						float magnitude = glm::distance(desired, current);
+						glm::vec3 diff = current - desired;
 
-						LogInfo("{0}", magnitude);
+						if (diff.x > 0.001f || diff.x < -0.001f)
+						{
+							if (diff.x > 0.0f)
+							{
+								if (m_linear.x > 0.0f)
+								{
+									m_linear.x *= -1;
+								}
+								else
+								{
+									m_linear.x = m_linear.x;
+								}						
+							}
+							else
+							{
+								if (m_linear.x < 0.0f)
+								{
+									m_linear.x *= -1; // reverse
+								}
+								else
+								{
+									m_linear.x = m_linear.x;
+								}
+							}
+						}
+						else
+						{
+							m_linear.x = 0.0f;
+						}
 
-						m_linear = desired; // TODO change
-							// Is it enough to just rotate the GO towards waypoint and add velocity forward???
+						if (diff.y > 0.001f || diff.y < -0.001f)
+						{
+							if (diff.y > 0.0f)
+							{
+								if (m_linear.y > 0.0f)
+								{
+									m_linear.y *= -1;
+								}
+								else
+								{
+									m_linear.y = m_linear.y;
+								}
+							}
+							else
+							{
+								if (m_linear.y < 0.0f)
+								{
+									m_linear.y *= -1; // reverse
+								}
+								else
+								{
+									m_linear.y = m_linear.y;
+								}
+							}
+						}
+						else
+						{
+							m_linear.y = 0.0f;
+						}
+
+						if (diff.z > 0.001f || diff.z < -0.001f)
+						{
+							if (diff.z > 0.0f)
+							{
+								if (m_linear.z > 0.0f)
+								{			 
+									m_linear.z *= -1;
+								}
+								else
+								{
+									m_linear.z = m_linear.z;
+								}
+							}
+							else
+							{
+								if (m_linear.z < 0.0f)
+								{
+									m_linear.z *= -1; // reverse
+								}
+								else
+								{
+									m_linear.z = m_linear.z;
+								}
+							}
+						}
+						else
+						{
+							m_linear.z = 0.0f;
+						}
+
+						m_linear = glm::normalize(m_linear);
 
 						return true;
 					};

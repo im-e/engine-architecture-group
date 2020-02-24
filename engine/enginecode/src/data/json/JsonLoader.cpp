@@ -531,7 +531,7 @@ namespace Engine
 
 						ai = std::make_shared<AIComponent>(AIComponent(stop));
 						ai->registerClass();
-						ai->doFile("../scripts/patrol.lua", "Patrol", "update");
+						ai->doFile("../scripts/patrol.lua", "Wander", "update");
 
 						gameObject->addComponent(ai);
 					}

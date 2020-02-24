@@ -1,1 +1,223 @@
-{ "GameObject": [ { "name": "FCCube","material": { "type": "json", "model": "JsonFCCube", "shader": "FlatColorShader"},"position": { "translation": { "x": 1.500000, "y": 3.000000,"z": 3.000000},"rotation": { "x": 0.000000, "y": 795.324646,"z": 0.000000},"scale": { "x": 1.000000, "y": 1.000000,"z": 1.000000}},"velocity": { "linear": { "x": 0.000000, "y": 0.100000,"z": 0.000000},"angular": { "x": 0.000000, "y": 20.000000,"z": 0.000000}}},{ "name": "Floor","material": { "type": "json", "model": "JsonTPCube", "shader": "PhongShader"},"texture": { "diffuse": "NumberTexture"},"position": { "translation": { "x": 0.000000, "y": -5.000000,"z": 0.000000},"rotation": { "x": 0.000000, "y": 0.000000,"z": 0.000000},"scale": { "x": 20.000000, "y": 0.300000,"z": 20.000000}}},{ "name": "PhongCube","material": { "type": "json", "model": "JsonTPCube", "shader": "PhongShader"},"texture": { "diffuse": "NumberTexture"},"position": { "translation": { "x": -1.500000, "y": 3.000000,"z": 3.000000},"rotation": { "x": 0.000000, "y": 795.324646,"z": 0.000000},"scale": { "x": 1.000000, "y": 1.000000,"z": 1.000000}},"velocity": { "linear": { "x": 0.000000, "y": 0.100000,"z": 0.000000},"angular": { "x": 0.000000, "y": 20.000000,"z": 0.000000}}},{ "name": "Player","material": { "type": "assimp", "model": "ship", "shader": "PhongShader"},"texture": { "diffuse": "SpaceTexture"},"position": { "translation": { "x": 10.000000, "y": 0.000000,"z": 5.000000},"rotation": { "x": 0.000000, "y": 0.000000,"z": 0.000000},"scale": { "x": 0.010000, "y": 0.010000,"z": 0.010000}},"velocity": { "linear": { "x": 0.000000, "y": 0.000000,"z": 0.000000},"angular": { "x": 0.000000, "y": 0.000000,"z": 0.000000}},"controller": { "moveSpeed": 150.000000,"rotationSpeed": 1000.000000}},{ "name": "Simon","material": { "type": "json", "model": "JsonFCCube", "shader": "FlatColorShader"},"position": { "translation": { "x": 0.000000, "y": 0.000000,"z": 0.000000},"rotation": { "x": 0.000000, "y": 0.000000,"z": 0.000000},"scale": { "x": 1.000000, "y": 1.000000,"z": 1.000000}},"velocity": { "linear": { "x": -1.000000, "y": 0.000000,"z": -5.000000},"angular": { "x": 0.000000, "y": 0.000000,"z": 0.000000}},"AI": { "stopDist": 0.500000}},{ "name": "Stefan","material": { "type": "assimp", "model": "ship", "shader": "PhongShader"},"texture": { "diffuse": "SpaceTexture"},"position": { "translation": { "x": 0.000000, "y": 0.000000,"z": -20.000000},"rotation": { "x": 0.000000, "y": 0.000000,"z": 45.000000},"scale": { "x": 0.010000, "y": 0.010000,"z": 0.010000}},"velocity": { "linear": { "x": 0.000000, "y": -0.100000,"z": 0.000000},"angular": { "x": 0.000000, "y": 20.000000,"z": 0.000000}}}] }
+{
+  "GameObject": [
+    {
+      "name": "FCCube",    
+      "material": {
+        "type": "json",
+        "model": "JsonFCCube",
+        "shader": "FlatColorShader"
+      },
+      "position": {
+        "translation": {
+          "x": 1.500000,
+          "y": 3.000000,
+          "z": 3.000000
+        },
+        "rotation": {
+          "x": 0.000000,
+          "y": 795.324646,
+          "z": 0.000000
+        },
+        "scale": {
+          "x": 1.000000,
+          "y": 1.000000,
+          "z": 1.000000
+        }
+      },
+      "velocity": {
+        "linear": {
+          "x": 0.000000,
+          "y": 0.100000,
+          "z": 0.000000
+        },
+        "angular": {
+          "x": 0.000000,
+          "y": 20.000000,
+          "z": 0.000000
+        }
+      }
+    },
+    {
+      "name": "Floor",
+      "material": {
+        "type": "json",
+        "model": "JsonTPCube",
+        "shader": "PhongShader"
+      },
+      "texture": { "diffuse": "NumberTexture" },
+      "position": {
+        "translation": {
+          "x": 0.000000,
+          "y": -5.000000,
+          "z": 0.000000
+        },
+        "rotation": {
+          "x": 0.000000,
+          "y": 0.000000,
+          "z": 0.000000
+        },
+        "scale": {
+          "x": 20.000000,
+          "y": 0.300000,
+          "z": 20.000000
+        }
+      }
+    },
+    {
+      "name": "PhongCube",
+      "material": {
+        "type": "json",
+        "model": "JsonTPCube",
+        "shader": "PhongShader"
+      },
+      "texture": { "diffuse": "NumberTexture" },
+      "position": {
+        "translation": {
+          "x": -1.500000,
+          "y": 3.000000,
+          "z": 3.000000
+        },
+        "rotation": {
+          "x": 0.000000,
+          "y": 795.324646,
+          "z": 0.000000
+        },
+        "scale": {
+          "x": 1.000000,
+          "y": 1.000000,
+          "z": 1.000000
+        }
+      },
+      "velocity": {
+        "linear": {
+          "x": 0.000000,
+          "y": 0.100000,
+          "z": 0.000000
+        },
+        "angular": {
+          "x": 0.000000,
+          "y": 20.000000,
+          "z": 0.000000
+        }
+      }
+    },
+    {
+      "name": "Player",
+      "material": {
+        "type": "assimp",
+        "model": "ship",
+        "shader": "PhongShader"
+      },
+      "texture": { "diffuse": "SpaceTexture" },
+      "position": {
+        "translation": {
+          "x": 10.000000,
+          "y": 0.000000,
+          "z": 5.000000
+        },
+        "rotation": {
+          "x": 0.000000,
+          "y": 0.000000,
+          "z": 0.000000
+        },
+        "scale": {
+          "x": 0.010000,
+          "y": 0.010000,
+          "z": 0.010000
+        }
+      },
+      "velocity": {
+        "linear": {
+          "x": 0.000000,
+          "y": 0.000000,
+          "z": 0.000000
+        },
+        "angular": {
+          "x": 0.000000,
+          "y": 0.000000,
+          "z": 0.000000
+        }
+      },
+      "controller": {
+        "moveSpeed": 150.000000,
+        "rotationSpeed": 1000.000000
+      }
+    },
+    {
+      "name": "Simon",
+      "material": {
+        "type": "json",
+        "model": "JsonFCCube",
+        "shader": "FlatColorShader"
+      },
+      "position": {
+        "translation": {
+          "x": 0.000000,
+          "y": 0.000000,
+          "z": 0.000000
+        },
+        "rotation": {
+          "x": 0.000000,
+          "y": 0.000000,
+          "z": 0.000000
+        },
+        "scale": {
+          "x": 1.000000,
+          "y": 1.000000,
+          "z": 1.000000
+        }
+      },
+      "velocity": {
+        "linear": {
+          "x": 1.000000,
+          "y": 1.000000,
+          "z": 1.000000
+        },
+        "angular": {
+          "x": 0.000000,
+          "y": 0.000000,
+          "z": 0.000000
+        }
+      },
+      "AI": { "stopDist": 0.01 }
+    },
+    {
+      "name": "Stefan",
+      "material": {
+        "type": "assimp",
+        "model": "ship",
+        "shader": "PhongShader"
+      },
+      "texture": { "diffuse": "SpaceTexture" },
+      "position": {
+        "translation": {
+          "x": 0.000000,
+          "y": 0.000000,
+          "z": -20.000000
+        },
+        "rotation": {
+          "x": 0.000000,
+          "y": 0.000000,
+          "z": 45.000000
+        },
+        "scale": {
+          "x": 0.010000,
+          "y": 0.010000,
+          "z": 0.010000
+        }
+      },
+      "velocity": {
+        "linear": {
+          "x": 0.000000,
+          "y": -0.100000,
+          "z": 0.000000
+        },
+        "angular": {
+          "x": 0.000000,
+          "y": 20.000000,
+          "z": 0.000000
+        }
+      }
+    }
+  ]
+}

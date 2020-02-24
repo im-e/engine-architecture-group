@@ -191,12 +191,12 @@ namespace Engine
 	{
 		m_appWindow->close();
 
-		lua_close(lua); // terminate Lua
-
 		m_windowsSystem->stop(Engine::SystemSignal::Windows);
 		m_imGui->stop(Engine::SystemSignal::Windows);
 		m_layerStack->stop(Engine::SystemSignal::None);	
 		m_timer->stop(Engine::SystemSignal::None);
-		m_logger->stop(Engine::SystemSignal::None);			
+		m_logger->stop(Engine::SystemSignal::None);
+
+		lua_close(lua); // terminate Lua
 	}
 }
