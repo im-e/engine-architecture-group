@@ -356,7 +356,7 @@ namespace Engine
 
 		std::string line, source[5];
 
-		while (getline(handleFile, line))
+		while (getline(handleFile, line)) // Find regions in the shader.
 		{
 			if (line.find("#region Vertex") != std::string::npos) { regions = Vertex;		continue; }
 			if (line.find("#region Fragment") != std::string::npos) { regions = Fragment;	continue; }

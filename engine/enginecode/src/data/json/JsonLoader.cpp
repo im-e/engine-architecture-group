@@ -408,11 +408,11 @@ namespace Engine
 						{
 							if (data["var"].get<std::string>().compare("Camera Position") == 0)
 							{
-								ptr = (void*)&layer.getCamera()->getCamera()->getPosition();
+								ptr = (void*)&layer.getCamera()->getCamera()->getPosition(); // Get the position of the camera.
 							}
 							if (data["var"].get<std::string>().compare("VP Matrix") == 0)
 							{
-								ptr = (void*)&layer.getCamera()->getCamera()->getViewProjection();
+								ptr = (void*)&layer.getCamera()->getCamera()->getViewProjection(); // Get the view projection matrix.
 							}
 						}
 						if (type == "Float3")
