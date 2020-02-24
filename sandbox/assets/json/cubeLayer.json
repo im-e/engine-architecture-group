@@ -118,6 +118,10 @@
     "type": "3D"
   },
 
+  "Skybox": {
+    "type": "Space"
+  },
+
   "GameObject": [
     {
       "name": "FCCube",

@@ -11,6 +11,7 @@
 
 #include "rendering/Buffers.h"
 #include "resources/Texture.h"
+#include "resources\Skybox.h"
 #include "resources/Shader.h"
 #include "rendering/Material.h"
 

@@ -36,11 +36,15 @@
     "type": "2D"
   },
 
+  "Skybox": {
+    "type": "Space"
+  },
+
   "GameObject": [
     {
       "name": "TextModel",
       "material": {
-        "type":  "json",
+        "type": "json",
         "model": "assets/jsonModels/textModel.txt",
         "shader": "TextShader"
       },

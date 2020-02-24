@@ -134,6 +134,18 @@ namespace Engine
 					layer.getRenderer().reset(Engine::Renderer::create3D());
 			}
 
+			if (jsonFile.count("Skybox") > 0)
+			{
+				std::string type = jsonFile["Skybox"]["type"].get<std::string>();
+				if (type.compare("Space") == 0)
+				{
+					std::shared_ptr<Skybox> skyboxSpace;
+					skyboxSpace->createSkyboxCube();
+					std::vector<std::string> faces = skyboxSpace->getPaths();
+					ResourceManagerInstance->addSkybox(type, faces);
+				}
+			}
+
 			if (jsonFile.count("GameObject") > 0)
 			{
 				int goIndex = 0;

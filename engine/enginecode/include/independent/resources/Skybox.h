@@ -2,8 +2,6 @@
 
 // Creates skybox (basically a cube)
 
-#include "glad/glad.h"
-
 #include <vector>
 
 namespace Engine

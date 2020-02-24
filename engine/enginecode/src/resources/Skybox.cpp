@@ -1,4 +1,6 @@
 #include "engine_pch.h"
+
+#include <glad\glad.h>
 #include "resources\Skybox.h"
 
 #include <map>
