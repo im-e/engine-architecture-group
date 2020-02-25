@@ -73,7 +73,7 @@ namespace Engine
 		{
 			shader->uploadData(it->first, it->second);
 		}
-		glDrawElements(GL_PATCHES, );
+		glDrawArrays(GL_PATCHES, 0, geometry->getDrawCount());
 	}
 
 	void OpenGLRenderer::flush()
@@ -134,6 +134,20 @@ namespace Engine
 		}
 
 		glDrawElements(GL_QUADS, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr);
+	}
+
+	void OpenGL2DRenderer::tessSubmit(const std::shared_ptr<Material>& material)
+	{
+		auto shader = material->getShader();
+		shader->bind();
+		auto geometry = static_cast<VertexArray*>(material->getGeometry());
+		geometry->bind();
+		auto uniforms = material->getData();
+		for (auto it = uniforms.begin(); it != uniforms.end(); ++it)
+		{
+			shader->uploadData(it->first, it->second);
+		}
+		glDrawArrays(GL_PATCHES, 0, geometry->getDrawCount());
 	}
 
 	void OpenGL2DRenderer::flush()
