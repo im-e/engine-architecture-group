@@ -47,6 +47,7 @@ namespace Engine
 		virtual void beginScene(const SceneData& sceneData) = 0; //!< Uploads common data in the scene (frame)
 		virtual void endScene() = 0; //!< Ends scene (frame)
 		virtual void submit(const std::shared_ptr<Material>& material) = 0; //!< Submits material for drawing \param material material to be submitted
+		virtual void tessSubmit(const std::shared_ptr<Material>& material) = 0;
 		virtual void flush() = 0; //!< Draw everything (used with batch rendering)
 
 		//! Creates 2D view for the engine

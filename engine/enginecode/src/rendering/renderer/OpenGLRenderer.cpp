@@ -62,6 +62,20 @@ namespace Engine
 		glDrawElements(GL_TRIANGLES, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
+	void OpenGLRenderer::tessSubmit(const std::shared_ptr<Material>& material)
+	{
+		auto shader = material->getShader();
+		shader->bind();
+		auto geometry = static_cast<VertexArray*>(material->getGeometry());
+		geometry->bind();
+		auto uniforms = material->getData();
+		for (auto it = uniforms.begin(); it != uniforms.end(); ++it)
+		{
+			shader->uploadData(it->first, it->second);
+		}
+		glDrawElements(GL_PATCHES, );
+	}
+
 	void OpenGLRenderer::flush()
 	{
 	}
