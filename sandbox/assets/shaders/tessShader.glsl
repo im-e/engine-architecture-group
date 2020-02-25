@@ -121,6 +121,7 @@ layout(std140) uniform Matrices
 in vec3 posTC[] ;
 in vec3 normTC[] ;
 in vec2 tcTexCoord[];
+in vec3 fragPosCS[];
 
 // pass along the interpolated values
 out vec3 normES ;
@@ -135,6 +136,7 @@ void main()
 	teTexCoord = interpolate2D(tcTexCoord[0], tcTexCoord[1], tcTexCoord[2]);
    normES = interpolate3D(normTC[0], normTC[1], normTC[2]) ;
    vec3 posES = interpolate3D(posTC[0], posTC[1], posTC[2]) ;
+   fragPos = interpolate3D(fragPosCS[0], fragPosCS[1], fragPosCS[2]);
 
    // transform vertex to clip space  - NOTE: WE NEED TO DO IT HERE NOW and not in vertex shader
    gl_Position = u_VP * vec4(posES, 1.0);
@@ -160,7 +162,7 @@ layout(triangle_strip, max_vertices = 3) out ;
 vec3 getNormal() ;
 
 in vec3 fragPos[] ;
-in vec3 normals[] ;
+//in vec3 normals[] ;
 in vec2 teTexCoord[];
 
 out vec3 gNormals ;
