@@ -29,6 +29,12 @@ namespace Engine
 		m_timer = std::make_shared<Timer>();
 		m_timer->start(Engine::SystemSignal::None);
 
+		//create audio manager
+		//put into layer stack (probably)
+
+		m_audio.reset(new AudioManager());
+		m_audio->start(Engine::SystemSignal::None);
+
 		// Create layer stack
 		m_layerStack.reset(new LayerStack());
 		m_layerStack->start(SystemSignal::None);
@@ -44,6 +50,11 @@ namespace Engine
 
 		m_appWindow = std::unique_ptr<Window>(Window::create());
 		m_appWindow->setEventCallback(std::bind(&Application::onEvent, this, std::placeholders::_1));
+
+
+		//m_audio->set3dListenerAndOrientation(position, forward, up);
+
+
 	}
 
 	void Application::run()
@@ -63,6 +74,8 @@ namespace Engine
 			}
 
 			m_appWindow->onUpdate(m_timestep);
+
+			m_audio->update();
 
 			frameEnd = Time_Now;
 

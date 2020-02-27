@@ -12,6 +12,7 @@
 #include <memory>
 #include <vector>
 
+
 #include "systems/Timer.h"
 #include "systems/Log.h"
 #include "systems/ImGuiSystem.h"
@@ -25,6 +26,7 @@
 #include "rendering/layers/LayerStack.h"
 #include "platform/WindowsSys.h"
 #include "windows/window.h"
+#include <include\independent\audio\audioManager.h>
 
 namespace Engine {
 
@@ -52,6 +54,8 @@ namespace Engine {
 		std::shared_ptr<Timer> m_timer;
 		//! Pointer to ImGuiSystem
 		std::shared_ptr<ImGuiSystem> m_imGui;
+		//! Pointer to AudioManager
+		std::shared_ptr<AudioManager> m_audio;
 
 #ifdef NG_PLATFORM_WINDOWS
 		std::shared_ptr<WindowsSys> m_windowsSystem; //!< Pointer to Windows platform

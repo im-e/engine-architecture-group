@@ -133,6 +133,7 @@ project "LevelEditor"
 			"NG_PLATFORM_WINDOWS"
 		}
 
+
 	filter "configurations:Debug"
 		defines "NG_DEBUG"
 		runtime "Debug"
@@ -176,6 +177,14 @@ project "Sandbox"
 		"vendor/FMOD/fsbank/inc",
 		"vendor/FMOD/studio/inc"
 	}
+	
+	libdirs
+	{
+		"vendor/FMOD/core/lib/x64",
+		"vendor/FMOD/fsbank/lib/x64",
+		"vendor/FMOD/studio/lib/x64"
+	}
+	
 
 	links
 	{
@@ -254,13 +263,6 @@ project "Sandbox"
 			"vendor/glad/include",
 			"vendor/json/single_include/nlohmann",
 			"vendor/assimp/include"
-		}
-		
-		libdirs
-		{
-			"vendor/FMOD/core/lib/x64",
-			"vendor/FMOD/fsbank/lib/x64",
-			"vendor/FMOD/studio/lib/x64"
 		}
 
         links 
