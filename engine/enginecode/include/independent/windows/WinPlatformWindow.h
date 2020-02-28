@@ -25,19 +25,20 @@ namespace Engine
 		WinPlatformWindow(const WindowProperties& props); //!< Constructor
 
 		// Inherited via Window
-		virtual void init(const WindowProperties & properties) override;
-		virtual void close() override;
-		virtual void onUpdate(float timestep) override;
-		virtual void onResize(unsigned int width, unsigned int height) override;
-		virtual void setVSync(bool VSync) override;
-		virtual void setEventCallback(const std::function<void(Event&)>& callback) override;
-		virtual unsigned int getWidth() const override;
-		virtual unsigned int getHeight() const override;
-		virtual void * getNativeWindow() const override;
-		virtual bool isFullScreenMode() const override;
-		virtual bool isVSync() const override;
-		virtual void setHeight(float h) override;
-		virtual void setWidth(float w) override;
-
+		void init(const WindowProperties & properties) override;
+		void close() override;
+		void onUpdate(float timestep) override;
+		void onResize(unsigned int width, unsigned int height) override;
+		void setVSync(bool VSync) override;
+		void setEventCallback(const std::function<void(Event&)>& callback) override;
+		unsigned int getWidth() const override;
+		unsigned int getHeight() const override;
+		void * getNativeWindow() const override;
+		bool isFullScreenMode() const override;
+		bool isVSync() const override;
+		void setHeight(float h) override;
+		void setWidth(float w) override;
+		void setCursorDisabled() override;
+		void setCursorEnabled() override;
 	};
 }

@@ -13,3 +13,6 @@
 [submodule "vendor/react3d/reactphysics3d"]
 	path = vendor/react3d/reactphysics3d
 	url = https://github.com/IMAT3905/reactphysics3d.git
+[submodule "vendor/ImGui"]
+	path = vendor/ImGui
+	url = https://github.com/TheCherno/imgui.git

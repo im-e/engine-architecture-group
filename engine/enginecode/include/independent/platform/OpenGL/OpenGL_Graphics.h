@@ -8,6 +8,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#define GLFW_EXPOSE_NATIVE_WIN32
+#define GLFW_EXPOSE_NATIVE_WGL
+#include <GLFW/glfw3native.h>
+
 namespace Engine
 {
 	/*!
@@ -19,6 +23,9 @@ namespace Engine
 	private:
 		//! Pointer to GLFW window
 		GLFWwindow* m_window;
+
+		std::thread::id m_initialThreadID;
+		HGLRC m_originalContext;
 	public:
 		//! Constructor
 		OpenGL_Graphics(GLFWwindow* window) : m_window(window) {}
@@ -26,5 +33,8 @@ namespace Engine
 		//Inherited via GraphicsContext
 		void init() override;
 		void swapBuffers() override;
+
+		void unbindCurrentThread() override;
+		void swapToCurrentThread() override;
 	};
 }

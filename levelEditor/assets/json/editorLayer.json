@@ -1,0 +1,317 @@
+{
+  "Asyncload": {
+    "shaders": [
+      {
+        "name": "FlatColorShader",
+        "filepath": "assets/shaders/flatColour.glsl"
+      },
+      {
+        "name": "PhongShader",
+        "filepath": "assets/shaders/texturedPhong.glsl"
+      }
+    ],
+    "textures": [
+      {
+        "name": "LetterTexture",
+        "filepath": "assets/textures/letterCube.png"
+      },
+      {
+        "name": "NumberTexture",
+        "filepath": "assets/textures/numberCube.png"
+      },
+      {
+        "name": "SpaceTexture",
+        "filepath": "assets/textures/PolygonSciFiSpace_Texture_01_A.png"
+      }
+    ],
+    "models": [
+      {
+        "type": "json",
+        "name": "JsonFCCube",
+        "filepath": "assets/jsonModels/fcCube.txt"
+      },
+      {
+        "type": "json",
+        "name": "JsonTPCube",
+        "filepath": "assets/jsonModels/tpCube.txt"
+      },
+      {
+        "type": "assimp",
+        "name": "bot",
+        "filepath": "assets/assimpModels/Chicken Dance.fbx"
+      },
+      {
+        "type": "assimp",
+        "name": "ship",
+        "filepath": "assets/assimpModels/SM_Ship_Fighter_02.fbx"
+      }
+    ]
+  },
+
+  "MemoryInfo": {
+    "gameObjects": 3,
+    "position": 3,
+    "velocity": 3,
+    "oscillates": 2,
+    "textures": 3,
+    "controllers": 1
+  },
+
+  "Camera": {
+    "type": "Fps3D",
+    "translationSpeed": 10.0,
+    "rotationSpeed": 5.0,
+    "fov": 45.0,
+    "aspectRatio": 1.33333,
+    "nearClip": 0.1,
+    "farClip": 1000.0
+  },
+
+  "Renderer": {
+    "type": "3D"
+  },
+
+  "GameObject": [
+    {
+      "name": "FCCube",
+      "material": {
+        "type": "json",
+        "model": "JsonFCCube",
+        "shader": "FlatColorShader"
+      },
+
+      "position": {
+        "translation": {
+          "x": 1.5,
+          "y": 0.0,
+          "z": 3.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+
+      "velocity": {
+        "linear": {
+          "x": 0.0,
+          "y": 0.1,
+          "z": 0.0
+        },
+        "angular": {
+          "x": 0.0,
+          "y": 20.0,
+          "z": 0.0
+        }
+      },
+
+      "oscillate": {
+        "state": "DOWN",
+        "current time": 2.5,
+        "max time": 5.0,
+        "set texture": false
+      }
+    },
+
+    {
+      "name": "PlayerCharacter",
+      "material": {
+        "type": "assimp",
+        "model": "ship",
+        "shader": "PhongShader"
+      },
+
+      "position": {
+        "translation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 5.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 0.01,
+          "y": 0.01,
+          "z": 0.01
+        }
+      },
+
+      "velocity": {
+        "linear": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "angular": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+
+      "controller": {
+        "moveSpeed": 150.0,
+        "rotationSpeed": 1000.0
+      },
+
+      "texture": {
+        "name": "SpaceTexture"
+      }
+    },
+
+    {
+      "name": "PhongCube",
+      "material": {
+        "type": "json",
+        "model": "JsonTPCube",
+        "shader": "PhongShader"
+      },
+
+      "position": {
+        "translation": {
+          "x": -1.5,
+          "y": 0.0,
+          "z": 3.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+
+      "velocity": {
+        "linear": {
+          "x": 0.0,
+          "y": 0.1,
+          "z": 0.0
+        },
+        "angular": {
+          "x": 0.0,
+          "y": 20.0,
+          "z": 0.0
+        }
+      },
+
+      "oscillate": {
+        "state": "UP",
+        "current time": 2.5,
+        "max time": 5.0,
+        "set texture": true
+      },
+
+      "texture": {
+        "name": "NumberTexture"
+      }
+    }
+  ],
+
+  "UBO": [
+    {
+      "name": "ViewProjection",
+      "layout": [
+        "Mat4"
+      ],
+      "shaders": [
+        {
+          "name": "FlatColorShader",
+          "block": "Matrices"
+        },
+        {
+          "name": "PhongShader",
+          "block": "Matrices"
+        }
+      ],
+      "data": [
+        {
+          "type": "pointer",
+          "var": "VP Matrix"
+        }
+      ]
+    },
+    {
+      "name": "LightUBO",
+      "layout": [
+        "Vec3",
+        "Vec3",
+        "Vec3"
+      ],
+      "shaders": [
+        {
+          "name": "PhongShader",
+          "block": "Light"
+        }
+      ],
+      "data": [
+        {
+          "type": "Float3",
+          "x": 1.0,
+          "y": 4.0,
+          "z": -6.0
+        },
+        {
+          "type": "Float3",
+          "x": 0.0,
+          "y": 0.0,
+          "z": -4.5
+        },
+        {
+          "type": "Float3",
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      ]
+
+    }
+  ],
+
+    "RendererCommands":
+    {
+      "init": [
+        {
+          "type": "DepthTestLess",
+          "enabled": true
+        },
+        {
+          "type": "BackfaceCulling",
+          "enabled": true
+        },
+        {
+          "type": "Debug",
+          "enabled": true
+        },
+        {
+          "type": "ClearColor",
+          "r": 0.1,
+          "g": 0.1,
+          "b": 0.1,
+          "a": 1.0
+        }
+      ],
+      "predraw": [
+        {
+          "type": "ClearDepthColorBuffer"
+        }
+      ],
+      "postdraw": [
+      ],
+      "exit": [
+
+      ]
+    }
+}

@@ -14,6 +14,27 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+/* STEPS 
+
+	????????????????????????????????????????????? HOW TO ?????????????????????????????????????????????
+
+	1. Modify code to set vertex data rather than bone data & add number of bones
+	2. Create shader (look up lecture)
+	3. Test if works --> run and see the T-pose
+	4. Create animator component
+		4a. Contains 3 vectors (position, rotation, scale keyframes)
+		4b. Write onUpdate so it linearly interpolates between keyframes in above vectors (look up lecture for formulas)
+		4c. Add extra component messages
+		4d. Calculate bone models transforms (array of number of bones) in animator (look up lecture)
+		4e. Upload transforms to the shader
+
+	ALSO:
+	- what is needed for Lua?
+	- how to make finding and compiling user scripts dynamic (without hardcoding scripts stacks or sth)?
+	- how to make various fucntions (e.g) onUpdate accessible and modifiable from Lua?
+	- how to make Lua scripts components?
+*/
+
 namespace Engine
 {
 	struct VertexData
@@ -32,7 +53,6 @@ namespace Engine
 			: m_vertices(vertexData), m_indices(ind) {};
 
 		void setupMesh(VertexData vertices, unsigned int indices);
-
 		std::vector<VertexData> m_vertices;
 		std::vector<unsigned int> m_indices;
 
@@ -43,29 +63,15 @@ namespace Engine
 	class AssimpModel
 	{
 	public:
-		AssimpModel() {};
+		AssimpModel(){};
 		std::vector<Mesh> m_meshes;
 	};
 
 	class AssimpModelLoader
 	{
 	public:
-		static bool loadModel(const std::string& filepath, AssimpModel& model)
-		{
-			Assimp::Importer importer;
-
-			const aiScene *scene = importer.ReadFile(filepath, aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_Triangulate);
-
-			if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
-			{
-				LogError("Could not load: {0}, error: {1}", filepath, importer.GetErrorString());
-				return false;
-			}
-
-			processNode(scene->mRootNode, scene, model);
-
-			return true;
-		}
+		static const aiScene *m_scene;
+		static AssimpModel* loadModel(const std::string& filepath);
 
 		static void processNode(aiNode* node, const aiScene* scene, AssimpModel& model)
 		{
@@ -74,25 +80,9 @@ namespace Engine
 			if (node->mParent != nullptr)
 				parentName = node->mParent->mName.C_Str();
 
-#ifdef NG_DEBUG
-
-			if (node->mNumMeshes == 0)
-				LogInfo("Unmeshed mode: {0}, parent: {1}", node->mName.C_Str(), parentName);
-
-			else
-				LogInfo("Meshed mode: {0}, parent: {1}", node->mName.C_Str(), parentName);
-#endif // NG_DEBUG
-
 			aiMatrix4x4* transform = &node->mTransformation;
 
-#ifdef NG_DEBUG
-			LogWarn("Transform");
-			LogInfo("{0} {1} {2} {3}", transform->a1, transform->a2, transform->a3, transform->a4);
-			LogInfo("{0} {1} {2} {3}", transform->b1, transform->b2, transform->b3, transform->b4);
-			LogInfo("{0} {1} {2} {3}", transform->c1, transform->c2, transform->c3, transform->c4);
-			LogInfo("{0} {1} {2} {3}", transform->d1, transform->d2, transform->d3, transform->d4);
-#endif // NG_DEBUG
-
+			
 			for (unsigned int i = 0; i < node->mNumMeshes; i++)
 			{
 				aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
@@ -103,6 +93,7 @@ namespace Engine
 			{
 				processNode(node->mChildren[i], scene, model);
 			}
+			
 		}
 
 		static Mesh processMesh(aiMesh* mesh, const aiScene* scene)
