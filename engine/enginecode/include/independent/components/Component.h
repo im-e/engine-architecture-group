@@ -12,6 +12,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
+#include <reactphysics3d.h>
 
 namespace Engine
 {
@@ -28,7 +29,7 @@ namespace Engine
 		AccelerationSet,
 		BoneSet,
 		KeyPressed, KeyReleased, MouseButton, MouseScroll, MouseMoved,
-		UniformSet, TextureSet
+		UniformSet, TextureSet, RigidBodySet
 	};
 
 	/*! \class ComponentMessage

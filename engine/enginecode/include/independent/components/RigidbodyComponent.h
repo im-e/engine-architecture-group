@@ -1,27 +1,27 @@
 #pragma once
 
-/*! \file PhysicsComponent.h
+/*! \file RigidBodyComponent.h
 \brief Implementation of a component responsible for handling ReactPhysics3D functions.
 */
 
-#include <reactphysics3d.h>
 #include "Component.h"
 
 
 namespace Engine
 {
-	class PhysicsComponent : public Component
+	class RigidBodyComponent : public Component
 	{
 	private:
 		rp3d::RigidBody * body; //RP3D Rigid body
 		rp3d::Transform bodyTra;	//Transform component
 		rp3d::Quaternion bodyOri;	//Orientation
 		rp3d::Vector3 bodyPos;	//RP3D position
+		float bodyDen = 1.0f;
 	public:
 		std::shared_ptr<rp3d::DynamicsWorld> m_world; //Shared pointer to physics world
 		
 		
-		PhysicsComponent()
+		RigidBodyComponent()
 		{
 			bodyPos = rp3d::Vector3(0.f, 0.f, 0.f); //defaults physics body poisition
 			bodyOri = rp3d::Quaternion::identity();	//defaults orientation
@@ -34,6 +34,8 @@ namespace Engine
 		void onAttach(GameObject* owner) override
 		{
 			m_owner = owner; //Sets owner 	
+
+			m_possibleMessages = { ComponentMessageType::RigidBodySet };
 		}
 		
 		
@@ -41,18 +43,45 @@ namespace Engine
 		{
 			m_world->destroyRigidBody(body); //Destroys body component when detached from owner
 		}
+
 		void changeType(rp3d::BodyType type)
 		{
 			body->setType(type); //Allows changing of body type
 		}
-		void setTransform(rp3d::Vector3 position)
+		void setPosition(rp3d::Vector3 position)
 		{
-			body->setTransform(rp3d::Transform(position, bodyOri)); //Update position
+			bodyPos = position;
+			body->setTransform(rp3d::Transform(bodyPos, bodyOri)); //Update position
 		}
 		void setOrientation(rp3d::Quaternion orientation)
 		{
-			body->setTransform(rp3d::Transform(bodyPos,orientation)); //Update orientation
+			bodyOri = orientation;
+			body->setTransform(rp3d::Transform(bodyPos,bodyOri)); //Update orientation
+		}
+		
+
+		void setMass(rp3d::decimal mass) //Set mass
+		{
+			body->setMass(mass); 
+		}
+		rp3d::decimal getMass()
+		{
+			return body->getMass();
 		}
 
-	};
+		void setDensity(float density) //Set density
+		{
+			bodyDen = density;
+		}
+		float getDensity() 
+		{
+			return bodyDen;
+		}
+
+		void toggleGravity(bool gravity) 
+		{
+			body->enableGravity(gravity);
+		}
+
+		
 }
