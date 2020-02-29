@@ -83,5 +83,8 @@ namespace Engine
 			body->enableGravity(gravity);
 		}
 
-		
+		rp3d::RigidBody* getBody() 
+		{
+			return body;
+		}
 }
