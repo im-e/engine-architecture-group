@@ -93,6 +93,30 @@ namespace Engine
 		cacheUniformsExtractLayout(teShader);
 	}
 
+	void checkCompileErrors(GLuint shader, std::string type)
+	{
+		GLint success;
+		GLchar infoLog[1024];
+		if (type != "PROGRAM")
+		{
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+			if (!success)
+			{
+				glGetShaderInfoLog(shader, 1024, NULL, infoLog);
+				std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+			}
+		}
+		else
+		{
+			glGetProgramiv(shader, GL_LINK_STATUS, &success);
+			if (!success)
+			{
+				glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+				std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+			}
+		}
+	}
+
 	unsigned int OpenGLShader::getID()
 	{
 		return m_ID;
@@ -305,7 +329,12 @@ namespace Engine
 				glDeleteShader(m_tessellationEvalID);
 			}
 		}
-		
+
+		checkCompileErrors(m_vertID, "VERTEX");
+		checkCompileErrors(m_fragID, "FRAGMENT");
+		checkCompileErrors(m_tessellationControlID, "TESSELLATION_CONTROL");
+		checkCompileErrors(m_tessellationEvalID, "TESSELLATION_EVAL");
+		checkCompileErrors(m_geometryID, "GEOMETRY");
 
 		m_ID = glCreateProgram();
 		glAttachShader(m_ID, m_vertID);
@@ -590,29 +619,5 @@ namespace Engine
 	std::map<std::string, std::pair<ShaderDataType, unsigned int>> OpenGLShader::getUniformCache()
 	{
 		return m_uniformCache;
-	}
-	
-	void checkCompileErrors(GLuint shader, std::string type)
-	{
-		GLint success;
-		GLchar infoLog[1024];
-		if (type != "PROGRAM")
-		{
-			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-			if (!success)
-			{
-				glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-				std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
-			}
-		}
-		else
-		{
-			glGetProgramiv(shader, GL_LINK_STATUS, &success);
-			if (!success)
-			{
-				glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-				std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
-			}
-		}
 	}
 }
