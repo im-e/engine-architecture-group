@@ -29,6 +29,9 @@ namespace Engine
 		m_timer = std::make_shared<Timer>();
 		m_timer->start(Engine::SystemSignal::None);
 
+		m_physWorld = std::make_shared<Physics>();
+		m_physWorld->start(Engine::SystemSignal::None);
+
 		// Create layer stack
 		m_layerStack.reset(new LayerStack());
 		m_layerStack->start(SystemSignal::None);
@@ -186,6 +189,7 @@ namespace Engine
 		m_windowsSystem->stop(Engine::SystemSignal::Windows);
 		m_imGui->stop(Engine::SystemSignal::Windows);
 		m_timer->stop(Engine::SystemSignal::None);
-		m_logger->stop(Engine::SystemSignal::None);			
+		m_logger->stop(Engine::SystemSignal::None);		
+		m_physWorld->stop(Engine::SystemSignal::None);
 	}
 }
