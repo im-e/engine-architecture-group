@@ -36,7 +36,7 @@ namespace Engine
 		virtual bool uploadData(const std::string& dataName, void* data) = 0; //!< Feed shader with data \param dataName name of the uniform \param data data to be passed
 		virtual BufferLayout getBufferLayout() const = 0; //!< Get extracted buffer layout \return buffer layout
 		virtual std::map<std::string, std::pair<ShaderDataType, unsigned int>> getUniformCache() = 0; //!< Get the whole block of uniforms in the shader \return map of uniforms from the shader
-
+		virtual void checkCompileErrors(GLuint shader, std::string type) = 0;
 		/*! Create a shader based on current RenderAPI 
 		\param path path to the shader file
 		*/

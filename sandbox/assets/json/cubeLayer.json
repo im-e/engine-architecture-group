@@ -72,7 +72,7 @@
       "material": {
         "type": "json",
         "model": "JsonFCCube",
-        "shader": "FlatColorShader"
+        "shader": "PhongShader"
       },
 
       "position": {
@@ -119,7 +119,7 @@
       "material": {
         "type": "assimp",
         "model": "ship",
-        "shader": "TessShader"
+        "shader": "PhongShader"
       },
 
       "position": {
