@@ -140,9 +140,15 @@ namespace Engine
 				if (type.compare("Space") == 0)
 				{
 					std::shared_ptr<Skybox> skyboxSpace;
-					skyboxSpace->createSkyboxCube();
-					std::vector<std::string> faces = skyboxSpace->getPaths();
-					ResourceManagerInstance->addSkybox(type, faces);
+					//std::shared_ptr<Engine::Shader> SBShader = ResourceManagerInstance->addShader(type, "assets/shaders/flatColour.glsl");
+					//std::shared_ptr<Engine::VertexArray> FCVAO = ResourceManagerInstance->addVAO("flatColourCube");
+					//FCVAO->setVertexBuffer(ResourceManagerInstance->addVBO("FlatColourVBO", skyboxSpace->skyboxVertices, sizeof(skyboxSpace->skyboxVertices), SBShader->getBufferLayout()));
+					//FCVAO->setIndexBuffer(m_resources->addIndexBuffer("CubeIndices", indices, 3 * 12));
+					//std::shared_ptr<Engine::Material> m_FCcube = m_resources->addMaterial("FCCUBE", FCShader, FCVAO);
+
+					//skyboxSpace->createSkyboxCube();
+					//std::vector<std::string> faces = skyboxSpace->getPaths();
+					//ResourceManagerInstance->addSkybox(type, faces);
 				}
 			}
 

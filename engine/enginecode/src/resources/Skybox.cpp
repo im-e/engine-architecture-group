@@ -25,7 +25,7 @@ namespace Engine
 
 	void Skybox::createSkyboxCube()
 	{
-		float skyboxVertices[] = {
+		float skyboxVerticesTwo[] = {
 			// positions          
 			-1.0f,  1.0f, -1.0f,
 			-1.0f, -1.0f, -1.0f,
@@ -77,7 +77,7 @@ namespace Engine
 		//bind buffers
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVerticesTwo), &skyboxVerticesTwo, GL_STATIC_DRAW);
 
 		//process positions
 		glEnableVertexAttribArray(0);
