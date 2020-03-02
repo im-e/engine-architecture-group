@@ -119,7 +119,7 @@
       "material": {
         "type": "assimp",
         "model": "ship",
-        "shader": "PhongShader"
+        "shader": "TessShader"
       },
 
       "position": {

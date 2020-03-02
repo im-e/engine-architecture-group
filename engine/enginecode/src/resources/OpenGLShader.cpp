@@ -93,29 +93,6 @@ namespace Engine
 		cacheUniformsExtractLayout(teShader);
 	}
 
-	void checkCompileErrors(GLuint shader, std::string type)
-	{
-		GLint success;
-		GLchar infoLog[1024];
-		if (type != "PROGRAM")
-		{
-			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-			if (!success)
-			{
-				glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-				std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
-			}
-		}
-		else
-		{
-			glGetProgramiv(shader, GL_LINK_STATUS, &success);
-			if (!success)
-			{
-				glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-				std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
-			}
-		}
-	}
 
 	unsigned int OpenGLShader::getID()
 	{
@@ -218,6 +195,7 @@ namespace Engine
 		const GLchar* source = vertex.c_str(); //source code
 		glShaderSource(m_vertID, 1, &source, 0);
 		glCompileShader(m_vertID);
+		checkCompileErrors(m_vertID, "VERTEX");
 
 		GLint isCompiled = 0;
 		glGetShaderiv(m_vertID, GL_COMPILE_STATUS, &isCompiled);
@@ -241,7 +219,7 @@ namespace Engine
 		source = fragment.c_str();
 		glShaderSource(m_fragID, 1, &source, 0);
 		glCompileShader(m_fragID);
-
+		checkCompileErrors(m_fragID, "FRAGMENT");
 		glGetShaderiv(m_fragID, GL_COMPILE_STATUS, &isCompiled);
 
 		if (isCompiled == GL_FALSE)
@@ -268,6 +246,7 @@ namespace Engine
 
 			glShaderSource(m_geometryID, 1, &source, 0);
 			glCompileShader(m_geometryID);
+			checkCompileErrors(m_geometryID, "GEOMETRY");
 			glGetShaderiv(m_geometryID, GL_COMPILE_STATUS, &isCompiled);
 
 			if (isCompiled == GL_FALSE)
@@ -291,6 +270,7 @@ namespace Engine
 			m_tessellationControlID = glCreateShader(GL_TESS_CONTROL_SHADER);
 			glShaderSource(m_tessellationControlID, 1, &source, 0);
 			glCompileShader(m_tessellationControlID);
+			checkCompileErrors(m_tessellationControlID, "TESS CONTROL");
 			glGetShaderiv(m_tessellationControlID, GL_COMPILE_STATUS, &isCompiled);
 
 			if (isCompiled == GL_FALSE)
@@ -313,6 +293,7 @@ namespace Engine
 			m_tessellationEvalID = glCreateShader(GL_TESS_EVALUATION_SHADER);
 			glShaderSource(m_tessellationEvalID, 1, &source, 0);
 			glCompileShader(m_tessellationEvalID);
+			checkCompileErrors(m_tessellationEvalID, "TESS EVAL");
 			glGetShaderiv(m_tessellationEvalID, GL_COMPILE_STATUS, &isCompiled);
 
 			if (isCompiled == GL_FALSE)
@@ -330,11 +311,6 @@ namespace Engine
 			}
 		}
 
-		checkCompileErrors(m_vertID, "VERTEX");
-		checkCompileErrors(m_fragID, "FRAGMENT");
-		checkCompileErrors(m_tessellationControlID, "TESSELLATION_CONTROL");
-		checkCompileErrors(m_tessellationEvalID, "TESSELLATION_EVAL");
-		checkCompileErrors(m_geometryID, "GEOMETRY");
 
 		m_ID = glCreateProgram();
 		glAttachShader(m_ID, m_vertID);
@@ -619,5 +595,28 @@ namespace Engine
 	std::map<std::string, std::pair<ShaderDataType, unsigned int>> OpenGLShader::getUniformCache()
 	{
 		return m_uniformCache;
+	}
+	void OpenGLShader::checkCompileErrors(unsigned int shader, std::string type)
+	{
+		GLint success;
+		GLchar infoLog[1024];
+		if (type != "PROGRAM")
+		{
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+			if (!success)
+			{
+				glGetShaderInfoLog(shader, 1024, NULL, infoLog);
+				LogError("ERROR::SHADER_COMPILATION_ERROR of type: " + type + "\n" + infoLog + "\n -- --------------------------------------------------- -- ");
+			}
+		}
+		else
+		{
+			glGetProgramiv(shader, GL_LINK_STATUS, &success);
+			if (!success)
+			{
+				glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+				LogError("ERROR::PROGRAM_LINKING_ERROR of type: " + type + "\n" + infoLog + "\n -- --------------------------------------------------- -- ");
+			}
+		}
 	}
 }
