@@ -17,7 +17,9 @@ namespace Engine
 	{
 	private:
 		unsigned int m_texSlot; //!< Texture slot
-		std::string m_diffName; //!< Diffuse texture name
+		unsigned int m_texSlotNormal; //!< Texture slot
+		unsigned int m_texSlotParallax; //!< Texture slot
+		unsigned int m_texSlotSpecular; //!< Texture slot
 
 	public:
 		//! Custom constructor \param texSlot initial texture slot
@@ -28,7 +30,7 @@ namespace Engine
 		{ 
 			m_owner = owner; 
 			setTexture(m_texSlot);
-
+			//setNormalTextures(m_texSlot, m_texSlotNormal);
 			m_possibleMessages = { ComponentMessageType::TextureSet };
 
 			for (auto& msg : m_possibleMessages)
@@ -58,15 +60,26 @@ namespace Engine
 			ComponentMessage msg(ComponentMessageType::UniformSet, data);
 			sendMessage(msg);
 		}
-
-		inline const std::type_info& getType() override
+		void assignNormalTexture(int index)
 		{
-			return typeid(decltype(*this));
+			m_texSlotNormal = index;
+			std::pair<std::string, void*> normalData("u_normalTexData", (void*)m_texSlotNormal);
+			ComponentMessage msg(ComponentMessageType::UniformSet, normalData);
+			sendMessage(msg);
 		}
-
-		//! Sets diffuse texture name \param name new diffuse texture name
-		inline void setDiffuseTextureName(std::string name) { m_diffName = name; }
-		//! Gets diffuse texture name \return current diffuse texture name
-		inline std::string& getDiffName() { return m_diffName; }
+		void assignParallaxTexture(int index)
+		{
+			m_texSlotParallax = index;
+			std::pair<std::string, void*> parallaxData("u_parallaxTexData", (void*)m_texSlotParallax);
+			ComponentMessage msg(ComponentMessageType::UniformSet, parallaxData);
+			sendMessage(msg);
+		}
+		void assignSpecularTexture(int index)
+		{
+			m_texSlotSpecular = index;
+			std::pair<std::string, void*> specularData("u_specularTexData", (void*)m_texSlotSpecular);
+			ComponentMessage msg(ComponentMessageType::UniformSet, specularData);
+			sendMessage(msg);
+		}
 	};
 }
