@@ -197,6 +197,6 @@ namespace Engine
 		m_timer->stop(Engine::SystemSignal::None);
 		m_logger->stop(Engine::SystemSignal::None);
 
-		lua_close(lua); // terminate Lua
+		lua_close(lua);
 	}
 }

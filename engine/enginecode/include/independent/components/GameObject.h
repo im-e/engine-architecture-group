@@ -66,6 +66,12 @@ namespace Engine
 		inline std::string& getName() { return m_name; }
 
 		//! Virtual destructor
-		virtual ~GameObject() {};
+		virtual ~GameObject() 
+		{
+			for (auto it = m_components.begin(); it != m_components.end(); ++it)
+			{
+				(*it)->onDetach();
+			}
+		};
 	};
 }

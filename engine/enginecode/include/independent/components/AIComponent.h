@@ -43,7 +43,7 @@ namespace Engine
 
 		GameObject* getOwner() override { return m_owner; }
 
-		void onDetach() override {};
+		void onDetach() override { m_lua.reset(); };
 
 		void onUpdate(float timestep) override 
 		{
@@ -80,6 +80,7 @@ namespace Engine
 			sendMessage(rotMsg);
 
 			m_currentPosition = m_owner->getComponent<PositionComponent>()->getCurrentPosition();
+			m_currentRotation = m_owner->getComponent<PositionComponent>()->getCurrentRotation();
 
 		};
 
@@ -160,7 +161,7 @@ namespace Engine
 
 		~AIComponent()
 		{
-			m_lua.reset();
+			
 		}
 	};
 }
