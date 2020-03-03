@@ -8,10 +8,16 @@ namespace Engine {
 	{
 	private:
 		rp3d::RigidBody *parentObject;
+		rp3d::ProxyShape *proxy;
 	public:
 		void onAttach(GameObject* owner) override
 		{
 			m_owner = owner; //Sets owner 
+		}
+
+		void onDetach()
+		{
+			parentObject->removeCollisionShape(proxy);
 		}
 
 		void makeBoxMesh(RigidBodyComponent *body, rp3d::Vector3 boxSize) //Box Collider
@@ -20,7 +26,7 @@ namespace Engine {
 
 			rp3d::BoxShape shape(boxSize);
 
-			rp3d::ProxyShape* proxy = parentObject->addCollisionShape(&shape, parentObject->getTransform(), parentObject->getMass());
+			proxy = parentObject->addCollisionShape(&shape, parentObject->getTransform(), parentObject->getMass());
 		}
 		void makeSphereMesh(RigidBodyComponent *body, rp3d::decimal radius)
 		{
@@ -28,7 +34,7 @@ namespace Engine {
 
 			rp3d::SphereShape shape(radius);
 
-			rp3d::ProxyShape* proxy = parentObject->addCollisionShape(&shape, parentObject->getTransform(), parentObject->getMass());
+			proxy = parentObject->addCollisionShape(&shape, parentObject->getTransform(), parentObject->getMass());
 		}
 		void makeCapsuleMesh(RigidBodyComponent *body, rp3d::decimal radius, rp3d::decimal height)
 		{
@@ -36,9 +42,9 @@ namespace Engine {
 
 			rp3d::CapsuleShape shape(radius, height);
 
-			rp3d::ProxyShape* proxy = parentObject->addCollisionShape(&shape, parentObject->getTransform(), parentObject->getMass());
+			proxy = parentObject->addCollisionShape(&shape, parentObject->getTransform(), parentObject->getMass());
 		}
-		void makeConvexMesh(RigidBodyComponent *body)
+		void makeConvexMesh(RigidBodyComponent *body, float vertices, int indices)
 		{
 			parentObject = body->getBody();
 		}
@@ -49,7 +55,7 @@ namespace Engine {
 		}
 
 
-		void makeHeightFieldShape(RigidBodyComponent *body)
+		void makeHeightFieldShape(RigidBodyComponent *body, int rows, int columns, float max, float min)
 		{
 			parentObject = body->getBody();
 			parentObject->setType(rp3d::BodyType::STATIC);
