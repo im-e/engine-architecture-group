@@ -21,23 +21,25 @@ namespace Engine
 		m_VAO->setIndexBuffer(ResourceManagerInstance->addEBO(key + "IBO", textIndices, 4));
 
 		unsigned int loopCount = 0;
+		float xAdvance = 0;
 
 		std::string::const_iterator c;
 		for (c = text.begin(); c != text.end(); c++)
 		{
 		    std::shared_ptr<Character> ch = ResourceManagerInstance->getCharacter(fontName, (*c));
 
-			glm::vec2 startPos = glm::vec2(ch->getStartUV().x, ch->getStartUV().y);
-			glm::vec2 endPos = glm::vec2(ch->getEndUV().x, ch->getEndUV().y);
-
 			float width = ch->getSize().x;
 			float height = ch->getSize().y;
+
+			glm::vec2 startPos = glm::vec2(ch->getStartUV().x, ch->getStartUV().y);
+			glm::vec2 endPos = glm::vec2(ch->getEndUV().x, ch->getEndUV().y);
 
 			float textVertices[4 * 4] = {
 				0, 0, startPos.x, startPos.y,
 				width, 0, endPos.x, startPos.y,
 				width, height, endPos.x, endPos.y,
 				0, height, startPos.x, endPos.y
+
 			};
 
 			if (loopCount == 0)
@@ -51,6 +53,7 @@ namespace Engine
 			}
 
 			loopCount++;
+			xAdvance += (ch->getAdvance() >> 6); // Bitshift by 6 to get pixel values
 		}
 		
 		m_VAO->setVertexBuffer(m_VBO);

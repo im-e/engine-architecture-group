@@ -157,7 +157,8 @@ namespace Engine
 				
 				glm::ivec2 charSize = glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows);
 
-				if (usedX + charSize.x + padding >= memW) {
+				if (usedX + charSize.x + padding >= memW) 
+				{
 					usedX = 0;
 					usedY = nextUsedY + padding;
 					nextUsedY = usedY + maxCharHeight;
