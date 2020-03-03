@@ -39,8 +39,6 @@ namespace Engine
 		}
 		return nullptr;
 	}
-<<<<<<< HEAD
-
 	//Texture * Texture::createSkybox(std::vector<std::string> faces)
 	//{
 	//	switch (RenderAPI::getAPI())
@@ -58,6 +56,4 @@ namespace Engine
 	//	return nullptr;
 	//}
 
-=======
->>>>>>> parent of 0280196... Merge Reece to master
 }

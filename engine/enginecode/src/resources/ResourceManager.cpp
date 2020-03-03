@@ -86,7 +86,6 @@ namespace Engine
 		return texture;
 	}
 
-<<<<<<< HEAD
 	std::shared_ptr<Texture> ResourceManager::addSkybox(const std::string & key, std::vector<std::string> faces)
 	{
 		std::shared_ptr<Texture> texture;
@@ -95,8 +94,6 @@ namespace Engine
 		return texture;
 	}
 
-=======
->>>>>>> parent of 0280196... Merge Reece to master
 	std::shared_ptr<Material> ResourceManager::addMaterial(const std::string & key, const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO)
 	{
 		std::shared_ptr<Material> material;
