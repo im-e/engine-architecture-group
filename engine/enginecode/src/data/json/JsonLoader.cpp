@@ -487,6 +487,13 @@ namespace Engine
 							tex = std::make_shared<TextureComponent>
 								(TextureComponent(ResourceManagerInstance->getTexture().getAsset(texName)->getSlot()));
 
+							tex->setDiffuseTextureName(texName);
+							tex->setNormalTextureName(normalTexName);
+							tex->setParallaxTextureName(parallaxTexName);
+							tex->setSpecularTextureName(specularTexName);
+
+							gameObject->addComponent(tex);
+
 							if (specularTexName.compare("none") != 0)
 							{
 								tex->assignSpecularTexture(ResourceManagerInstance->getTexture().getAsset(specularTexName)->getSlot());
@@ -499,13 +506,6 @@ namespace Engine
 							{
 								tex->assignParallaxTexture(ResourceManagerInstance->getTexture().getAsset(parallaxTexName)->getSlot());
 							}
-
-							tex->setDiffuseTextureName(texName);
-							tex->setNormalTextureName(normalTexName);
-							tex->setParallaxTextureName(parallaxTexName);
-							tex->setSpecularTextureName(specularTexName);
-
-							gameObject->addComponent(tex);
 							
 						}
 					}
@@ -881,21 +881,21 @@ namespace Engine
 								texComp = std::make_shared<TextureComponent>
 									(TextureComponent(ResourceManagerInstance->getTexture().getAsset(tex)->getSlot()));
 
+								lay->getGameObjects()[layer.getGOName()]->addComponent(texComp);
+
 								if (normTex != "none")
 									texComp->assignNormalTexture(ResourceManagerInstance->getTexture().getAsset(normTex)->getSlot());
 
-								if(parallTex != "none")
+								if (parallTex != "none")
 									texComp->assignParallaxTexture(ResourceManagerInstance->getTexture().getAsset(parallTex)->getSlot());
 
-								if(specTex != "none")
+								if (specTex != "none")
 									texComp->assignSpecularTexture(ResourceManagerInstance->getTexture().getAsset(specTex)->getSlot());
 
 								texComp->setDiffuseTextureName(tex);
 								texComp->setNormalTextureName(normTex);
 								texComp->setParallaxTextureName(parallTex);
 								texComp->setSpecularTextureName(specTex);
-
-								lay->getGameObjects()[layer.getGOName()]->addComponent(texComp);
 							}
 							else
 							{
