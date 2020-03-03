@@ -282,6 +282,13 @@ namespace Engine
 						return true;
 					};
 					break;
+				case ShaderDataType::SamplerCube:
+					m_dispatcher[name] = [location](void* data)
+					{
+						glUniform1i(location, (GLuint)data);
+						return true;
+					};
+					break;
 				case ShaderDataType::Bool:
 					m_dispatcher[name] = [location](void* data)
 					{
@@ -351,6 +358,9 @@ namespace Engine
 					break;
 				case ShaderDataType::Sampler2D:
 					m_bufferLayout.addElement(ShaderDataType::Sampler2D);
+					break;
+				case ShaderDataType::SamplerCube:
+					m_bufferLayout.addElement(ShaderDataType::SamplerCube);
 					break;
 				case ShaderDataType::Bool:
 					m_bufferLayout.addElement(ShaderDataType::Bool);

@@ -39,6 +39,10 @@ namespace Engine
 		}
 		return nullptr;
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 0fbe65e... Revert "Merge Reece to master"
 	//Texture * Texture::createSkybox(std::vector<std::string> faces)
 	//{
 	//	switch (RenderAPI::getAPI())
