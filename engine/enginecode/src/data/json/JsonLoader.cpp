@@ -479,14 +479,13 @@ namespace Engine
 						if (go.count("texture") > 0)
 						{
 							std::shared_ptr<TextureComponent> tex;
-							std::string texName = go["texture"]["name"].get<std::string>();
+							std::string texName = go["texture"]["diffuse"].get<std::string>();
 							std::string specularTexName = go["texture"]["specular"].get<std::string>();
 							std::string normalTexName = go["texture"]["normal"].get<std::string>();
 							std::string parallaxTexName = go["texture"]["parallax"].get<std::string>();
 
 							tex = std::make_shared<TextureComponent>
 								(TextureComponent(ResourceManagerInstance->getTexture().getAsset(texName)->getSlot()));
-							gameObject->addComponent(tex);
 
 							if (specularTexName.compare("none") != 0)
 							{
@@ -502,6 +501,10 @@ namespace Engine
 							}
 
 							tex->setDiffuseTextureName(texName);
+							tex->setNormalTextureName(normalTexName);
+							tex->setParallaxTextureName(parallaxTexName);
+							tex->setSpecularTextureName(specularTexName);
+
 							gameObject->addComponent(tex);
 							
 						}
@@ -797,6 +800,9 @@ namespace Engine
 					if (ImGui::CollapsingHeader("Texture"))
 					{
 						static const char* tex = "";
+						static const char* normTex = "none";
+						static const char* parallTex = "none";
+						static const char* specTex = "none";
 
 						if (ImGui::BeginCombo("Diffuse texture", tex))
 						{
@@ -815,6 +821,57 @@ namespace Engine
 							ImGui::EndCombo();
 						}
 
+						if (ImGui::BeginCombo("Normal texture", normTex))
+						{
+							for (int i = 0; i < layer.getTexturesNames().size(); i++)
+							{
+								bool selected = (normTex == layer.getTexturesNames()[i]);
+
+								if (ImGui::Selectable(layer.getTexturesNames()[i].c_str(), selected))
+								{
+									normTex = layer.getTexturesNames()[i].c_str();
+								}
+
+								if (selected)
+									ImGui::SetItemDefaultFocus();
+							}
+							ImGui::EndCombo();
+						}
+
+						if (ImGui::BeginCombo("Parallax texture", parallTex))
+						{
+							for (int i = 0; i < layer.getTexturesNames().size(); i++)
+							{
+								bool selected = (parallTex == layer.getTexturesNames()[i]);
+
+								if (ImGui::Selectable(layer.getTexturesNames()[i].c_str(), selected))
+								{
+									parallTex = layer.getTexturesNames()[i].c_str();
+								}
+
+								if (selected)
+									ImGui::SetItemDefaultFocus();
+							}
+							ImGui::EndCombo();
+						}
+
+						if (ImGui::BeginCombo("Specular texture", specTex))
+						{
+							for (int i = 0; i < layer.getTexturesNames().size(); i++)
+							{
+								bool selected = (specTex == layer.getTexturesNames()[i]);
+
+								if (ImGui::Selectable(layer.getTexturesNames()[i].c_str(), selected))
+								{
+									specTex = layer.getTexturesNames()[i].c_str();
+								}
+
+								if (selected)
+									ImGui::SetItemDefaultFocus();
+							}
+							ImGui::EndCombo();
+						}
+
 						if (ImGui::Button("Add"))
 						{
 							if (lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>() == nullptr)
@@ -824,7 +881,20 @@ namespace Engine
 								texComp = std::make_shared<TextureComponent>
 									(TextureComponent(ResourceManagerInstance->getTexture().getAsset(tex)->getSlot()));
 
+								if (normTex != "none")
+									texComp->assignNormalTexture(ResourceManagerInstance->getTexture().getAsset(normTex)->getSlot());
+
+								if(parallTex != "none")
+									texComp->assignParallaxTexture(ResourceManagerInstance->getTexture().getAsset(parallTex)->getSlot());
+
+								if(specTex != "none")
+									texComp->assignSpecularTexture(ResourceManagerInstance->getTexture().getAsset(specTex)->getSlot());
+
 								texComp->setDiffuseTextureName(tex);
+								texComp->setNormalTextureName(normTex);
+								texComp->setParallaxTextureName(parallTex);
+								texComp->setSpecularTextureName(specTex);
+
 								lay->getGameObjects()[layer.getGOName()]->addComponent(texComp);
 							}
 							else
@@ -839,7 +909,21 @@ namespace Engine
 							if (comp != nullptr)
 							{
 								comp->setTexture(ResourceManagerInstance->getTexture().getAsset(tex)->getSlot());
+
+								if (normTex != "none")
+									comp->assignNormalTexture(ResourceManagerInstance->getTexture().getAsset(normTex)->getSlot());
+
+								if (parallTex != "none")
+									comp->assignParallaxTexture(ResourceManagerInstance->getTexture().getAsset(parallTex)->getSlot());
+
+								if (specTex != "none")
+									comp->assignSpecularTexture(ResourceManagerInstance->getTexture().getAsset(specTex)->getSlot());
+
 								comp->setDiffuseTextureName(tex);
+								comp->setNormalTextureName(normTex);
+								comp->setParallaxTextureName(parallTex);
+								comp->setSpecularTextureName(specTex);
+
 							}
 							else
 							{

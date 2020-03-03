@@ -66,7 +66,7 @@ namespace Engine
 		m_slot = s_slot;
 		s_slot++;
 		glActiveTexture(GL_TEXTURE0 + m_slot);
-		glBindTexture(GL_TEXTURE_2D, m_texID);
+		glBindTexture(GL_TEXTURE_2D, m_slot);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

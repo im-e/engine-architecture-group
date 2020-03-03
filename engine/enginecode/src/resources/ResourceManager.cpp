@@ -89,8 +89,8 @@ namespace Engine
 	std::shared_ptr<Texture> ResourceManager::addSkybox(const std::string & key, std::vector<std::string> faces)
 	{
 		std::shared_ptr<Texture> texture;
-		texture.reset(Texture::createSkybox(faces));
-		m_textures.add(key, texture);
+		////texture.reset(Texture::createSkybox(faces));
+		//m_textures.add(key, texture);
 		return texture;
 	}
 

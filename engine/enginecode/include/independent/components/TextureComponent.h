@@ -20,6 +20,10 @@ namespace Engine
 		unsigned int m_texSlotNormal; //!< Texture slot
 		unsigned int m_texSlotParallax; //!< Texture slot
 		unsigned int m_texSlotSpecular; //!< Texture slot
+		std::string m_diffName; //!< Diffuse texture name
+		std::string m_normalName;
+		std::string m_parallaxName;
+		std::string m_specName;
 
 	public:
 		//! Custom constructor \param texSlot initial texture slot
@@ -30,7 +34,7 @@ namespace Engine
 		{ 
 			m_owner = owner; 
 			setTexture(m_texSlot);
-			//setNormalTextures(m_texSlot, m_texSlotNormal);
+
 			m_possibleMessages = { ComponentMessageType::TextureSet };
 
 			for (auto& msg : m_possibleMessages)
@@ -60,6 +64,7 @@ namespace Engine
 			ComponentMessage msg(ComponentMessageType::UniformSet, data);
 			sendMessage(msg);
 		}
+
 		void assignNormalTexture(int index)
 		{
 			m_texSlotNormal = index;
@@ -67,6 +72,7 @@ namespace Engine
 			ComponentMessage msg(ComponentMessageType::UniformSet, normalData);
 			sendMessage(msg);
 		}
+
 		void assignParallaxTexture(int index)
 		{
 			m_texSlotParallax = index;
@@ -74,6 +80,7 @@ namespace Engine
 			ComponentMessage msg(ComponentMessageType::UniformSet, parallaxData);
 			sendMessage(msg);
 		}
+
 		void assignSpecularTexture(int index)
 		{
 			m_texSlotSpecular = index;
@@ -81,5 +88,19 @@ namespace Engine
 			ComponentMessage msg(ComponentMessageType::UniformSet, specularData);
 			sendMessage(msg);
 		}
+
+		//! Sets diffuse texture name \param name new diffuse texture name
+		inline void setDiffuseTextureName(std::string name) { m_diffName = name; }
+		//! Gets diffuse texture name \return current diffuse texture name
+		inline std::string& getDiffName() { return m_diffName; }
+
+		inline void setNormalTextureName(std::string name) { m_normalName = name; }
+		inline std::string& getNormalName() { return m_normalName; }
+
+		inline void setParallaxTextureName(std::string name) { m_parallaxName = name; }
+		inline std::string& getParallaxName() { return m_parallaxName; }
+
+		inline void setSpecularTextureName(std::string name) { m_specName = name; }
+		inline std::string& getSpecularName() { return m_specName; }
 	};
 }

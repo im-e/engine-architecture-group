@@ -126,8 +126,11 @@ namespace Engine
 							std::shared_ptr<TextureComponent> comp = std::static_pointer_cast<TextureComponent>(c);
 							
 							std::string diffuse = comp->getDiffName();
+							std::string normal = comp->getNormalName();
+							std::string parallax = comp->getParallaxName();
+							std::string spec = comp->getSpecularName();
 
-							outputStream << "\"texture\": { \"diffuse\": \"" + diffuse + "\"";
+							outputStream << "\"texture\": { \"diffuse\": \"" + diffuse + "\", \"specular\": \"" + spec + "\", \"normal\": \"" + normal + "\", \"parallax\": \"" + parallax + "\"";
 						}
 						else if (c->getType().hash_code() == typeid(PositionComponent).hash_code())
 						{
