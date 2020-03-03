@@ -80,7 +80,7 @@ float GetTessLevel(float Distance0, float Distance1)
 
 layout (triangles, fractional_even_spacing, ccw) in;
 vec2 interpolate2D(vec2 v0, vec2 v1, vec2 v2);
-vec2 interpolate3D(vec3 v0, vec3 v1, vec3 v2);
+vec3 interpolate3D(vec3 v0, vec3 v1, vec3 v2);
 
 layout(std140) uniform Matrices
 {
@@ -185,6 +185,7 @@ void main()
 	vec3 diffuse = diff * u_lightColour;
 	
 	float specularStrength = 0.8;
+	vec3 viewDir = normalize(u_cameraPos - posG);
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 64);
 	vec3 specular = specularStrength * spec * u_lightColour;
 	FragColor = vec4((ambient + diffuse + specular), 1.0) * texture(u_textureData, texCoordsG);

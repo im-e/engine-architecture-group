@@ -237,6 +237,4 @@ void main()
 	vec3 specular = specularStrength * spec * u_lightColour;  
 	
 	FragColor = vec4((ambient + diffuse + specular), 1.0) * texture(u_texData, gTexCoord);
-
-	
 }
