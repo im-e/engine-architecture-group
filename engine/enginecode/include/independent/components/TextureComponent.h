@@ -72,8 +72,7 @@ namespace Engine
 
 		void assignNormalTexture(int index)
 		{
-			m_texSlotNormal = index;
-			std::pair<std::string, void*> normalData("u_normalTexData", (void*)m_texSlotNormal);
+			std::pair<std::string, void*> normalData("u_normalTexData", (void*)index);
 			ComponentMessage msg(ComponentMessageType::UniformSet, normalData);
 			sendMessage(msg);
 		}

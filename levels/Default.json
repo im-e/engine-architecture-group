@@ -1,8 +1,1 @@
-{
-  "GameObject": [
-    {
-    }
-  ]
-}
-
-
+{ "GameObject": [ { "name": "Default name","position": { "translation": { "x": 0.000000, "y": 0.000000,"z": 0.000000},"rotation": { "x": 0.000000, "y": 0.000000,"z": 0.000000},"scale": { "x": 1.000000, "y": 1.000000,"z": 1.000000}},"material": { "type": "assimp", "model": "box", "shader": "NormalShader"},"texture": { "diffuse": "BrickDiffuse", "specular": "none", "normal": "none", "parallax": "none"}}] }
