@@ -59,6 +59,7 @@
         "name": "BrickNormal",
         "filepath": "assets/textures/Brick_Normal.jpg"
       },
+<<<<<<< HEAD
       {
         "name": "BrickHeight",
         "filepath": "assets/textures/DisplacementMap.png"
@@ -84,6 +85,33 @@
         "filepath": "assets/textures/Brick_Para_Disp.jpg"
       },
       {
+=======
+      {
+        "name": "BrickHeight",
+        "filepath": "assets/textures/DisplacementMap.png"
+      },
+      {
+        "name": "NormalTexture",
+        "filepath": "assets/assimpModels/SF_Fighter/SF_Fighter-Normal.jpg"
+      },
+      {
+        "name": "ShipTexture",
+        "filepath": "assets/assimpModels/SF_Fighter/SF_Fighter-Albedo.jpg"
+      },
+      {
+        "name": "ParaDiffuse",
+        "filepath": "assets/textures/Brick_Para.jpg"
+      },
+      {
+        "name": "ParaNormal",
+        "filepath": "assets/textures/Brick_Para_Normal.jpg"
+      },
+      {
+        "name": "ParallaxTexture",
+        "filepath": "assets/textures/Brick_Para_Disp.jpg"
+      },
+      {
+>>>>>>> parent of 0fbe65e... Revert "Merge Reece to master"
         "name": "WoodTexture",
         "filepath": "assets/textures/wood_diffuse.png"
       },
@@ -116,6 +144,18 @@
     ]
   },
 
+<<<<<<< HEAD
+=======
+  "MemoryInfo": {
+    "gameObjects": 7,
+    "materials": 7,
+    "position": 7,
+    "velocity": 7,
+    "oscillates": 2,
+    "textures": 7,
+    "controllers": 4
+  },
+>>>>>>> parent of 0fbe65e... Revert "Merge Reece to master"
 
   "Camera": {
     "type": "Fps3D",
