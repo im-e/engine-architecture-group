@@ -17,6 +17,7 @@ namespace Engine
 	{
 	private:
 		unsigned int m_texSlot; //!< Texture slot
+<<<<<<< HEAD
 		unsigned int m_texSlotNormal; //!< Texture slot
 		unsigned int m_texSlotParallax; //!< Texture slot
 		unsigned int m_texSlotSpecular; //!< Texture slot
@@ -24,6 +25,9 @@ namespace Engine
 		std::string m_normalName;
 		std::string m_parallaxName;
 		std::string m_specName;
+=======
+		std::string m_diffName; //!< Diffuse texture name
+>>>>>>> parent of 0280196... Merge Reece to master
 
 	public:
 		//! Custom constructor \param texSlot initial texture slot
@@ -65,6 +69,7 @@ namespace Engine
 			sendMessage(msg);
 		}
 
+<<<<<<< HEAD
 		void assignNormalTexture(int index)
 		{
 			m_texSlotNormal = index;
@@ -82,17 +87,18 @@ namespace Engine
 		}
 
 		void assignSpecularTexture(int index)
+=======
+		inline const std::type_info& getType() override
+>>>>>>> parent of 0280196... Merge Reece to master
 		{
-			m_texSlotSpecular = index;
-			std::pair<std::string, void*> specularData("u_specularTexData", (void*)m_texSlotSpecular);
-			ComponentMessage msg(ComponentMessageType::UniformSet, specularData);
-			sendMessage(msg);
+			return typeid(decltype(*this));
 		}
 
 		//! Sets diffuse texture name \param name new diffuse texture name
 		inline void setDiffuseTextureName(std::string name) { m_diffName = name; }
 		//! Gets diffuse texture name \return current diffuse texture name
 		inline std::string& getDiffName() { return m_diffName; }
+<<<<<<< HEAD
 
 		inline void setNormalTextureName(std::string name) { m_normalName = name; }
 		inline std::string& getNormalName() { return m_normalName; }
@@ -102,5 +108,7 @@ namespace Engine
 
 		inline void setSpecularTextureName(std::string name) { m_specName = name; }
 		inline std::string& getSpecularName() { return m_specName; }
+=======
+>>>>>>> parent of 0280196... Merge Reece to master
 	};
 }

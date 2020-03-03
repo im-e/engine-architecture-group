@@ -11,7 +11,6 @@
 
 #include "rendering/Buffers.h"
 #include "resources/Texture.h"
-#include "resources\Skybox.h"
 #include "resources/Shader.h"
 #include "rendering/Material.h"
 
@@ -89,8 +88,6 @@ namespace Engine
 		\param shader shader used by a material
 		\param VAO material's geometry
 		*/
-		std::shared_ptr<Texture> addSkybox(const std::string& key, std::vector<std::string> faces);
-
 		std::shared_ptr<Material> addMaterial(const std::string& key, const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO);
 		/*! Adds material to collection of materials (Non OpenGL)
 		\param key key associated with a material

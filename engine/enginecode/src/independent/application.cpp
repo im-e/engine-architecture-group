@@ -14,8 +14,6 @@ namespace Engine
 {
 	Application* Application::s_instance = nullptr;
 
-	//Hi
-	
 	Application::Application()
 	{
 		if (s_instance == nullptr)
@@ -49,7 +47,6 @@ namespace Engine
 
 		m_appWindow = std::unique_ptr<Window>(Window::create());
 		m_appWindow->setEventCallback(std::bind(&Application::onEvent, this, std::placeholders::_1));
-
 	}
 
 	void Application::run()

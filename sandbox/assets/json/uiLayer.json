@@ -11,6 +11,13 @@
         "name": "TextTexture",
         "filepath": "assets/textures/Text.png"
       }
+    ],
+    "models": [
+      {
+        "type": "json",
+        "name": "Text",
+        "filepath": "assets/jsonModels/textModel.txt"
+      }
     ]
   },
 
@@ -36,16 +43,12 @@
     "type": "2D"
   },
 
-  "Skybox": {
-    "type": "Space"
-  },
-
   "GameObject": [
     {
       "name": "TextModel",
       "material": {
-        "type": "json",
-        "model": "assets/jsonModels/textModel.txt",
+        "type":  "json",
+        "model": "Text",
         "shader": "TextShader"
       },
       "position": {
@@ -66,10 +69,7 @@
         }
       },
       "texture": {
-        "name": "TextTexture",
-        "specular": "none",
-        "normal": "none",
-        "parallax": "none"
+        "name": "TextTexture"
       }
     }
 

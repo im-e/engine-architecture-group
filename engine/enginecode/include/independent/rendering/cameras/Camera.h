@@ -6,7 +6,6 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/trigonometric.hpp>
 
 namespace Engine
 {
@@ -19,7 +18,6 @@ namespace Engine
 		glm::mat4 m_projection; //!< Projection matrix
 		glm::mat4 m_view; //!< View matrix
 		glm::mat4 m_ViewProjection; //!< View-Projection matrix
-		float m_cutOff = glm::cos(glm::radians(12.5f));
 
 	public:
 		//! Updates view of a camera
@@ -30,8 +28,6 @@ namespace Engine
 		const glm::mat4& getView() { return m_view; }
 		//! Gets view-projection of a camera \return VP
 		const glm::mat4& getViewProjection() { return m_ViewProjection; }
-
-		const float& getCutOff() { return m_cutOff; }
 
 		//! Sets position of a camera \param pos new position
 		virtual void setPosition(const glm::vec3 pos) = 0;
