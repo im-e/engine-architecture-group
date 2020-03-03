@@ -219,7 +219,6 @@ namespace Engine
 					for (auto& lay : ubo["layout"])
 					{
 						std::string SDT = lay.get<std::string>();
-						if (SDT.compare("Float") == 0) { uboLayout.addElement(ShaderDataType::Float); }
 						if (SDT.compare("Vec3") == 0) { uboLayout.addElement(ShaderDataType::Float3); }
 						if (SDT.compare("Mat4") == 0) { uboLayout.addElement(ShaderDataType::Mat4); }
 						//TODO add all shader data types
@@ -256,31 +255,14 @@ namespace Engine
 							{
 								ptr = (void*)&layer.getCamera()->getCamera()->getViewProjection();
 							}
-							if (data["var"].get<std::string>().compare("camPosition") == 0)
-							{
-								ptr = (void*)&layer.getCamera()->getCamera()->getPosition();
-							}
-							if (data["var"].get<std::string>().compare("cutOff") == 0)
-							{
-								ptr = (void*)&layer.getCamera()->getCamera()->getCutOff();
-							}
-							if (data["var"].get<std::string>().compare("camForward") == 0)
-							{
-								auto cam = layer.getCamera()->getCamera();
-								auto cam3D = std::static_pointer_cast<Camera3D>(cam);
-								ptr = (void*)&cam3D->getForward();
-							}
+
 						}
 						if (type == "Float3")
 						{
 							layer.getJsonData().push_back(new glm::vec3(data["x"].get<float>(), data["y"].get<float>(), data["z"].get<float>()));
 							ptr = (void*)&(*(glm::vec3*)layer.getJsonData().back())[0];
 						}
-						if (type == "Float")
-						{
-							layer.getJsonData().push_back(new float(data["x"].get<float>()));
-							ptr = (void*)&(*(float*)layer.getJsonData().back());
-						}
+
 						//TODO add more data types?
 
 						uboData.push_back(ptr);
@@ -480,6 +462,7 @@ namespace Engine
 						{
 							std::shared_ptr<TextureComponent> tex;
 							std::string texName = go["texture"]["diffuse"].get<std::string>();
+<<<<<<< HEAD
 							std::string specularTexName = go["texture"]["specular"].get<std::string>();
 							std::string normalTexName = go["texture"]["normal"].get<std::string>();
 							std::string parallaxTexName = go["texture"]["parallax"].get<std::string>();
@@ -500,13 +483,17 @@ namespace Engine
 								tex->assignParallaxTexture(ResourceManagerInstance->getTexture().getAsset(parallaxTexName)->getSlot());
 							}
 
+=======
+
+							tex = std::make_shared<TextureComponent>
+								(TextureComponent(ResourceManagerInstance->getTexture().getAsset(texName)->getSlot()));
+>>>>>>> parent of 5e68084... Stuff
 							tex->setDiffuseTextureName(texName);
 							tex->setNormalTextureName(normalTexName);
 							tex->setParallaxTextureName(parallaxTexName);
 							tex->setSpecularTextureName(specularTexName);
 
 							gameObject->addComponent(tex);
-							
 						}
 					}
 					//TODO add text
