@@ -229,10 +229,6 @@
         {
           "name": "PhongShader",
           "block": "Matrices"
-        },
-        {
-          "name": "TessShader",
-          "block": "Matrices"
         }
       ],
       "data": [

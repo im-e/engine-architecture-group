@@ -13,7 +13,7 @@ out vec2 texCoord;
 
 void main()
 {
-		texCoord = vec2(a_texCoord.x, a_texCoord.y);
+		texCoord = a_texCoord;
         normVS = aNormals ; 
 		posVS = (u_model * vec4(aPos, 1.0)).xyz; 
 		gl_Position = u_model *vec4(aPos, 1.0); 
