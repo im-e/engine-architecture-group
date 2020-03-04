@@ -80,7 +80,7 @@
     {
       "name": "TextLabel",
       "material": {
-        "text": "Hello",
+        "text": "DM",
         "font": "assets/fonts/04b_20/04b_20__.ttf",
         "charSize": 32,
         "colour": {
