@@ -9,10 +9,6 @@
 
 namespace Engine {
 	
-	class RollOff {
-			
-	};
-
 	struct AudioGeometryDefinition {
 		std::vector<float> vertices;
 		std::vector<unsigned int> indices;
