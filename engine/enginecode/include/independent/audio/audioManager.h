@@ -8,6 +8,10 @@
 #include "fmod_studio.hpp"
 
 namespace Engine {
+	
+	class RollOff {
+			
+	};
 
 	struct AudioGeometryDefinition {
 		std::vector<float> vertices;

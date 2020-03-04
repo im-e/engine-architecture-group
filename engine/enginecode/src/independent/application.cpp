@@ -53,7 +53,8 @@ namespace Engine
 
 
 		//m_audio->set3dListenerAndOrientation(position, forward, up);
-
+		m_audio->loadSound("assets/audio/music/song.wav", true, true, false);
+		m_audio->playSound("assets/audio/music/song.wav");
 
 	}
 
