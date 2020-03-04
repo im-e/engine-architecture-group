@@ -180,18 +180,6 @@
         {
           "type": "pointer",
           "var": "VP Matrix"
-        },
-        {
-          "type": "pointer",
-          "var": "camPosition"
-        },
-        {
-          "type": "pointer",
-          "var": "camForward"
-        },
-        {
-          "type": "pointer",
-          "var": "cutOff"
         }
       ]
     },
@@ -254,43 +242,30 @@
       ]
     },
     {
-      "name": "Settings",
+      "name": "cameraUBO",
       "layout": [
         "Vec3",
         "Vec3",
-        "Vec3",
-        "Vec3"
+        "Float"
       ],
       "shaders": [
         {
-          "name": "DirectionalLightShader",
-          "block": "Settings"
+          "name": "SpotLightShader",
+          "block": "Camera"
         }
       ],
       "data": [
         {
-          "type": "Float3",
-          "x": 1.0,
-          "y": 4.0,
-          "z": -6.0
+          "type": "pointer",
+          "var": "camPosition"
         },
         {
-          "type": "Float3",
-          "x": 0.0,
-          "y": 0.0,
-          "z": -4.5
+          "type": "pointer",
+          "var": "camForward"
         },
         {
-          "type": "Float3",
-          "x": 1.0,
-          "y": 1.0,
-          "z": 1.0
-        },
-        {
-          "type": "Float3",
-          "x": 1.0,
-          "y": 1.0,
-          "z": 1.0
+          "type": "pointer",
+          "var": "cutOff"
         }
       ]
     }

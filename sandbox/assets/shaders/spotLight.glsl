@@ -14,9 +14,6 @@ out vec2 TexCoords;
 layout (std140) uniform Matrices
 {
 	mat4 u_VP;
-	vec3 u_camPos;
-	vec3 u_camForward;
-	float u_cutOff;
 };
 
 uniform mat4 u_model;
@@ -40,9 +37,8 @@ in vec3 FragPos;
 in vec2 TexCoords;
 in vec3 Normal;
 
-layout (std140) uniform Matrices
+layout (std140) uniform Camera
 {
-	mat4 u_VP;
 	vec3 u_camPos;
 	vec3 u_camForward;
 	float u_cutOff;
