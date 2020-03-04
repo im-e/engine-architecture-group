@@ -74,7 +74,7 @@ namespace Engine
 		{
 			shader->uploadData(it->first, it->second);
 		}
-		glDrawArrays(GL_PATCHES, 0, geometry->getDrawCount() / 3);
+		glDrawArrays(GL_PATCHES, 0, geometry->getDrawCount());
 	}
 
 	void OpenGLRenderer::flush()

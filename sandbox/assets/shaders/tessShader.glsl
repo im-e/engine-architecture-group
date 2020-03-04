@@ -68,26 +68,22 @@ float GetTessLevel(float Distance0, float Distance1)
 
 void main()
 {
-  // tesselation level; we wil find this automatically later but for now hardcoded value
    int tessLevel = 1;
 
-   // gpu can calculate each control point in parallel
-   // tesselation level same for entire patch so only need to set it once (for the first control point)
-   // gl_invocation called for each control point
    if (gl_InvocationID==0)
    {
 		  fragPosCS[gl_InvocationID] = posVS[gl_InvocationID];
 		 // fragPosCS[0] = posVS[0];
 		  //fragPosCS[1] = posVS[1];
 		 // fragPosCS[2] = posVS[2];
-		  float eyeToVertexDist0 = distance(u_camPos, posVS[0]);
-		  float eyeToVertexDist1 = distance(u_camPos, posVS[1]);
-		  float eyeToVertexDist2 = distance(u_camPos, posVS[2]);
+		  //float eyeToVertexDist0 = distance(u_camPos, posVS[0]);
+		  //float eyeToVertexDist1 = distance(u_camPos, posVS[1]);
+		 // float eyeToVertexDist2 = distance(u_camPos, posVS[2]);
 		   // Calculate the tessellation levels
-          gl_TessLevelOuter[0] = GetTessLevel(eyeToVertexDist1, eyeToVertexDist2); 
-          gl_TessLevelOuter[1] = GetTessLevel(eyeToVertexDist2, eyeToVertexDist0); 
-          gl_TessLevelOuter[2] = GetTessLevel(eyeToVertexDist0, eyeToVertexDist1);
-          gl_TessLevelInner[0] = gl_TessLevelOuter[2]; 
+          gl_TessLevelOuter[0] = tessLevel; 
+          gl_TessLevelOuter[1] = tessLevel; 
+          gl_TessLevelOuter[2] = tessLevel;
+          gl_TessLevelInner[0] = tessLevel; 
 
    }
 
@@ -102,16 +98,12 @@ void main()
 
 #version 450 core
 
-// reading in a triangle, split tesselated triangels evenly in a counter-clockwise direction (ccw)
 layout(triangles, fractional_even_spacing, ccw) in;
 
-// forward declare functions to perfrom interpolation with the barycentric coordinates from the Primitive Generator
 vec2 interpolate2D(vec2 v0, vec2 v1, vec2 v2) ;
 vec3 interpolate3D(vec3 v0, vec3 v1, vec3 v2) ;
 
 
-// unifrom matrices to perform transformations
-// previously this would have been done in vertex shader
 layout(std140) uniform Matrices
 {
 	mat4 u_VP;
@@ -130,15 +122,12 @@ out vec2 teTexCoord;
 
 void main()
 {
-    // interpolate the normal and xyz position using the linear interpolation function
-    // use 3D because they are in three dimensions; 2D also included for uv texture coordinates
 
-	teTexCoord = interpolate2D(tcTexCoord[0], tcTexCoord[1], tcTexCoord[2]);
+   teTexCoord = interpolate2D(tcTexCoord[0], tcTexCoord[1], tcTexCoord[2]);
    normES = interpolate3D(normTC[0], normTC[1], normTC[2]) ;
    vec3 posES = interpolate3D(posTC[0], posTC[1], posTC[2]) ;
    fragPos = interpolate3D(fragPosCS[0], fragPosCS[1], fragPosCS[2]);
 
-   // transform vertex to clip space  - NOTE: WE NEED TO DO IT HERE NOW and not in vertex shader
    gl_Position = u_VP * vec4(posES, 1.0);
 } 
 
