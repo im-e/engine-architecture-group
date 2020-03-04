@@ -5,6 +5,7 @@
     "Position": true,
     "Velocity": true,
     "Controller": true,
-    "Oscillate": true
+    "Oscillate": true,
+    "AI": true
   }
 }

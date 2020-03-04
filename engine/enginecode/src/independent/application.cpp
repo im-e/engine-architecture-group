@@ -10,6 +10,8 @@
 #include "platform/GLFW_KeyCodes.h"
 #endif
 
+#include "data/json/JsonLayer.h"
+
 namespace Engine 
 {
 	Application* Application::s_instance = nullptr;
@@ -199,6 +201,26 @@ namespace Engine
 		m_layerStack->stop(Engine::SystemSignal::None);	
 		m_timer->stop(Engine::SystemSignal::None);
 		m_logger->stop(Engine::SystemSignal::None);
+
+		for (auto it = m_layerStack->begin(); it != m_layerStack->end(); ++it) // "kill" all gameobjects
+		{
+			auto layer = dynamic_cast<JsonLayer*>((*it).get());
+
+			if (layer != nullptr)
+			{
+				auto gameObjects = layer->getGameObjects();
+
+				for (auto goIt = gameObjects.begin(); goIt != gameObjects.end(); goIt++)
+				{
+					auto comps = goIt->second->getComponents();
+
+					for (auto compIt = comps.begin(); compIt != comps.end(); compIt++)
+					{
+						(*compIt)->onDetach();
+					}
+				}
+			}			
+		}
 
 		lua_close(lua);
 	}

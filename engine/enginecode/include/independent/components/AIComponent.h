@@ -28,8 +28,12 @@ namespace Engine
 		glm::vec3 m_desiredRotation;
 
 		float m_stopSize;
+		std::string m_aiType;
+		std::string m_scriptName;
 	public:
-		AIComponent(float stop) : m_stopSize(stop) {};
+		AIComponent(float stop, std::string type, std::string scriptName)
+			: m_stopSize(stop), m_aiType(type), m_scriptName(scriptName)
+		{};
 
 		void onAttach(GameObject* owner) override 
 		{ 
@@ -126,7 +130,7 @@ namespace Engine
 
 		void registerClass()
 		{
-			luabridge::getGlobalNamespace(Application::getInstance().getLuaState()) // TODO improve
+			luabridge::getGlobalNamespace(Application::getInstance().getLuaState())
 				.beginClass<AIComponent>("AI")
 				.addFunction("numWaypoints", &AIComponent::numWaypoints)
 				.addFunction("addWaypoint", &AIComponent::addWaypoint)
@@ -154,10 +158,18 @@ namespace Engine
 			}
 		}
 
+		void setStopDist(float dist) { m_stopSize = dist; }
+
 		float getStopDist()
 		{
 			return m_stopSize;
 		}
+
+		void setAiType(std::string type) { m_aiType = type; }
+		std::string& getAiType() { return m_aiType; }
+
+		void setScriptName(std::string scr) { m_scriptName = scr; }
+		std::string& getScriptName() { return m_scriptName; }
 
 		~AIComponent()
 		{

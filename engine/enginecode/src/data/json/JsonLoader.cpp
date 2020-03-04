@@ -565,15 +565,17 @@ namespace Engine
 
 					if (go.count("AI") > 0)
 					{
-						std::shared_ptr<AIComponent> ai;
-
-						float stop = go["AI"]["stopDist"].get<float>();
-
-						ai = std::make_shared<AIComponent>(AIComponent(stop));
-						ai->registerClass();
-						ai->doFile("../scripts/patrol.lua", "Wander", "update");
-
-						gameObject->addComponent(ai);
+						//std::shared_ptr<AIComponent> ai;
+						//
+						//float stop = go["AI"]["stopDist"].get<float>();
+						//std::string type = go["AI"]["AIType"].get<std::string>();
+						//std::string script = go["AI"]["script"].get<std::string>();
+						//
+						//ai = std::make_shared<AIComponent>(AIComponent(stop));
+						//ai->registerClass();
+						//ai->doFile(script, type, "update");
+						//
+						//gameObject->addComponent(ai);
 					}
 				}
 			}
@@ -943,6 +945,22 @@ namespace Engine
 								LogWarn("Component did not exist anyway!");
 							}
 						}
+						ImGui::SameLine(300);
+						if (ImGui::Button("Reset"))
+						{
+							auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>();
+							if (comp != nullptr)
+							{
+								tex = "";
+								normTex = "none";
+								parallTex = "none";
+								specTex = "none";
+							}
+							else
+							{
+								LogError("Can't reset - add first!");
+							}
+						}
 					}
 				});
 			}
@@ -1142,6 +1160,57 @@ namespace Engine
 							if (lay->getGameObjects()[layer.getGOName()]->getComponent<OscillateComponent>())
 							{
 								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<OscillateComponent>();
+								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+							}
+							else
+							{
+								LogWarn("Component did not exist anyway!");
+							}
+						}
+					}
+				});
+			}
+			if (jsonFile["Functions"]["AI"].get<bool>() == true)
+			{
+				layer.addImGuiFunction([&](JsonLayer* lay)
+				{
+					if (ImGui::CollapsingHeader("AI"))
+					{
+						static float stopDist;
+						static char aiType[32] = "";
+						static char scriptName[32] = "";
+
+						ImGui::InputFloat("Stop distance", &stopDist, 0.01f, 0.1f, 2);
+						ImGui::InputText("AI Type", aiType, IM_ARRAYSIZE(aiType));
+						ImGui::InputText("", scriptName, IM_ARRAYSIZE(scriptName));
+						ImGui::SameLine();
+						ImGui::Text(".lua");
+
+						if (ImGui::Button("Add"))
+						{
+							if (lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>() == nullptr)
+							{
+								std::shared_ptr<AIComponent> ai;
+								std::string scrName = scriptName;
+
+								ai = std::make_shared<AIComponent>(AIComponent(stopDist, aiType, scriptName));
+								ai->registerClass();
+								ai->doFile("../scripts/" + scrName + ".lua", aiType, "update");
+
+								lay->getGameObjects()[layer.getGOName()]->addComponent(ai);
+							}
+							else
+							{
+								LogWarn("Component already exists!");
+							}
+							
+						}
+						ImGui::SameLine(100.0f);
+						if (ImGui::Button("Remove"))
+						{
+							if (lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>())
+							{
+								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>();
 								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
 							}
 							else
