@@ -565,17 +565,17 @@ namespace Engine
 
 					if (go.count("AI") > 0)
 					{
-						//std::shared_ptr<AIComponent> ai;
-						//
-						//float stop = go["AI"]["stopDist"].get<float>();
-						//std::string type = go["AI"]["AIType"].get<std::string>();
-						//std::string script = go["AI"]["script"].get<std::string>();
-						//
-						//ai = std::make_shared<AIComponent>(AIComponent(stop));
-						//ai->registerClass();
-						//ai->doFile(script, type, "update");
-						//
-						//gameObject->addComponent(ai);
+						std::shared_ptr<AIComponent> ai;
+						
+						float stop = go["AI"]["stopDist"].get<float>();
+						std::string type = go["AI"]["aiType"].get<std::string>();
+						std::string script = go["AI"]["script"].get<std::string>();
+						
+						ai = std::make_shared<AIComponent>(AIComponent(stop, type, script));
+						ai->registerClass();
+						ai->doFile("../scripts/" + script + ".lua", type, "update");
+						
+						gameObject->addComponent(ai);
 					}
 				}
 			}
