@@ -1,5 +1,10 @@
 #pragma once
 
+/*! \file AssimpModel.h
+\brief Contains methods to process models loaded using ASSIMP library
+
+*/
+
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
@@ -28,51 +33,70 @@
 		4d. Calculate bone models transforms (array of number of bones) in animator (look up lecture)
 		4e. Upload transforms to the shader
 
-	ALSO:
-	- what is needed for Lua?
-	- how to make finding and compiling user scripts dynamic (without hardcoding scripts stacks or sth)?
-	- how to make various fucntions (e.g) onUpdate accessible and modifiable from Lua?
-	- how to make Lua scripts components?
 */
 
 namespace Engine
 {
+	//! Data of each vertex
 	struct VertexData
 	{
-		glm::vec3 position;
-		glm::vec3 normal;
-		glm::vec3 tangent;
-		glm::vec3 bitangent;
-		glm::vec2 texCoords;
+		glm::vec3 position; //!< Position
+		glm::vec3 normal; //!< Normal
+		glm::vec3 tangent; //!< Tangent
+		glm::vec3 bitangent; //!< Bitangent
+		glm::vec2 texCoords; //!< Associated texture coordinates
 	};
 
+	/*! \class Mesh
+	\brief Definition of each submesh in a model
+	*/
 	class Mesh
 	{
 	public:
+		//! Constructor \param vertexData vertices \param ind indices
 		Mesh(std::vector<VertexData> vertexData, std::vector<unsigned int> ind)
 			: m_vertices(vertexData), m_indices(ind) {};
 
+		//! Sets the mesh up on GPU \param vertices vertices to bind \param indices indices to bind
 		void setupMesh(VertexData vertices, unsigned int indices);
+
+		//! Vertices of a mesh
 		std::vector<VertexData> m_vertices;
+		//! Indices of a mesh
 		std::vector<unsigned int> m_indices;
 
+		//! Shader associated with a mesh
 		std::shared_ptr<Shader> m_shader = nullptr;
+
+		//! Texture associated with a mesh
 		std::shared_ptr<Texture> m_texture = nullptr;
 	};
 
+	/*! \class AssimpModel
+	\brief Contains all submeshes of a model
+	*/
 	class AssimpModel
 	{
 	public:
+		//! Default constructor
 		AssimpModel(){};
+
+		//! Submeshes
 		std::vector<Mesh> m_meshes;
 	};
 
+	/*! \class AssimpModelLoader
+	\brief Loads models using assimp library
+	*/
 	class AssimpModelLoader
 	{
 	public:
+		//! Assimp scene (a model)
 		static const aiScene *m_scene;
+		//! Loads a model \param filepath path to the model file
 		static AssimpModel* loadModel(const std::string& filepath);
 
+		//! Processes nodes \param node assimp node \param scene assimp scene \param model model to be loaded
 		static void processNode(aiNode* node, const aiScene* scene, AssimpModel& model)
 		{
 			std::string parentName = "None";
@@ -96,6 +120,7 @@ namespace Engine
 			
 		}
 
+		//! Processes submeshes \param mesh assimp submesh \param scene assimp scene
 		static Mesh processMesh(aiMesh* mesh, const aiScene* scene)
 		{
 			std::vector<VertexData> vertices;

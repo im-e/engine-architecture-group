@@ -1,6 +1,10 @@
 # CW2019
 
-Game engine using C++ and OpenGL. Made by Jan Kalinowski (p17179637).
+Log: https://docs.google.com/spreadsheets/d/1QTLbJglgGTWWotg6pedQUjVd7UmJ3MKod_Wl70uLaog/edit#gid=1094589293
+
+Meetings: https://docs.google.com/document/d/1nvCUfFUZRD1n--IuPNlEN4mOXbdCRSbSYgd-AgD8Ctc/edit
+
+Game engine using C++ and OpenGL.
 
 Engine provides debugging functionality, such as logging and timing events. The code's been abstracted and would easily be translated to work with various platforms and graphics libraries.
 

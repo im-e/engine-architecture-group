@@ -30,20 +30,21 @@ namespace Engine
 		void onUpdate(float timestep); //!< Called every tick \param timestep delta time
 		void onEvent(Event& e); //!< Called on event \param e event occured
 		void addComponent(const std::shared_ptr<Component>& comp); //!< Adds components \param comp component to be added
-		void removeComponent(std::shared_ptr<Component>& comp); //!< Removes components \param comp component to be removed
+		void removeComponent(std::shared_ptr<Component> comp); //!< Removes components \param comp component to be removed
 
-		//! Gets component \return component if existing on a gameobjects
+		//! Gets component \return component if exists on a gameobject
 		template<typename C>
-		inline std::vector<std::shared_ptr<Component>>::iterator getComponent()
+		inline std::shared_ptr<C> getComponent()
 		{
-			auto result = m_components.end();
-			for (auto& it = m_components.begin(); it != result; ++it)
+			auto result = nullptr;
+			for (auto it = m_components.begin(); it != m_components.end(); ++it)
 			{
-				if (typeid(decltype(*it(it->get()))).hash_code() == typeid(C).hash_code())
-					return it;
+				if (it->get()->getType().hash_code() == typeid(C).hash_code())
+				{
+					return std::static_pointer_cast<C>(*it);
+				}					
 			}
 
-			LogWarn("Component not found!");
 			return result;
 		}
 
@@ -61,7 +62,12 @@ namespace Engine
 		//! Gets an end of a dispatch map associated with a GO \return end of a dispatch map
 		inline std::multimap<ComponentMessageType, Component*>::iterator endMap() { return m_dispatchMap.end(); }
 
+		//! Gets GO's name \return GameObject's name
+		inline std::string& getName() { return m_name; }
+
 		//! Virtual destructor
-		virtual ~GameObject() {};
+		virtual ~GameObject() 
+		{
+		};
 	};
 }

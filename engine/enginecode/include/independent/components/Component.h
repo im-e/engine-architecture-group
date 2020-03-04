@@ -27,7 +27,7 @@ namespace Engine
 		PositionIntegrate, PositionSet, RelativePositionSet,
 		VelocityIntegrate, VelocitySetLinear, VelocitySetAngular,
 		AccelerationSet,
-		BoneSet,
+		AIPositionSet, AIRotationSet,
 		KeyPressed, KeyReleased, MouseButton, MouseScroll, MouseMoved,
 		UniformSet, TextureSet, RigidBodySet
 	};
@@ -77,6 +77,12 @@ namespace Engine
 				return m_msgsMap[msg.m_msgType](msg.m_msgData);
 
 			return false;
+		}
+
+		//! Get type info of the component \return unique type of the ptr to the component
+		virtual const std::type_info& getType()
+		{
+			return typeid(decltype(*this));
 		}
 
 		//! Default destructor

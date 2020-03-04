@@ -9,6 +9,7 @@ namespace Engine
 	void JsonLayer::onAttach()
 	{
 		Engine::JsonLoader::loadJson(m_filepath, *this);
+		Engine::JsonLoader::loadGameObjects(m_gameobjectsFilepath, *this);
 
 		for (auto& renderCommand : m_initCommands)
 		{
@@ -48,7 +49,7 @@ namespace Engine
 #endif
 			for (auto& GO : m_gameObjects)
 			{
-				GO->onUpdate(timestep);
+				GO.second->onUpdate(timestep);
 			}
 		}
 		
@@ -61,16 +62,20 @@ namespace Engine
 				m_renderer->actionCommand(renderCommand.get());
 			}
 		}
-		
+
 		{
 #ifdef NG_DEBUG
 			NG_PROFILER_SCOPE("Renderer");
 #endif
 			m_renderer->beginScene(m_sceneData);
 
-			for (auto& mat : m_materials)
+			for (auto& GO : m_gameObjects)
 			{
-				m_renderer->submit(mat->getMaterial());
+				auto material = GO.second->getComponent<MaterialComponent>();			
+				if (material != nullptr)
+				{				
+					m_renderer->submit(material->getMaterial());
+				}			
 			}
 		}
 		
@@ -92,7 +97,7 @@ namespace Engine
 
 		for (auto& GO : m_gameObjects)
 		{
-			GO->onEvent(e);
+			GO.second->onEvent(e);
 		}
 	}
 }

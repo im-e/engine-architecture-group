@@ -16,8 +16,10 @@ namespace Engine
 	private:
 		static unsigned int s_slot; //!< Static slot in the memory where a texture is stored
 
-		unsigned char * data;
-		int width, height, channels;
+		unsigned char * m_data; //! Texture data
+		int m_width; //! Texture width
+		int m_height; //! Texture height
+		int m_channels; //! Texture channels
 	public:
 		OpenGLTexture(); //!< Default constructor 
 		OpenGLTexture(const std::string path); //!< Custom constructor \param path path to the texture file

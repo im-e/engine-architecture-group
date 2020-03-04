@@ -42,6 +42,7 @@ namespace Engine
 		*/
 		static Texture* createFromRawData(unsigned int width, unsigned int height, unsigned int channels, unsigned char* texData);
 
+		//! Generates texture
 		virtual void compile() = 0;
 	};
 }

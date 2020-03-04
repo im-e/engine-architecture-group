@@ -13,6 +13,7 @@
 #include "components/OscillateComponent.h"
 #include "components/TextureComponent.h"
 #include "components/ControllerComponent.h"
+#include "components/AIComponent.h"
 
 namespace Engine
 {
@@ -25,13 +26,7 @@ namespace Engine
 	class JsonLayer : public Layer
 	{
 	protected:
-		std::vector<std::shared_ptr<Engine::GameObject>> m_gameObjects;			//!< Game objects which belong to the layer
-		std::vector<std::shared_ptr<Engine::MaterialComponent>> m_materials;	//!< Material components
-		std::vector<std::shared_ptr<Engine::PositionComponent>> m_positions;	//!< Position components
-		std::vector<std::shared_ptr<Engine::VelocityComponent>> m_velocities;	//!< Velocity components
-		std::vector<std::shared_ptr<Engine::OscillateComponent>> m_oscillates;	//!< Oscillate components
-		std::vector<std::shared_ptr<Engine::TextureComponent>> m_textures;		//!< Texture components
-		std::vector<std::shared_ptr<Engine::ControllerComponent>> m_controllers; //!< Controller components
+		std::map<std::string, std::shared_ptr<Engine::GameObject>> m_gameObjects;	//!< Game objects which belong to the layer
 
 		std::vector<std::shared_ptr<Engine::RenderCommand>> m_initCommands;						//!< Render commands issued on renderer start
 		std::vector<std::shared_ptr<Engine::RenderCommand>> m_predrawCommands;					//!< Render commands issued before materials are drawn
@@ -41,10 +36,11 @@ namespace Engine
 		std::list<void*> m_data;			//!< Misc data
 		SceneData m_sceneData;				//!< SceneData
 		std::string m_filepath;				//!< JSON filepath
+		std::string m_gameobjectsFilepath;  //!< JSON gameobjects filepath
 
 	public:
-		//! Custom constructor \param filepath path to the json file \param name name of the layer
-		JsonLayer(const std::string& filepath, const std::string& name) : m_filepath(filepath), Layer(name) {}	
+		//! Custom constructor \param filepath path to the json file \param gameObjectsFilepath path to the gameObjects file \param name name of the layer
+		JsonLayer(const std::string& filepath, const std::string& gameobjectsFilepath, const std::string& name) : m_filepath(filepath), m_gameobjectsFilepath(gameobjectsFilepath), Layer(name) {}	
 
 		//! Runs when layer is attached
 		void onAttach() override;
@@ -56,19 +52,7 @@ namespace Engine
 		void onEvent(Event& e) override;
 
 		//! Gets a collection of GOs in a layer \return collection of GOs
-		inline std::vector<std::shared_ptr<Engine::GameObject>>& getGameObjects() { return m_gameObjects; }
-		//! Gets a collection of material components in a layer \return collection of material components
-		inline std::vector<std::shared_ptr<Engine::MaterialComponent>>& getMaterials() { return m_materials; }
-		//! Gets a collection of position components in a layer \return collection of position components
-		inline std::vector<std::shared_ptr<Engine::PositionComponent>>& getPositions() { return m_positions; }
-		//! Gets a collection of velocity components in a layer \return collection of velocity components
-		inline std::vector<std::shared_ptr<Engine::VelocityComponent>>& getVelocities() { return m_velocities; }
-		//! Gets a collection of oscillate components in a layer \return collection of oscillate components
-		inline std::vector<std::shared_ptr<Engine::OscillateComponent>>& getOscillates() { return m_oscillates; }
-		//! Gets a collection of texture components in a layer \return collection of texture components
-		inline std::vector<std::shared_ptr<Engine::TextureComponent>>& getTextures() { return m_textures; }
-		//! Gets a collection of controller components in a layer \return collection of controller components
-		inline std::vector<std::shared_ptr<Engine::ControllerComponent>>& getControllers() { return m_controllers; }
+		inline std::map<std::string, std::shared_ptr<Engine::GameObject>>& getGameObjects() { return m_gameObjects; }
 
 		//! Gets a collection of predraw commands applied to a layer \return collection of predraw commands
 		inline std::vector<std::shared_ptr<Engine::RenderCommand>>& getPredrawCommands() { return m_predrawCommands; }

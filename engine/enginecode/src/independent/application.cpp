@@ -10,10 +10,14 @@
 #include "platform/GLFW_KeyCodes.h"
 #endif
 
+#include "data/json/JsonLayer.h"
+
 namespace Engine 
 {
 	Application* Application::s_instance = nullptr;
 
+	//Hi
+	
 	Application::Application()
 	{
 		if (s_instance == nullptr)
@@ -39,6 +43,9 @@ namespace Engine
 		m_imGui = std::make_shared<ImGuiSystem>();
 		m_imGui->start(SystemSignal::Windows);
 
+		lua = luaL_newstate(); // init Lua
+		luaL_openlibs(lua);
+
 		//initialize windows system
 #ifdef NG_PLATFORM_WINDOWS
 		m_windowsSystem = std::shared_ptr<WindowsSys>(new GLFWWindowsSys());
@@ -47,6 +54,7 @@ namespace Engine
 
 		m_appWindow = std::unique_ptr<Window>(Window::create());
 		m_appWindow->setEventCallback(std::bind(&Application::onEvent, this, std::placeholders::_1));
+
 	}
 
 	void Application::run()
@@ -75,6 +83,11 @@ namespace Engine
 			//LogInfo("FPS: {0}", m_fps);
 			//LogWarn("Timestep: {0}", m_timestep);
 		}
+	}
+
+	lua_State * Application::getLuaState()
+	{
+		return lua;
 	}
 
 	void Application::onEvent(Event & e)
@@ -185,11 +198,35 @@ namespace Engine
 	Application::~Application()
 	{
 		m_appWindow->close();
-		m_layerStack->stop(Engine::SystemSignal::None);
+
 		m_windowsSystem->stop(Engine::SystemSignal::Windows);
 		m_imGui->stop(Engine::SystemSignal::Windows);
+		m_layerStack->stop(Engine::SystemSignal::None);	
 		m_timer->stop(Engine::SystemSignal::None);
 		m_logger->stop(Engine::SystemSignal::None);		
 		m_physWorld->stop(Engine::SystemSignal::None);
+		m_logger->stop(Engine::SystemSignal::None);
+
+		for (auto it = m_layerStack->begin(); it != m_layerStack->end(); ++it) // "kill" all gameobjects
+		{
+			auto layer = dynamic_cast<JsonLayer*>((*it).get());
+
+			if (layer != nullptr)
+			{
+				auto gameObjects = layer->getGameObjects();
+
+				for (auto goIt = gameObjects.begin(); goIt != gameObjects.end(); goIt++)
+				{
+					auto comps = goIt->second->getComponents();
+
+					for (auto compIt = comps.begin(); compIt != comps.end(); compIt++)
+					{
+						(*compIt)->onDetach();
+					}
+				}
+			}			
+		}
+
+		lua_close(lua);
 	}
 }

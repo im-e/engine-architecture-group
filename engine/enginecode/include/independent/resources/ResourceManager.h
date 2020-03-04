@@ -11,6 +11,7 @@
 
 #include "rendering/Buffers.h"
 #include "resources/Texture.h"
+#include "resources\Skybox.h"
 #include "resources/Shader.h"
 #include "rendering/Material.h"
 
@@ -60,6 +61,7 @@ namespace Engine
 		\param filepath path to the shader file
 		*/
 		std::shared_ptr<Shader> addShader(const std::string& key, const std::string& filepath);
+		//! Adds a compiled shader to the collection \param key key associated with a shader \param shader shader to be added
 		void addShaderAsync(const std::string & key, std::shared_ptr<Shader> shader);
 		/*! Adds shader to collection of shaders
 		\param key key associated with a shader
@@ -72,6 +74,7 @@ namespace Engine
 		\param filepath path to the texture file
 		*/
 		std::shared_ptr<Texture> addTexture(const std::string& key, const std::string& filepath);
+		//! Adds a compiled texture to the collection \param key key associated with a texture \param texture texture to be added
 		void addTextureAsync(const std::string& key, std::shared_ptr<Texture> tex);
 		/*! Adds texture to collection of textures
 		\param key key associated with a texture
@@ -86,6 +89,8 @@ namespace Engine
 		\param shader shader used by a material
 		\param VAO material's geometry
 		*/
+		std::shared_ptr<Texture> addSkybox(const std::string& key, std::vector<std::string> faces);
+
 		std::shared_ptr<Material> addMaterial(const std::string& key, const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO);
 		/*! Adds material to collection of materials (Non OpenGL)
 		\param key key associated with a material
@@ -100,7 +105,9 @@ namespace Engine
 		*/
 		std::shared_ptr<UniformBuffer> addUBO(const std::string& key, unsigned int size, UniformLayout& layout);
 
+		//! Adds a compiled json model to the collection \param key key associated with a model \param model model to be added
 		void addJsonModelAsync(const std::string& key, std::shared_ptr<JsonModel> model);
+		//! Adds a compiled assimp model to the collection \param key key associated with a model \param model model to be added
 		void addAssimpModelAsync(const std::string& key, std::shared_ptr<AssimpModel> model);
 
 		//! Gets class instance \return singleton instance
@@ -112,15 +119,15 @@ namespace Engine
 			return s_instance;
 		};
 
-		AssetManager<VertexArray> getVAO(); //!< Get collection of the VAOs \return m_VAOs collection of the VAOs
-		AssetManager<VertexBuffer> getVBO(); //!< Get collection of the VBOs \return m_VBOs collection of the VBOs
-		AssetManager<IndexBuffer> getEBO(); //!< Get collection of the index buffers \return m_EBOs collection of index buffers
-		AssetManager<Shader> getShader(); //!< Get collection of shaders \return m_shaders collection of shaders
-		AssetManager<Texture> getTexture(); //!< Get collection of textures \return m_textures collection of textures
-		AssetManager<Material> getMaterial(); //!< Get collection of materials \return m_materials collection of materials
-		AssetManager<UniformBuffer> getUBO(); //!< Get collection of UBOs \return m_UBOs collection of UBOs
-		AssetManager<JsonModel> getJsonModels(); //!< Get collection of json models \return m_JsonModels collection of json models
-		AssetManager<AssimpModel> getAssimpModels(); //!< Get collection of assimp models \return m_AssimpModels collection of assimp models
+		AssetManager<VertexArray>& getVAO(); //!< Get collection of the VAOs \return m_VAOs collection of the VAOs
+		AssetManager<VertexBuffer>& getVBO(); //!< Get collection of the VBOs \return m_VBOs collection of the VBOs
+		AssetManager<IndexBuffer>& getEBO(); //!< Get collection of the index buffers \return m_EBOs collection of index buffers
+		AssetManager<Shader>& getShader(); //!< Get collection of shaders \return m_shaders collection of shaders
+		AssetManager<Texture>& getTexture(); //!< Get collection of textures \return m_textures collection of textures
+		AssetManager<Material>& getMaterial(); //!< Get collection of materials \return m_materials collection of materials
+		AssetManager<UniformBuffer>& getUBO(); //!< Get collection of UBOs \return m_UBOs collection of UBOs
+		AssetManager<JsonModel>& getJsonModels(); //!< Get collection of json models \return m_JsonModels collection of json models
+		AssetManager<AssimpModel>& getAssimpModels(); //!< Get collection of assimp models \return m_AssimpModels collection of assimp models
 
 		~ResourceManager(); //!< Default destructor
 	};

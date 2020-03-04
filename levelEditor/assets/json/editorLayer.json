@@ -6,8 +6,36 @@
         "filepath": "assets/shaders/flatColour.glsl"
       },
       {
+        "name": "SkyboxShader",
+        "filepath": "assets/shaders/skybox.glsl"
+      },
+      {
         "name": "PhongShader",
         "filepath": "assets/shaders/texturedPhong.glsl"
+      },
+      {
+        "name": "BlinnPhongShader",
+        "filepath": "assets/shaders/blinnPhong.glsl"
+      },
+      {
+        "name": "NormalShader",
+        "filepath": "assets/shaders/normalMapping.glsl"
+      },
+      {
+        "name": "ParallaxShader",
+        "filepath": "assets/shaders/parallaxMapping.glsl"
+      },
+      {
+        "name": "PointLightShader",
+        "filepath": "assets/shaders/pointLight.glsl"
+      },
+      {
+        "name": "DirectionalLightShader",
+        "filepath": "assets/shaders/directionalLight.glsl"
+      },
+      {
+        "name": "SpotLightShader",
+        "filepath": "assets/shaders/spotLight.glsl"
       }
     ],
     "textures": [
@@ -22,6 +50,46 @@
       {
         "name": "SpaceTexture",
         "filepath": "assets/textures/PolygonSciFiSpace_Texture_01_A.png"
+      },
+      {
+        "name": "BrickDiffuse",
+        "filepath": "assets/textures/Brick_diffuse.jpg"
+      },
+      {
+        "name": "BrickNormal",
+        "filepath": "assets/textures/Brick_Normal.jpg"
+      },
+      {
+        "name": "BrickHeight",
+        "filepath": "assets/textures/DisplacementMap.png"
+      },
+      {
+        "name": "NormalTexture",
+        "filepath": "assets/assimpModels/SF_Fighter/SF_Fighter-Normal.jpg"
+      },
+      {
+        "name": "ShipTexture",
+        "filepath": "assets/assimpModels/SF_Fighter/SF_Fighter-Albedo.jpg"
+      },
+      {
+        "name": "ParaDiffuse",
+        "filepath": "assets/textures/Brick_Para.jpg"
+      },
+      {
+        "name": "ParaNormal",
+        "filepath": "assets/textures/Brick_Para_Normal.jpg"
+      },
+      {
+        "name": "ParallaxTexture",
+        "filepath": "assets/textures/Brick_Para_Disp.jpg"
+      },
+      {
+        "name": "WoodTexture",
+        "filepath": "assets/textures/wood_diffuse.png"
+      },
+      {
+        "name": "BrickSpecular",
+        "filepath": "assets/textures/brick_specular.png"
       }
     ],
     "models": [
@@ -44,181 +112,29 @@
         "type": "assimp",
         "name": "ship",
         "filepath": "assets/assimpModels/SM_Ship_Fighter_02.fbx"
+      },
+      {
+        "type": "assimp",
+        "name": "box",
+        "filepath": "assets/assimpModels/RoyaltyFreeBox.obj"
       }
     ]
   },
 
-  "MemoryInfo": {
-    "gameObjects": 3,
-    "position": 3,
-    "velocity": 3,
-    "oscillates": 2,
-    "textures": 3,
-    "controllers": 1
-  },
 
   "Camera": {
     "type": "Fps3D",
     "translationSpeed": 10.0,
-    "rotationSpeed": 5.0,
+    "rotationSpeed": 1.0,
     "fov": 45.0,
     "aspectRatio": 1.33333,
     "nearClip": 0.1,
-    "farClip": 1000.0
+    "farClip": 10000.0
   },
 
   "Renderer": {
     "type": "3D"
   },
-
-  "GameObject": [
-    {
-      "name": "FCCube",
-      "material": {
-        "type": "json",
-        "model": "JsonFCCube",
-        "shader": "FlatColorShader"
-      },
-
-      "position": {
-        "translation": {
-          "x": 1.5,
-          "y": 0.0,
-          "z": 3.0
-        },
-        "rotation": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "scale": {
-          "x": 1.0,
-          "y": 1.0,
-          "z": 1.0
-        }
-      },
-
-      "velocity": {
-        "linear": {
-          "x": 0.0,
-          "y": 0.1,
-          "z": 0.0
-        },
-        "angular": {
-          "x": 0.0,
-          "y": 20.0,
-          "z": 0.0
-        }
-      },
-
-      "oscillate": {
-        "state": "DOWN",
-        "current time": 2.5,
-        "max time": 5.0,
-        "set texture": false
-      }
-    },
-
-    {
-      "name": "PlayerCharacter",
-      "material": {
-        "type": "assimp",
-        "model": "ship",
-        "shader": "PhongShader"
-      },
-
-      "position": {
-        "translation": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 5.0
-        },
-        "rotation": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "scale": {
-          "x": 0.01,
-          "y": 0.01,
-          "z": 0.01
-        }
-      },
-
-      "velocity": {
-        "linear": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "angular": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        }
-      },
-
-      "controller": {
-        "moveSpeed": 150.0,
-        "rotationSpeed": 1000.0
-      },
-
-      "texture": {
-        "name": "SpaceTexture"
-      }
-    },
-
-    {
-      "name": "PhongCube",
-      "material": {
-        "type": "json",
-        "model": "JsonTPCube",
-        "shader": "PhongShader"
-      },
-
-      "position": {
-        "translation": {
-          "x": -1.5,
-          "y": 0.0,
-          "z": 3.0
-        },
-        "rotation": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "scale": {
-          "x": 1.0,
-          "y": 1.0,
-          "z": 1.0
-        }
-      },
-
-      "velocity": {
-        "linear": {
-          "x": 0.0,
-          "y": 0.1,
-          "z": 0.0
-        },
-        "angular": {
-          "x": 0.0,
-          "y": 20.0,
-          "z": 0.0
-        }
-      },
-
-      "oscillate": {
-        "state": "UP",
-        "current time": 2.5,
-        "max time": 5.0,
-        "set texture": true
-      },
-
-      "texture": {
-        "name": "NumberTexture"
-      }
-    }
-  ],
 
   "UBO": [
     {
@@ -234,12 +150,48 @@
         {
           "name": "PhongShader",
           "block": "Matrices"
+        },
+        {
+          "name": "PointLightShader",
+          "block": "Matrices"
+        },
+        {
+          "name": "DirectionalLightShader",
+          "block": "Matrices"
+        },
+        {
+          "name": "SpotLightShader",
+          "block": "Matrices"
+        },
+        {
+          "name": "BlinnPhongShader",
+          "block": "Matrices"
+        },
+        {
+          "name": "NormalShader",
+          "block": "Matrices"
+        },
+        {
+          "name": "ParallaxShader",
+          "block": "Matrices"
         }
       ],
       "data": [
         {
           "type": "pointer",
           "var": "VP Matrix"
+        },
+        {
+          "type": "pointer",
+          "var": "camPosition"
+        },
+        {
+          "type": "pointer",
+          "var": "camForward"
+        },
+        {
+          "type": "pointer",
+          "var": "cutOff"
         }
       ]
     },
@@ -254,6 +206,65 @@
         {
           "name": "PhongShader",
           "block": "Light"
+        },
+        {
+          "name": "BlinnPhongShader",
+          "block": "Light"
+        },
+        {
+          "name": "PointLightShader",
+          "block": "Light"
+        },
+        {
+          "name": "SpotLightShader",
+          "block": "Light"
+        },
+        {
+          "name": "DirectionalLightShader",
+          "block": "Light"
+        },
+        {
+          "name": "NormalShader",
+          "block": "Light"
+        },
+        {
+          "name": "ParallaxShader",
+          "block": "Light"
+        }
+      ],
+      "data": [
+        {
+          "type": "Float3",
+          "x": -2.0,
+          "y": 1.5,
+          "z": 2.0
+        },
+        {
+          "type": "Float3",
+          "x": 0.0,
+          "y": 0.0,
+          "z": -4.5
+        },
+        {
+          "type": "Float3",
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Settings",
+      "layout": [
+        "Vec3",
+        "Vec3",
+        "Vec3",
+        "Vec3"
+      ],
+      "shaders": [
+        {
+          "name": "DirectionalLightShader",
+          "block": "Settings"
         }
       ],
       "data": [
@@ -274,44 +285,48 @@
           "x": 1.0,
           "y": 1.0,
           "z": 1.0
+        },
+        {
+          "type": "Float3",
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
         }
       ]
-
     }
   ],
 
-    "RendererCommands":
-    {
-      "init": [
-        {
-          "type": "DepthTestLess",
-          "enabled": true
-        },
-        {
-          "type": "BackfaceCulling",
-          "enabled": true
-        },
-        {
-          "type": "Debug",
-          "enabled": true
-        },
-        {
-          "type": "ClearColor",
-          "r": 0.1,
-          "g": 0.1,
-          "b": 0.1,
-          "a": 1.0
-        }
-      ],
-      "predraw": [
-        {
-          "type": "ClearDepthColorBuffer"
-        }
-      ],
-      "postdraw": [
-      ],
-      "exit": [
+  "RendererCommands": {
+    "init": [
+      {
+        "type": "DepthTestLess",
+        "enabled": true
+      },
+      {
+        "type": "BackfaceCulling",
+        "enabled": true
+      },
+      {
+        "type": "Debug",
+        "enabled": true
+      },
+      {
+        "type": "ClearColor",
+        "r": 0.3,
+        "g": 0.3,
+        "b": 0.3,
+        "a": 1.0
+      }
+    ],
+    "predraw": [
+      {
+        "type": "ClearDepthColorBuffer"
+      }
+    ],
+    "postdraw": [
+    ],
+    "exit": [
 
-      ]
-    }
+    ]
+  }
 }

@@ -34,7 +34,10 @@ namespace Engine
 		{
 			m_owner = owner;
 
-			m_possibleMessages = { ComponentMessageType::VelocitySetLinear, ComponentMessageType::VelocitySetAngular };
+			m_possibleMessages = { ComponentMessageType::VelocitySetLinear, ComponentMessageType::VelocitySetAngular,
+									ComponentMessageType::AIPositionSet,	ComponentMessageType::AIRotationSet };
+
+			glm::vec3 temp = m_linear;
 
 			for (auto& msg : m_possibleMessages)
 			{
@@ -58,6 +61,120 @@ namespace Engine
 						return true;
 					};
 					break;
+
+				case ComponentMessageType::AIPositionSet:
+					m_msgsMap[msg] = [temp, owner, this](std::any data)
+					{
+						m_linear = temp;
+						glm::vec3 desired = std::any_cast<glm::vec3>(data);
+						glm::vec3 current = owner->getComponent<PositionComponent>()->getCurrentPosition();
+						
+						glm::vec3 diff = current - desired;
+
+						if (diff.x > 0.001f || diff.x < -0.001f)
+						{
+							if (diff.x > 0.0f)
+							{
+								if (m_linear.x > 0.0f)
+								{
+									m_linear.x *= -1;
+								}
+								else
+								{
+									m_linear.x = m_linear.x;
+								}						
+							}
+							else
+							{
+								if (m_linear.x < 0.0f)
+								{
+									m_linear.x *= -1; // reverse
+								}
+								else
+								{
+									m_linear.x = m_linear.x;
+								}
+							}
+						}
+						else
+						{
+							m_linear.x = 0.0f;
+						}
+
+						if (diff.y > 0.001f || diff.y < -0.001f)
+						{
+							if (diff.y > 0.0f)
+							{
+								if (m_linear.y > 0.0f)
+								{
+									m_linear.y *= -1;
+								}
+								else
+								{
+									m_linear.y = m_linear.y;
+								}
+							}
+							else
+							{
+								if (m_linear.y < 0.0f)
+								{
+									m_linear.y *= -1; // reverse
+								}
+								else
+								{
+									m_linear.y = m_linear.y;
+								}
+							}
+						}
+						else
+						{
+							m_linear.y = 0.0f;
+						}
+
+						if (diff.z > 0.001f || diff.z < -0.001f)
+						{
+							if (diff.z > 0.0f)
+							{
+								if (m_linear.z > 0.0f)
+								{			 
+									m_linear.z *= -1;
+								}
+								else
+								{
+									m_linear.z = m_linear.z;
+								}
+							}
+							else
+							{
+								if (m_linear.z < 0.0f)
+								{
+									m_linear.z *= -1; // reverse
+								}
+								else
+								{
+									m_linear.z = m_linear.z;
+								}
+							}
+						}
+						else
+						{
+							m_linear.z = 0.0f;
+						}
+
+						m_linear = glm::normalize(m_linear);
+
+						return true;
+					};
+					break;
+
+				case ComponentMessageType::AIRotationSet:
+					m_msgsMap[msg] = [this](std::any data)
+					{
+						// TODO rotation
+							// How to???
+						return true;
+					};
+					break;
 				}
 			}
 		}
@@ -66,6 +183,23 @@ namespace Engine
 		inline glm::vec3& getLinear() { return m_linear; }
 		//! Gets angular velocity of a component \return angular velocity
 		inline glm::vec3& getAngular() { return m_angular; }
+
+		//! Sets linear velocity \param newLin new linear velocity
+		inline void setLinear(glm::vec3 newLin)
+		{
+			m_linear = newLin;
+		}
+
+		//! Sets angular velocity \param newAng new angular velocity
+		inline void setAngular(glm::vec3 newAng)
+		{
+			m_angular = newAng;
+		}
+
+		inline const std::type_info& getType() override
+		{
+			return typeid(decltype(*this));
+		}
 
 		//! Virtual destructor
 		~VelocityComponent() {};

@@ -19,6 +19,10 @@ namespace Engine
 	{
 	private:
 		std::shared_ptr<Material> m_material; //!< Material associated with a GO
+
+		std::string m_typeName; //! Material's type name (json/assimp)
+		std::string m_shaderName; //! Shader's name associated with material
+		std::string m_modelName; //! Model's name associated with material
 	public:
 		//! Custom constructor \param material material of a GO
 		MaterialComponent(const std::shared_ptr<Material>& material) : m_material(material) {};
@@ -44,9 +48,31 @@ namespace Engine
 						return true;
 					};
 					break;
-					// hi
 				}
 			}
 		}
+
+		inline const std::type_info& getType() override
+		{
+			return typeid(decltype(*this));
+		}
+
+		//! Sets shader name \param name new shader name
+		inline void setShaderName(std::string name) { m_shaderName = name; }
+
+		//! Sets model name \param name new model name
+		inline void setModelName(std::string name) { m_modelName = name; }
+
+		//! Sets type name \param name new type name
+		inline void setTypeName(std::string name) { m_typeName = name; }
+
+		//! Gets shader name \return current shader name
+		inline std::string& getShaderName() { return m_shaderName; }
+
+		//! Gets model name \return current model name
+		inline std::string& getModelName() { return m_modelName; }
+
+		//! Gets type name \return current type name
+		inline std::string& getTypeName() { return m_typeName; }
 	};
 }

@@ -1,5 +1,9 @@
 #pragma once
 
+/*!\file ImGuiSystem
+\brief Responsible to start and stop ImGui
+*/
+
 #include "systems/system.h"
 
 #include <imgui.h>
@@ -8,6 +12,9 @@
 
 namespace Engine
 {
+	/*! \class ImGuiSystem
+	\brief responsible for handling ImGui system
+	*/
 	class ImGuiSystem : public System
 	{
 	private:

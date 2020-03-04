@@ -26,6 +26,7 @@ namespace Engine
 		void add(const std::string& key, std::shared_ptr<T>& asset); //!< Add asset to the storage \param key key associated with an asset \param asset asset to be added
 		std::shared_ptr<T> getAsset(const std::string& key); //!< Retrieve asset from storage \param key key associated with an asset
 		std::map<std::string, std::shared_ptr<T>> getCollection(); //!< Get full collection of the assets \return full assets collection of specified type
+		void remove(const std::string& key); //!< Removes an item from the asset manager \param key key associated with an item
 	};
 
 	template<typename T>
@@ -44,7 +45,7 @@ namespace Engine
 		if (contains(key) == false)
 			m_assets[key] = asset;
 		else
-			LogWarn("Asset at key {0} already exists.");
+			LogWarn("Asset at key {0} already exists.", key);
 	}
 
 	template<typename T>
@@ -65,5 +66,12 @@ namespace Engine
 	inline std::map<std::string, std::shared_ptr<T>> AssetManager<T>::getCollection()
 	{
 		return m_assets;
+	}
+
+	template<typename T>
+	inline void AssetManager<T>::remove(const std::string & key)
+	{
+		if(contains(key) == true)
+			m_assets.erase(key);
 	}
 }

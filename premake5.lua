@@ -47,8 +47,10 @@ project "Engine"
 		"vendor/freetype2/include",
 		"vendor/json/single_include/nlohmann",
 		"vendor/assimp/include",
-		"vendor/reactphysics3d/src"
-		"vendor/ImGui"
+		"vendor/reactphysics3d/src",
+		"vendor/ImGui",
+		"vendor/lua",
+		"vendor/LuaBridge/Source"
 	}
 	
 	links 
@@ -57,8 +59,9 @@ project "Engine"
 		"Glad",
 		"Freetype",
 		"assimp",
-		"reactphysics3d"
-		"IMGui"
+		"reactphysics3d",
+		"IMGui",
+		"Lua"
 	}
 	
 	filter "system:windows"
@@ -112,7 +115,10 @@ project "LevelEditor"
 		"vendor/glm/",
 		"vendor/json/single_include/nlohmann",
 		"vendor/assimp/include",
-		"vendor/ImGui"
+		"vendor/reactphysics3d/src",
+		"vendor/ImGui",
+		"vendor/lua",
+		"vendor/LuaBridge/Source"
 	}
 
 	links
@@ -166,8 +172,10 @@ project "Sandbox"
 		"vendor/glm/",
 		"vendor/json/single_include/nlohmann",
 		"vendor/assimp/include",
-		"vendor/reactphysics3d/src"
-		"vendor/ImGui"
+		"vendor/reactphysics3d/src",
+		"vendor/ImGui",
+		"vendor/lua",
+		"vendor/LuaBridge/Source"
 	}
 
 	links
@@ -321,3 +329,4 @@ group "Vendor"
 	include "vendor/assimp"
 	include "vendor/reactphysics3d"
 	include "vendor/ImGui"
+	include "vendor/lua"

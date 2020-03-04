@@ -17,7 +17,7 @@ namespace Engine
 		Int, Int2, Int3, Int4, 
 		Float, Float2, Float3, Float4, 
 		Mat2, Mat3, Mat4, 
-		Bool, Sampler2D
+		Bool, Sampler2D, SamplerCube
 	};
 
 	/*! \class ShaderData

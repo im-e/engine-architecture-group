@@ -86,6 +86,14 @@ namespace Engine
 		return texture;
 	}
 
+	std::shared_ptr<Texture> ResourceManager::addSkybox(const std::string & key, std::vector<std::string> faces)
+	{
+		std::shared_ptr<Texture> texture;
+		////texture.reset(Texture::createSkybox(faces));
+		//m_textures.add(key, texture);
+		return texture;
+	}
+
 	std::shared_ptr<Material> ResourceManager::addMaterial(const std::string & key, const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO)
 	{
 		std::shared_ptr<Material> material;
@@ -123,47 +131,47 @@ namespace Engine
 		m_assimpModels.add(key, model);
 	}
 
-	AssetManager<VertexArray> ResourceManager::getVAO()
+	AssetManager<VertexArray>& ResourceManager::getVAO()
 	{
 		return m_VAOs;
 	}
 
-	AssetManager<VertexBuffer> ResourceManager::getVBO()
+	AssetManager<VertexBuffer>& ResourceManager::getVBO()
 	{
 		return m_VBOs;
 	}
 
-	AssetManager<IndexBuffer> ResourceManager::getEBO()
+	AssetManager<IndexBuffer>& ResourceManager::getEBO()
 	{
 		return m_EBOs;
 	}
 
-	AssetManager<Shader> ResourceManager::getShader()
+	AssetManager<Shader>& ResourceManager::getShader()
 	{
 		return m_shaders;
 	}
 
-	AssetManager<Texture> ResourceManager::getTexture()
+	AssetManager<Texture>& ResourceManager::getTexture()
 	{
 		return m_textures;
 	}
 
-	AssetManager<Material> ResourceManager::getMaterial()
+	AssetManager<Material>& ResourceManager::getMaterial()
 	{
 		return m_materials;
 	}
 
-	AssetManager<UniformBuffer> ResourceManager::getUBO()
+	AssetManager<UniformBuffer>& ResourceManager::getUBO()
 	{
 		return m_UBOs;
 	}
 
-	AssetManager<JsonModel> ResourceManager::getJsonModels()
+	AssetManager<JsonModel>& ResourceManager::getJsonModels()
 	{
 		return m_jsonModels;
 	}
 
-	AssetManager<AssimpModel> ResourceManager::getAssimpModels()
+	AssetManager<AssimpModel>& ResourceManager::getAssimpModels()
 	{
 		return m_assimpModels;
 	}
