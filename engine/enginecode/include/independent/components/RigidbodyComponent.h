@@ -20,8 +20,6 @@ namespace Engine
 		float bodyDen = 1.0f;
 	public:
 
-
-
 		RigidBodyComponent()
 		{
 			bodyPos = rp3d::Vector3(0.f, 0.f, 0.f); //defaults physics body poisition
