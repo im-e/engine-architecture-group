@@ -83,7 +83,7 @@ void main()
           gl_TessLevelOuter[0] = tessLevel; 
           gl_TessLevelOuter[1] = tessLevel; 
           gl_TessLevelOuter[2] = tessLevel;
-          gl_TessLevelInner[0] = tessLevel; 
+          gl_TessLevelInner[0] = gl_TessLevelOuter[2]; 
 
    }
 
