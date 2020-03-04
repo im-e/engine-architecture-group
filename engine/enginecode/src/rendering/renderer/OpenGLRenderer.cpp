@@ -60,7 +60,7 @@ namespace Engine
 		}
 
 		//glDrawElements(GL_TRIANGLES, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr);
-		glDrawArrays(GL_PATCHES, 0, geometry->getDrawCount() * 3);
+		glDrawArrays(GL_PATCHES, 0, geometry->getDrawCount() / 3);
 	}
 
 	void OpenGLRenderer::tessSubmit(const std::shared_ptr<Material>& material)
