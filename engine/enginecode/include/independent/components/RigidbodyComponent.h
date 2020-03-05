@@ -5,7 +5,7 @@
 */
 
 #include "Component.h"
-
+#include "PositionComponent.h"
 
 namespace Engine
 {
@@ -23,15 +23,14 @@ namespace Engine
 		rp3d::Vector3 m_linear; //Linear force
 		rp3d::Vector3 m_angular; //Angular torque
 
-		RigidBodyComponent()
+		RigidBodyComponent(rp3d::BodyType type)
 		{
 			//bodyPos = rp3d::Vector3(0.f, 0.f, 0.f); //defaults physics body poisition
 			//bodyOri = rp3d::Quaternion::identity();	//defaults orientation
 			//bodyTra = rp3d::Transform(bodyPos, bodyOri);//Creates default transform
 			
-			bodyTra.setPosition.getOpenGLMatrix(m_owner->getComponent<PositionComponent>()->getCurrentPosition());
-			body = m_world->createRigidBody(bodyTra);//Assigns default transform
-			body->setType(rp3d::BodyType::DYNAMIC); //defaults body type to dynamic
+			
+			body->setType(type); //defaults body type to dynamic
 
 			
 		}
@@ -40,9 +39,12 @@ namespace Engine
 		{
 			m_owner = owner; //Sets owner 	
 
+			bodyTra.setPosition.getOpenGLMatrix(m_owner->getComponent<PositionComponent>()->getCurrentPosition());
+			body = m_world->createRigidBody(bodyTra);//Assigns default transform
+
 			m_possibleMessages = { ComponentMessageType::RigidBodySet };
 
-			
+
 			rp3d::Vector3 temp = m_linear;
 
 			for (auto& msg : m_possibleMessages)
@@ -190,110 +192,111 @@ namespace Engine
 						return true;
 					};
 					break;
-		}
+				}
 
-		void onUpdate(float timestep) override
-		{
-			std::pair<rp3d::Vector3, rp3d::Vector3> data(m_linear * timestep, m_angular * timestep);
-			sendMessage(ComponentMessage(ComponentMessageType::PositionIntegrate, std::any(data)));
-		}
-		void onDetach() override
-		{
-			m_world->destroyRigidBody(body); //Destroys body component when detached from owner
-		}
+				void onUpdate(float timestep) override
+				{
+					std::pair<rp3d::Vector3, rp3d::Vector3> data(m_linear * timestep, m_angular * timestep);
+					sendMessage(ComponentMessage(ComponentMessageType::PositionIntegrate, std::any(data)));
+				}
+				void onDetach() override
+				{
+					m_world->destroyRigidBody(body); //Destroys body component when detached from owner
+				}
 
-		inline const std::type_info& getType() override
-		{
-			return typeid(decltype(*this));
-		}
+				inline const std::type_info& getType() override
+				{
+					return typeid(decltype(*this));
+				}
 
 
-		//In world parameters
-		void setWorld(rp3d::DynamicsWorld *world)
-		{
-			m_world = world;
-		}
+				//In world parameters
+				void setWorld(rp3d::DynamicsWorld *world)
+				{
+					m_world = world;
+				}
 
-		void changeType(rp3d::BodyType type)
-		{
-			body->setType(type); //Allows changing of body type
-		}
-		void setPosition(rp3d::Vector3 position)
-		{
-			bodyPos = position;
-			body->setTransform(rp3d::Transform(bodyPos, bodyOri)); //Update position
-		}
-		void setOrientation(rp3d::Quaternion orientation)
-		{
-			bodyOri = orientation;
-			body->setTransform(rp3d::Transform(bodyPos, bodyOri)); //Update orientation
-		}
+				void changeType(rp3d::BodyType type)
+				{
+					body->setType(type); //Allows changing of body type
+				}
+				void setPosition(rp3d::Vector3 position)
+				{
+					bodyPos = position;
+					body->setTransform(rp3d::Transform(bodyPos, bodyOri)); //Update position
+				}
+				void setOrientation(rp3d::Quaternion orientation)
+				{
+					bodyOri = orientation;
+					body->setTransform(rp3d::Transform(bodyPos, bodyOri)); //Update orientation
+				}
 
-		//Rigid body parameters
-		void setMass(rp3d::decimal mass) //Set mass
-		{
-			body->setMass(mass);
-		}
-		rp3d::decimal getMass()
-		{
-			return body->getMass();
-		}
+				//Rigid body parameters
+				void setMass(rp3d::decimal mass) //Set mass
+				{
+					body->setMass(mass);
+				}
+				rp3d::decimal getMass()
+				{
+					return body->getMass();
+				}
 
-		void setDensity(float density) //Set density
-		{
-			bodyDen = density;
-		}
-		float getDensity()
-		{
-			return bodyDen;
-		}
+				void setDensity(float density) //Set density
+				{
+					bodyDen = density;
+				}
+				float getDensity()
+				{
+					return bodyDen;
+				}
 
-		void toggleSleep(bool sleep)
-		{
-			body->setIsAllowedToSleep(sleep);
-		}
+				void toggleSleep(bool sleep)
+				{
+					body->setIsAllowedToSleep(sleep);
+				}
 
-		void toggleGravity(bool gravity)
-		{
-			body->enableGravity(gravity);
-		}
+				void toggleGravity(bool gravity)
+				{
+					body->enableGravity(gravity);
+				}
 
-		rp3d::RigidBody* getBody()
-		{
-			return body;
-		}
+				rp3d::RigidBody* getBody()
+				{
+					return body;
+				}
 
-		//Phys materials
-		rp3d::Material getMaterial()
-		{
-			return body->getMaterial();
-		}
+				//Phys materials
+				rp3d::Material getMaterial()
+				{
+					return body->getMaterial();
+				}
 
-		void setRestitution(rp3d::decimal restitution)
-		{
-			body->getMaterial().setBounciness(restitution);
-		}
-		rp3d::decimal getRestitution()
-		{
-			return body->getMaterial().getBounciness();
-		}
+				void setRestitution(rp3d::decimal restitution)
+				{
+					body->getMaterial().setBounciness(restitution);
+				}
+				rp3d::decimal getRestitution()
+				{
+					return body->getMaterial().getBounciness();
+				}
 
-		void setFriction(rp3d::decimal friction)
-		{
-			body->getMaterial().setFrictionCoefficient(friction);
-		}
-		rp3d::decimal getFriction()
-		{
-			return body->getMaterial().getFrictionCoefficient();
-		}
+				void setFriction(rp3d::decimal friction)
+				{
+					body->getMaterial().setFrictionCoefficient(friction);
+				}
+				rp3d::decimal getFriction()
+				{
+					return body->getMaterial().getFrictionCoefficient();
+				}
 
-		void setRollingRes(rp3d::decimal rollingRes)
-		{
-			body->getMaterial().setRollingResistance(rollingRes);
-		}
-		rp3d::decimal getRollingRes()
-		{
-			return body->getMaterial().getRollingResistance();
+				void setRollingRes(rp3d::decimal rollingRes)
+				{
+					body->getMaterial().setRollingResistance(rollingRes);
+				}
+				rp3d::decimal getRollingRes()
+				{
+					return body->getMaterial().getRollingResistance();
+				}
+			};
 		}
 	};
-}
