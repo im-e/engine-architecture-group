@@ -59,7 +59,6 @@
         "name": "BrickNormal",
         "filepath": "assets/textures/Brick_Normal.jpg"
       },
-<<<<<<< HEAD
       {
         "name": "BrickHeight",
         "filepath": "assets/textures/DisplacementMap.png"
@@ -85,33 +84,6 @@
         "filepath": "assets/textures/Brick_Para_Disp.jpg"
       },
       {
-=======
-      {
-        "name": "BrickHeight",
-        "filepath": "assets/textures/DisplacementMap.png"
-      },
-      {
-        "name": "NormalTexture",
-        "filepath": "assets/assimpModels/SF_Fighter/SF_Fighter-Normal.jpg"
-      },
-      {
-        "name": "ShipTexture",
-        "filepath": "assets/assimpModels/SF_Fighter/SF_Fighter-Albedo.jpg"
-      },
-      {
-        "name": "ParaDiffuse",
-        "filepath": "assets/textures/Brick_Para.jpg"
-      },
-      {
-        "name": "ParaNormal",
-        "filepath": "assets/textures/Brick_Para_Normal.jpg"
-      },
-      {
-        "name": "ParallaxTexture",
-        "filepath": "assets/textures/Brick_Para_Disp.jpg"
-      },
-      {
->>>>>>> parent of 0fbe65e... Revert "Merge Reece to master"
         "name": "WoodTexture",
         "filepath": "assets/textures/wood_diffuse.png"
       },
@@ -120,42 +92,35 @@
         "filepath": "assets/textures/brick_specular.png"
       }
     ],
- "models": [
-        {
-          "type": "json",
-          "name": "JsonFCCube",
-          "filepath": "assets/jsonModels/fcCube.txt"
-        },
-        {
-          "type": "json",
-          "name": "JsonTPCube",
-          "filepath": "assets/jsonModels/tpCube.txt"
-        },
-        {
-          "type": "assimp",
-          "name": "bot",
-          "filepath": "assets/assimpModels/Chicken Dance.fbx"
-        },
-        {
-          "type": "assimp",
-          "name": "ship",
-          "filepath": "assets/assimpModels/SM_Ship_Fighter_02.fbx"
-        }
+    "models": [
+      {
+        "type": "json",
+        "name": "JsonFCCube",
+        "filepath": "assets/jsonModels/fcCube.txt"
+      },
+      {
+        "type": "json",
+        "name": "JsonTPCube",
+        "filepath": "assets/jsonModels/tpCube.txt"
+      },
+      {
+        "type": "assimp",
+        "name": "bot",
+        "filepath": "assets/assimpModels/Chicken Dance.fbx"
+      },
+      {
+        "type": "assimp",
+        "name": "ship",
+        "filepath": "assets/assimpModels/SM_Ship_Fighter_02.fbx"
+      },
+      {
+        "type": "assimp",
+        "name": "box",
+        "filepath": "assets/assimpModels/RoyaltyFreeBox.obj"
+      }
     ]
   },
 
-<<<<<<< HEAD
-=======
-  "MemoryInfo": {
-    "gameObjects": 7,
-    "materials": 7,
-    "position": 7,
-    "velocity": 7,
-    "oscillates": 2,
-    "textures": 7,
-    "controllers": 4
-  },
->>>>>>> parent of 0fbe65e... Revert "Merge Reece to master"
 
   "Camera": {
     "type": "Fps3D",
@@ -171,18 +136,11 @@
     "type": "3D"
   },
 
-  "Skybox": {
-    "type": "Space"
-  },
-
   "UBO": [
     {
       "name": "ViewProjection",
       "layout": [
-        "Mat4",
-        "Vec3",
-        "Vec3",
-        "Float"
+        "Mat4"
       ],
       "shaders": [
         {
@@ -354,9 +312,9 @@
       },
       {
         "type": "ClearColor",
-        "r": 0.5,
-        "g": 0.1,
-        "b": 0.5,
+        "r": 0.3,
+        "g": 0.3,
+        "b": 0.3,
         "a": 1.0
       }
     ],
