@@ -230,7 +230,8 @@ namespace Engine
 							std::shared_ptr<MaterialComponent> mat;
 							std::string modelName = go["material"]["model"].get<std::string>();
 							std::shared_ptr<JsonModel> model = ResourceManagerInstance->getJsonModels().getAsset(modelName);
-							
+							bool tess = go["material"]["tess"].get<bool>();
+
 							std::string shader = go["material"]["shader"].get<std::string>();
 
 							ResourceManagerInstance->addVAO(goName + "VAO");
@@ -244,7 +245,8 @@ namespace Engine
 
 							ResourceManagerInstance->addMaterial(goName + "Mat",
 								ResourceManagerInstance->getShader().getAsset(shader),
-								ResourceManagerInstance->getVAO().getAsset(goName + "VAO"));
+								ResourceManagerInstance->getVAO().getAsset(goName + "VAO"), 
+								tess);
 
 							mat = std::make_shared<MaterialComponent>
 								(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(goName + "Mat")));

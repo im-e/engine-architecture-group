@@ -35,16 +35,17 @@ namespace Engine
 		virtual std::shared_ptr<Shader> getShader() = 0; //!< Get shader associated with the material \return material's shader
 		virtual std::map<std::string, void*> getData() = 0; //!< Get data of the material \return material's data
 		virtual void * getGeometry() = 0; //!< Get geometry associated with the material \return geometry of the material
+		virtual bool getTessFlag() = 0; //!< Get the tessellation flag.
 
 		/*! Creates new material
 		\param shader shader to be associated with the material
 		\param VAO geometry to be associated with the material
 		*/
-		static Material* create(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO);
+		static Material* create(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO, bool tess = false);
 		/*! Creates new material
 		\param shader shader to be associated with the material
 		\param VBO geometry to be associated with the material
 		*/
-		static Material* create(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexBuffer>& VBO);
+		static Material* create(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexBuffer>& VBO, bool tess = false);
 	};
 }

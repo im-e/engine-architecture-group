@@ -59,6 +59,15 @@ namespace Engine
 			shader->uploadData(it->first, it->second);
 		}
 
+		if (material->getTessFlag())
+		{
+			glDrawArrays(GL_PATCHES, 0, geometry->getDrawCount() / 3);
+		}
+		else if (!material->getTessFlag())
+		{
+			glDrawElements(GL_TRIANGLES, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr);
+		}
+
 		//glDrawElements(GL_TRIANGLES, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr);
 		glDrawArrays(GL_PATCHES, 0, geometry->getDrawCount() / 3);
 	}
