@@ -91,7 +91,21 @@ namespace Engine
 					};
 					break;
 
-				case ComponentMessageType::PositionIntegrate:
+				/*case ComponentMessageType::PositionIntegrate: //OpenGL
+					m_msgsMap[msg] = [this](std::any data)
+					{
+						std::pair<glm::vec3, glm::vec3> vel = std::any_cast<std::pair<glm::vec3, glm::vec3>>(data);
+
+						m_transformVec += vel.first;
+						m_rotationVec.x += glm::radians(vel.second.x);
+						m_rotationVec.y += glm::radians(vel.second.y);
+						m_rotationVec.z += glm::radians(vel.second.z);
+
+						calculateModel();
+						return true;
+					};*/
+
+				case ComponentMessageType::PositionIntegrate: //RP3D
 					m_msgsMap[msg] = [this](std::any data)
 					{
 						std::pair<glm::vec3, glm::vec3> vel = std::any_cast<std::pair<glm::vec3, glm::vec3>>(data);
