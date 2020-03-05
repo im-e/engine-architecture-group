@@ -95,6 +95,9 @@ namespace Engine
 
 				if (jsonFile["MemoryInfo"].count("controllers") > 0)
 					layer.getControllers().resize(jsonFile["MemoryInfo"]["controllers"].get<int>());
+				
+				if (jsonFile["MemoryInfo"].count("colours") > 0)
+					layer.getColours().resize(jsonFile["MemoryInfo"]["colours"].get<int>());
 			}
 
 			if (jsonFile.count("Camera") > 0)
@@ -149,6 +152,7 @@ namespace Engine
 				int oscillatesIndex = 0;
 				int textureIndex = 0;
 				int controllerIndex = 0;
+				int colourIndex = 0;
 
 				for (auto& go : jsonFile["GameObject"])
 				{
@@ -255,8 +259,6 @@ namespace Engine
 							float b = go["material"]["colour"]["b"].get<float>();
 							std::shared_ptr<TextLabel> label(TextLabel::create(goName, font, charSize, text, glm::vec2(), 0.0f, 0.0f, glm::vec3(r, g, b)));
 							auto& mat = label->getMaterial();
-							//layer.getJsonData().push_back((void *) new int(ResourceManagerInstance->getFontTexture()->getSlot()));
-							//mat->setShaderDataElement("u_texData", (void*)layer.getJsonData().back());
 
 							layer.getMaterials().at(materialsIndex) = std::make_shared<MaterialComponent>(MaterialComponent(mat));
 							gameObject->addComponent(layer.getMaterials().at(materialsIndex));
@@ -267,8 +269,9 @@ namespace Engine
 							gameObject->addComponent(layer.getTextures().at(textureIndex));
 							textureIndex++;
 
-							layer.getJsonData().push_back((void *)new glm::vec3(r, g, b));
-							mat->setShaderDataElement("u_fontColour", (void*)&(*(glm::vec3*)layer.getJsonData().back())[0]);
+							layer.getColours().at(colourIndex) = std::make_shared<ColourComponent>(ColourComponent(r, g, b));
+							gameObject->addComponent(layer.getColours().at(colourIndex));
+							colourIndex++;
 						} 
 					}
 
@@ -284,7 +287,7 @@ namespace Engine
 						positionsIndex++;
 					}
 
-					if (go.count("velocity") > 0) 
+					if (go.count("velocity") > 0)
 					{
 						glm::vec3 linear(go["velocity"]["linear"]["x"].get<float>(), go["velocity"]["linear"]["y"].get<float>(), go["velocity"]["linear"]["z"].get<float>());
 						glm::vec3 angular(go["velocity"]["angular"]["x"].get<float>(), go["velocity"]["angular"]["y"].get<float>(), go["velocity"]["angular"]["z"].get<float>());
@@ -308,7 +311,7 @@ namespace Engine
 							bool setT = go["oscillate"]["set texture"].get<bool>();
 
 							layer.getOscillates().at(oscillatesIndex) = std::make_shared<OscillateComponent>
-								(OscillateComponent(state, currTime, maxTime, setT, layer.getVelocities().at(velocitiesIndex-1)->getLinear()));
+								(OscillateComponent(state, currTime, maxTime, setT, layer.getVelocities().at(velocitiesIndex - 1)->getLinear()));
 							gameObject->addComponent(layer.getOscillates().at(oscillatesIndex));
 							oscillatesIndex++;
 						}
@@ -323,7 +326,7 @@ namespace Engine
 							gameObject->addComponent(layer.getControllers().at(controllerIndex));
 							controllerIndex++;
 						}
-					}				
+					}
 				}
 			}
 

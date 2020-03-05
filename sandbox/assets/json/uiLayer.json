@@ -26,6 +26,11 @@
         "name": "remachine-script",
         "filepath": "assets/fonts/remachine-script/RemachineScript.ttf",
         "charSize": 32
+      },
+      {
+        "name": "alexandria",
+        "filepath": "assets/fonts/alexandria/AlexandriaFLF.ttf",
+        "charSize": 32
       }
     ]
   },
@@ -36,7 +41,8 @@
     "position": 2,
     "velocity": 0,
     "oscillates": 0,
-    "textures": 2
+    "textures": 2,
+    "colours":  1
   },
 
   "Camera": {
@@ -85,8 +91,8 @@
     {
       "name": "TextLabel",
       "material": {
-        "text": "DMU",
-        "font": "assets/fonts/remachine-script/RemachineScript.ttf",
+        "text": "DMU Engine Pp Jj Yy Dd Ll",
+        "font": "assets/fonts/alexandria/AlexandriaFLF.ttf",
         "charSize": 32,
         "colour": {
           "r": 1.0,

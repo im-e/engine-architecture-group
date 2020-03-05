@@ -1,9 +1,15 @@
 #pragma once
+/*! \file Character.h
+\brief contains implementation of characters and their data
+*/
 
 #include <glm/glm.hpp>
 
 namespace Engine
 {
+	/*! \class Character
+	\brief Character implementation for openGL
+	*/
 	class Character
 	{
 	private:
@@ -13,7 +19,6 @@ namespace Engine
 		glm::ivec2 m_bearing; //!< Bearing of the character - position relative to an origin
 		int m_advance; //!< Distance to the next character
 	public:
-		Character() {};
 		Character(glm::ivec2 size, glm::ivec2 bearing, int advance, glm::vec2 startUV = glm::vec2(0.0f, 0.0f), glm::vec2 endUV = glm::vec2(0.0f, 0.0f)) : m_startUV(startUV), m_endUV(endUV), m_size(size), m_bearing(bearing), m_advance(advance) {};
 		void setUVs(glm::vec2 startUV, glm::vec2 endUV) { m_startUV = startUV; m_endUV = endUV; } //!< Set the UV co-ords
 		inline glm::vec2 getStartUV() { return m_startUV; } //!< Get the top left UV coords

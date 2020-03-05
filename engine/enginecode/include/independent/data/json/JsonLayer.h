@@ -13,6 +13,7 @@
 #include "components/OscillateComponent.h"
 #include "components/TextureComponent.h"
 #include "components/ControllerComponent.h"
+#include "components/ColourComponent.h"
 
 namespace Engine
 {
@@ -32,6 +33,7 @@ namespace Engine
 		std::vector<std::shared_ptr<Engine::OscillateComponent>> m_oscillates;	//!< Oscillate components
 		std::vector<std::shared_ptr<Engine::TextureComponent>> m_textures;		//!< Texture components
 		std::vector<std::shared_ptr<Engine::ControllerComponent>> m_controllers; //!< Controller components
+		std::vector<std::shared_ptr<Engine::ColourComponent>> m_colours; //!< Colour components
 
 		std::vector<std::shared_ptr<Engine::RenderCommand>> m_initCommands;						//!< Render commands issued on renderer start
 		std::vector<std::shared_ptr<Engine::RenderCommand>> m_predrawCommands;					//!< Render commands issued before materials are drawn
@@ -69,6 +71,8 @@ namespace Engine
 		inline std::vector<std::shared_ptr<Engine::TextureComponent>>& getTextures() { return m_textures; }
 		//! Gets a collection of controller components in a layer \return collection of controller components
 		inline std::vector<std::shared_ptr<Engine::ControllerComponent>>& getControllers() { return m_controllers; }
+		//! Gets a collection of colour components in a layer \return collection of colour components
+		inline std::vector<std::shared_ptr<Engine::ColourComponent>>& getColours() { return m_colours; }
 
 		//! Gets a collection of predraw commands applied to a layer \return collection of predraw commands
 		inline std::vector<std::shared_ptr<Engine::RenderCommand>>& getPredrawCommands() { return m_predrawCommands; }
