@@ -293,6 +293,7 @@ namespace Engine
 				{
 					body->getMaterial().setRollingResistance(rollingRes);
 				}
+
 				rp3d::decimal getRollingRes()
 				{
 					return body->getMaterial().getRollingResistance();
