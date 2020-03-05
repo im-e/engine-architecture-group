@@ -29,7 +29,8 @@ namespace Engine
 		AccelerationSet,
 		AIPositionSet, AIRotationSet,
 		KeyPressed, KeyReleased, MouseButton, MouseScroll, MouseMoved,
-		UniformSet, TextureSet, RigidBodySet
+		UniformSet, TextureSet, RigidBodySet,
+		ColourSet
 	};
 
 	/*! \class ComponentMessage

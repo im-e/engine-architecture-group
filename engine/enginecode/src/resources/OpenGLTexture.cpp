@@ -17,27 +17,40 @@ namespace Engine
 
 	OpenGLTexture::OpenGLTexture(unsigned int width, unsigned int height, unsigned int channels, unsigned char * texData)
 	{
+		m_width = width;
+		m_height = height;
+		m_channels = channels;
+
 		glGenTextures(1, &m_texID);
-		glActiveTexture(GL_TEXTURE0);
+		m_slot = m_texID;
+		glActiveTexture(GL_TEXTURE0 + m_slot);
 		glBindTexture(GL_TEXTURE_2D, m_slot);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		if (texData)
+		if (channels == 3)
 		{
-			if (channels == 3) glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, texData);
-			else if (channels == 4) glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData);
-			else return;
-			glGenerateMipmap(GL_TEXTURE_2D);
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 3);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, texData);
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 		}
-		else
+		else if (channels == 4)
 		{
-			return;
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData);
 		}
+		else if (channels == 1)
+		{
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, texData);
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+
+		}
+		else return;
+		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 
 	unsigned int OpenGLTexture::getWidth() const
