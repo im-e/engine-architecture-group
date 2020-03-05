@@ -40,10 +40,10 @@ namespace Engine
 
 			float textVertices[4 * 4] = 
 			{
-				xAdvance, 0, startPos.x, startPos.y,
-				width, 0, endPos.x, startPos.y,
-				width, height, endPos.x, endPos.y,
-				xAdvance, height, startPos.x, endPos.y
+				xAdvance + bearing.x,			0,			startPos.x,		startPos.y,
+				xAdvance + bearing.x + width,	0,			endPos.x,		startPos.y,
+				xAdvance + bearing.x + width,	height,		endPos.x,		endPos.y,
+				xAdvance + bearing.x,			height,		startPos.x,		endPos.y
 			};
 
 			/*float textVertices[4 * 4] =

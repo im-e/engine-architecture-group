@@ -21,6 +21,11 @@
         "name": "04b_20__",
         "filepath": "assets/fonts/04b_20/04b_20__.ttf",
         "charSize": 32
+      },
+      {
+        "name": "remachine-script",
+        "filepath": "assets/fonts/remachine-script/RemachineScript.ttf",
+        "charSize": 32
       }
     ]
   },
@@ -80,8 +85,8 @@
     {
       "name": "TextLabel",
       "material": {
-        "text": "DM",
-        "font": "assets/fonts/04b_20/04b_20__.ttf",
+        "text": "DMU",
+        "font": "assets/fonts/remachine-script/RemachineScript.ttf",
         "charSize": 32,
         "colour": {
           "r": 1.0,
