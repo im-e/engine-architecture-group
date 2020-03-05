@@ -4,6 +4,10 @@
       {
         "name": "TextShader",
         "filepath": "assets/shaders/textShader.glsl"
+      },
+      {
+        "name": "TextShaderFT",
+        "filepath": "assets/shaders/textShaderFT.glsl"
       }
     ],
     "textures": [
@@ -11,16 +15,34 @@
         "name": "TextTexture",
         "filepath": "assets/textures/Text.png"
       }
+    ],
+    "fonts": [
+      {
+        "name": "04b_20__",
+        "filepath": "assets/fonts/04b_20/04b_20__.ttf",
+        "charSize": 32
+      },
+      {
+        "name": "remachine-script",
+        "filepath": "assets/fonts/remachine-script/RemachineScript.ttf",
+        "charSize": 32
+      },
+      {
+        "name": "alexandria",
+        "filepath": "assets/fonts/alexandria/AlexandriaFLF.ttf",
+        "charSize": 32
+      }
     ]
   },
 
   "MemoryInfo": {
-    "gameObjects": 1,
-    "materials": 1,
-    "position": 1,
+    "gameObjects": 2,
+    "materials": 2,
+    "position": 2,
     "velocity": 0,
     "oscillates": 0,
-    "textures": 1
+    "textures": 2,
+    "colours":  1
   },
 
   "Camera": {
@@ -71,10 +93,39 @@
         "normal": "none",
         "parallax": "none"
       }
-    }
 
+    },
+    {
+      "name": "TextLabel",
+      "material": {
+        "text": "DMU Engine Pp Jj Yy Dd Ll",
+        "font": "assets/fonts/alexandria/AlexandriaFLF.ttf",
+        "charSize": 32,
+        "colour": {
+          "r": 1.0,
+          "g": 1.0,
+          "b": 1.0
+        }
+      },
+      "position": {
+        "translation": {
+          "x": 100.0,
+          "y": 300.0,
+          "z": 0.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      }
+    } 
   ],
-
   "UBO": [
     {
       "name": "TextUBO",
@@ -84,6 +135,10 @@
       "shaders": [
         {
           "name": "TextShader",
+          "block": "Matrices"
+        },
+        {
+          "name": "TextShaderFT",
           "block": "Matrices"
         }
       ],
@@ -104,9 +159,25 @@
       }
     ],
     "predraw": [
+      {
+        "type": "DepthTestLess",
+        "enabled": false
+      },
+      {
+        "type": "BackfaceCulling",
+        "enabled": false
+      }
 
     ],
     "postdraw": [
+      {
+        "type": "DepthTestLess",
+        "enabled": true
+      },
+      {
+        "type": "BackfaceCulling",
+        "enabled": true
+      }
 
     ],
     "exit": [
@@ -114,3 +185,4 @@
     ]
   }
 }
+© 2020 GitHub, Inc.

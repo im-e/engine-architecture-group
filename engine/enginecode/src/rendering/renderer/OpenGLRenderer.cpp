@@ -119,7 +119,8 @@ namespace Engine
 			shader->uploadData(it->first, it->second);
 		}
 
-		glDrawElements(GL_QUADS, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr);
+		//glDrawElements(GL_QUADS, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr); This didnt work, had to change it to draw arrays 
+		glDrawArrays(GL_QUADS, 0, geometry->getDrawCount());
 	}
 
 	void OpenGL2DRenderer::flush()
