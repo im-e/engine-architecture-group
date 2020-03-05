@@ -68,7 +68,7 @@ float GetTessLevel(float Distance0, float Distance1)
 
 void main()
 {
-   int tessLevel = 1;
+   int tessLevel = 4;
 
    if (gl_InvocationID==0)
    {
@@ -83,13 +83,13 @@ void main()
           gl_TessLevelOuter[0] = tessLevel; 
           gl_TessLevelOuter[1] = tessLevel; 
           gl_TessLevelOuter[2] = tessLevel;
-          gl_TessLevelInner[0] = gl_TessLevelOuter[2]; 
+          gl_TessLevelInner[0] = tessLevel; 
 
    }
 
    // pass through position and normal information
-   posTC[gl_InvocationID]  = posVS[gl_InvocationID] ;
-   normTC[gl_InvocationID] = normVS[gl_InvocationID] ;
+   posTC[gl_InvocationID]  = posVS[gl_InvocationID];
+   normTC[gl_InvocationID] = normVS[gl_InvocationID];
 
 }
 
@@ -98,10 +98,10 @@ void main()
 
 #version 450 core
 
-layout(triangles, fractional_even_spacing, ccw) in;
+layout(triangles, equal_spacing, ccw) in;
 
-vec2 interpolate2D(vec2 v0, vec2 v1, vec2 v2) ;
-vec3 interpolate3D(vec3 v0, vec3 v1, vec3 v2) ;
+vec2 interpolate2D(vec2 v0, vec2 v1, vec2 v2);
+vec3 interpolate3D(vec3 v0, vec3 v1, vec3 v2);
 
 
 layout(std140) uniform Matrices
