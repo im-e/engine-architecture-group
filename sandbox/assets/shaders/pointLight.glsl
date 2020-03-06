@@ -41,7 +41,6 @@ layout (std140) uniform Camera
 {
 	vec3 u_camPos;
 	vec3 u_camForward;
-	float u_cutOff;
 };
 
 layout(std140) uniform Light
@@ -62,23 +61,19 @@ void main()
 {
 	vec3 lightDir = normalize(position - FragPos);
     
-    // check if lighting is inside the spotlight cone
-    float theta = dot(lightDir, normalize(direction)); 
-    
-    if(theta > u_cutOff) // remember that we're working with angles as cosines instead of degrees so a '>' is used.
-	{
 	vec3 color = texture(u_texData, TexCoords).rgb;
     // ambient
     vec3 ambient = 0.25 * color;  
 	
     // diffuse 
     vec3 norm = normalize(Normal);
+	vec3 lightDir = normalize(u_lightPos - FragPos);
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = diff * color; 
     
     // specular
 	vec3 specularTex = 0.6 * texture(u_specularTexData, TexCoords).rgb;
-    vec3 viewDir = normalize(u_viewPos - FragPos);
+    vec3 viewDir = normalize(position - FragPos);
     vec3 reflectDir = reflect(-lightDir, norm);  
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32.0);
     vec3 specular = specularTex * spec; 
@@ -88,20 +83,14 @@ void main()
 	float quadratic = 0.032;
 
     // attenuation
-    float distance    = length(position - FragPos);
+    float distance    = length(u_lightPos - FragPos);
     float attenuation = 1.0 / (constant + linear * distance + quadratic * (distance * distance));    
  
+	ambient  *= attenuation; 
     diffuse   *= attenuation;
     specular *= attenuation;   
         
     vec3 result = ambient + diffuse + specular;
     FragColor = vec4(result, 1.0);
-	}
-	else
-	{
-		vec3 color = texture(u_texData, TexCoords).rgb;
-		// ambient
-		vec3 ambient = 0.25 * color; 
-        FragColor = vec4(ambient, 1.0);
 	}
 } 

@@ -32,10 +32,6 @@
       {
         "name": "DirectionalLightShader",
         "filepath": "assets/shaders/directionalLight.glsl"
-      },
-      {
-        "name": "SpotLightShader",
-        "filepath": "assets/shaders/spotLight.glsl"
       }
     ],
     "textures": [
@@ -160,10 +156,6 @@
           "block": "Matrices"
         },
         {
-          "name": "SpotLightShader",
-          "block": "Matrices"
-        },
-        {
           "name": "BlinnPhongShader",
           "block": "Matrices"
         },
@@ -204,10 +196,6 @@
           "block": "Light"
         },
         {
-          "name": "SpotLightShader",
-          "block": "Light"
-        },
-        {
           "name": "DirectionalLightShader",
           "block": "Light"
         },
@@ -245,12 +233,11 @@
       "name": "cameraUBO",
       "layout": [
         "Vec3",
-        "Vec3",
-        "Float"
+        "Vec3"
       ],
       "shaders": [
         {
-          "name": "SpotLightShader",
+          "name": "PointLightShader",
           "block": "Camera"
         }
       ],
@@ -262,10 +249,6 @@
         {
           "type": "pointer",
           "var": "camForward"
-        },
-        {
-          "type": "pointer",
-          "var": "cutOff"
         }
       ]
     }
