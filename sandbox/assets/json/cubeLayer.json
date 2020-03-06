@@ -77,8 +77,7 @@
       "material": {
         "type": "json",
         "model": "JsonFCCube",
-        "shader": "PhongShader",
-        "tess": true
+        "shader": "PhongShader"
       },
 
       "position": {
@@ -124,9 +123,8 @@
       "name": "PlayerCharacter",
       "material": {
         "type": "assimp",
-        "model": "box",
-        "shader": "TessShader",
-        "tess": true
+        "model": "ship",
+        "shader": "TessShader"
       },
 
       "position": {
@@ -141,9 +139,9 @@
           "z": 0.0
         },
         "scale": {
-          "x": 1.01,
-          "y": 1.01,
-          "z": 1.01
+          "x": 0.01,
+          "y": 0.01,
+          "z": 0.01
         }
       },
 
@@ -166,7 +164,7 @@
       },
 
       "texture": {
-        "name": "SpaceTexture"
+        "name": "LetterTexture"
       }
     },
 
@@ -175,8 +173,7 @@
       "material": {
         "type": "json",
         "model": "JsonTPCube",
-        "shader": "PhongShader",
-        "tess": true
+        "shader": "PhongShader"
       },
 
       "position": {
