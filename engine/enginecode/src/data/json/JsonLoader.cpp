@@ -39,7 +39,7 @@ namespace Engine
 	void JsonLoader::loadJson(const std::string& filepath, JsonLayer& layer)
 	{
 #ifdef NG_DEBUG
-		Engine::JsonLog::loadLog(filepath);
+		//Engine::JsonLog::loadLog(filepath);
 #endif
 		std::fstream file(filepath, std::ios::in);
 
@@ -372,7 +372,7 @@ namespace Engine
 	{
 
 #ifdef NG_DEBUG
-		Engine::JsonLog::loadLog(filepath);
+		//Engine::JsonLog::loadLog(filepath);
 #endif
 		std::fstream file(filepath, std::ios::in);
 

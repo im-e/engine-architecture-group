@@ -94,6 +94,7 @@ namespace Engine {
 		void run(); //!< Main loop
 
 		lua_State* getLuaState();
+		std::shared_ptr<Physics>& getPhysics();
 	};
 
 	// To be defined in users code

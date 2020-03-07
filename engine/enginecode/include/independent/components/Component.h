@@ -29,7 +29,7 @@ namespace Engine
 		AccelerationSet,
 		AIPositionSet, AIRotationSet,
 		KeyPressed, KeyReleased, MouseButton, MouseScroll, MouseMoved,
-		UniformSet, TextureSet, RigidBodySet, LinearForceApply, AngularForceApply
+		UniformSet, TextureSet, RigidBodySet, LinearForceApply, AngularForceApply,
 		ColourSet
 	};
 

@@ -7,10 +7,13 @@ namespace Engine {
 
 	Physics::Physics(){}
 
-	void Physics::start(SystemSignal init, ...){
+	void Physics::start(SystemSignal init, ...)
+	{
 		m_world.reset(new rp3d::DynamicsWorld (getGravity()));
 	}
-	void Physics::stop(SystemSignal close, ...){
+
+	void Physics::stop(SystemSignal close, ...)
+	{
 		m_world.reset();
 	}
 }

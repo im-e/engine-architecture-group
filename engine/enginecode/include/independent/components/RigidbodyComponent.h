@@ -6,13 +6,13 @@
 
 #include "Component.h"
 #include "PositionComponent.h"
+#include "core/application.h"
 
 namespace Engine
 {
 	class RigidBodyComponent : public Component
 	{
 	private:
-		rp3d::DynamicsWorld *m_world; //RP3D world
 		rp3d::RigidBody * body; //RP3D Rigid body
 		rp3d::Transform bodyTra;	//Transform component
 		rp3d::Quaternion bodyOri;	//Orientation
@@ -25,23 +25,24 @@ namespace Engine
 
 		RigidBodyComponent(rp3d::BodyType type)
 		{
-			
-			
 			body->setType(type); //defaults body type to dynamic		
 		}
 
 		void onAttach(GameObject* owner) override
 		{
 			m_owner = owner; //Sets owner 
-      
-      bodyPos = rp3d::Vector3(0.f, 0.f, 0.f); //defaults physics body poisition
+
+			bodyPos = rp3d::Vector3(0.f, 0.f, 0.f); //defaults physics body poisition
 			bodyOri = rp3d::Quaternion::identity();	//defaults orientation
 			bodyTra = rp3d::Transform(bodyPos, bodyOri);//Creates default transform
-      
+
 			bodyTra.setPosition.getOpenGLMatrix(m_owner->getComponent<PositionComponent>()->getCurrentPosition());
-			body = m_world->createRigidBody(bodyTra);//Assigns default transform 
-      
-			m_possibleMessages = { ComponentMessageType::RigidBodySet };
+			body = Application::getInstance().getPhysics()->getWorld()->createRigidBody(bodyTra);//Assigns default transform 
+
+			m_possibleMessages = { ComponentMessageType::RigidBodySet, ComponentMessageType::VelocitySetLinear,
+									ComponentMessageType::VelocitySetAngular, ComponentMessageType::LinearForceApply,
+									ComponentMessageType::AngularForceApply, ComponentMessageType::AIPositionSet,
+									ComponentMessageType::AIRotationSet };
 
 			rp3d::Vector3 temp = m_linear;
 
@@ -190,16 +191,26 @@ namespace Engine
 						return true;
 					};
 					break;
-				}
+
+					case ComponentMessageType::AIRotationSet:
+						m_msgsMap[msg] = [this](std::any data)
+						{
+							// TODO rotation
+								// How to???
+							return true;
+						};
+						break;
+				};
 
 				void onUpdate(float timestep) override
 				{
 					std::pair<rp3d::Vector3, rp3d::Vector3> data(m_linear * timestep, m_angular * timestep);
 					sendMessage(ComponentMessage(ComponentMessageType::PositionIntegrate, std::any(data)));
 				}
+
 				void onDetach() override
 				{
-					m_world->destroyRigidBody(body); //Destroys body component when detached from owner
+					Application::getInstance().getPhysics->getWorld()->destroyRigidBody(body); //Destroys body component when detached from owner
 				}
 
 				inline const std::type_info& getType() override
@@ -207,22 +218,17 @@ namespace Engine
 					return typeid(decltype(*this));
 				}
 
-
-				//In world parameters
-				void setWorld(rp3d::DynamicsWorld *world)
-				{
-					m_world = world;
-				}
-
 				void changeType(rp3d::BodyType type)
 				{
 					body->setType(type); //Allows changing of body type
 				}
+
 				void setPosition(rp3d::Vector3 position)
 				{
 					bodyPos = position;
 					body->setTransform(rp3d::Transform(bodyPos, bodyOri)); //Update position
 				}
+
 				void setOrientation(rp3d::Quaternion orientation)
 				{
 					bodyOri = orientation;
@@ -234,6 +240,7 @@ namespace Engine
 				{
 					body->setMass(mass);
 				}
+
 				rp3d::decimal getMass()
 				{
 					return body->getMass();
@@ -299,3 +306,4 @@ namespace Engine
 			};
 		}
 	};
+}

@@ -68,6 +68,8 @@ namespace Engine
 			//count fps
 			frameStart = Time_Now;
 
+			m_physWorld->getWorld()->update(m_timestep);
+
 			for (auto& it = m_layerStack->begin(); it != m_layerStack->end(); it++)
 			{
 				(*it)->onUpdate(m_timestep);
@@ -88,6 +90,11 @@ namespace Engine
 	lua_State * Application::getLuaState()
 	{
 		return lua;
+	}
+
+	std::shared_ptr<Physics>& Application::getPhysics()
+	{
+		return m_physWorld;
 	}
 
 	void Application::onEvent(Event & e)
