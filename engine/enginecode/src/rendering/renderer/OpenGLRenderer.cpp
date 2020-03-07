@@ -119,7 +119,7 @@ namespace Engine
 			shader->uploadData(it->first, it->second);
 		}
 
-		glDrawElements(GL_QUADS, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr);
+		glDrawArrays(GL_QUADS, 0, geometry->getDrawCount());
 	}
 
 	void OpenGL2DRenderer::flush()

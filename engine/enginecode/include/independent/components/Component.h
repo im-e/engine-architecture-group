@@ -30,6 +30,7 @@ namespace Engine
 		AIPositionSet, AIRotationSet,
 		KeyPressed, KeyReleased, MouseButton, MouseScroll, MouseMoved,
 		UniformSet, TextureSet, RigidBodySet, LinearForceApply, AngularForceApply
+		ColourSet
 	};
 
 	/*! \class ComponentMessage

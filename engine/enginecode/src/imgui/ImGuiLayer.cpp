@@ -168,8 +168,10 @@ namespace Engine
 							std::shared_ptr<AIComponent> comp = std::static_pointer_cast<AIComponent>(c);
 
 							float stopDist = comp->getStopDist();
+							std::string aiType = comp->getAiType();
+							std::string scriptName = comp->getScriptName();
 
-							outputStream << "\"AI\": { \"stopDist\": " + std::to_string(stopDist);
+							outputStream << "\"AI\": { \"stopDist\": " + std::to_string(stopDist) + ", \"aiType\": \"" + aiType + "\", \"script\": \"" + scriptName + "\"";
 						}
 
 

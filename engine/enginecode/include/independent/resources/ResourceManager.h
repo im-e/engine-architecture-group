@@ -14,6 +14,7 @@
 #include "resources\Skybox.h"
 #include "resources/Shader.h"
 #include "rendering/Material.h"
+#include "rendering/Character.h"
 
 #include "data/json/JsonModelLoader.h"
 #include "data/assimp/AssimpModel.h"
@@ -38,6 +39,11 @@ namespace Engine
 		AssetManager<UniformBuffer> m_UBOs; //!< Collection of UBOs
 		AssetManager<JsonModel> m_jsonModels; //!< Collection of json models
 		AssetManager<AssimpModel> m_assimpModels; //!< Collection of assimp models
+
+		std::map<std::string, std::vector<Character>> m_characters; //!< Renderable characters
+		const int m_ASCIIstart = 32;
+		const int m_ASCIIend = 126;
+		std::shared_ptr<Texture> m_fontTexture; //!< Texture which stores fonts
 
 		ResourceManager(); //!< Default constructor
 		static ResourceManager* s_instance; //!< Single instance of a class
@@ -128,6 +134,10 @@ namespace Engine
 		AssetManager<UniformBuffer>& getUBO(); //!< Get collection of UBOs \return m_UBOs collection of UBOs
 		AssetManager<JsonModel>& getJsonModels(); //!< Get collection of json models \return m_JsonModels collection of json models
 		AssetManager<AssimpModel>& getAssimpModels(); //!< Get collection of assimp models \return m_AssimpModels collection of assimp models
+
+		void populateCharacters(std::unordered_map<std::string, unsigned int> fontsAndSizes); //!< Preloads the characters
+		std::shared_ptr<Character> getCharacter(std::string font, unsigned int ASCIIcode); //!< Gets specified character from specified font
+		inline std::shared_ptr<Texture> getFontTexture() { return m_fontTexture; } //!< Gets the font texture
 
 		~ResourceManager(); //!< Default destructor
 	};

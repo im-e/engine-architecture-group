@@ -25,25 +25,23 @@ namespace Engine
 
 		RigidBodyComponent(rp3d::BodyType type)
 		{
-			//bodyPos = rp3d::Vector3(0.f, 0.f, 0.f); //defaults physics body poisition
-			//bodyOri = rp3d::Quaternion::identity();	//defaults orientation
-			//bodyTra = rp3d::Transform(bodyPos, bodyOri);//Creates default transform
 			
 			
-			body->setType(type); //defaults body type to dynamic
-
-			
+			body->setType(type); //defaults body type to dynamic		
 		}
 
 		void onAttach(GameObject* owner) override
 		{
-			m_owner = owner; //Sets owner 	
-
+			m_owner = owner; //Sets owner 
+      
+      bodyPos = rp3d::Vector3(0.f, 0.f, 0.f); //defaults physics body poisition
+			bodyOri = rp3d::Quaternion::identity();	//defaults orientation
+			bodyTra = rp3d::Transform(bodyPos, bodyOri);//Creates default transform
+      
 			bodyTra.setPosition.getOpenGLMatrix(m_owner->getComponent<PositionComponent>()->getCurrentPosition());
-			body = m_world->createRigidBody(bodyTra);//Assigns default transform
-
+			body = m_world->createRigidBody(bodyTra);//Assigns default transform 
+      
 			m_possibleMessages = { ComponentMessageType::RigidBodySet };
-
 
 			rp3d::Vector3 temp = m_linear;
 

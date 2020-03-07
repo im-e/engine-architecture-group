@@ -119,6 +119,7 @@ namespace Engine
 		virtual void unbind() = 0; //!< Unbinds VBO
 		virtual void setLayout(const BufferLayout& layout) = 0; //!< Binds layout to a VBO \param layout new VBO layout (shader data)
 		virtual const BufferLayout& getLayout() const = 0; //!< Returns currently bound layout \return current layout
+		virtual void edit(float* vertices, unsigned int size, unsigned int offset) = 0; //!< Edit the data stored in the buffer
 
 		static VertexBuffer* create(float* vertices, unsigned int size, BufferLayout& layout); //!< Creates VBO \param vertices number of vertices \param size size of vertices set \param layout shader data
 

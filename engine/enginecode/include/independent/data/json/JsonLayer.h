@@ -14,6 +14,7 @@
 #include "components/TextureComponent.h"
 #include "components/ControllerComponent.h"
 #include "components/AIComponent.h"
+#include "components/ColourComponent.h"
 
 namespace Engine
 {

@@ -156,10 +156,14 @@ namespace Engine
 			}
 			if (jsonFile["Asyncload"].count("fonts") > 0)
 			{
-				for (auto& fnFilepath : jsonFile["Asyncload"]["shaders"])
+				std::unordered_map<std::string, unsigned int> fonts;
+				for (auto& fnFilepath : jsonFile["Asyncload"]["fonts"])
 				{
-					//TODO add fonts
+					std::string filepath = fnFilepath["filepath"].get<std::string>();
+					int size = fnFilepath["charSize"].get<int>();
+					fonts[filepath] = size;
 				}
+				if (!fonts.empty()) ResourceManagerInstance->populateCharacters(fonts);
 			}
 		}
 		Application::getInstance().getWindow()->getGraphicsContext()->swapToCurrentThread();
@@ -508,8 +512,34 @@ namespace Engine
 							}
 							
 						}
+						
 					}
-					//TODO add text
+
+					if (go["material"].count("text") > 0)
+					{
+						std::shared_ptr<MaterialComponent> textMat;
+						std::shared_ptr<TextureComponent> textTex;
+						std::shared_ptr<ColourComponent> textCol;
+
+						std::string text = go["material"]["text"].get<std::string>();
+						std::string font = go["material"]["font"].get<std::string>();
+						int charSize = go["material"]["charSize"].get<int>();
+						float r = go["material"]["colour"]["r"].get<float>();
+						float g = go["material"]["colour"]["g"].get<float>();
+						float b = go["material"]["colour"]["b"].get<float>();
+						std::shared_ptr<TextLabel> label(TextLabel::create(goName, font, charSize, text, glm::vec2(), 0.0f, 0.0f, glm::vec3(r, g, b)));
+						auto& mat = label->getMaterial();
+
+						textMat = std::make_shared<MaterialComponent>(MaterialComponent(mat));
+						gameObject->addComponent(textMat);
+
+						textTex = std::make_shared<TextureComponent>
+							(TextureComponent(ResourceManagerInstance->getFontTexture()->getSlot()));
+						gameObject->addComponent(textTex);
+
+						textCol = std::make_shared<ColourComponent>(ColourComponent(r, g, b));
+						gameObject->addComponent(textCol);
+					}
 				}
 
 				if (go.count("position") > 0)
@@ -565,17 +595,17 @@ namespace Engine
 
 					if (go.count("AI") > 0)
 					{
-						//std::shared_ptr<AIComponent> ai;
-						//
-						//float stop = go["AI"]["stopDist"].get<float>();
-						//std::string type = go["AI"]["AIType"].get<std::string>();
-						//std::string script = go["AI"]["script"].get<std::string>();
-						//
-						//ai = std::make_shared<AIComponent>(AIComponent(stop));
-						//ai->registerClass();
-						//ai->doFile(script, type, "update");
-						//
-						//gameObject->addComponent(ai);
+						std::shared_ptr<AIComponent> ai;
+						
+						float stop = go["AI"]["stopDist"].get<float>();
+						std::string type = go["AI"]["aiType"].get<std::string>();
+						std::string script = go["AI"]["script"].get<std::string>();
+						
+						ai = std::make_shared<AIComponent>(AIComponent(stop, type, script));
+						ai->registerClass();
+						ai->doFile("../scripts/" + script + ".lua", type, "update");
+						
+						gameObject->addComponent(ai);
 					}
 				}
 			}
