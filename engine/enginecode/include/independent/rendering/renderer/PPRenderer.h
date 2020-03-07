@@ -6,6 +6,7 @@
 
 #include "rendering/Material.h"
 #include "rendering\renderer\Renderer.h"
+#include "windows\window.h"
 
 namespace Engine
 {	
@@ -27,5 +28,9 @@ namespace Engine
 		virtual void setDepthTextureUnit(unsigned int unit) = 0;
 		//! Creates 3D view for the engine
 		static PPRenderer* createPPRenderer(std::shared_ptr<Shader> defaultPPRShader);
+
+		std::unique_ptr<Window> m_window;
+		float m_windowSizeX = m_window->getWidth();
+		float m_windowSizeY = m_window->getHeight();
 	}; 
 }

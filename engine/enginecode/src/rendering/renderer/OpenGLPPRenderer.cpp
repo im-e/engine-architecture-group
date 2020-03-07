@@ -7,6 +7,33 @@ namespace Engine
 {
 	OpenGLPPRenderer::OpenGLPPRenderer(std::shared_ptr<Shader> defaultPPRShader)
 	{
+		glGenFramebuffers(1, &m_frameBufferID);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_frameBufferID);
+
+		glGenTextures(1, &m_colourTexture);
+		glBindTexture(GL_TEXTURE_2D, m_colourTexture);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_windowSizeX, m_windowSizeY, 0, GL_RGB, GL_UNSIGNED_INT, NULL);
+
+		glGenTextures(1, &m_depthTexture);
+		glBindTexture(GL_TEXTURE_2D, m_depthTexture);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_windowSizeX, m_windowSizeY, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_colourTexture, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depthTexture, 0);
+
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		{
+			LogError("ERROR::FRAMGEBUFFER:: Framebuffer is not complete!");
+		}
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
 	void OpenGLPPRenderer::actionCommand(RenderCommand * command)
@@ -21,6 +48,7 @@ namespace Engine
 
 	void OpenGLPPRenderer::beginScene(const SceneData & sceneData)
 	{
+
 		for (auto uniformPair : sceneData)
 		{
 			unsigned int offset = 0;
