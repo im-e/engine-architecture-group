@@ -211,7 +211,7 @@ namespace Engine
 		m_layerStack->stop(Engine::SystemSignal::None);	
 		m_timer->stop(Engine::SystemSignal::None);
 		m_logger->stop(Engine::SystemSignal::None);		
-		m_physWorld->stop(Engine::SystemSignal::None);
+		
 		m_logger->stop(Engine::SystemSignal::None);
 
 		for (auto it = m_layerStack->begin(); it != m_layerStack->end(); ++it) // "kill" all gameobjects
@@ -234,6 +234,7 @@ namespace Engine
 			}			
 		}
 
+		m_physWorld->stop(Engine::SystemSignal::None);
 		lua_close(lua);
 	}
 }

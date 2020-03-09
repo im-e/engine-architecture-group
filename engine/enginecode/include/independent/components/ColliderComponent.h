@@ -15,11 +15,9 @@ namespace Engine {
 
 	class ColliderComponent : public Component
 	{
-	private:
+	protected:
 		rp3d::RigidBody *parentObject;
-		rp3d::ProxyShape *proxy;
-
-	
+		rp3d::ProxyShape *proxy;	
 
 	public:
 		void onAttach(GameObject* owner) override
@@ -63,6 +61,7 @@ namespace Engine {
 
 			proxy = parentObject->addCollisionShape(&shape, parentObject->getTransform(), parentObject->getMass());
 		}
+
 		/*void makeConvexMesh(RigidBodyComponent *body, float vertices, int indices)
 		{
 			parentObject = body->getBody();

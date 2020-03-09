@@ -5,7 +5,9 @@
     "Position": true,
     "Velocity": true,
     "Controller": true,
-    "Oscillate": true,
-    "AI": true
+    "Oscillate": false,
+    "AI": true,
+    "Rigidbody": true,
+    "Collider": true
   }
 }

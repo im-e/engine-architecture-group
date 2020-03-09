@@ -1251,6 +1251,114 @@ namespace Engine
 					}
 				});
 			}
+
+			if (jsonFile["Functions"]["Rigidbody"].get<bool>() == true)
+			{
+				layer.addImGuiFunction([&](JsonLayer* lay)
+				{
+					if (ImGui::CollapsingHeader("Rigidbody"))
+					{
+						std::vector<const char*> types;
+						types.push_back("Static");
+						types.push_back("Kinematic");
+						types.push_back("Dynamic");
+
+						static const char* currentItem = types[types.size() - 1];
+						static bool grav;
+
+						if (ImGui::BeginCombo("Type", currentItem))
+						{
+							for (int i = 0; i < types.size(); i++)
+							{
+								bool selected = (currentItem == types[i]);
+
+								if (ImGui::Selectable(types[i], selected))
+								{
+									currentItem = types[i];
+								}
+
+								if (selected)
+									ImGui::SetItemDefaultFocus();
+							}
+
+							ImGui::EndCombo();
+						}
+
+						ImGui::Checkbox("Gravity", &grav);
+
+						if (ImGui::Button("Add"))
+						{
+							if (lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>() == nullptr)
+							{
+								std::shared_ptr<RigidBodyComponent> rb;
+								rp3d::BodyType t;
+
+								if (currentItem == "Static") t = rp3d::BodyType::STATIC;
+								if (currentItem == "Kinematic") t = rp3d::BodyType::KINEMATIC;
+								if (currentItem == "Dynamic") t = rp3d::BodyType::DYNAMIC;
+
+								rb = std::make_shared<RigidBodyComponent>(RigidBodyComponent(t, grav));
+
+								lay->getGameObjects()[layer.getGOName()]->addComponent(rb);
+							}
+							else
+							{
+								LogWarn("Component already exists!");
+							}
+
+						}
+						ImGui::SameLine(100.0f);
+						if (ImGui::Button("Remove"))
+						{
+							if (lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>())
+							{
+								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>();
+								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+							}
+							else
+							{
+								LogWarn("Component did not exist anyway!");
+							}
+
+						}
+					}
+				});
+			}
+
+			if (jsonFile["Functions"]["Collider"].get<bool>() == true)
+			{
+				layer.addImGuiFunction([&](JsonLayer* lay)
+				{
+					if (ImGui::CollapsingHeader("Collider"))
+					{
+						std::vector<const char*> types;
+						types.push_back("Box");
+						types.push_back("Capsule");
+						types.push_back("Sphere");
+						types.push_back("Terrain");
+
+						static const char* currentItem = types[0];
+
+						if (ImGui::BeginCombo("Type", currentItem))
+						{
+							for (int i = 0; i < types.size(); i++)
+							{
+								bool selected = (currentItem == types[i]);
+
+								if (ImGui::Selectable(types[i], selected))
+								{
+									currentItem = types[i];
+								}
+
+								if (selected)
+									ImGui::SetItemDefaultFocus();
+							}
+
+							ImGui::EndCombo();
+						}
+					}				
+				});
+			}
 		}
 	}
 }

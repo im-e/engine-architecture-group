@@ -1,16 +1,14 @@
 #pragma once
 #include "RigidBodyComponent.h"
+#include "ColliderComponent.h"
 
 namespace Engine
 {
-	class TerrainColliderComponent : public Component
+	class TerrainColliderComponent : public ColliderComponent
 	{
-	private:
-		rp3d::RigidBody* parentObject;
-		rp3d::ProxyShape* proxy;
-
 	public:
 		TerrainColliderComponent() {};
+
 		TerrainColliderComponent(RigidBodyComponent *body, const int rows, const int columns, float min, float max)
 		{
 			parentObject = body->getBody();
@@ -24,6 +22,7 @@ namespace Engine
 
 			proxy = parentObject->addCollisionShape(HFS, parentObject->getTransform(), parentObject->getMass());
 		};
+
 		void onAttach(GameObject* owner)override
 		{
 			m_owner = owner;

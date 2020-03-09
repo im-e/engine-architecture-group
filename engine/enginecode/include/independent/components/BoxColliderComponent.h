@@ -1,27 +1,25 @@
 #pragma once
-
+#include "ColliderComponent.h"
 #include "RigidBodyComponent.h"
-namespace Engine {
 
-	class BoxColliderComponent : public Component
+namespace Engine 
+{
+	class BoxColliderComponent : public ColliderComponent
 	{
-	private:
-		rp3d::RigidBody* parentObject;
-		rp3d::ProxyShape* proxy;
-
 	public:
 
 		BoxColliderComponent() {};
+
 		BoxColliderComponent(rp3d::Vector3 boxSize, RigidBodyComponent *body)
 		{
 			parentObject = body->getBody();
 			rp3d::BoxShape shape(boxSize);
 			proxy = parentObject->addCollisionShape(&shape, parentObject->getTransform(), parentObject->getMass());
 		};
+
 		void onAttach(GameObject* owner)override
 		{
-			m_owner = owner;
-			
+			m_owner = owner;			
 		}
 
 		void onDetach() 
