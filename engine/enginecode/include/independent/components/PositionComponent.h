@@ -5,7 +5,7 @@
 */
 
 #include "Component.h"
-#include "RigidbodyComponent.h"
+//#include "RigidbodyComponent.h"
 
 namespace Engine
 {
@@ -30,9 +30,6 @@ namespace Engine
 		glm::vec3 m_initialRotationVec; //!< Initial rotation vector of GO
 		glm::vec3 m_initialScaleVec; //!< Initial scale vector of GO
 
-		rp3d::Vector3 m_rp3dTranslation;
-		rp3d::Vector3 m_rp3dRotation;
-
 		//! Calculates model matrix to be displayed on a screen
 		inline void calculateModel()
 		{
@@ -41,13 +38,6 @@ namespace Engine
 			m_scale = glm::scale(m_scaleVec);
 
 			m_model = m_translation * m_rotation * m_scale;
-		}
-
-		inline void calculateRP3DModel()
-		{
-			auto t = m_owner->getComponent<RigidBodyComponent>();
-			t->getBody()->getTransform().getOpenGLMatrix(&m_model[0][0]);
-			m_model = m_model * glm::scale(m_scaleVec);
 		}
 
 	public:
@@ -115,21 +105,6 @@ namespace Engine
 						calculateModel();
 						return true;
 					};
-
-				//case ComponentMessageType::RP3DPositionIntegrate: //RP3D
-				//	m_msgsMap[msg] = [this](std::any data)
-				//	{
-				//		//std::pair<rp3d::Vector3, rp3d::Vector3> vel = std::any_cast<std::pair<rp3d::Vector3, rp3d::Vector3>>(data);
-				//		//
-				//		//m_rp3dTranslation += vel.first;
-				//		//m_rp3dRotation.x += vel.second.x;
-				//		//m_rp3dRotation.y += vel.second.y;
-				//		//m_rp3dRotation.z += vel.second.z;
-				//		//
-				//		//calculateRP3DModel();
-				//		return true;
-				//	};
-				//	break;
 				}
 			}
 
