@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include "rendering/renderer/Renderer.h"
+#include "rendering/renderer/PPRenderer.h"
 #include "rendering/cameras/CameraController.h"
 #include "resources/ResourceManager.h"
 
@@ -20,6 +21,7 @@ namespace Engine
 	protected:
 		std::string m_name; //!< Name of a layer
 		std::shared_ptr<Renderer> m_renderer; //!< Pointer to a renderer
+		std::shared_ptr<PPRenderer> m_PPRenderer; //!< Pointer to a PPRenderer
 		std::shared_ptr<CameraController> m_cameraController; //!< Pointer to a camera controller
 
 	public:
@@ -42,6 +44,7 @@ namespace Engine
 		std::shared_ptr<CameraController>& getCamera() { return m_cameraController; }
 		//! Gets renderer associated with a layer \return renderer
 		std::shared_ptr<Renderer>& getRenderer() { return m_renderer; }
+		std::shared_ptr<PPRenderer>& getPPRenderer() { return m_PPRenderer; }
 
 		//! Virtual destructor
 		virtual ~Layer() {};

@@ -1,5 +1,7 @@
 #pragma once
 #include "PPRenderer.h"
+#include "rendering/Buffers.h"
+#include "resources/ResourceManager.h"
 
 namespace Engine
 {
@@ -17,6 +19,7 @@ namespace Engine
 		unsigned int m_depthTextureUnit = 21;
 		std::shared_ptr<VertexArray> m_screenQuadVAO;
 		//PerDrawData m_ppUniforms;
+
 
 	public:
 		OpenGLPPRenderer(std::shared_ptr<Shader> defaultPPShader); //!< Default constructor

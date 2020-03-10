@@ -205,6 +205,9 @@ namespace Engine
 
 			if (type.compare("3D") == 0)
 				layer.getRenderer().reset(Engine::Renderer::create3D());
+
+			if (type.compare("PPR") == 0)
+				layer.getPPRenderer().reset(Engine::PPRenderer::createPPRenderer(ResourceManagerInstance->getShader().getAsset("DefaultShader")));
 		}
 
 		if (jsonFile.count("UBO") > 0)

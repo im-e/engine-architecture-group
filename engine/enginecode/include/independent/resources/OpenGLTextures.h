@@ -29,7 +29,7 @@ namespace Engine
 		\param channels number of texture channels 
 		\param texData pointer to texture data in the memory
 		*/
-		OpenGLTexture(unsigned int width, unsigned int height, unsigned int channels, unsigned char* texData); 
+		OpenGLTexture(unsigned int width, unsigned int height, unsigned int channels, unsigned char* texData);
 
 		// Inherited via Texture
 		unsigned int getWidth() const override; //!< Get width of the texture \return width

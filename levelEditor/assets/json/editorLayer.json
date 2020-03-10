@@ -129,7 +129,7 @@
   },
 
   "Renderer": {
-    "type": "3D"
+    "type": "PPR"
   },
 
   "UBO": [

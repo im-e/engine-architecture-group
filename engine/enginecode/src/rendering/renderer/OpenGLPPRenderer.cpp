@@ -5,7 +5,7 @@
 
 namespace Engine
 {
-	OpenGLPPRenderer::OpenGLPPRenderer(std::shared_ptr<Shader> defaultPPRShader)
+	OpenGLPPRenderer::OpenGLPPRenderer(std::shared_ptr<Shader> defaultPPRShader): m_shader(defaultPPRShader)
 	{
 		glGenFramebuffers(1, &m_frameBufferID);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_frameBufferID);
@@ -16,7 +16,7 @@ namespace Engine
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_windowSizeX, m_windowSizeY, 0, GL_RGB, GL_UNSIGNED_INT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_windowSizeX, m_windowSizeY, 0, GL_RGB, GL_UNSIGNED_INT, NULL);
 
 		glGenTextures(1, &m_depthTexture);
 		glBindTexture(GL_TEXTURE_2D, m_depthTexture);
@@ -34,8 +34,25 @@ namespace Engine
 			LogError("ERROR::FRAMGEBUFFER:: Framebuffer is not complete!");
 		}
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	
+		float vertices[] = 
+		{
+			-1.0, 1.0, 1.0, 0.0, 0.0,
+			-1.0, -1.0, 1.0, 0.0, 1.0,
+			1.0, -1.0, 1.0, 1.0, 1.0,
+			1.0, 1.0, 1.0, 1.0, 0.0
+		};
 
-		//current push
+		unsigned int indices[] =
+		{
+			0, 1, 2, 0, 2, 3
+		};
+
+		m_screenQuadVAO = ResourceManagerInstance->addVAO("PPVAO");
+		std::shared_ptr<VertexBuffer> vbo = ResourceManagerInstance->addVBO("PPVBO", vertices, sizeof(vertices), m_shader->getBufferLayout());
+		std::shared_ptr<IndexBuffer> ibo = ResourceManagerInstance->addEBO("PPVIBO", indices, 6);
+		m_screenQuadVAO->setVertexBuffer(vbo);
+		m_screenQuadVAO->setIndexBuffer(ibo);
 	}
 
 	void OpenGLPPRenderer::actionCommand(RenderCommand * command)
@@ -89,5 +106,10 @@ namespace Engine
 
 	void OpenGLPPRenderer::flush()
 	{
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+
 	}
 }
