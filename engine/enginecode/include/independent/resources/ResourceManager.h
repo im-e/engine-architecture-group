@@ -137,7 +137,7 @@ namespace Engine
 
 		void populateCharacters(std::unordered_map<std::string, unsigned int> fontsAndSizes); //!< Preloads the characters
 		std::shared_ptr<Character> getCharacter(std::string font, unsigned int ASCIIcode); //!< Gets specified character from specified font
-		inline std::shared_ptr<Texture> getFontTexture() { return m_fontTexture; } //!< Gets the font texture
+		inline std::shared_ptr<Texture>& getFontTexture() { return m_fontTexture; } //!< Gets the font texture
 
 		~ResourceManager(); //!< Default destructor
 	};

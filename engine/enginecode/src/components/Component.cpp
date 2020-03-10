@@ -16,14 +16,6 @@ namespace Engine
 
 	void Component::onDetach()
 	{
-		for (auto& it = m_owner->beginMap(); it != m_owner->endMap(); ++it)
-		{
-			if (it->second == this)
-			{
-				m_owner->getMap().erase(it);
-			}
-		}
-
 		m_msgsMap.clear();
 		m_owner = nullptr;
 	}

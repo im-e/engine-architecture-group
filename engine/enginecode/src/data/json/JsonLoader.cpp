@@ -154,6 +154,7 @@ namespace Engine
 				assimpModelFutures.clear();
 				assimpNames.clear();
 			}
+			Application::getInstance().getWindow()->getGraphicsContext()->swapToCurrentThread();
 			if (jsonFile["Asyncload"].count("fonts") > 0)
 			{
 				std::unordered_map<std::string, unsigned int> fonts;
@@ -166,7 +167,7 @@ namespace Engine
 				if (!fonts.empty()) ResourceManagerInstance->populateCharacters(fonts);
 			}
 		}
-		Application::getInstance().getWindow()->getGraphicsContext()->swapToCurrentThread();
+		
 
 		if (jsonFile.count("Camera") > 0)
 		{
