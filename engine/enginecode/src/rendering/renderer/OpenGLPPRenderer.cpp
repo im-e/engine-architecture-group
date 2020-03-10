@@ -34,6 +34,8 @@ namespace Engine
 			LogError("ERROR::FRAMGEBUFFER:: Framebuffer is not complete!");
 		}
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		//current push
 	}
 
 	void OpenGLPPRenderer::actionCommand(RenderCommand * command)
