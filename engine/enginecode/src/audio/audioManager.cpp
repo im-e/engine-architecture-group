@@ -60,7 +60,7 @@ namespace Engine {
 		errorCheck(m_studioSystem->update());
 	}
 
-	void AudioManager::loadSound(const std::string& strSoundName, bool b3d, bool bLooping , bool bStream , float minDist, float maxDist)
+	void AudioManager::loadSound(const std::string& strSoundName, bool b3d, bool bLooping, bool bStream, float minDist, float maxDist, RollOff rollOff)
 	{
 		auto it = m_sounds.find(strSoundName);
 		if (it != m_sounds.end())
@@ -69,8 +69,8 @@ namespace Engine {
 		eMode |= b3d ? FMOD_3D : FMOD_2D;
 		eMode |= bLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
 		eMode |= bStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
-		
-		/*
+
+
 		switch (rollOff)
 		{
 		case RollOff::Linear:
@@ -83,7 +83,7 @@ namespace Engine {
 			eMode |= FMOD_3D_INVERSETAPEREDROLLOFF;
 			break;
 		}
-		*/
+
 
 		FMOD::Sound* sound = nullptr;
 		errorCheck(m_lowLevelSystem->createSound(strSoundName.c_str(), eMode, 0, &sound));
@@ -95,7 +95,6 @@ namespace Engine {
 		if (sound != nullptr) {
 			m_sounds[strSoundName] = sound;
 		}
-
 	}
 
 	void AudioManager::unLoadSound(const std::string& strSoundName)
@@ -108,7 +107,7 @@ namespace Engine {
 
 	}
 
-	void AudioManager::set3dListenerAndOrientation(const glm::vec3 position, const glm::vec3& forward, const glm::vec3 up)
+	void AudioManager::set3dListenerAndOrientation(const glm::vec3& position, const glm::vec3& forward, const glm::vec3& up)
 	{
 		FMOD_VECTOR lastPos, lastVel, lastForward, lastUp;
 		
@@ -120,8 +119,8 @@ namespace Engine {
 
 		FMOD_VECTOR vel;
 		vel.x = (listenerPos.x - lastPos.x) * (1.0f / 60.f);
-		vel.x = (listenerPos.y - lastPos.y) * (1.0f / 60.f);
-		vel.x = (listenerPos.z - lastPos.z) * (1.0f / 60.f);
+		vel.y = (listenerPos.y - lastPos.y) * (1.0f / 60.f);
+		vel.z = (listenerPos.z - lastPos.z) * (1.0f / 60.f);
 
 		errorCheck(m_lowLevelSystem->set3DListenerAttributes(0, &listenerPos, &vel, &listenerForward, &listenerUp));
 
@@ -239,50 +238,6 @@ namespace Engine {
 		}
 	}
 
-	void AudioManager::setChannel3dPosition(int channelID, const glm::vec3& vPos)
-	{
-		auto it = m_channels.find(channelID);
-		if (it == m_channels.end())
-			return;
-
-		FMOD_VECTOR position = GLMVecToFmod(vPos);
-		errorCheck(it->second->set3DAttributes(&position, NULL));
-	}
-
-	void AudioManager::setEventParameter(const std::string& strEventName, const std::string& strParameterName, float value)
-	{
-		auto it = m_events.find(strEventName);
-		if (it == m_events.end())
-			return;
-		errorCheck(it->second->setParameterByName(strParameterName.c_str(), value));
-	}
-
-	void AudioManager::setEventPosition(const std::string& strEventName, const glm::vec3& position)
-	{
-	}
-
-	void AudioManager::togglePauseAllChannels()
-	{
-	}
-
-	void AudioManager::toggleChannelPause(int nChannelID)
-	{
-	}
-
-
-	void AudioManager::getEventParameter(const std::string& strEventName, const std::string& strEventParameter, float* value)
-	{
-	}
-
-	bool AudioManager::isPlaying(int nChannelID) const
-	{
-		return false;
-	}
-
-	void AudioManager::moveGeometry(const std::string label, const glm::vec3& position)
-	{
-	}
-
 	bool AudioManager::isEventPlaying(const std::string& strEventName) const
 	{
 		auto it = m_events.find(strEventName);
@@ -303,8 +258,55 @@ namespace Engine {
 		fmod.y = vec.y;
 		fmod.z = vec.z;
 		return fmod;
-
-		return FMOD_VECTOR();
 	}
+	
+	void AudioManager::setChannel3dPosition(int channelID, const glm::vec3& vPos)
+	{
+		auto it = m_channels.find(channelID);
+		if (it == m_channels.end())
+			return;
+
+		FMOD_VECTOR position = GLMVecToFmod(vPos);
+		errorCheck(it->second->set3DAttributes(&position, NULL));
+	}
+
+	void AudioManager::setEventParameter(const std::string& strEventName, const std::string& strParameterName, float value)
+	{
+		auto it = m_events.find(strEventName);
+		if (it == m_events.end())
+			return;
+		errorCheck(it->second->setParameterByName(strParameterName.c_str(), value));
+	}
+
+	void AudioManager::getEventParameter(const std::string& strEventName, const std::string& strEventParameter, float* value)
+	{
+	}
+
+	void AudioManager::setEventPosition(const std::string& strEventName, const glm::vec3& position)
+	{
+	}
+
+
+
+	void AudioManager::togglePauseAllChannels()
+	{
+	}
+
+	void AudioManager::toggleChannelPause(int nChannelID)
+	{
+
+	}
+
+	bool AudioManager::isPlaying(int nChannelID) const
+	{
+		return false;
+	}
+
+	void AudioManager::moveGeometry(const std::string label, const glm::vec3& position)
+	{
+
+	}
+
+
 
 }

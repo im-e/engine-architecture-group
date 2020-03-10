@@ -51,10 +51,12 @@ namespace Engine
 		m_appWindow = std::unique_ptr<Window>(Window::create());
 		m_appWindow->setEventCallback(std::bind(&Application::onEvent, this, std::placeholders::_1));
 
-
-
-
-		//m_audio->set3dListenerAndOrientation(position, forward, up);
+		const glm::vec3 pos = glm::vec3(0, 0, 0);
+		const glm::vec3 forward = glm::vec3(0, 0, 0);
+		const glm::vec3 up = glm::vec3(0, 0, 0);
+		
+		m_audio->set3dListenerAndOrientation(pos, forward, up);
+		
 
 		//https://freesound.org/people/Mrthenoronha/sounds/370293/
 		m_audio->loadSound("assets/audio/music/song.wav", true, true, false);

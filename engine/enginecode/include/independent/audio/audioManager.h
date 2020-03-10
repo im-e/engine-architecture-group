@@ -9,6 +9,13 @@
 
 namespace Engine {
 	
+	enum class RollOff 
+	{ 
+		Linear,
+		LinearSquared,
+		InverseTapered
+	};
+
 	struct AudioGeometryDefinition {
 		std::vector<float> vertices;
 		std::vector<unsigned int> indices;
@@ -43,12 +50,10 @@ namespace Engine {
 		void update();
 		void loadBank(const std::string& strBankName, FMOD_STUDIO_LOAD_BANK_FLAGS flags);
 		void loadEvent(const std::string& strEventName);
-		//void loadSound(const std::string& strSoundName, bool b3d = true, bool bLooping = false, bool bStream = false, float minDist = 0.25f,
-		//	float maxDist = 10000.f, RollOff rollOff = RollOff::Inverse);
 		void loadSound(const std::string& strSoundName, bool b3d = true, bool bLooping = false, bool bStream = false, float minDist = 0.25f,
-			float maxDist = 10000.f);
+		float maxDist = 10000.f, RollOff rollOff = RollOff::InverseTapered);
 		void unLoadSound(const std::string& strsoundName);
-		void set3dListenerAndOrientation(const glm::vec3 position, const glm::vec3& forward, const glm::vec3 up);
+		void set3dListenerAndOrientation(const glm::vec3& position, const glm::vec3& forward, const glm::vec3& up);
 		void addGeometry(const std::string label, const AudioGeometryDefinition& def);
 		void moveGeometry(const std::string label, const glm::vec3& position);
 		int playSound(const std::string& strSoundName, const glm::vec3& vPos = glm::vec3{ 0 , 0 , 0 });
