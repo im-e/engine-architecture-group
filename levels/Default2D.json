@@ -9,7 +9,7 @@
       },
 
       "texture": {
-        "diffuse": "fontTexture",
+        "diffuse": "TextTexture",
         "specular": "none",
         "normal": "none",
         "parallax": "none"
@@ -36,19 +36,19 @@
     {
       "name": "TextLabel",
       "material": {
-        "text": "DMU Engine Pp Jj Yy Dd Ll",
+        "text": "DMU Engine",
         "font": "assets/fonts/alexandria/AlexandriaFLF.ttf",
         "charSize": 32,
         "colour": {
           "r": 1.0,
-          "g": 0.0,
-          "b": 0.0
+          "g": 1.0,
+          "b": 1.0
         }
       },
       "position": {
         "translation": {
-          "x": 100.0,
-          "y": 300.0,
+          "x": 50.0,
+          "y": 50.0,
           "z": 0.0
         },
         "rotation": {
