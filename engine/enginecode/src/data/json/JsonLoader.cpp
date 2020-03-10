@@ -372,7 +372,7 @@ namespace Engine
 	{
 
 #ifdef NG_DEBUG
-		Engine::JsonLog::loadLog(filepath);
+		//Engine::JsonLog::loadLog(filepath);
 #endif
 		std::fstream file(filepath, std::ios::in);
 
@@ -515,7 +515,7 @@ namespace Engine
 						
 					}
 
-					if (go["material"].count("text") > 0)
+					else if (go["material"].count("text") > 0)
 					{
 						std::shared_ptr<MaterialComponent> textMat;
 						std::shared_ptr<TextureComponent> textTex;

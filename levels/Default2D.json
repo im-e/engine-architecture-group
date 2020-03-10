@@ -1,6 +1,39 @@
 {
   "GameObject": [
     {
+      "name": "TextModel",
+      "material": {
+        "type": "json",
+        "model": "TextModel",
+        "shader": "TextShader"
+      },
+
+      "texture": {
+        "diffuse": "TextTexture",
+        "specular": "none",
+        "normal": "none",
+        "parallax": "none"
+      },
+
+      "position": {
+        "translation": {
+          "x": 550.0,
+          "y": 500.0,
+          "z": 0.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      }
+    },
+    {
       "name": "TextLabel",
       "material": {
         "text": "DMU Engine Pp Jj Yy Dd Ll",
@@ -8,8 +41,8 @@
         "charSize": 32,
         "colour": {
           "r": 1.0,
-          "g": 1.0,
-          "b": 1.0
+          "g": 0.0,
+          "b": 0.0
         }
       },
       "position": {
