@@ -530,7 +530,7 @@ namespace Engine
 						float b = go["material"]["colour"]["b"].get<float>();
 						std::shared_ptr<TextLabel> label(TextLabel::create(goName, font, charSize, text, glm::vec2(), 0.0f, 0.0f, glm::vec3(r, g, b)));
 
-						//label->editText("Dmu Engine 123456789"); // This is how you call the edit function for the text
+						label->editText("Dmu Engine 123456789"); // This is how you call the edit function for the text
 
 						auto& mat = label->getMaterial();
 
