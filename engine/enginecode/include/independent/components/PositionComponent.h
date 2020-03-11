@@ -180,5 +180,15 @@ namespace Engine
 		{
 			return m_initialScaleVec;
 		}
+
+		inline rp3d::Vector3 getRenderPosition()
+		{
+			rp3d::Vector3 temp;
+			temp.x = this->getCurrentPosition().x;
+			temp.y = this->getCurrentPosition().y;
+			temp.z = this->getCurrentPosition().z;
+			return temp;
+
+		}
 	};
 }

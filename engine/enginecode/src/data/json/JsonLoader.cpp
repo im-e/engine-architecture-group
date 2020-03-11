@@ -1256,7 +1256,7 @@ namespace Engine
 			{
 				layer.addImGuiFunction([&](JsonLayer* lay)
 				{
-					/*if (ImGui::CollapsingHeader("Rigidbody"))
+					if (ImGui::CollapsingHeader("Rigidbody"))
 					{
 						std::vector<const char*> types;
 						types.push_back("Static");
@@ -1321,7 +1321,7 @@ namespace Engine
 							}
 					
 						}
-					}*/
+					}
 				});
 			}
 

@@ -12,6 +12,7 @@
 #include "components/OscillateComponent.h"
 #include "components/TextureComponent.h"
 #include "components/ControllerComponent.h"
+#include "components/RigidBodyComponent.h"
 
 #include "platform/GLFW_KeyCodes.h"
 #include "data/json/JsonLoader.h"
@@ -172,6 +173,13 @@ namespace Engine
 							std::string scriptName = comp->getScriptName();
 
 							outputStream << "\"AI\": { \"stopDist\": " + std::to_string(stopDist) + ", \"aiType\": \"" + aiType + "\", \"script\": \"" + scriptName + "\"";
+						}
+						else if (c->getType().hash_code() == typeid(RigidBodyComponent).hash_code())
+						{
+							std::shared_ptr<RigidBodyComponent> comp = std::static_pointer_cast<RigidBodyComponent>(c);
+
+							//rp3d::Vector3 position = comp->getBody()->getTransform().getPosition();
+							bool grav = comp->getBody()->isGravityEnabled();
 						}
 
 
