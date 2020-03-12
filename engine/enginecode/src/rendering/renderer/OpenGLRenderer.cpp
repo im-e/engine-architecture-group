@@ -62,7 +62,7 @@ namespace Engine
 		//if (material->getTessFlag())
 		//{
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		glDrawElements(GL_PATCHES, geometry->getDrawCount() / 3, GL_UNSIGNED_INT, nullptr); // Render the scene.
+		glDrawElements(GL_PATCHES, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr); // Render the scene.
 		//}
 		//else if (!material->getTessFlag())
 		//{
