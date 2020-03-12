@@ -24,7 +24,7 @@ namespace Engine
 		vao.reset(VertexArray::create());
 		m_VAOs.add(key, vao);
 
-		return vao;
+		return m_VAOs.getAsset(key);
 	}
 
 	std::shared_ptr<VertexBuffer> ResourceManager::addVBO(const std::string & key, float * vertices, unsigned int size, BufferLayout & layout)
@@ -33,7 +33,7 @@ namespace Engine
 		vbo.reset(VertexBuffer::create(vertices, size, layout));
 		m_VBOs.add(key, vbo);
 
-		return vbo;
+		return m_VBOs.getAsset(key);
 	}
 
 	std::shared_ptr<IndexBuffer> ResourceManager::addEBO(const std::string & key, unsigned int * indices, unsigned int size)
@@ -42,7 +42,7 @@ namespace Engine
 		ebo.reset(IndexBuffer::create(indices, size));
 		m_EBOs.add(key, ebo);
 
-		return ebo;
+		return m_EBOs.getAsset(key);
 	}
 
 	std::shared_ptr<Shader> ResourceManager::addShader(const std::string & key, const std::string & filepath)
@@ -51,7 +51,7 @@ namespace Engine
 		shader.reset(Shader::create(filepath));
 		m_shaders.add(key, shader);
 
-		return shader;
+		return m_shaders.getAsset(key);
 	}
 
 	void ResourceManager::addShaderAsync(const std::string & key, std::shared_ptr<Shader> shader)
@@ -65,7 +65,7 @@ namespace Engine
 		shader.reset(Shader::create(vertexPath, fragmentPath));
 		m_shaders.add(key, shader);
 
-		return shader;
+		return m_shaders.getAsset(key);
 	}
 
 	std::shared_ptr<Texture> ResourceManager::addTexture(const std::string & key, const std::string & filepath)
@@ -74,7 +74,7 @@ namespace Engine
 		texture.reset(Texture::createFromFile(filepath));
 		m_textures.add(key, texture);
 
-		return texture;
+		return m_textures.getAsset(key);
 	}
 
 	void ResourceManager::addTextureAsync(const std::string & key, std::shared_ptr<Texture> tex)
@@ -88,7 +88,7 @@ namespace Engine
 		texture.reset(Texture::createFromRawData(width, height, channels, texData));
 		m_textures.add(key, texture);
 
-		return texture;
+		return m_textures.getAsset(key);
 	}
 
 	std::shared_ptr<Texture> ResourceManager::addSkybox(const std::string & key, std::vector<std::string> faces)
@@ -105,7 +105,7 @@ namespace Engine
 		material.reset(Material::create(shader, VAO));
 		m_materials.add(key, material);
 
-		return material;
+		return m_materials.getAsset(key);
 	}
 
 	std::shared_ptr<Material> ResourceManager::addMaterial(const std::string & key, const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexBuffer>& VBO)
@@ -114,7 +114,7 @@ namespace Engine
 		material.reset(Material::create(shader, VBO));
 		m_materials.add(key, material);
 
-		return material;
+		return m_materials.getAsset(key);
 	}
 
 	std::shared_ptr<UniformBuffer> ResourceManager::addUBO(const std::string & key, unsigned int size, UniformLayout & layout)
@@ -123,7 +123,7 @@ namespace Engine
 		ubo.reset(UniformBuffer::create(size, layout));
 		m_UBOs.add(key, ubo);
 
-		return ubo;
+		return m_UBOs.getAsset(key);
 	}
 
 	void ResourceManager::populateCharacters(std::unordered_map<std::string, unsigned int> fontsAndSizes)
