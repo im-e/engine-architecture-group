@@ -37,6 +37,7 @@ namespace Engine
 		AssetManager<UniformBuffer> m_UBOs; //!< Collection of UBOs
 		AssetManager<JsonModel> m_jsonModels; //!< Collection of json models
 		AssetManager<AssimpModel> m_assimpModels; //!< Collection of assimp models
+		// AssetManager<Sound> m_sounds;
 
 		ResourceManager(); //!< Default constructor
 		static ResourceManager* s_instance; //!< Single instance of a class

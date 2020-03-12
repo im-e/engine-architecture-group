@@ -51,9 +51,9 @@ namespace Engine
 		m_appWindow = std::unique_ptr<Window>(Window::create());
 		m_appWindow->setEventCallback(std::bind(&Application::onEvent, this, std::placeholders::_1));
 
-		const glm::vec3 pos = glm::vec3(0, 0, 0);
-		const glm::vec3 forward = glm::vec3(0, 0, 0);
-		const glm::vec3 up = glm::vec3(0, 0, 0);
+		glm::vec3 pos = glm::vec3(-50, 0, 0);
+		glm::vec3 forward = glm::vec3(0, 0, 1);
+		glm::vec3 up = glm::vec3(0, 1, 0);
 		
 		m_audio->set3dListenerAndOrientation(pos, forward, up);
 		

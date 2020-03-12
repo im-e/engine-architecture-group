@@ -1,5 +1,6 @@
 #include "engine_pch.h"
 #include "include\independent\audio\audioManager.h"
+#include "data/json/JsonLayer.h"
 
 namespace Engine {
 
@@ -112,10 +113,17 @@ namespace Engine {
 		FMOD_VECTOR lastPos, lastVel, lastForward, lastUp;
 		
 		errorCheck(m_lowLevelSystem->get3DListenerAttributes(0, &lastPos, &lastVel, &lastForward, &lastUp));
+		
+		/*
+		auto listenerPos = GLMVecToFmod(l.getCamera()->getCamera()->getPosition());
+		auto listenerForward = GLMVecToFmod(glm::vec3(l.getCamera()->getCamera()->getPosition().x, l.getCamera()->getCamera()->getPosition().y, 1.0f));
+		auto listenerUp = GLMVecToFmod(glm::vec3(l.getCamera()->getCamera()->getPosition().x, 1.0f, l.getCamera()->getCamera()->getPosition().z));
+		*/
 
 		auto listenerPos = GLMVecToFmod(position);
 		auto listenerForward = GLMVecToFmod(forward);
 		auto listenerUp = GLMVecToFmod(up);
+
 
 		FMOD_VECTOR vel;
 		vel.x = (listenerPos.x - lastPos.x) * (1.0f / 60.f);
