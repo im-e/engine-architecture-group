@@ -22,9 +22,10 @@ namespace Engine
 		m_channels = channels;
 
 		glGenTextures(1, &m_texID);
-		m_slot = m_texID;
+		m_slot = s_slot;
+		s_slot++;
 		glActiveTexture(GL_TEXTURE0 + m_slot);
-		glBindTexture(GL_TEXTURE_2D, m_slot);
+		glBindTexture(GL_TEXTURE_2D, m_texID);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);

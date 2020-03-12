@@ -42,10 +42,11 @@ namespace Engine
 	template<typename T>
 	inline void AssetManager<T>::add(const std::string & key, std::shared_ptr<T>& asset)
 	{
-		if (contains(key) == false)
+		/*if (contains(key) == false)
 			m_assets[key] = asset;
 		else
-			LogWarn("Asset at key {0} already exists.", key);
+			LogWarn("Asset at key {0} already exists.", key);*/
+		m_assets[key] = asset;  // The way the current resource manager works this doesnt stop you creating a new asset with a duplicate name, it just prevents it from being added to the assets map so you cannot access the asset later through the ResourceManagergetInstance
 	}
 
 	template<typename T>

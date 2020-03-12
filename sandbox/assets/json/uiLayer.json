@@ -2,6 +2,10 @@
   "Asyncload": {
     "shaders": [
       {
+        "name": "TextShader",
+        "filepath": "assets/shaders/textShader.glsl"
+      },
+      {
         "name": "TextShaderFT",
         "filepath": "assets/shaders/textShaderFT.glsl"
       }
@@ -10,6 +14,13 @@
       {
         "name": "TextTexture",
         "filepath": "assets/textures/Text.png"
+      }
+    ],
+    "models": [
+      {
+        "type": "json",
+        "name": "TextModel",
+        "filepath": "assets/jsonModels/textModel.txt"
       }
     ],
     "fonts": [
@@ -29,16 +40,6 @@
         "charSize": 32
       }
     ]
-  },
-
-  "MemoryInfo": {
-    "gameObjects": 2,
-    "materials": 2,
-    "position": 2,
-    "velocity": 0,
-    "oscillates": 0,
-    "textures": 2,
-    "colours":  1
   },
 
   "Camera": {
@@ -67,6 +68,10 @@
       "shaders": [
         {
           "name": "TextShaderFT",
+          "block": "Matrices"
+        },
+        {
+          "name": "TextShader",
           "block": "Matrices"
         }
       ],

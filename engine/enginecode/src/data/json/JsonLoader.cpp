@@ -154,6 +154,7 @@ namespace Engine
 				assimpModelFutures.clear();
 				assimpNames.clear();
 			}
+			Application::getInstance().getWindow()->getGraphicsContext()->swapToCurrentThread();
 			if (jsonFile["Asyncload"].count("fonts") > 0)
 			{
 				std::unordered_map<std::string, unsigned int> fonts;
@@ -166,7 +167,7 @@ namespace Engine
 				if (!fonts.empty()) ResourceManagerInstance->populateCharacters(fonts);
 			}
 		}
-		Application::getInstance().getWindow()->getGraphicsContext()->swapToCurrentThread();
+		
 
 		if (jsonFile.count("Camera") > 0)
 		{
@@ -515,7 +516,7 @@ namespace Engine
 						
 					}
 
-					if (go["material"].count("text") > 0)
+					else if (go["material"].count("text") > 0)
 					{
 						std::shared_ptr<MaterialComponent> textMat;
 						std::shared_ptr<TextureComponent> textTex;
@@ -528,6 +529,9 @@ namespace Engine
 						float g = go["material"]["colour"]["g"].get<float>();
 						float b = go["material"]["colour"]["b"].get<float>();
 						std::shared_ptr<TextLabel> label(TextLabel::create(goName, font, charSize, text, glm::vec2(), 0.0f, 0.0f, glm::vec3(r, g, b)));
+
+						label->editText("Dmu Engine 123456789"); // This is how you call the edit function for the text
+
 						auto& mat = label->getMaterial();
 
 						textMat = std::make_shared<MaterialComponent>(MaterialComponent(mat));

@@ -34,4 +34,6 @@ uniform vec3 u_fontColour;
 void main()
 {
 	colour = vec4(1.0, 1.0, 1.0, texture(u_texData, texCoord).r) * vec4(u_fontColour, 1.0);
+	//colour = 1-colour;
+	//colour = vec4(u_fontColour, 1.0);
 }
