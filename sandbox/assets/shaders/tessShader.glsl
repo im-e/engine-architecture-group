@@ -83,6 +83,7 @@ void main()
    // pass through position and normal information
    posTC[gl_InvocationID]  = posVS[gl_InvocationID];
    normTC[gl_InvocationID] = normVS[gl_InvocationID];
+   tcTexCoord[gl_InvocationID] = texCoord[gl_InvocationID];
 
 }
 
@@ -216,6 +217,6 @@ void main()
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 64);
 	vec3 specular = vec3(0.2) * spec * u_lightColour;  
 	
-	//FragColor = vec4((ambient + diffuse + specular), 1.0) * texture(u_texData, gTexCoord);
-	FragColor = vec4((ambient + diffuse + specular)* vec3(1.0f, 1.0f, 1.0f), 1.0);
+	FragColor = vec4((ambient + diffuse + specular), 1.0) * texture(u_texData, gTexCoord);
+	//FragColor = vec4((ambient + diffuse + specular)* vec3(1.0f, 1.0f, 1.0f), 1.0);
 }
