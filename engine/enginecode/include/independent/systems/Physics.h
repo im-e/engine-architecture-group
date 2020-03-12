@@ -9,7 +9,7 @@ namespace Engine {
 	{
 	private:
 		static std::shared_ptr<rp3d::DynamicsWorld> m_world;
-		rp3d::Vector3 gravity = rp3d::Vector3(0.0, -9.81, 0.0);
+		rp3d::Vector3 gravity = rp3d::Vector3(0.0, -1, 0.0);
 
 	public:
 		Physics();

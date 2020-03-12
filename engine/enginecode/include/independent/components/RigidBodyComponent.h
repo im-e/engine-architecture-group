@@ -20,7 +20,7 @@ namespace Engine
 	public:
 		rp3d::Vector3 m_linear, m_angular = rp3d::Vector3(0,0,0);
 		glm::vec3 linear, angular = glm::vec3(0, 0, 0);
-		//rp3d::Vector3 m_angular = 0;
+		
 
 
 		RigidBodyComponent() //default constructor
@@ -31,16 +31,15 @@ namespace Engine
 		RigidBodyComponent(rp3d::BodyType type, bool gravity){
 			bodyTra.setPosition(rp3d::Vector3(0.0, 0.0, 0.0));
 			bodyTra.setOrientation(rp3d::Quaternion::identity());
+			body->enableGravity(gravity);
 		}
 
 		void onAttach(GameObject * owner) override
 		{
 			m_owner = owner;
-			//bodyTra.setPosition.getOpenGLMatrix(m_owner->getComponent<PositionComponent>()->getCurrentPosition());
-			//bodyTra.setOrientation.getOpenGLMatrix(m_owner->getComponent<PositionComponent>()->getCurrentRotation());
-		
+			
 			bodyTra.setPosition(m_owner->getComponent<PositionComponent>()->getRenderPosition());
-			Application::getInstance().getPhysics()->getWorld()->createRigidBody(body->getTransform());
+			body = Application::getInstance().getPhysics()->getWorld()->createRigidBody(bodyTra);
 			
 			for (auto& msg : m_possibleMessages)
 			{
@@ -60,21 +59,20 @@ namespace Engine
 			
 				curTra = body->getTransform();
 
-				intTra = rp3d::Transform::interpolateTransforms(prevTra, curTra, timestep);
+				intTra = rp3d::Transform::interpolateTransforms(prevTra, curTra, Application::getInstance().getPhysFactor());
 
-				// Now you can render your body using the interpolated transform here 
 
 				m_owner->getComponent<PositionComponent>()->setPosition(setRenderPosition());
 				m_owner->getComponent<PositionComponent>()->setRotation(setRenderRotation());
+
+				body->setTransform(intTra);
 				
-				// Update the previous transform 
 				prevTra = curTra;
 			
 		}
 
 		void onDetach() override
 		{
-			Application::getInstance().getPhysics()->getWorld()->destroyRigidBody(body);
 		}
 
 		inline const std::type_info& getType() override
@@ -93,9 +91,9 @@ namespace Engine
 		inline glm::vec3 setRenderRotation()
 		{
 			glm::vec3 temp;
-			temp.x = this->getBody()->getTransform().getOrientation().x;
-			temp.y = this->getBody()->getTransform().getOrientation().y;
-			temp.z = this->getBody()->getTransform().getOrientation().z;
+			temp.x = body->getTransform().getOrientation().x;
+			temp.y = body->getTransform().getOrientation().y;
+			temp.z = body->getTransform().getOrientation().z;
 			return temp;
 		}
 

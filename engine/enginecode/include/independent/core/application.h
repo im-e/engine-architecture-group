@@ -69,6 +69,8 @@ namespace Engine {
 
 		lua_State *lua; //!< Lua state
 
+		float m_accumulator;
+
 	public:
 		virtual ~Application(); //!< Deconstructor
 		inline static Application& getInstance() { return *s_instance; } //!< Instance getter from singleton pattern
@@ -95,6 +97,11 @@ namespace Engine {
 
 		lua_State* getLuaState();
 		std::shared_ptr<Physics>& getPhysics();
+
+		float getPhysFactor()
+		{
+			return m_accumulator / m_timestep;
+		}
 	};
 
 	// To be defined in users code
