@@ -207,7 +207,7 @@ namespace Engine
 				layer.getRenderer().reset(Engine::Renderer::create3D());
 
 			if (type.compare("PPR") == 0)
-				layer.getPPRenderer().reset(Engine::PPRenderer::createPPRenderer(ResourceManagerInstance->getShader().getAsset("DefaultShader")));
+				layer.getPPRenderer().reset(Engine::PPRenderer::createPPRenderer(ResourceManagerInstance->getShader().getAsset("ColourShader")));
 		}
 
 		if (jsonFile.count("UBO") > 0)

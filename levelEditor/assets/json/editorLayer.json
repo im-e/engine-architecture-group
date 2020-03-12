@@ -32,6 +32,10 @@
       {
         "name": "DirectionalLightShader",
         "filepath": "assets/shaders/directionalLight.glsl"
+      },
+      {
+        "name": "ColorShader",
+        "filepath": "assets/shaders/colourShader.glsl"
       }
     ],
     "textures": [
