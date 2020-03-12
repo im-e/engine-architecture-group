@@ -164,7 +164,7 @@
       },
 
       "texture": {
-        "name": "LetterTexture"
+        "name": "SpaceTexture"
       }
     },
 
@@ -319,9 +319,9 @@
       "data": [
         {
           "type": "Float3",
-          "x": 0.0,
+          "x": -4.0,
           "y": -4.0,
-          "z": 0.0
+          "z": -4.0
         },
         {
           "type": "Float3",

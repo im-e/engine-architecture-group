@@ -3,7 +3,7 @@
 #version 450 core
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aNormals;
-layout(location = 2) in vec2 a_texCoord;
+layout (location = 2) in vec2 a_texCoord;
 
 uniform mat4 u_model;
 
@@ -21,11 +21,6 @@ void main()
 				
 
 #region Tessellation Control
-
-// first step of tesselation shader
-// tesselation control shader add/deletes control points and determines the tesselatation level
-// patch has three control points here (three vertices for each triangle)
-
 
 #version 450 core
 layout (vertices =3) out;
@@ -50,40 +45,38 @@ layout(std140) uniform CameraPosition
 
 float GetTessLevel(float Distance0, float Distance1)
 {
-	float lambda = -0.5f;
-	float alpha = 15f;
-	float AverageDist = (Distance0 + Distance1) / 2.0;
-	float expValue = ceil(round(exp(lambda*AverageDist) * alpha));
-	if(expValue < 1.0f)
+	float avgDist = (Distance0 + Distance1) / 2.0f;
+	float tess = 0.0f;
+
+
+	float exponent = -0.105f * avgDist;
+	tess = exp(exponent) * 15.0f;
+	if(tess < 1.0f)
 	{
-		expValue = 1.0f;
-		return expValue;
+		return 1.0f;
 	}
-	else
-	{
-		expValue = ceil(round(exp(lambda*AverageDist) * alpha));
-		return expValue;
-	}
+	tess = 5.0f;
+	return tess;
 }
 
 void main()
 {
-   int tessLevel = 4;
-
+   int tessLevel = 1;
+   float eyeToVertexDist0 = distance(u_camPos, posVS[0]);
+   float eyeToVertexDist1 = distance(u_camPos, posVS[1]);
+   float eyeToVertexDist2 = distance(u_camPos, posVS[2]);
    if (gl_InvocationID==0)
    {
 		  fragPosCS[gl_InvocationID] = posVS[gl_InvocationID];
 		 // fragPosCS[0] = posVS[0];
 		  //fragPosCS[1] = posVS[1];
 		 // fragPosCS[2] = posVS[2];
-		  //float eyeToVertexDist0 = distance(u_camPos, posVS[0]);
-		  //float eyeToVertexDist1 = distance(u_camPos, posVS[1]);
-		 // float eyeToVertexDist2 = distance(u_camPos, posVS[2]);
+
 		   // Calculate the tessellation levels
-          gl_TessLevelOuter[0] = tessLevel; 
-          gl_TessLevelOuter[1] = tessLevel; 
-          gl_TessLevelOuter[2] = tessLevel;
-          gl_TessLevelInner[0] = tessLevel; 
+          gl_TessLevelOuter[0] = GetTessLevel(eyeToVertexDist1, eyeToVertexDist2); 
+          gl_TessLevelOuter[1] = gl_TessLevelOuter[0]; 
+          gl_TessLevelOuter[2] = gl_TessLevelOuter[0];
+          gl_TessLevelInner[0] = gl_TessLevelOuter[0]; 
 
    }
 
@@ -208,9 +201,7 @@ layout(std140) uniform TessLightUBO
 uniform sampler2D u_texData;
 
 void main()
-{   
-    
-  
+{     
 	float ambientStrength = 0.4;
 	vec3 ambient = ambientStrength * u_lightColour;
 	
@@ -223,7 +214,8 @@ void main()
 	vec3 viewDir = normalize(u_viewPos - gWorldPos_FS_in);
 	vec3 reflectDir = reflect(-lightDir, norm);  
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 64);
-	vec3 specular = specularStrength * spec * u_lightColour;  
+	vec3 specular = vec3(0.2) * spec * u_lightColour;  
 	
-	FragColor = vec4((ambient + diffuse + specular), 1.0) * texture(u_texData, gTexCoord);
+	//FragColor = vec4((ambient + diffuse + specular), 1.0) * texture(u_texData, gTexCoord);
+	FragColor = vec4((ambient + diffuse + specular)* vec3(1.0f, 1.0f, 1.0f), 1.0);
 }

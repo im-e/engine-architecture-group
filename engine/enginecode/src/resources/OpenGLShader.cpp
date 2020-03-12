@@ -27,6 +27,7 @@ namespace Engine
 		vStream << vFile.rdbuf();
 		fStream << fFile.rdbuf();
 
+		//close files
 		vFile.close();
 		fFile.close();
 

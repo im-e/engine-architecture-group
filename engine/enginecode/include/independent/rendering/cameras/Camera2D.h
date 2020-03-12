@@ -37,6 +37,6 @@ namespace Engine
 
 		//! Gets current camera rotation \return current rotation
 		float getRotation() { return m_rotation; }
-		glm::vec3 getPosition() override { return m_position; }
+		glm::vec3& getPosition() override { return m_position; }
 	};
 }

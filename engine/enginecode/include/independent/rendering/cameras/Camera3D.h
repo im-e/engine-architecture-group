@@ -62,7 +62,7 @@ namespace Engine
 		//! Gets current rotation around Y axis \return current pitch
 		float getPitch() { return m_pitch; }
 
-		glm::vec3 getPosition() override;
+		glm::vec3& getPosition() override;
 		//! Gets current camera forward vector \return cam forward vector
 		glm::vec3 getForward() { return m_camForward; }
 		//! Gets current camera up vector \return cam up vector
