@@ -5,6 +5,7 @@
 */
 
 #include "Component.h"
+//#include "RigidbodyComponent.h"
 
 namespace Engine
 {
@@ -91,7 +92,7 @@ namespace Engine
 					};
 					break;
 
-				case ComponentMessageType::PositionIntegrate:
+				case ComponentMessageType::PositionIntegrate: //OpenGL
 					m_msgsMap[msg] = [this](std::any data)
 					{
 						std::pair<glm::vec3, glm::vec3> vel = std::any_cast<std::pair<glm::vec3, glm::vec3>>(data);
@@ -104,7 +105,6 @@ namespace Engine
 						calculateModel();
 						return true;
 					};
-					break;
 				}
 			}
 

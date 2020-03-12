@@ -24,12 +24,12 @@ namespace Engine
 	enum class ComponentMessageType
 	{
 		None = 0,
-		PositionIntegrate, PositionSet, RelativePositionSet,
+		PositionIntegrate, RP3DPositionIntegrate, PositionSet, RelativePositionSet,
 		VelocityIntegrate, VelocitySetLinear, VelocitySetAngular,
 		AccelerationSet,
 		AIPositionSet, AIRotationSet,
 		KeyPressed, KeyReleased, MouseButton, MouseScroll, MouseMoved,
-		UniformSet, TextureSet, RigidBodySet,
+		UniformSet, TextureSet, RigidBodySet, LinearForceApply, AngularForceApply,
 		ColourSet
 	};
 

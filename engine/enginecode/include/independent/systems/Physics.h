@@ -16,6 +16,11 @@ namespace Engine {
 		virtual void start(SystemSignal init, ...) override;
 		virtual void stop(SystemSignal close, ...) override;
 
+		std::shared_ptr<rp3d::DynamicsWorld>& getWorld()
+		{
+			return m_world;
+		}
+
 		void setGravity(rp3d::Vector3 newGrav)
 		{
 			gravity = newGrav;
