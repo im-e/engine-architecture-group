@@ -36,6 +36,10 @@
       {
         "name": "SpotLightShader",
         "filepath": "assets/shaders/spotLight.glsl"
+      },
+      {
+        "name": "ColorShader",
+        "filepath": "assets/shaders/colourShader.glsl"
       }
     ],
     "textures": [
