@@ -34,8 +34,8 @@ namespace Engine
 		float textVerts[4 * 4];
 		unsigned int textIndices[4] = { 0, 1, 2, 3 };
 
-		m_VAO->setIndexBuffer(ResourceManagerInstance->addEBO(m_name + "IBO", textIndices, 4 * text.length()));
-		m_VBO = ResourceManagerInstance->addVBO(m_name + "VBO", nullptr, sizeof(textVerts) * text.length(), m_textShader->getBufferLayout());
+		m_VAO->setIndexBuffer(ResourceManagerInstance->overwriteEBO(m_name + "IBO", textIndices, 4 * text.length()));
+		m_VBO = ResourceManagerInstance->overwriteVBO(m_name + "VBO", nullptr, sizeof(textVerts) * text.length(), m_textShader->getBufferLayout());
 
 		unsigned int loopCount = 0;
 		float xAdvance = 0;

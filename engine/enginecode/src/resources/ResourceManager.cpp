@@ -126,6 +126,36 @@ namespace Engine
 		return m_UBOs.getAsset(key);
 	}
 
+	std::shared_ptr<VertexArray> ResourceManager::overwriteVAO(const std::string& key)
+	{
+		std::shared_ptr<VertexArray> vao;
+		vao.reset(VertexArray::create());
+		m_VAOs.remove(key);
+		m_VAOs.add(key, vao);
+
+		return m_VAOs.getAsset(key);
+	}
+
+	std::shared_ptr<VertexBuffer> ResourceManager::overwriteVBO(const std::string& key, float* vertices, unsigned int size, BufferLayout& layout)
+	{
+		std::shared_ptr<VertexBuffer> vbo;
+		vbo.reset(VertexBuffer::create(vertices, size, layout));
+		m_VBOs.remove(key);
+		m_VBOs.add(key, vbo);
+
+		return m_VBOs.getAsset(key);
+	}
+
+	std::shared_ptr<IndexBuffer> ResourceManager::overwriteEBO(const std::string& key, unsigned int* indices, unsigned int size)
+	{
+		std::shared_ptr<IndexBuffer> ebo;
+		ebo.reset(IndexBuffer::create(indices, size));
+		m_EBOs.remove(key);
+		m_EBOs.add(key, ebo);
+
+		return m_EBOs.getAsset(key);
+	}
+
 	void ResourceManager::populateCharacters(std::unordered_map<std::string, unsigned int> fontsAndSizes)
 	{
 		unsigned char* texMemory;
