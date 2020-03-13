@@ -92,7 +92,7 @@ void main()
 
 #version 450 core
 
-layout(triangles, equal_spacing, ccw) in;
+layout(triangles, fractional_even_spacing, ccw) in;
 
 vec2 interpolate2D(vec2 v0, vec2 v1, vec2 v2);
 vec3 interpolate3D(vec3 v0, vec3 v1, vec3 v2);
