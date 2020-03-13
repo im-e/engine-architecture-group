@@ -125,6 +125,10 @@ namespace Engine
 			return s_instance;
 		};
 
+		std::shared_ptr<VertexArray> overwriteVAO(const std::string& key);
+		std::shared_ptr<VertexBuffer> overwriteVBO(const std::string& key, float* vertices, unsigned int size, BufferLayout& layout);
+		std::shared_ptr<IndexBuffer> overwriteEBO(const std::string& key, unsigned int* indices, unsigned int size);
+
 		AssetManager<VertexArray>& getVAO(); //!< Get collection of the VAOs \return m_VAOs collection of the VAOs
 		AssetManager<VertexBuffer>& getVBO(); //!< Get collection of the VBOs \return m_VBOs collection of the VBOs
 		AssetManager<IndexBuffer>& getEBO(); //!< Get collection of the index buffers \return m_EBOs collection of index buffers
