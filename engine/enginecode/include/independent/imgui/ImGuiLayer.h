@@ -31,6 +31,9 @@ namespace Engine
 		//! Texture names
 		std::vector<std::string> m_texturesNames;
 
+		//! Is currently managed layer 2D ?
+		static bool m_is2D;
+
 	public:
 		//! Constructor \param name layer name \param path filepath to load ImGui from \param layer layer to be modified
 		ImGuiLayer(const std::string& name, const std::string& path, std::shared_ptr<Layer> layer) : m_filepath(path), Layer(name)
@@ -67,5 +70,8 @@ namespace Engine
 		JsonLayer* getJsonLayer();
 		//! Gets name of a currently selected GO \return name of a GO
 		std::string& getGOName();
+
+		//! Checks if a layer is 2D or 3D \return true if currently chosen layer is 2D
+		bool is2D() { return m_is2D; }
 	};
 }

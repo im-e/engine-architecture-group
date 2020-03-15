@@ -33,6 +33,8 @@ namespace Engine
 		//! Removes a layer \param layer layer to be removed
 		void pop(std::shared_ptr<Layer> layer);
 
+		//! Gets entire collection of layers \return collection of layers
+		inline std::vector<std::shared_ptr<Layer>> getLayers() { return m_layers; }
 		//! Gets beginning of a collection of layers \return beginning of a collection
 		inline std::vector<std::shared_ptr<Layer>>::iterator begin() { return m_layers.begin(); }
 		//! Gets end of a collection of layers \return end of a collection

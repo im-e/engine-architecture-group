@@ -15,8 +15,6 @@
 #include "components/ControllerComponent.h"
 #include "components/AIComponent.h"
 #include "components/ColourComponent.h"
-//#include "components/RigidbodyComponent.h"
-//#include "components/BoxColliderComponent.h"
 
 namespace Engine
 {

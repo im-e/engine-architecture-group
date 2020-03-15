@@ -530,8 +530,6 @@ namespace Engine
 						float b = go["material"]["colour"]["b"].get<float>();
 						std::shared_ptr<TextLabel> label(TextLabel::create(goName, font, charSize, text, glm::vec2(), 0.0f, 0.0f, glm::vec3(r, g, b)));
 
-						label->editText("Dmu Engine 123456789"); // This is how you call the edit function for the text
-
 						auto& mat = label->getMaterial();
 
 						textMat = std::make_shared<MaterialComponent>(MaterialComponent(mat));
@@ -635,39 +633,21 @@ namespace Engine
 			{
 				layer.addImGuiFunction([&](JsonLayer* lay) 
 				{
-					if (ImGui::CollapsingHeader("Material"))
+					if (!layer.is2D())
 					{
-						const char* types[2] = { "Json", "Assimp" };
-						static const char* currentItem = types[0];
-						if (ImGui::BeginCombo("Type", currentItem))
+						if (ImGui::CollapsingHeader("Material"))
 						{
-							for (int i = 0; i < IM_ARRAYSIZE(types); i++)
+							const char* types[2] = { "Json", "Assimp" };
+							static const char* currentItem = types[0];
+							if (ImGui::BeginCombo("Type", currentItem))
 							{
-								bool selected = (currentItem == types[i]);
-
-								if (ImGui::Selectable(types[i], selected))
+								for (int i = 0; i < IM_ARRAYSIZE(types); i++)
 								{
-									currentItem = types[i];
-								}
+									bool selected = (currentItem == types[i]);
 
-								if (selected)
-									ImGui::SetItemDefaultFocus();
-							}
-							ImGui::EndCombo();
-						}
-
-						static const char* meshItem = "";
-						if (currentItem == "Json")
-						{
-							if (ImGui::BeginCombo("Json Mesh", meshItem))
-							{
-								for (int i = 0; i < layer.getJsonModelsNames().size(); i++)
-								{
-									bool selected = (meshItem == layer.getJsonModelsNames()[i]);
-
-									if (ImGui::Selectable(layer.getJsonModelsNames()[i].c_str(), selected))
+									if (ImGui::Selectable(types[i], selected))
 									{
-										meshItem = layer.getJsonModelsNames()[i].c_str();
+										currentItem = types[i];
 									}
 
 									if (selected)
@@ -675,18 +655,57 @@ namespace Engine
 								}
 								ImGui::EndCombo();
 							}
-						}
-						else if (currentItem == "Assimp")
-						{
-							if (ImGui::BeginCombo("Assimp Mesh", meshItem))
-							{
-								for (int i = 0; i < layer.getAssimpModelsNames().size(); i++)
-								{
-									bool selected = (meshItem == layer.getAssimpModelsNames()[i]);
 
-									if (ImGui::Selectable(layer.getAssimpModelsNames()[i].c_str(), selected))
+							static const char* meshItem = "";
+							if (currentItem == "Json")
+							{
+								if (ImGui::BeginCombo("Json Mesh", meshItem))
+								{
+									for (int i = 0; i < layer.getJsonModelsNames().size(); i++)
 									{
-										meshItem = layer.getAssimpModelsNames()[i].c_str();
+										bool selected = (meshItem == layer.getJsonModelsNames()[i]);
+
+										if (ImGui::Selectable(layer.getJsonModelsNames()[i].c_str(), selected))
+										{
+											meshItem = layer.getJsonModelsNames()[i].c_str();
+										}
+
+										if (selected)
+											ImGui::SetItemDefaultFocus();
+									}
+									ImGui::EndCombo();
+								}
+							}
+							else if (currentItem == "Assimp")
+							{
+								if (ImGui::BeginCombo("Assimp Mesh", meshItem))
+								{
+									for (int i = 0; i < layer.getAssimpModelsNames().size(); i++)
+									{
+										bool selected = (meshItem == layer.getAssimpModelsNames()[i]);
+
+										if (ImGui::Selectable(layer.getAssimpModelsNames()[i].c_str(), selected))
+										{
+											meshItem = layer.getAssimpModelsNames()[i].c_str();
+										}
+
+										if (selected)
+											ImGui::SetItemDefaultFocus();
+									}
+									ImGui::EndCombo();
+								}
+							}
+
+							static const char* shaderName = "";
+							if (ImGui::BeginCombo("Shader", shaderName))
+							{
+								for (int i = 0; i < layer.getShaderNames().size(); i++)
+								{
+									bool selected = (shaderName == layer.getShaderNames()[i]);
+
+									if (ImGui::Selectable(layer.getShaderNames()[i].c_str(), selected))
+									{
+										shaderName = layer.getShaderNames()[i].c_str();
 									}
 
 									if (selected)
@@ -694,308 +713,294 @@ namespace Engine
 								}
 								ImGui::EndCombo();
 							}
-						}
 
-						static const char* shaderName = "";
-						if (ImGui::BeginCombo("Shader", shaderName))
-						{
-							for (int i = 0; i < layer.getShaderNames().size(); i++)
+							if (ImGui::Button("Add"))
 							{
-								bool selected = (shaderName == layer.getShaderNames()[i]);
-
-								if (ImGui::Selectable(layer.getShaderNames()[i].c_str(), selected))
+								// check if component does not exist yet
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>() == nullptr)
 								{
-									shaderName = layer.getShaderNames()[i].c_str();
-								}
-
-								if (selected)
-									ImGui::SetItemDefaultFocus();
-							}
-							ImGui::EndCombo();
-						}
-
-						if (ImGui::Button("Add"))
-						{
-							// check if component does not exist yet
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>() == nullptr)
-							{
-								// set material up
-								if (currentItem == "Json")
-								{
-									std::shared_ptr<MaterialComponent> mat;
-									std::shared_ptr<JsonModel> model = ResourceManagerInstance->getJsonModels().getAsset(meshItem);
-
-									ResourceManagerInstance->addVAO(layer.getGOName() + "VAO");
-									ResourceManagerInstance->addVBO(layer.getGOName() + "VBO", model->vertices, sizeof(float) * model->verticesSize, model->shader->getBufferLayout());
-									ResourceManagerInstance->addEBO(layer.getGOName() + "EBO", model->indices, sizeof(unsigned int) * model->indicesSize);
-
-									ResourceManagerInstance->getVAO().getAsset(layer.getGOName() + "VAO")->
-										setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(layer.getGOName() + "VBO"));
-									ResourceManagerInstance->getVAO().getAsset(layer.getGOName() + "VAO")->
-										setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(layer.getGOName() + "EBO"));
-
-									ResourceManagerInstance->addMaterial(layer.getGOName() + "Mat",
-										ResourceManagerInstance->getShader().getAsset(shaderName),
-										ResourceManagerInstance->getVAO().getAsset(layer.getGOName() + "VAO"));
-
-									mat = std::make_shared<MaterialComponent>
-										(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(layer.getGOName() + "Mat")));
-									mat->setTypeName("json");
-									mat->setModelName(meshItem);
-									mat->setShaderName(shaderName);
-									lay->getGameObjects()[layer.getGOName()]->addComponent(mat);
-								}
-								else if (currentItem == "Assimp")
-								{
-									std::shared_ptr<AssimpModel> assimpModel = ResourceManagerInstance->getAssimpModels().getAsset(meshItem);
-
-									for (int i = 0; i < assimpModel->m_meshes.size(); i++)
+									// set material up
+									if (currentItem == "Json")
 									{
 										std::shared_ptr<MaterialComponent> mat;
-										Mesh* mesh = &assimpModel->m_meshes.at(i);
-										mesh->m_shader = ResourceManagerInstance->getShader().getAsset(shaderName);
+										std::shared_ptr<JsonModel> model = ResourceManagerInstance->getJsonModels().getAsset(meshItem);
 
-										//set each mesh up
-											// add VAO
-										ResourceManagerInstance->addVAO(layer.getGOName() + "VAO" + std::to_string(i));
-										// add VBO
-										ResourceManagerInstance->addVBO(layer.getGOName() + "VBO" + std::to_string(i),
-											(float*)&mesh->m_vertices.at(0),
-											mesh->m_vertices.size() * sizeof(VertexData),
-											mesh->m_shader->getBufferLayout());
-										// add EBO
-										ResourceManagerInstance->addEBO(layer.getGOName() + "EBO" + std::to_string(i),
-											&mesh->m_indices.at(0),
-											mesh->m_indices.size() * sizeof(unsigned int));
-										// link VBO to VAO
-										ResourceManagerInstance->getVAO().getAsset(layer.getGOName() + "VAO" + std::to_string(i))->
-											setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(layer.getGOName() + "VBO" + std::to_string(i)));
-										// link EBO to VAO
-										ResourceManagerInstance->getVAO().getAsset(layer.getGOName() + "VAO" + std::to_string(i))->
-											setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(layer.getGOName() + "EBO" + std::to_string(i)));
+										ResourceManagerInstance->addVAO(layer.getGOName() + "VAO");
+										ResourceManagerInstance->addVBO(layer.getGOName() + "VBO", model->vertices, sizeof(float) * model->verticesSize, model->shader->getBufferLayout());
+										ResourceManagerInstance->addEBO(layer.getGOName() + "EBO", model->indices, sizeof(unsigned int) * model->indicesSize);
 
-										mesh->setupMesh(mesh->m_vertices.at(0), mesh->m_indices.at(0));
+										ResourceManagerInstance->getVAO().getAsset(layer.getGOName() + "VAO")->
+											setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(layer.getGOName() + "VBO"));
+										ResourceManagerInstance->getVAO().getAsset(layer.getGOName() + "VAO")->
+											setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(layer.getGOName() + "EBO"));
 
-										// add material
-										ResourceManagerInstance->addMaterial(layer.getGOName() + "Mat" + std::to_string(i),
-											mesh->m_shader,
-											ResourceManagerInstance->getVAO().getAsset(layer.getGOName() + "VAO" + std::to_string(i)));
+										ResourceManagerInstance->addMaterial(layer.getGOName() + "Mat",
+											ResourceManagerInstance->getShader().getAsset(shaderName),
+											ResourceManagerInstance->getVAO().getAsset(layer.getGOName() + "VAO"));
 
 										mat = std::make_shared<MaterialComponent>
-											(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(layer.getGOName() + "Mat" + std::to_string(i))));
-										mat->setTypeName("assimp");
+											(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(layer.getGOName() + "Mat")));
+										mat->setTypeName("json");
 										mat->setModelName(meshItem);
 										mat->setShaderName(shaderName);
 										lay->getGameObjects()[layer.getGOName()]->addComponent(mat);
 									}
-								}
-							}
-						}
-						ImGui::SameLine(100);
-						if (ImGui::Button("Remove"))
-						{
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>() != nullptr)
-							{
-								// set material up
-								if (currentItem == "Json")
-								{
-									ResourceManagerInstance->getVAO().remove(layer.getGOName() + "VAO");
-									ResourceManagerInstance->getVBO().remove(layer.getGOName() + "VBO");
-									ResourceManagerInstance->getEBO().remove(layer.getGOName() + "EBO");
-									ResourceManagerInstance->getMaterial().remove(layer.getGOName() + "Mat");
-
-									lay->getGameObjects()[layer.getGOName()]->removeComponent(lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>());
-								}
-								else if (currentItem == "Assimp")
-								{
-									std::shared_ptr<AssimpModel> assimpModel = ResourceManagerInstance->getAssimpModels().getAsset(meshItem);
-
-									for (int i = 0; i < assimpModel->m_meshes.size(); i++)
+									else if (currentItem == "Assimp")
 									{
-										ResourceManagerInstance->getVAO().remove(layer.getGOName() + "VAO" + std::to_string(i));
-										ResourceManagerInstance->getVBO().remove(layer.getGOName() + "VBO");
-										ResourceManagerInstance->getEBO().remove(layer.getGOName() + "EBO" + std::to_string(i));
-										ResourceManagerInstance->getMaterial().remove(layer.getGOName() + "Mat" + std::to_string(i));
+										std::shared_ptr<AssimpModel> assimpModel = ResourceManagerInstance->getAssimpModels().getAsset(meshItem);
 
-										lay->getGameObjects()[layer.getGOName()]->removeComponent(lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>());
+										for (int i = 0; i < assimpModel->m_meshes.size(); i++)
+										{
+											std::shared_ptr<MaterialComponent> mat;
+											Mesh* mesh = &assimpModel->m_meshes.at(i);
+											mesh->m_shader = ResourceManagerInstance->getShader().getAsset(shaderName);
+
+											//set each mesh up
+												// add VAO
+											ResourceManagerInstance->addVAO(layer.getGOName() + "VAO" + std::to_string(i));
+											// add VBO
+											ResourceManagerInstance->addVBO(layer.getGOName() + "VBO" + std::to_string(i),
+												(float*)&mesh->m_vertices.at(0),
+												mesh->m_vertices.size() * sizeof(VertexData),
+												mesh->m_shader->getBufferLayout());
+											// add EBO
+											ResourceManagerInstance->addEBO(layer.getGOName() + "EBO" + std::to_string(i),
+												&mesh->m_indices.at(0),
+												mesh->m_indices.size() * sizeof(unsigned int));
+											// link VBO to VAO
+											ResourceManagerInstance->getVAO().getAsset(layer.getGOName() + "VAO" + std::to_string(i))->
+												setVertexBuffer(ResourceManagerInstance->getVBO().getAsset(layer.getGOName() + "VBO" + std::to_string(i)));
+											// link EBO to VAO
+											ResourceManagerInstance->getVAO().getAsset(layer.getGOName() + "VAO" + std::to_string(i))->
+												setIndexBuffer(ResourceManagerInstance->getEBO().getAsset(layer.getGOName() + "EBO" + std::to_string(i)));
+
+											mesh->setupMesh(mesh->m_vertices.at(0), mesh->m_indices.at(0));
+
+											// add material
+											ResourceManagerInstance->addMaterial(layer.getGOName() + "Mat" + std::to_string(i),
+												mesh->m_shader,
+												ResourceManagerInstance->getVAO().getAsset(layer.getGOName() + "VAO" + std::to_string(i)));
+
+											mat = std::make_shared<MaterialComponent>
+												(MaterialComponent(ResourceManagerInstance->getMaterial().getAsset(layer.getGOName() + "Mat" + std::to_string(i))));
+											mat->setTypeName("assimp");
+											mat->setModelName(meshItem);
+											mat->setShaderName(shaderName);
+											lay->getGameObjects()[layer.getGOName()]->addComponent(mat);
+										}
 									}
 								}
 							}
-							else
+							ImGui::SameLine(100);
+							if (ImGui::Button("Remove"))
 							{
-								LogWarn("Component did not exist anyway!");
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>() != nullptr)
+								{
+									// set material up
+									if (currentItem == "Json")
+									{
+										ResourceManagerInstance->getVAO().remove(layer.getGOName() + "VAO");
+										ResourceManagerInstance->getVBO().remove(layer.getGOName() + "VBO");
+										ResourceManagerInstance->getEBO().remove(layer.getGOName() + "EBO");
+										ResourceManagerInstance->getMaterial().remove(layer.getGOName() + "Mat");
+
+										lay->getGameObjects()[layer.getGOName()]->removeComponent(lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>());
+									}
+									else if (currentItem == "Assimp")
+									{
+										std::shared_ptr<AssimpModel> assimpModel = ResourceManagerInstance->getAssimpModels().getAsset(meshItem);
+
+										for (int i = 0; i < assimpModel->m_meshes.size(); i++)
+										{
+											ResourceManagerInstance->getVAO().remove(layer.getGOName() + "VAO" + std::to_string(i));
+											ResourceManagerInstance->getVBO().remove(layer.getGOName() + "VBO");
+											ResourceManagerInstance->getEBO().remove(layer.getGOName() + "EBO" + std::to_string(i));
+											ResourceManagerInstance->getMaterial().remove(layer.getGOName() + "Mat" + std::to_string(i));
+
+											lay->getGameObjects()[layer.getGOName()]->removeComponent(lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>());
+										}
+									}
+								}
+								else
+								{
+									LogWarn("Component did not exist anyway!");
+								}
 							}
 						}
 					}
+					
 				});
 			}
 			if (jsonFile["Functions"]["Texture"].get<bool>() == true)
 			{
 				layer.addImGuiFunction([&](JsonLayer* lay)
 				{
-					if (ImGui::CollapsingHeader("Texture"))
+					if (!layer.is2D())
 					{
-						static const char* tex = "";
-						static const char* normTex = "none";
-						static const char* parallTex = "none";
-						static const char* specTex = "none";
-
-						if (ImGui::BeginCombo("Diffuse texture", tex))
+						if (ImGui::CollapsingHeader("Texture"))
 						{
-							for (int i = 0; i < layer.getTexturesNames().size(); i++)
-							{
-								bool selected = (tex == layer.getTexturesNames()[i]);
+							static const char* tex = "";
+							static const char* normTex = "none";
+							static const char* parallTex = "none";
+							static const char* specTex = "none";
 
-								if (ImGui::Selectable(layer.getTexturesNames()[i].c_str(), selected))
+							if (ImGui::BeginCombo("Diffuse texture", tex))
+							{
+								for (int i = 0; i < layer.getTexturesNames().size(); i++)
 								{
-									tex = layer.getTexturesNames()[i].c_str();
+									bool selected = (tex == layer.getTexturesNames()[i]);
+
+									if (ImGui::Selectable(layer.getTexturesNames()[i].c_str(), selected))
+									{
+										tex = layer.getTexturesNames()[i].c_str();
+									}
+
+									if (selected)
+										ImGui::SetItemDefaultFocus();
 								}
-
-								if (selected)
-									ImGui::SetItemDefaultFocus();
+								ImGui::EndCombo();
 							}
-							ImGui::EndCombo();
-						}
 
-						if (ImGui::BeginCombo("Normal texture", normTex))
-						{
-							for (int i = 0; i < layer.getTexturesNames().size(); i++)
+							if (ImGui::BeginCombo("Normal texture", normTex))
 							{
-								bool selected = (normTex == layer.getTexturesNames()[i]);
-
-								if (ImGui::Selectable(layer.getTexturesNames()[i].c_str(), selected))
+								for (int i = 0; i < layer.getTexturesNames().size(); i++)
 								{
-									normTex = layer.getTexturesNames()[i].c_str();
+									bool selected = (normTex == layer.getTexturesNames()[i]);
+
+									if (ImGui::Selectable(layer.getTexturesNames()[i].c_str(), selected))
+									{
+										normTex = layer.getTexturesNames()[i].c_str();
+									}
+
+									if (selected)
+										ImGui::SetItemDefaultFocus();
 								}
-
-								if (selected)
-									ImGui::SetItemDefaultFocus();
+								ImGui::EndCombo();
 							}
-							ImGui::EndCombo();
-						}
 
-						if (ImGui::BeginCombo("Parallax texture", parallTex))
-						{
-							for (int i = 0; i < layer.getTexturesNames().size(); i++)
+							if (ImGui::BeginCombo("Parallax texture", parallTex))
 							{
-								bool selected = (parallTex == layer.getTexturesNames()[i]);
-
-								if (ImGui::Selectable(layer.getTexturesNames()[i].c_str(), selected))
+								for (int i = 0; i < layer.getTexturesNames().size(); i++)
 								{
-									parallTex = layer.getTexturesNames()[i].c_str();
+									bool selected = (parallTex == layer.getTexturesNames()[i]);
+
+									if (ImGui::Selectable(layer.getTexturesNames()[i].c_str(), selected))
+									{
+										parallTex = layer.getTexturesNames()[i].c_str();
+									}
+
+									if (selected)
+										ImGui::SetItemDefaultFocus();
 								}
-
-								if (selected)
-									ImGui::SetItemDefaultFocus();
+								ImGui::EndCombo();
 							}
-							ImGui::EndCombo();
-						}
 
-						if (ImGui::BeginCombo("Specular texture", specTex))
-						{
-							for (int i = 0; i < layer.getTexturesNames().size(); i++)
+							if (ImGui::BeginCombo("Specular texture", specTex))
 							{
-								bool selected = (specTex == layer.getTexturesNames()[i]);
-
-								if (ImGui::Selectable(layer.getTexturesNames()[i].c_str(), selected))
+								for (int i = 0; i < layer.getTexturesNames().size(); i++)
 								{
-									specTex = layer.getTexturesNames()[i].c_str();
+									bool selected = (specTex == layer.getTexturesNames()[i]);
+
+									if (ImGui::Selectable(layer.getTexturesNames()[i].c_str(), selected))
+									{
+										specTex = layer.getTexturesNames()[i].c_str();
+									}
+
+									if (selected)
+										ImGui::SetItemDefaultFocus();
 								}
-
-								if (selected)
-									ImGui::SetItemDefaultFocus();
+								ImGui::EndCombo();
 							}
-							ImGui::EndCombo();
-						}
 
-						if (ImGui::Button("Add"))
-						{
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>() == nullptr)
+							if (ImGui::Button("Add"))
 							{
-								// TODO more textures
-								std::shared_ptr<TextureComponent> texComp;
-								texComp = std::make_shared<TextureComponent>
-									(TextureComponent(ResourceManagerInstance->getTexture().getAsset(tex)->getSlot()));
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>() == nullptr)
+								{
+									// TODO more textures
+									std::shared_ptr<TextureComponent> texComp;
+									texComp = std::make_shared<TextureComponent>
+										(TextureComponent(ResourceManagerInstance->getTexture().getAsset(tex)->getSlot()));
 
-								lay->getGameObjects()[layer.getGOName()]->addComponent(texComp);
+									lay->getGameObjects()[layer.getGOName()]->addComponent(texComp);
 
-								if (normTex != "none")
-									texComp->assignNormalTexture(ResourceManagerInstance->getTexture().getAsset(normTex)->getSlot());
+									if (normTex != "none")
+										texComp->assignNormalTexture(ResourceManagerInstance->getTexture().getAsset(normTex)->getSlot());
 
-								if (parallTex != "none")
-									texComp->assignParallaxTexture(ResourceManagerInstance->getTexture().getAsset(parallTex)->getSlot());
+									if (parallTex != "none")
+										texComp->assignParallaxTexture(ResourceManagerInstance->getTexture().getAsset(parallTex)->getSlot());
 
-								if (specTex != "none")
-									texComp->assignSpecularTexture(ResourceManagerInstance->getTexture().getAsset(specTex)->getSlot());
+									if (specTex != "none")
+										texComp->assignSpecularTexture(ResourceManagerInstance->getTexture().getAsset(specTex)->getSlot());
 
-								texComp->setDiffuseTextureName(tex);
-								texComp->setNormalTextureName(normTex);
-								texComp->setParallaxTextureName(parallTex);
-								texComp->setSpecularTextureName(specTex);
+									texComp->setDiffuseTextureName(tex);
+									texComp->setNormalTextureName(normTex);
+									texComp->setParallaxTextureName(parallTex);
+									texComp->setSpecularTextureName(specTex);
+								}
+								else
+								{
+									LogWarn("Component already exists!");
+								}
 							}
-							else
-							{
-								LogWarn("Component already exists!");
-							}
-						}
-						ImGui::SameLine(100);
-						if (ImGui::Button("Change"))
-						{
-							auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>();
-							if (comp != nullptr)
-							{
-								comp->setTexture(ResourceManagerInstance->getTexture().getAsset(tex)->getSlot());
-
-								if (normTex != "none")
-									comp->assignNormalTexture(ResourceManagerInstance->getTexture().getAsset(normTex)->getSlot());
-
-								if (parallTex != "none")
-									comp->assignParallaxTexture(ResourceManagerInstance->getTexture().getAsset(parallTex)->getSlot());
-
-								if (specTex != "none")
-									comp->assignSpecularTexture(ResourceManagerInstance->getTexture().getAsset(specTex)->getSlot());
-
-								comp->setDiffuseTextureName(tex);
-								comp->setNormalTextureName(normTex);
-								comp->setParallaxTextureName(parallTex);
-								comp->setSpecularTextureName(specTex);
-
-							}
-							else
-							{
-								LogError("Can't change - add first!");
-							}
-						}
-						ImGui::SameLine(200);
-						if (ImGui::Button("Remove"))
-						{
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>() != nullptr)
+							ImGui::SameLine(100);
+							if (ImGui::Button("Change"))
 							{
 								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>();
-								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+								if (comp != nullptr)
+								{
+									comp->setTexture(ResourceManagerInstance->getTexture().getAsset(tex)->getSlot());
+
+									if (normTex != "none")
+										comp->assignNormalTexture(ResourceManagerInstance->getTexture().getAsset(normTex)->getSlot());
+
+									if (parallTex != "none")
+										comp->assignParallaxTexture(ResourceManagerInstance->getTexture().getAsset(parallTex)->getSlot());
+
+									if (specTex != "none")
+										comp->assignSpecularTexture(ResourceManagerInstance->getTexture().getAsset(specTex)->getSlot());
+
+									comp->setDiffuseTextureName(tex);
+									comp->setNormalTextureName(normTex);
+									comp->setParallaxTextureName(parallTex);
+									comp->setSpecularTextureName(specTex);
+
+								}
+								else
+								{
+									LogError("Can't change - add first!");
+								}
 							}
-							else
+							ImGui::SameLine(200);
+							if (ImGui::Button("Remove"))
 							{
-								LogWarn("Component did not exist anyway!");
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>() != nullptr)
+								{
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+								}
+								else
+								{
+									LogWarn("Component did not exist anyway!");
+								}
+							}
+							ImGui::SameLine(300);
+							if (ImGui::Button("Reset"))
+							{
+								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>();
+								if (comp != nullptr)
+								{
+									tex = "";
+									normTex = "none";
+									parallTex = "none";
+									specTex = "none";
+								}
+								else
+								{
+									LogError("Can't reset - add first!");
+								}
 							}
 						}
-						ImGui::SameLine(300);
-						if (ImGui::Button("Reset"))
-						{
-							auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>();
-							if (comp != nullptr)
-							{
-								tex = "";
-								normTex = "none";
-								parallTex = "none";
-								specTex = "none";
-							}
-							else
-							{
-								LogError("Can't reset - add first!");
-							}
-						}
-					}
+					}				
 				});
 			}
 			if (jsonFile["Functions"]["Position"].get<bool>() == true)
@@ -1025,48 +1030,51 @@ namespace Engine
 			{
 				layer.addImGuiFunction([&](JsonLayer* lay)
 				{
-					if (ImGui::CollapsingHeader("Velocity"))
+					if (!layer.is2D())
 					{
-						static glm::vec3 linear = glm::vec3(0.0f);
-						static glm::vec3 angular = glm::vec3(0.0f);
+						if (ImGui::CollapsingHeader("Velocity"))
+						{
+							static glm::vec3 linear = glm::vec3(0.0f);
+							static glm::vec3 angular = glm::vec3(0.0f);
 
-						ImGui::InputFloat3("Linear", &linear.x, 3);
-						ImGui::InputFloat3("Angular", &angular.x, 3);
+							ImGui::InputFloat3("Linear", &linear.x, 3);
+							ImGui::InputFloat3("Angular", &angular.x, 3);
 
-						if (ImGui::Button("Add"))
-						{
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<VelocityComponent>() == nullptr)
+							if (ImGui::Button("Add"))
 							{
-								std::shared_ptr<VelocityComponent> vel;
-								vel = std::make_shared<VelocityComponent>(VelocityComponent(linear, angular));
-								lay->getGameObjects()[layer.getGOName()]->addComponent(vel);
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<VelocityComponent>() == nullptr)
+								{
+									std::shared_ptr<VelocityComponent> vel;
+									vel = std::make_shared<VelocityComponent>(VelocityComponent(linear, angular));
+									lay->getGameObjects()[layer.getGOName()]->addComponent(vel);
+								}
 							}
-						}
-						ImGui::SameLine(100);
-						if (ImGui::Button("Change"))
-						{
-							auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<VelocityComponent>();
-							if (comp)
-							{
-								comp->setLinear(linear);
-								comp->setAngular(angular);
-							}
-							else
-							{
-								LogError("Can't change - add first!");
-							}
-						}
-						ImGui::SameLine(200);
-						if (ImGui::Button("Remove"))
-						{
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<VelocityComponent>())
+							ImGui::SameLine(100);
+							if (ImGui::Button("Change"))
 							{
 								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<VelocityComponent>();
-								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+								if (comp)
+								{
+									comp->setLinear(linear);
+									comp->setAngular(angular);
+								}
+								else
+								{
+									LogError("Can't change - add first!");
+								}
 							}
-							else
+							ImGui::SameLine(200);
+							if (ImGui::Button("Remove"))
 							{
-								LogWarn("Component did not exist anyway!");
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<VelocityComponent>())
+								{
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<VelocityComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+								}
+								else
+								{
+									LogWarn("Component did not exist anyway!");
+								}
 							}
 						}
 					}
@@ -1076,180 +1084,189 @@ namespace Engine
 			{
 				layer.addImGuiFunction([&](JsonLayer* lay)
 				{
-					if (ImGui::CollapsingHeader("Controller"))
+					if (!layer.is2D())
 					{
-						static float moveSpeed = 0.0f;
-						static float rotationSpeed = 0.0f;
+						if (ImGui::CollapsingHeader("Controller"))
+						{
+							static float moveSpeed = 0.0f;
+							static float rotationSpeed = 0.0f;
 
-						ImGui::InputFloat("Move speed", &moveSpeed, 0.01f, 1.0f, 2);
-						ImGui::InputFloat("Rotation speed", &rotationSpeed, 0.01f, 1.0f, 2);
+							ImGui::InputFloat("Move speed", &moveSpeed, 0.01f, 1.0f, 2);
+							ImGui::InputFloat("Rotation speed", &rotationSpeed, 0.01f, 1.0f, 2);
 
-						if (ImGui::Button("Add"))
-						{
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<ControllerComponent>() == nullptr)
+							if (ImGui::Button("Add"))
 							{
-								std::shared_ptr<ControllerComponent> ctr;
-								ctr = std::make_shared<ControllerComponent>
-									(ControllerComponent(moveSpeed, rotationSpeed));
-								lay->getGameObjects()[layer.getGOName()]->addComponent(ctr);
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<ControllerComponent>() == nullptr)
+								{
+									std::shared_ptr<ControllerComponent> ctr;
+									ctr = std::make_shared<ControllerComponent>
+										(ControllerComponent(moveSpeed, rotationSpeed));
+									lay->getGameObjects()[layer.getGOName()]->addComponent(ctr);
+								}
 							}
-						}
-						ImGui::SameLine(100);
-						if (ImGui::Button("Change"))
-						{
-							auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<ControllerComponent>();
-							if (comp)
-							{
-								comp->setMoveSpeed(moveSpeed);
-								comp->setRotationSpeeed(rotationSpeed);
-							}
-							else
-							{
-								LogError("Can't change - add first!");
-							}
-						}
-						ImGui::SameLine(200);
-						if (ImGui::Button("Remove"))
-						{
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<ControllerComponent>())
+							ImGui::SameLine(100);
+							if (ImGui::Button("Change"))
 							{
 								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<ControllerComponent>();
-								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+								if (comp)
+								{
+									comp->setMoveSpeed(moveSpeed);
+									comp->setRotationSpeeed(rotationSpeed);
+								}
+								else
+								{
+									LogError("Can't change - add first!");
+								}
 							}
-							else
+							ImGui::SameLine(200);
+							if (ImGui::Button("Remove"))
 							{
-								LogWarn("Component did not exist anyway!");
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<ControllerComponent>())
+								{
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<ControllerComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+								}
+								else
+								{
+									LogWarn("Component did not exist anyway!");
+								}
 							}
 						}
-					}
+					}				
 				});
 			}
 			if (jsonFile["Functions"]["Oscillate"].get<bool>() == true)
 			{
 				layer.addImGuiFunction([&](JsonLayer* lay)
 				{
-					if (ImGui::CollapsingHeader("Oscillate"))
+					if (!layer.is2D())
 					{
-						std::vector<const char*> chars;
-						chars.push_back("Stopped");
-						chars.push_back("Down");
-						chars.push_back("Up");
-						static const char* currentItem = chars[0];
-
-						OscillateComponent::State state = OscillateComponent::State::STOPPED;
-
-						static float currTime;
-						static float maxTime;
-						static bool setTexture;
-
-						if (ImGui::BeginCombo("State", currentItem))
+						if (ImGui::CollapsingHeader("Oscillate"))
 						{
-							for (int i = 0; i < chars.size(); i++)
-							{
-								bool selected = (currentItem == chars[i]);
+							std::vector<const char*> chars;
+							chars.push_back("Stopped");
+							chars.push_back("Down");
+							chars.push_back("Up");
+							static const char* currentItem = chars[0];
 
-								if (ImGui::Selectable(chars[i], selected))
+							OscillateComponent::State state = OscillateComponent::State::STOPPED;
+
+							static float currTime;
+							static float maxTime;
+							static bool setTexture;
+
+							if (ImGui::BeginCombo("State", currentItem))
+							{
+								for (int i = 0; i < chars.size(); i++)
 								{
-									currentItem = chars[i];
+									bool selected = (currentItem == chars[i]);
+
+									if (ImGui::Selectable(chars[i], selected))
+									{
+										currentItem = chars[i];
+									}
+
+									if (selected)
+										ImGui::SetItemDefaultFocus();
 								}
 
-								if (selected)
-									ImGui::SetItemDefaultFocus();
+								ImGui::EndCombo();
 							}
 
-							ImGui::EndCombo();
-						}
+							ImGui::InputFloat("Current time", &currTime, 0.01f, 1.0f, 2);
+							ImGui::InputFloat("Max time", &maxTime, 0.01f, 1.0f, 2);
+							ImGui::Checkbox("Set texture?", &setTexture);
 
-						ImGui::InputFloat("Current time", &currTime, 0.01f, 1.0f, 2);
-						ImGui::InputFloat("Max time", &maxTime, 0.01f, 1.0f, 2);
-						ImGui::Checkbox("Set texture?", &setTexture);
-
-						if (ImGui::Button("Add"))
-						{
-							//check if component does not exist yet
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<OscillateComponent>() == nullptr)
+							if (ImGui::Button("Add"))
 							{
-								std::shared_ptr<OscillateComponent> osc;
-								std::shared_ptr<VelocityComponent> vel = lay->getGameObjects()[layer.getGOName()]->getComponent<VelocityComponent>();
+								//check if component does not exist yet
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<OscillateComponent>() == nullptr)
+								{
+									std::shared_ptr<OscillateComponent> osc;
+									std::shared_ptr<VelocityComponent> vel = lay->getGameObjects()[layer.getGOName()]->getComponent<VelocityComponent>();
 
-								std::string stateStr = currentItem;
+									std::string stateStr = currentItem;
 
-								if (stateStr.compare("Stopped") == 0) state = OscillateComponent::State::STOPPED;
-								if (stateStr.compare("Down") == 0) state = OscillateComponent::State::DOWN;
-								if (stateStr.compare("Up") == 0) state = OscillateComponent::State::UP;
+									if (stateStr.compare("Stopped") == 0) state = OscillateComponent::State::STOPPED;
+									if (stateStr.compare("Down") == 0) state = OscillateComponent::State::DOWN;
+									if (stateStr.compare("Up") == 0) state = OscillateComponent::State::UP;
 
-								osc = std::make_shared<OscillateComponent>
-									(OscillateComponent(state, currTime, maxTime, setTexture, vel->getLinear()));
-								lay->getGameObjects()[layer.getGOName()]->addComponent(osc);
+									osc = std::make_shared<OscillateComponent>
+										(OscillateComponent(state, currTime, maxTime, setTexture, vel->getLinear()));
+									lay->getGameObjects()[layer.getGOName()]->addComponent(osc);
+								}
 							}
-						}
-						ImGui::SameLine(100);
-						if (ImGui::Button("Change"))
-						{
-							LogWarn("Oscillate component will be deprecated - can't change!");
-						}
-						ImGui::SameLine(200);
-						if (ImGui::Button("Remove"))
-						{
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<OscillateComponent>())
+							ImGui::SameLine(100);
+							if (ImGui::Button("Change"))
 							{
-								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<OscillateComponent>();
-								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+								LogWarn("Oscillate component will be deprecated - can't change!");
 							}
-							else
+							ImGui::SameLine(200);
+							if (ImGui::Button("Remove"))
 							{
-								LogWarn("Component did not exist anyway!");
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<OscillateComponent>())
+								{
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<OscillateComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+								}
+								else
+								{
+									LogWarn("Component did not exist anyway!");
+								}
 							}
 						}
-					}
+					}					
 				});
 			}
 			if (jsonFile["Functions"]["AI"].get<bool>() == true)
 			{
 				layer.addImGuiFunction([&](JsonLayer* lay)
 				{
-					if (ImGui::CollapsingHeader("AI"))
+					if (!layer.is2D())
 					{
-						static float stopDist;
-						static char aiType[32] = "";
-						static char scriptName[32] = "";
-
-						ImGui::InputFloat("Stop distance", &stopDist, 0.01f, 0.1f, 2);
-						ImGui::InputText("AI Type", aiType, IM_ARRAYSIZE(aiType));
-						ImGui::InputText("", scriptName, IM_ARRAYSIZE(scriptName));
-						ImGui::SameLine();
-						ImGui::Text(".lua");
-
-						if (ImGui::Button("Add"))
+						if (ImGui::CollapsingHeader("AI"))
 						{
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>() == nullptr)
-							{
-								std::shared_ptr<AIComponent> ai;
-								std::string scrName = scriptName;
+							static float stopDist;
+							static char aiType[32] = "";
+							static char scriptName[32] = "";
 
-								ai = std::make_shared<AIComponent>(AIComponent(stopDist, aiType, scriptName));
-								ai->registerClass();
-								ai->doFile("../scripts/" + scrName + ".lua", aiType, "update");
+							ImGui::InputFloat("Stop distance", &stopDist, 0.01f, 0.1f, 2);
+							ImGui::InputText("AI Type", aiType, IM_ARRAYSIZE(aiType));
+							ImGui::InputText("", scriptName, IM_ARRAYSIZE(scriptName));
+							ImGui::SameLine();
+							ImGui::Text(".lua");
 
-								lay->getGameObjects()[layer.getGOName()]->addComponent(ai);
-							}
-							else
+							if (ImGui::Button("Add"))
 							{
-								LogWarn("Component already exists!");
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>() == nullptr)
+								{
+									std::shared_ptr<AIComponent> ai;
+									std::string scrName = scriptName;
+
+									ai = std::make_shared<AIComponent>(AIComponent(stopDist, aiType, scriptName));
+									ai->registerClass();
+									ai->doFile("../scripts/" + scrName + ".lua", aiType, "update");
+
+									lay->getGameObjects()[layer.getGOName()]->addComponent(ai);
+								}
+								else
+								{
+									LogWarn("Component already exists!");
+								}
+
 							}
-							
-						}
-						ImGui::SameLine(100.0f);
-						if (ImGui::Button("Remove"))
-						{
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>())
+							ImGui::SameLine(100.0f);
+							if (ImGui::Button("Remove"))
 							{
-								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>();
-								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
-							}
-							else
-							{
-								LogWarn("Component did not exist anyway!");
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>())
+								{
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+								}
+								else
+								{
+									LogWarn("Component did not exist anyway!");
+								}
 							}
 						}
 					}
@@ -1260,56 +1277,58 @@ namespace Engine
 			{
 				layer.addImGuiFunction([&](JsonLayer* lay)
 				{
-					/*if (ImGui::CollapsingHeader("Rigidbody"))
+					if (!layer.is2D())
+					{
+						/*if (ImGui::CollapsingHeader("Rigidbody"))
 					{
 						std::vector<const char*> types;
 						types.push_back("Static");
 						types.push_back("Kinematic");
 						types.push_back("Dynamic");
-					
+
 						static const char* currentItem = types[types.size() - 1];
 						static bool grav;
-					
+
 						if (ImGui::BeginCombo("Type", currentItem))
 						{
 							for (int i = 0; i < types.size(); i++)
 							{
 								bool selected = (currentItem == types[i]);
-					
+
 								if (ImGui::Selectable(types[i], selected))
 								{
 									currentItem = types[i];
 								}
-					
+
 								if (selected)
 									ImGui::SetItemDefaultFocus();
 							}
-					
+
 							ImGui::EndCombo();
 						}
-					
+
 						ImGui::Checkbox("Gravity", &grav);
-					
+
 						if (ImGui::Button("Add"))
 						{
 							if (lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>() == nullptr)
 							{
 								std::shared_ptr<RigidBodyComponent> rb;
 								rp3d::BodyType t;
-					
+
 								if (currentItem == "Static") t = rp3d::BodyType::STATIC;
 								if (currentItem == "Kinematic") t = rp3d::BodyType::KINEMATIC;
 								if (currentItem == "Dynamic") t = rp3d::BodyType::DYNAMIC;
-					
+
 								rb = std::make_shared<RigidBodyComponent>(RigidBodyComponent(t, grav));
-					
+
 								lay->getGameObjects()[layer.getGOName()]->addComponent(rb);
 							}
 							else
 							{
 								LogWarn("Component already exists!");
 							}
-					
+
 						}
 						ImGui::SameLine(100.0f);
 						if (ImGui::Button("Remove"))
@@ -1323,9 +1342,11 @@ namespace Engine
 							{
 								LogWarn("Component did not exist anyway!");
 							}
-					
+
 						}
 					}*/
+					}
+					
 				});
 			}
 
@@ -1333,34 +1354,114 @@ namespace Engine
 			{
 				layer.addImGuiFunction([&](JsonLayer* lay)
 				{
-					if (ImGui::CollapsingHeader("Collider"))
+					if (!layer.is2D())
 					{
-						std::vector<const char*> types;
-						types.push_back("Box");
-						types.push_back("Capsule");
-						types.push_back("Sphere");
-						types.push_back("Terrain");
-
-						static const char* currentItem = types[0];
-
-						if (ImGui::BeginCombo("Type", currentItem))
+						/*if (ImGui::CollapsingHeader("Collider"))
 						{
-							for (int i = 0; i < types.size(); i++)
-							{
-								bool selected = (currentItem == types[i]);
+							std::vector<const char*> types;
+							types.push_back("Box");
+							types.push_back("Capsule");
+							types.push_back("Sphere");
+							types.push_back("Terrain");
 
-								if (ImGui::Selectable(types[i], selected))
+							static const char* currentItem = types[0];
+
+							if (ImGui::BeginCombo("Type", currentItem))
+							{
+								for (int i = 0; i < types.size(); i++)
 								{
-									currentItem = types[i];
+									bool selected = (currentItem == types[i]);
+
+									if (ImGui::Selectable(types[i], selected))
+									{
+										currentItem = types[i];
+									}
+
+									if (selected)
+										ImGui::SetItemDefaultFocus();
 								}
 
-								if (selected)
-									ImGui::SetItemDefaultFocus();
+								ImGui::EndCombo();
 							}
+						}*/
+					}
+									
+				});
+			}
 
-							ImGui::EndCombo();
+			if (jsonFile["Functions"]["Text"].get<bool>() == true)
+			{
+				layer.addImGuiFunction([&](JsonLayer* lay)
+				{
+					if (layer.is2D())
+					{
+						if (ImGui::CollapsingHeader("Text"))
+						{
+							static char tText[32];
+							static int charSize = 12;
+							static float r = 255.0f;
+							static float g = 255.0f; 
+							static float b = 255.0f;
+
+							static ImVec4 color = ImColor(r, g, b, 255.0f);
+
+							ImGui::InputText("Text label", tText, IM_ARRAYSIZE(tText));
+							ImGui::InputInt("Size", &charSize);
+							ImGui::ColorPicker3("Text color", (float*)&color);
+
+							if (ImGui::Button("Add"))
+							{
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>() == nullptr)
+								{
+									std::shared_ptr<MaterialComponent> textMat;
+									std::shared_ptr<TextureComponent> textTex;
+									std::shared_ptr<ColourComponent> textCol;
+
+									std::shared_ptr<TextLabel> label(TextLabel::create(layer.getGOName(), "assets/fonts/alexandria/AlexandriaFLF.ttf", charSize, tText, glm::vec2(), 0.0f, 0.0f, glm::vec3(color.x, color.y, color.z))); // How to change hard coded font name?
+
+									auto& mat = label->getMaterial();
+									textMat = std::make_shared<MaterialComponent>(MaterialComponent(mat));
+
+									lay->getGameObjects()[layer.getGOName()]->addComponent(textMat);
+
+									textTex = std::make_shared<TextureComponent>(TextureComponent(ResourceManagerInstance->getFontTexture()->getSlot()));
+									lay->getGameObjects()[layer.getGOName()]->addComponent(textTex);
+
+									textCol = std::make_shared<ColourComponent>(ColourComponent(color.x, color.y, color.z));
+									lay->getGameObjects()[layer.getGOName()]->addComponent(textCol);
+								}
+								else
+								{
+									LogWarn("Component already exists!");
+								}
+
+							}
+							ImGui::SameLine(100);
+							if (ImGui::Button("Change"))
+							{
+								//label->editText("Dmu Engine 123456789"); How to get already existing label?
+							}
+							ImGui::SameLine(200);
+							if (ImGui::Button("Remove"))
+							{
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>())
+								{
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+
+									auto compT = lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(compT);
+
+									auto compC = lay->getGameObjects()[layer.getGOName()]->getComponent<ColourComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(compC);
+								}
+								else
+								{
+									LogWarn("Material component did not exist anyway!");
+								}
+							}
 						}
-					}				
+					}
 				});
 			}
 		}
