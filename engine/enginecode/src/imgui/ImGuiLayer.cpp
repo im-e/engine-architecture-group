@@ -18,6 +18,8 @@
 
 namespace Engine
 {
+	bool ImGuiLayer::m_is2D;
+
 	void ImGuiLayer::onAttach()
 	{
 		m_gameObjectWindow = false;
@@ -61,9 +63,8 @@ namespace Engine
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		// https://eliasdaler.github.io/using-imgui-with-sfml-pt2/
 		ImGui::Begin("Editor window");
-		if(ImGui::Button("Add GameObject"))
+		if (ImGui::Button("Add GameObject"))
 		{
 			m_gameObjectWindow = true;
 		}
@@ -79,6 +80,18 @@ namespace Engine
 		{
 			m_manageCompWindow = true;
 		}
+
+		ImGui::SameLine(150);
+		ImGui::Checkbox("Manage 2D", &m_is2D);
+		if (m_is2D)
+		{
+			m_layer = static_cast<JsonLayer*>(Application::getInstance().getLayerStack()->getLayers()[1].get());
+		}
+		else
+		{
+			m_layer = static_cast<JsonLayer*>(Application::getInstance().getLayerStack()->getLayers()[0].get());
+		}
+
 		if (ImGui::CollapsingHeader("Save"))
 		{
 			static char fileName[32] = "Default";
@@ -124,7 +137,7 @@ namespace Engine
 						else if (c->getType().hash_code() == typeid(TextureComponent).hash_code())
 						{
 							std::shared_ptr<TextureComponent> comp = std::static_pointer_cast<TextureComponent>(c);
-							
+
 							std::string diffuse = comp->getDiffName();
 							std::string normal = comp->getNormalName();
 							std::string parallax = comp->getParallaxName();
@@ -184,7 +197,7 @@ namespace Engine
 							outputStream << "}";
 						}
 						j++;
-						
+
 					}
 					if (i < m_layer->getGameObjects().size() - 1)
 					{
@@ -209,7 +222,7 @@ namespace Engine
 		ImGuiIO& io = ImGui::GetIO();
 		glm::vec2 res = glm::vec2(800, 600);
 		io.DisplaySize = ImVec2((float)res.x, (float)res.y);
-		
+
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}

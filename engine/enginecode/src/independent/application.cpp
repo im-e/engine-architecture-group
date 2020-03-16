@@ -97,6 +97,11 @@ namespace Engine
 		return m_physWorld;
 	}
 
+	std::shared_ptr<LayerStack>& Application::getLayerStack()
+	{
+		return m_layerStack;
+	}
+
 	void Application::onEvent(Event & e)
 	{
 		EventDispatch dispatcher(e);

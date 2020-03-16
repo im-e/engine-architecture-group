@@ -48,6 +48,21 @@ namespace Engine
 
 		}
 
+		//! Sets colour values \param r red \param g green \param b blue
+		void setRGB(float r, float g, float b)
+		{
+			m_r = r;
+			m_g = g;
+			m_b = b;
+		}
+
+		//! Returns RGB values \return RGB colors
+		glm::vec3& getRGB()
+		{
+			glm::vec3 temp = glm::vec3(m_r, m_g, m_b);
+			return temp;
+		}
+
 		inline const std::type_info& getType() override
 		{
 			return typeid(decltype(*this));

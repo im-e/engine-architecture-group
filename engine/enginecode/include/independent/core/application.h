@@ -95,6 +95,7 @@ namespace Engine {
 
 		lua_State* getLuaState();
 		std::shared_ptr<Physics>& getPhysics();
+		std::shared_ptr<LayerStack>& getLayerStack();
 	};
 
 	// To be defined in users code
