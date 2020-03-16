@@ -22,8 +22,6 @@ namespace Engine
 
 		editText(text);
 
-		m_material = ResourceManagerInstance->addMaterial(key + "Mat", m_textShader, m_VAO);
-
 		//https://learnopengl.com/In-Practice/Text-Rendering
 	}
 
@@ -34,9 +32,9 @@ namespace Engine
 		float textVerts[4 * 4];
 		unsigned int textIndices[4] = { 0, 1, 2, 3 };
 
-		m_VAO->setIndexBuffer(ResourceManagerInstance->overwriteEBO(m_name + "IBO", textIndices, 4 * text.length()));
+		m_VAO->setIndexBuffer(ResourceManagerInstance->overwriteEBO(m_name + "EBO", textIndices, 4 * text.length()));
 		m_VBO = ResourceManagerInstance->overwriteVBO(m_name + "VBO", nullptr, sizeof(textVerts) * text.length(), m_textShader->getBufferLayout());
-
+			
 		unsigned int loopCount = 0;
 		float xAdvance = 0;
 
@@ -71,6 +69,8 @@ namespace Engine
 		}
 
 		m_VAO->setVertexBuffer(m_VBO);
+
+		m_material = ResourceManagerInstance->overwriteMaterial(m_name + "Mat", m_textShader, m_VAO);
 	}
 }
 

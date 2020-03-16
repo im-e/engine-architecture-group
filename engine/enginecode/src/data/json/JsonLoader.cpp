@@ -1415,24 +1415,26 @@ namespace Engine
 
 							if (ImGui::Button("Add"))
 							{
-								if (lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>() == nullptr)
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<TextComponent>() == nullptr)
 								{
-									std::shared_ptr<MaterialComponent> textMat;
+									std::shared_ptr<TextComponent> tComp;
+									tComp = std::make_shared<TextComponent>(TextComponent(layer.getGOName(), "assets/fonts/04b_20/04b_20__.ttf", charSize, tText));								
+
+									auto& mat = tComp->getLabel()->getMaterial();
+									std::shared_ptr<MaterialComponent> mComp;
+									mComp = std::make_shared<MaterialComponent>(mat);
+
 									std::shared_ptr<TextureComponent> textTex;
-									std::shared_ptr<ColourComponent> textCol;
+									textTex = std::make_shared<TextureComponent>
+										(TextureComponent(ResourceManagerInstance->getFontTexture()->getSlot()));
 
-									std::shared_ptr<TextLabel> label(TextLabel::create(layer.getGOName(), "assets/fonts/alexandria/AlexandriaFLF.ttf", charSize, tText, glm::vec2(), 0.0f, 0.0f, glm::vec3(color.x, color.y, color.z))); // How to change hard coded font name?
+									std::shared_ptr<ColourComponent> cComp;
+									cComp = std::make_shared<ColourComponent>(ColourComponent(color.x, color.y, color.z));
 
-									auto& mat = label->getMaterial();
-									textMat = std::make_shared<MaterialComponent>(MaterialComponent(mat));
-
-									lay->getGameObjects()[layer.getGOName()]->addComponent(textMat);
-
-									textTex = std::make_shared<TextureComponent>(TextureComponent(ResourceManagerInstance->getFontTexture()->getSlot()));
+									lay->getGameObjects()[layer.getGOName()]->addComponent(tComp);
+									lay->getGameObjects()[layer.getGOName()]->addComponent(mComp);
+									lay->getGameObjects()[layer.getGOName()]->addComponent(cComp);
 									lay->getGameObjects()[layer.getGOName()]->addComponent(textTex);
-
-									textCol = std::make_shared<ColourComponent>(ColourComponent(color.x, color.y, color.z));
-									lay->getGameObjects()[layer.getGOName()]->addComponent(textCol);
 								}
 								else
 								{
@@ -1441,27 +1443,25 @@ namespace Engine
 
 							}
 							ImGui::SameLine(100);
-							if (ImGui::Button("Change"))
-							{
-								//label->editText("Dmu Engine 123456789"); How to get already existing label?
-							}
-							ImGui::SameLine(200);
 							if (ImGui::Button("Remove"))
 							{
-								if (lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>())
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<TextComponent>())
 								{
+									auto compT = lay->getGameObjects()[layer.getGOName()]->getComponent<TextComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(compT);
+
 									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>();
 									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
 
-									auto compT = lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>();
-									lay->getGameObjects()[layer.getGOName()]->removeComponent(compT);
+									auto compTex = lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(compTex);
 
 									auto compC = lay->getGameObjects()[layer.getGOName()]->getComponent<ColourComponent>();
-									lay->getGameObjects()[layer.getGOName()]->removeComponent(compC);
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(compC);						
 								}
 								else
 								{
-									LogWarn("Material component did not exist anyway!");
+									LogWarn("Text component did not exist anyway!");
 								}
 							}
 						}

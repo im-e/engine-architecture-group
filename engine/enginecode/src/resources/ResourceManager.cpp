@@ -156,6 +156,16 @@ namespace Engine
 		return m_EBOs.getAsset(key);
 	}
 
+	std::shared_ptr<Material> ResourceManager::overwriteMaterial(const std::string & key, const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO)
+	{
+		std::shared_ptr<Material> material;
+		material.reset(Material::create(shader, VAO));
+		m_materials.remove(key);
+		m_materials.add(key, material);
+
+		return m_materials.getAsset(key);
+	}
+
 	void ResourceManager::populateCharacters(std::unordered_map<std::string, unsigned int> fontsAndSizes)
 	{
 		unsigned char* texMemory;
