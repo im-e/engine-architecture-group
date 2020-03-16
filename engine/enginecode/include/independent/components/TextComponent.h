@@ -5,7 +5,6 @@
 
 namespace Engine
 {
-
 	class TextComponent : public Component
 	{
 	private:
@@ -42,7 +41,12 @@ namespace Engine
 
 		}
 
-		std::shared_ptr<TextLabel> getLabel() { return m_textLabel; }
+		std::shared_ptr<TextLabel>& getLabel() { return m_textLabel; }
+
+		inline const std::type_info& getType() override
+		{
+			return typeid(decltype(*this));
+		}
 	};
 
 }

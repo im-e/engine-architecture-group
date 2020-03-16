@@ -531,9 +531,11 @@ namespace Engine
 						float b = go["material"]["colour"]["b"].get<float>();
 						
 						textLabel = std::make_shared<TextComponent>(TextComponent(goName, font, charSize, text));
-						//textLabel->getLabel()->editText("Hello");
-
+						
 						gameObject->addComponent(textLabel);
+
+						/*auto temp = gameObject->getComponent<TextComponent>();
+						temp->getLabel()->editText("Hello");*/
 
 						auto& mat = textLabel->getLabel()->getMaterial();
 

@@ -39,10 +39,13 @@ namespace Engine
 			auto result = nullptr;
 			for (auto it = m_components.begin(); it != m_components.end(); ++it)
 			{
+				/*LogError(it->get()->getType().name());
+				LogError(typeid(C).name());*/
+
 				if (it->get()->getType().hash_code() == typeid(C).hash_code())
 				{
 					return std::static_pointer_cast<C>(*it);
-				}					
+				}
 			}
 
 			return result;
