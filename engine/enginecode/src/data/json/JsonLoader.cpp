@@ -521,6 +521,7 @@ namespace Engine
 						std::shared_ptr<MaterialComponent> textMat;
 						std::shared_ptr<TextureComponent> textTex;
 						std::shared_ptr<ColourComponent> textCol;
+						std::shared_ptr<TextComponent> textLabel;
 
 						std::string text = go["material"]["text"].get<std::string>();
 						std::string font = go["material"]["font"].get<std::string>();
@@ -528,11 +529,13 @@ namespace Engine
 						float r = go["material"]["colour"]["r"].get<float>();
 						float g = go["material"]["colour"]["g"].get<float>();
 						float b = go["material"]["colour"]["b"].get<float>();
-						std::shared_ptr<TextLabel> label(TextLabel::create(goName, font, charSize, text, glm::vec2(), 0.0f, 0.0f, glm::vec3(r, g, b)));
+						
+						textLabel = std::make_shared<TextComponent>(TextComponent(goName, font, charSize, text));
+						//textLabel->getLabel()->editText("Hello");
 
-						label->editText("Dmu Engine 123456789"); // This is how you call the edit function for the text
+						gameObject->addComponent(textLabel);
 
-						auto& mat = label->getMaterial();
+						auto& mat = textLabel->getLabel()->getMaterial();
 
 						textMat = std::make_shared<MaterialComponent>(MaterialComponent(mat));
 						gameObject->addComponent(textMat);

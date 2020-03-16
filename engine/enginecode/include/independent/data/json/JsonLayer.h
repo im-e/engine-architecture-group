@@ -17,6 +17,7 @@
 #include "components/ColourComponent.h"
 //#include "components/RigidbodyComponent.h"
 //#include "components/BoxColliderComponent.h"
+#include "components/TextComponent.h"
 
 namespace Engine
 {
