@@ -21,6 +21,8 @@ namespace Engine
 		std::deque<glm::vec3> m_waypoints;
 		std::shared_ptr<luabridge::LuaRef> m_lua;
 
+		int m_currentWaypoint;
+
 		glm::vec3 m_currentPosition;
 		glm::vec3 m_desiredPosition;
 
@@ -42,6 +44,8 @@ namespace Engine
 			luaUpdate();
 
 			m_currentPosition = owner->getComponent<PositionComponent>()->getCurrentPosition();
+			m_currentRotation = owner->getComponent<PositionComponent>()->getCurrentRotation();
+
 			m_desiredPosition = m_waypoints.front();
 		}
 
@@ -63,9 +67,19 @@ namespace Engine
 				if (m_waypoints.empty() == false)
 				{
 					m_desiredPosition = m_waypoints.front();
+					//m_currentWaypoint = m_waypoints.front();
 
 					// find orientation
 						// calculate acos of the dot product in each component
+
+					float angleBetween = glm::dot(m_currentPosition, m_desiredPosition);
+					glm::vec3 rotationAxis = glm::cross(m_currentPosition, m_desiredPosition);
+					float s = glm::sqrt((1 + angleBetween) * 2);
+					float invs = 1 / s;
+
+					glm::quat quaternion = glm::quat(s * 0.5f, glm::vec3(rotationAxis) * invs);
+					glm::mat4 rotationMatrix = glm::toMat4(quaternion);
+
 
 					LogInfo("Going to: {0}, {1}, {2}", m_desiredPosition.x, m_desiredPosition.y, m_desiredPosition.z);
 				}
@@ -105,7 +119,13 @@ namespace Engine
 			m_waypoints.push_front(glm::vec3(x, y, z));
 		}
 
+		glm::vec3 getWaypoint(int index)
+		{
+			return m_waypoints[index];
+		}
+
 		int numWaypoints() { return m_waypoints.size(); }
+		int getCurrentWaypoint() { return m_currentWaypoint; }
 
 		void setLuaFunction(const luabridge::LuaRef& ref)
 		{
@@ -135,6 +155,7 @@ namespace Engine
 				.addFunction("numWaypoints", &AIComponent::numWaypoints)
 				.addFunction("addWaypoint", &AIComponent::addWaypoint)
 				.addFunction("addWaypointFront", &AIComponent::addWaypointFront)
+				.addFunction("currentWaypoint", &AIComponent::getCurrentWaypoint)
 				.endClass();
 		}
 

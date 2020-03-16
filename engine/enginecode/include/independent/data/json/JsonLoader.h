@@ -13,7 +13,6 @@
 #include "imgui/ImGuiLayer.h"
 #include "JsonModelLoader.h"
 #include "data/assimp/AssimpModel.h"
-#include "rendering/TextLabel.h"
 
 namespace Engine
 {
