@@ -258,6 +258,10 @@
         {
           "name": "PhongShader",
           "block": "Light"
+        },
+        {
+          "name": "TessShader",
+          "block": "Light"
         }
       ],
       "data": [
