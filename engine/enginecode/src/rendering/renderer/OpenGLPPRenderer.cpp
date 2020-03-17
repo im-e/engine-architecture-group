@@ -2,29 +2,30 @@
 #include "rendering/renderer/OpenGLPPRenderer.h"
 
 #include <glad/glad.h>
-
+#include "core/application.h"
 namespace Engine
 {
-	OpenGLPPRenderer::OpenGLPPRenderer(std::shared_ptr<Shader> defaultPPRShader): m_shader(defaultPPRShader)
+	OpenGLPPRenderer::OpenGLPPRenderer(const std::shared_ptr<Shader>& defaultPPRShader)
 	{
+		m_shader = defaultPPRShader;
 		glGenFramebuffers(1, &m_frameBufferID);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_frameBufferID);
 
 		glGenTextures(1, &m_colourTexture);
 		glBindTexture(GL_TEXTURE_2D, m_colourTexture);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_windowSizeX, m_windowSizeY, 0, GL_RGB, GL_UNSIGNED_INT, NULL);
-
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Application::getInstance().getWindow()->getWidth(), Application::getInstance().getWindow()->getHeight(), 0, GL_RGB, GL_UNSIGNED_INT, NULL);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	
 		glGenTextures(1, &m_depthTexture);
 		glBindTexture(GL_TEXTURE_2D, m_depthTexture);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_windowSizeX, m_windowSizeY, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, Application::getInstance().getWindow()->getWidth(), Application::getInstance().getWindow()->getHeight(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_colourTexture, 0);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depthTexture, 0);
@@ -35,12 +36,20 @@ namespace Engine
 		}
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
-		float vertices[] = 
+		//float vertices[] = 
+		//{
+		//	-1.0, 1.0, 1.0, 0.0, 0.0,
+		//	-1.0, -1.0, 1.0, 0.0, 1.0,
+		//	1.0, -1.0, 1.0, 1.0, 1.0,
+		//	1.0, 1.0, 1.0, 1.0, 0.0
+		//};
+
+		float vertices[] =
 		{
-			-1.0, 1.0, 1.0, 0.0, 0.0,
-			-1.0, -1.0, 1.0, 0.0, 1.0,
-			1.0, -1.0, 1.0, 1.0, 1.0,
-			1.0, 1.0, 1.0, 1.0, 0.0
+			-0.5, 0.5, 0.0, 0.0, 0.0,
+			-0.5, -0.5, 0.0, 0.0, 1.0,
+			0.5, -0.5, 0.0, 1.0, 1.0,
+			0.5, 0.5, 0.0, 1.0, 0.0
 		};
 
 		unsigned int indices[] =
@@ -49,10 +58,10 @@ namespace Engine
 		};
 
 		m_screenQuadVAO = ResourceManagerInstance->addVAO("PPVAO");
-		std::shared_ptr<VertexBuffer> vbo = ResourceManagerInstance->addVBO("PPVBO", vertices, sizeof(vertices), m_shader->getBufferLayout());
-		std::shared_ptr<IndexBuffer> ibo = ResourceManagerInstance->addEBO("PPVIBO", indices, 6);
-		m_screenQuadVAO->setVertexBuffer(vbo);
-		m_screenQuadVAO->setIndexBuffer(ibo);
+		ResourceManagerInstance->addVBO("PPVBO", vertices, sizeof(vertices), m_shader->getBufferLayout());
+		ResourceManagerInstance->addEBO("PPVIBO", indices, sizeof(unsigned int) * 6);
+		ResourceManagerInstance->getVAO().getAsset("PPVAO")->setVertexBuffer(ResourceManagerInstance->getVBO().getAsset("PPVBO"));
+		ResourceManagerInstance->getVAO().getAsset("PPVAO")->setIndexBuffer(ResourceManagerInstance->getEBO().getAsset("PPVIBO"));
 	}
 
 	void OpenGLPPRenderer::actionCommand(RenderCommand * command)
@@ -67,6 +76,8 @@ namespace Engine
 
 	void OpenGLPPRenderer::beginScene(const SceneData & sceneData)
 	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_frameBufferID);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		for (auto uniformPair : sceneData)
 		{
@@ -107,9 +118,8 @@ namespace Engine
 	void OpenGLPPRenderer::flush()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
-
+		auto x = ResourceManagerInstance->getVAO().getAsset("PPVAO");
+		x->bind();
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
 	}
 }

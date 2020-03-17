@@ -380,7 +380,7 @@ namespace Engine
 		return m_dispatcher[dataName](data);
 	}
 
-	BufferLayout OpenGLShader::getBufferLayout() const
+	BufferLayout& OpenGLShader::getBufferLayout()
 	{
 		return m_bufferLayout;
 	}

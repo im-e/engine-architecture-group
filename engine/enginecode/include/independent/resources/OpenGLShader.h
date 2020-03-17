@@ -39,7 +39,7 @@ namespace Engine
 		\param data data to be passed
 		*/
 		bool uploadData(const std::string & dataName, void * data) override;
-		BufferLayout getBufferLayout() const override; //!< Get buffer layout of a shader
+		BufferLayout& getBufferLayout() override; //!< Get buffer layout of a shader
 		void parseSource(const std::string& path); //!< Read shader code \param path path to the shader file
 		std::map<std::string, std::pair<ShaderDataType, unsigned int>> getUniformCache() override; //!< Get the whole block of uniforms in the shader \return map of uniforms from the shader
 

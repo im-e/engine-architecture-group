@@ -22,7 +22,7 @@ namespace Engine
 
 
 	public:
-		OpenGLPPRenderer(std::shared_ptr<Shader> defaultPPShader); //!< Default constructor
+		OpenGLPPRenderer(const std::shared_ptr<Shader>& defaultPPShader); //!< Default constructor
 
 		// Inherited via Renderer
 		void actionCommand(RenderCommand * command) override;

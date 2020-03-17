@@ -77,6 +77,8 @@ namespace Engine
 					m_renderer->submit(material->getMaterial());
 				}			
 			}
+
+			m_renderer->flush();
 		}
 		
 		{

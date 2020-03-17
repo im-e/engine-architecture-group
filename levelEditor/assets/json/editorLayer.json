@@ -133,7 +133,8 @@
   },
 
   "Renderer": {
-    "type": "PPR"
+    "type": "PPR",
+    "shader": "ColorShader"
   },
 
   "UBO": [
@@ -262,7 +263,7 @@
     "init": [
       {
         "type": "DepthTestLess",
-        "enabled": true
+        "enabled": false
       },
       {
         "type": "BackfaceCulling",
@@ -275,7 +276,7 @@
       {
         "type": "ClearColor",
         "r": 0.3,
-        "g": 0.3,
+        "g": 0.9,
         "b": 0.3,
         "a": 1.0
       }

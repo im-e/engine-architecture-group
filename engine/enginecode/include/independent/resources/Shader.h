@@ -31,7 +31,7 @@ namespace Engine
 		virtual void bind() = 0; //!< Use shader in the application
 		virtual void unbind() = 0; //!< Stop using shader in the application
 		virtual bool uploadData(const std::string& dataName, void* data) = 0; //!< Feed shader with data \param dataName name of the uniform \param data data to be passed
-		virtual BufferLayout getBufferLayout() const = 0; //!< Get extracted buffer layout \return buffer layout
+		virtual BufferLayout& getBufferLayout() = 0; //!< Get extracted buffer layout \return buffer layout
 		virtual std::map<std::string, std::pair<ShaderDataType, unsigned int>> getUniformCache() = 0; //!< Get the whole block of uniforms in the shader \return map of uniforms from the shader
 
 		/*! Create a shader based on current RenderAPI 

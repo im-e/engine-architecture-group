@@ -199,14 +199,17 @@ namespace Engine
 
 		if (jsonFile.count("Renderer") > 0)
 		{
-			ResourceManagerInstance->addShader("ColourShader", "assets/shaders/colourShader.glsl");
 			std::string type = jsonFile["Renderer"]["type"].get<std::string>();
 			if (type.compare("2D") == 0)
 				layer.getRenderer().reset(Engine::Renderer::create2D());
 			if (type.compare("3D") == 0)
 				layer.getRenderer().reset(Engine::Renderer::create3D());
 			if (type.compare("PPR") == 0)
-				layer.getPPRenderer().reset(Engine::PPRenderer::createPPRenderer(ResourceManagerInstance->getShader().getAsset("ColourShader")));
+			{
+				std::string defShader = jsonFile["Renderer"]["shader"].get<std::string>();
+				layer.getRenderer().reset(Engine::PPRenderer::createPPRenderer(ResourceManagerInstance->getShader().getAsset(defShader)));
+			}
+				
 		}
 
 		if (jsonFile.count("UBO") > 0)
