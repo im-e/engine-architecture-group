@@ -8,6 +8,8 @@ namespace Engine
 
 	void JsonLayer::onAttach()
 	{
+		m_audio = std::make_shared<AudioManager>();
+
 		Engine::JsonLoader::loadJson(m_filepath, *this);
 		Engine::JsonLoader::loadGameObjects(m_gameobjectsFilepath, *this);
 
@@ -15,6 +17,15 @@ namespace Engine
 		{
 			m_renderer->actionCommand(renderCommand.get());
 		}
+
+
+		//https://freesound.org/people/Mrthenoronha/sounds/370293/
+		m_audio->loadSound("assets/audio/music/song.wav", true, true, false);
+		m_audio->playSound("assets/audio/music/song.wav");
+
+
+		// To test: Load some sounds here, add them manually to the map,
+		// call Play somewhere further (e.g. update)
 	}
 
 	void JsonLayer::onDetach()
@@ -35,6 +46,11 @@ namespace Engine
 #ifdef NG_DEBUG
 			NG_PROFILER_FUNCTION();
 #endif
+		
+		{
+			m_audio->updateLocation(timestep, getCamera()->getCamera()->getPosition());
+			m_audio->update();
+		}
 
 		{
 #ifdef NG_DEBUG

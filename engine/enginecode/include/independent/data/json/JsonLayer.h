@@ -31,6 +31,10 @@ namespace Engine
 		std::vector<std::shared_ptr<Engine::RenderCommand>> m_predrawCommands;					//!< Render commands issued before materials are drawn
 		std::vector<std::shared_ptr<Engine::RenderCommand>> m_postdrawCommands;					//!< Render commands issued after materials are drawn
 		std::vector<std::shared_ptr<Engine::RenderCommand>> m_exitCommands;						//!< Render commands issued prior to renderer shutdown
+		
+		// Pointer to Audio Manager --> which would handle playing/stopping sounds
+				// or giving overall properties to sound
+		// Map of string to Sound
 
 		std::list<void*> m_data;			//!< Misc data
 		SceneData m_sceneData;				//!< SceneData

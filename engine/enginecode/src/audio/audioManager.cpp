@@ -1,6 +1,7 @@
 #include "engine_pch.h"
-#include "include\independent\audio\audioManager.h"
-#include "data/json/JsonLayer.h"
+#include "audio/audioManager.h"
+#include "systems/Log.h"
+#include "core/application.h"
 
 namespace Engine {
 
@@ -13,52 +14,13 @@ namespace Engine {
 		return 0;
 	}
 
-	void AudioManager::start(SystemSignal init, ...)
+	FMOD_VECTOR AudioManager::GLMVecToFmod(const glm::vec3& vec)
 	{
-		errorCheck(FMOD::Studio::System::create(&m_studioSystem));
-		errorCheck(m_studioSystem->initialize(m_maxChannels, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL, NULL));
-
-		unsigned int version;
-		errorCheck(FMOD::System_Create(&m_lowLevelSystem));
-		errorCheck(m_lowLevelSystem->getVersion(&version));
-
-		if (version < FMOD_VERSION)
-		{
-			LogError("FMOD lib version {0} doesn't match header version {1}", version, FMOD_VERSION);
-		}
-
-		errorCheck(m_lowLevelSystem->init(m_maxChannels, FMOD_INIT_NORMAL, NULL));
-
-		errorCheck(m_lowLevelSystem->set3DSettings(1.f, 1.f, 1.f));
-
-		errorCheck(m_lowLevelSystem->setGeometrySettings(50.f));
-	}
-
-	void AudioManager::stop(SystemSignal close, ...)
-	{
-
-	}
-
-	void AudioManager::update()
-	{
-		std::vector<std::map<int, FMOD::Channel*>::iterator> l_stoppedChannels;
-		for (auto it = m_channels.begin(); it != m_channels.end(); ++it)
-		{
-			bool isPlaying = false;
-			it->second->isPlaying(&isPlaying);
-			if (!isPlaying)
-			{
-				l_stoppedChannels.push_back(it);
-			}
-		}
-		for (auto& it : l_stoppedChannels)
-		{
-			m_channels.erase(it);
-		}
-
-		errorCheck(m_lowLevelSystem->update());
-
-		errorCheck(m_studioSystem->update());
+		FMOD_VECTOR fmod;
+		fmod.x = vec.x;
+		fmod.y = vec.y;
+		fmod.z = vec.z;
+		return fmod;
 	}
 
 	void AudioManager::loadSound(const std::string& strSoundName, bool b3d, bool bLooping, bool bStream, float minDist, float maxDist, RollOff rollOff)
@@ -87,7 +49,7 @@ namespace Engine {
 
 
 		FMOD::Sound* sound = nullptr;
-		errorCheck(m_lowLevelSystem->createSound(strSoundName.c_str(), eMode, 0, &sound));
+		errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().createSound(strSoundName.c_str(), eMode, 0, &sound));
 
 		if (b3d)
 		{
@@ -108,21 +70,42 @@ namespace Engine {
 
 	}
 
-	void AudioManager::set3dListenerAndOrientation(const glm::vec3& position, const glm::vec3& forward, const glm::vec3& up)
+	void AudioManager::update()
 	{
+		std::vector<std::map<int, FMOD::Channel*>::iterator> l_stoppedChannels;
+		for (auto it = m_channels.begin(); it != m_channels.end(); ++it)
+		{
+			bool isPlaying = false;
+			it->second->isPlaying(&isPlaying);
+			if (!isPlaying)
+			{
+				l_stoppedChannels.push_back(it);
+			}
+		}
+		for (auto& it : l_stoppedChannels)
+		{
+			m_channels.erase(it);
+		}
+	}
+
+	//void AudioManager::set3dListenerAndOrientation(const glm::vec3& position, const glm::vec3& forward, const glm::vec3& up, JsonLayer l)
+	void AudioManager::updateLocation(float timestep, glm::vec3 position)
+	{
+		//glm::vec3 pos = getCamera()->getCamera()->getPosition();
+		glm::vec3 forward = glm::vec3(0, 0, 1.0f);
+		glm::vec3 up = glm::vec3(0, 1.0f, 0);
+
 		FMOD_VECTOR lastPos, lastVel, lastForward, lastUp;
 		
-		errorCheck(m_lowLevelSystem->get3DListenerAttributes(0, &lastPos, &lastVel, &lastForward, &lastUp));
-		
-		/*
-		auto listenerPos = GLMVecToFmod(l.getCamera()->getCamera()->getPosition());
-		auto listenerForward = GLMVecToFmod(glm::vec3(l.getCamera()->getCamera()->getPosition().x, l.getCamera()->getCamera()->getPosition().y, 1.0f));
-		auto listenerUp = GLMVecToFmod(glm::vec3(l.getCamera()->getCamera()->getPosition().x, 1.0f, l.getCamera()->getCamera()->getPosition().z));
-		*/
-
+		errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().get3DListenerAttributes(0, &lastPos, &lastVel, &lastForward, &lastUp));
+					   		
 		auto listenerPos = GLMVecToFmod(position);
 		auto listenerForward = GLMVecToFmod(forward);
 		auto listenerUp = GLMVecToFmod(up);
+		
+		LogInfo(position.x);
+		LogInfo(position.y);
+		LogInfo(position.z);
 
 
 		FMOD_VECTOR vel;
@@ -130,7 +113,7 @@ namespace Engine {
 		vel.y = (listenerPos.y - lastPos.y) * (1.0f / 60.f);
 		vel.z = (listenerPos.z - lastPos.z) * (1.0f / 60.f);
 
-		errorCheck(m_lowLevelSystem->set3DListenerAttributes(0, &listenerPos, &vel, &listenerForward, &listenerUp));
+		errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().set3DListenerAttributes(0, &listenerPos, &vel, &listenerForward, &listenerUp));
 
 	}
 
@@ -140,7 +123,7 @@ namespace Engine {
 		
 		int numPolys = def.indices.size() / 3;
 
-		errorCheck(m_lowLevelSystem->createGeometry(numPolys, def.vertices.size(), &geometry));
+		errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().createGeometry(numPolys, def.vertices.size(), &geometry));
 
 		m_geometry[label] = geometry;
 		FMOD_VECTOR triangle[3];
@@ -180,7 +163,7 @@ namespace Engine {
 			}
 		}
 		FMOD::Channel* pChannel = nullptr;
-		errorCheck(m_lowLevelSystem->playSound(it->second, nullptr, true, &pChannel));
+		errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().playSound(it->second, nullptr, true, &pChannel));
 		if (pChannel)
 		{
 			FMOD_MODE currMode;
@@ -224,7 +207,7 @@ namespace Engine {
 		if (it != m_banks.end())
 			return;
 		FMOD::Studio::Bank* bank;
-		errorCheck(m_studioSystem->loadBankFile(strBankName.c_str(), flags, &bank));
+		errorCheck(Engine::Application::getInstance().getAudioSystem()->getStudioSystem().loadBankFile(strBankName.c_str(), flags, &bank));
 		if (bank) {
 			m_banks[strBankName] = bank;
 		}
@@ -236,7 +219,7 @@ namespace Engine {
 		if (it != m_events.end())
 			return;
 		FMOD::Studio::EventDescription* eventDescription = NULL;
-		errorCheck(m_studioSystem->getEvent(strEventName.c_str(), &eventDescription));
+		errorCheck(Engine::Application::getInstance().getAudioSystem()->getStudioSystem().getEvent(strEventName.c_str(), &eventDescription));
 		if (eventDescription) {
 			FMOD::Studio::EventInstance* eventInstance = NULL;
 			errorCheck(eventDescription->createInstance(&eventInstance));
@@ -259,14 +242,7 @@ namespace Engine {
 		return false;
 	}
 
-	FMOD_VECTOR AudioManager::GLMVecToFmod(const glm::vec3& vec)
-	{
-		FMOD_VECTOR fmod;
-		fmod.x = vec.x;
-		fmod.y = vec.y;
-		fmod.z = vec.z;
-		return fmod;
-	}
+
 	
 	void AudioManager::setChannel3dPosition(int channelID, const glm::vec3& vPos)
 	{
@@ -305,7 +281,7 @@ namespace Engine {
 
 	}
 
-	bool AudioManager::isPlaying(int nChannelID) const
+	bool AudioManager::isChannelPlaying(int nChannelID) const
 	{
 		return false;
 	}
@@ -314,7 +290,4 @@ namespace Engine {
 	{
 
 	}
-
-
-
 }

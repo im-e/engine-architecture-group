@@ -51,7 +51,7 @@ namespace Engine
 
 		nlohmann::json jsonFile;
 		file >> jsonFile;
-
+		
 		Application::getInstance().getWindow()->getGraphicsContext()->unbindCurrentThread();
 		if (jsonFile.count("Asyncload") > 0)
 		{

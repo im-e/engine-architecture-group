@@ -29,10 +29,8 @@ namespace Engine
 		m_timer = std::make_shared<Timer>();
 		m_timer->start(Engine::SystemSignal::None);
 
-		//create audio manager
-		//put into layer stack (probably)
-
-		m_audio.reset(new AudioManager());
+		//create audio System
+		m_audio.reset(new AudioSystem());
 		m_audio->start(Engine::SystemSignal::None);
 
 		// Create layer stack
@@ -51,16 +49,15 @@ namespace Engine
 		m_appWindow = std::unique_ptr<Window>(Window::create());
 		m_appWindow->setEventCallback(std::bind(&Application::onEvent, this, std::placeholders::_1));
 
-		glm::vec3 pos = glm::vec3(-50, 0, 0);
+		/*glm::vec3 pos = glm::vec3(-50, 0, 0);
 		glm::vec3 forward = glm::vec3(0, 0, 1);
 		glm::vec3 up = glm::vec3(0, 1, 0);
-		
-		m_audio->set3dListenerAndOrientation(pos, forward, up);
-		
+		*/
+		//m_audio->set3dListenerAndOrientation(pos, forward, up);
 
 		//https://freesound.org/people/Mrthenoronha/sounds/370293/
-		m_audio->loadSound("assets/audio/music/song.wav", true, true, false);
-		m_audio->playSound("assets/audio/music/song.wav");
+		//m_audio->loadSound("assets/audio/music/song.wav", true, true, false);
+		//m_audio->playSound("assets/audio/music/song.wav");
 
 	}
 
@@ -205,6 +202,7 @@ namespace Engine
 		m_layerStack->stop(Engine::SystemSignal::None);
 		m_windowsSystem->stop(Engine::SystemSignal::Windows);
 		m_imGui->stop(Engine::SystemSignal::Windows);
+		m_audio->stop(Engine::SystemSignal::None);
 		m_timer->stop(Engine::SystemSignal::None);
 		m_logger->stop(Engine::SystemSignal::None);			
 	}

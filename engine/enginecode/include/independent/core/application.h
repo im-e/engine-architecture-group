@@ -26,7 +26,7 @@
 #include "rendering/layers/LayerStack.h"
 #include "platform/WindowsSys.h"
 #include "windows/window.h"
-#include <include\independent\audio\audioManager.h>
+#include "audio/audioSystem.h"
 
 namespace Engine {
 
@@ -55,7 +55,7 @@ namespace Engine {
 		//! Pointer to ImGuiSystem
 		std::shared_ptr<ImGuiSystem> m_imGui;
 		//! Pointer to AudioManager
-		std::shared_ptr<AudioManager> m_audio;
+		std::shared_ptr<AudioSystem> m_audio;
 
 #ifdef NG_PLATFORM_WINDOWS
 		std::shared_ptr<WindowsSys> m_windowsSystem; //!< Pointer to Windows platform
@@ -71,6 +71,8 @@ namespace Engine {
 	public:
 		virtual ~Application(); //!< Deconstructor
 		inline static Application& getInstance() { return *s_instance; } //!< Instance getter from singleton pattern
+		inline std::shared_ptr<AudioSystem> getAudioSystem() { return m_audio; } //!
+		
 		void onEvent(Event& e); //!< Function handling events
 
 		bool onClose(WindowCloseEvent& e); //!< Gets called on window close event
