@@ -118,32 +118,67 @@ namespace Engine
 
 					outputStream << "{ \"name\": \"" + name + "\",";
 
-					bool hasMat = false;
+					bool hasMat = false;					
+					bool floatingBracket = false;
 					int j = 0;
 
 					for (auto& c : comps)
 					{
-						if (c->getType().hash_code() == typeid(MaterialComponent).hash_code() && hasMat == false)
+						auto typeHash = c->getType().hash_code();
+						bool isMat = typeHash == typeid(MaterialComponent).hash_code();
+						bool isTexture = typeHash == typeid(TextureComponent).hash_code();
+						bool isColour = typeHash == typeid(ColourComponent).hash_code();
+
+						if (floatingBracket && !isMat && !isTexture && !isColour)
+						{
+							outputStream << "},";
+							floatingBracket = false;
+						}
+
+						if (c->getType().hash_code() == typeid(TextComponent).hash_code())
+						{
+							std::shared_ptr<TextComponent> comp = std::static_pointer_cast<TextComponent>(c);
+
+							std::string text = comp->getLabel()->getText();
+							std::string font = comp->getLabel()->getFont();
+							unsigned int charSize = comp->getLabel()->getCharSize();
+
+							std::shared_ptr<ColourComponent> cComp = go.second->getComponent<ColourComponent>();
+
+							float r = cComp->getRGB().x;
+							float g = cComp->getRGB().y;
+							float b = cComp->getRGB().z;
+
+							outputStream << "\"material\": { \"text\": \"" << text << "\", \"font\": \"" << font << "\", \"charSize\": " << std::to_string(charSize) << ", \"colour\": { \"r\": " << std::to_string(r) << ", \"g\": " << std::to_string(g) << ", \"b\": " << std::to_string(b) << "}";
+						}
+						else if (c->getType().hash_code() == typeid(MaterialComponent).hash_code() && hasMat == false)
 						{
 							hasMat = true;
-							std::shared_ptr<MaterialComponent> comp = std::static_pointer_cast<MaterialComponent>(c);
 
-							std::string type = comp->getTypeName();
-							std::string model = comp->getModelName();
-							std::string shader = comp->getShaderName();
+							if (!m_is2D)
+							{
+								std::shared_ptr<MaterialComponent> comp = std::static_pointer_cast<MaterialComponent>(c);
 
-							outputStream << "\"material\": { \"type\": \"" + type + "\", \"model\": \"" + model + "\", \"shader\": \"" + shader + "\"";
+								std::string type = comp->getTypeName();
+								std::string model = comp->getModelName();
+								std::string shader = comp->getShaderName();
+
+								outputStream << "\"material\": { \"type\": \"" + type + "\", \"model\": \"" + model + "\", \"shader\": \"" + shader + "\"";
+							}		
 						}
 						else if (c->getType().hash_code() == typeid(TextureComponent).hash_code())
 						{
-							std::shared_ptr<TextureComponent> comp = std::static_pointer_cast<TextureComponent>(c);
+							if (!m_is2D)
+							{
+								std::shared_ptr<TextureComponent> comp = std::static_pointer_cast<TextureComponent>(c);
 
-							std::string diffuse = comp->getDiffName();
-							std::string normal = comp->getNormalName();
-							std::string parallax = comp->getParallaxName();
-							std::string spec = comp->getSpecularName();
+								std::string diffuse = comp->getDiffName();
+								std::string normal = comp->getNormalName();
+								std::string parallax = comp->getParallaxName();
+								std::string spec = comp->getSpecularName();
 
-							outputStream << "\"texture\": { \"diffuse\": \"" + diffuse + "\", \"specular\": \"" + spec + "\", \"normal\": \"" + normal + "\", \"parallax\": \"" + parallax + "\"";
+								outputStream << "\"texture\": { \"diffuse\": \"" + diffuse + "\", \"specular\": \"" + spec + "\", \"normal\": \"" + normal + "\", \"parallax\": \"" + parallax + "\"";
+							}					
 						}
 						else if (c->getType().hash_code() == typeid(PositionComponent).hash_code())
 						{
@@ -187,17 +222,30 @@ namespace Engine
 							outputStream << "\"AI\": { \"stopDist\": " + std::to_string(stopDist) + ", \"aiType\": \"" + aiType + "\", \"script\": \"" + scriptName + "\"";
 						}
 
-
 						if (j < comps.size() - 1)
 						{
-							outputStream << "},";
+							if (!m_is2D)
+							{
+								outputStream << "},";
+							}
+							else
+							{
+								bool x = c->getType().hash_code() == typeid(MaterialComponent).hash_code();
+								bool y = c->getType().hash_code() == typeid(TextureComponent).hash_code();
+								bool z = c->getType().hash_code() == typeid(ColourComponent).hash_code();
+
+								if (x == false && y == false && z == false)
+								{
+									floatingBracket = true;
+									//outputStream << "},";
+								}								
+							}
 						}
 						else
 						{
 							outputStream << "}";
 						}
 						j++;
-
 					}
 					if (i < m_layer->getGameObjects().size() - 1)
 					{

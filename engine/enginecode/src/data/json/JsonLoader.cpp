@@ -163,6 +163,7 @@ namespace Engine
 					std::string filepath = fnFilepath["filepath"].get<std::string>();
 					int size = fnFilepath["charSize"].get<int>();
 					fonts[filepath] = size;
+					ResourceManagerInstance->getFontPaths().push_back(filepath);
 				}
 				if (!fonts.empty()) ResourceManagerInstance->populateCharacters(fonts);
 			}
@@ -526,10 +527,7 @@ namespace Engine
 						std::string text = go["material"]["text"].get<std::string>();
 						std::string font = go["material"]["font"].get<std::string>();
 						int charSize = go["material"]["charSize"].get<int>();
-						float r = go["material"]["colour"]["r"].get<float>();
-						float g = go["material"]["colour"]["g"].get<float>();
-						float b = go["material"]["colour"]["b"].get<float>();
-						
+					
 						textLabel = std::make_shared<TextComponent>(TextComponent(goName, font, charSize, text));
 						
 						gameObject->addComponent(textLabel);
@@ -542,6 +540,10 @@ namespace Engine
 						textTex = std::make_shared<TextureComponent>
 							(TextureComponent(ResourceManagerInstance->getFontTexture()->getSlot()));
 						gameObject->addComponent(textTex);
+
+						float r = go["material"]["colour"]["r"].get<float>();
+						float g = go["material"]["colour"]["g"].get<float>();
+						float b = go["material"]["colour"]["b"].get<float>();
 
 						textCol = std::make_shared<ColourComponent>(ColourComponent(r, g, b));
 						gameObject->addComponent(textCol);
@@ -1402,15 +1404,33 @@ namespace Engine
 						if (ImGui::CollapsingHeader("Text"))
 						{
 							static char tText[32];
-							static int charSize = 12;
 							static float r = 255.0f;
 							static float g = 255.0f; 
 							static float b = 255.0f;
 
 							static ImVec4 color = ImColor(r, g, b, 255.0f);
 
+							static const char* currentItem = ResourceManagerInstance->getFontPaths()[0].c_str();
+
+							if (ImGui::BeginCombo("Type", currentItem))
+							{
+								for (int i = 0; i < ResourceManagerInstance->getFontPaths().size(); i++)
+								{
+									bool selected = (currentItem == ResourceManagerInstance->getFontPaths()[i]);
+
+									if (ImGui::Selectable(ResourceManagerInstance->getFontPaths()[i].c_str(), selected))
+									{
+										currentItem = ResourceManagerInstance->getFontPaths()[i].c_str();
+									}
+
+									if (selected)
+										ImGui::SetItemDefaultFocus();
+								}
+
+								ImGui::EndCombo();
+							}
+
 							ImGui::InputText("Text label", tText, IM_ARRAYSIZE(tText));
-							ImGui::InputInt("Size", &charSize);
 							ImGui::ColorPicker3("Text color", (float*)&color);
 
 							if (ImGui::Button("Add"))
@@ -1418,7 +1438,7 @@ namespace Engine
 								if (lay->getGameObjects()[layer.getGOName()]->getComponent<TextComponent>() == nullptr)
 								{
 									std::shared_ptr<TextComponent> tComp;
-									tComp = std::make_shared<TextComponent>(TextComponent(layer.getGOName(), "assets/fonts/04b_20/04b_20__.ttf", charSize, tText));								
+									tComp = std::make_shared<TextComponent>(TextComponent(layer.getGOName(), currentItem, 32, tText));								
 
 									auto& mat = tComp->getLabel()->getMaterial();
 									std::shared_ptr<MaterialComponent> mComp;
@@ -1432,8 +1452,8 @@ namespace Engine
 									cComp = std::make_shared<ColourComponent>(ColourComponent(color.x, color.y, color.z));
 
 									lay->getGameObjects()[layer.getGOName()]->addComponent(tComp);
-									lay->getGameObjects()[layer.getGOName()]->addComponent(mComp);
 									lay->getGameObjects()[layer.getGOName()]->addComponent(cComp);
+									lay->getGameObjects()[layer.getGOName()]->addComponent(mComp);
 									lay->getGameObjects()[layer.getGOName()]->addComponent(textTex);
 								}
 								else

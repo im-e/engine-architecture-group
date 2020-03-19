@@ -41,9 +41,10 @@ namespace Engine
 		AssetManager<AssimpModel> m_assimpModels; //!< Collection of assimp models
 
 		std::map<std::string, std::vector<Character>> m_characters; //!< Renderable characters
-		const int m_ASCIIstart = 32;
-		const int m_ASCIIend = 126;
+		const int m_ASCIIstart = 32; //!< Beginning of ASCII
+		const int m_ASCIIend = 126; //!< End of ASCII
 		std::shared_ptr<Texture> m_fontTexture; //!< Texture which stores fonts
+		std::vector<std::string> m_fontPaths; //!< Font paths
 
 		ResourceManager(); //!< Default constructor
 		static ResourceManager* s_instance; //!< Single instance of a class
@@ -141,8 +142,9 @@ namespace Engine
 		AssetManager<AssimpModel>& getAssimpModels(); //!< Get collection of assimp models \return m_AssimpModels collection of assimp models
 
 		void populateCharacters(std::unordered_map<std::string, unsigned int> fontsAndSizes); //!< Preloads the characters
-		std::shared_ptr<Character> getCharacter(std::string font, unsigned int ASCIIcode); //!< Gets specified character from specified font
-		inline std::shared_ptr<Texture>& getFontTexture() { return m_fontTexture; } //!< Gets the font texture
+		std::shared_ptr<Character> getCharacter(std::string font, unsigned int ASCIIcode); //!< Gets specified character from specified font \return a character
+		inline std::shared_ptr<Texture>& getFontTexture() { return m_fontTexture; } //!< Gets the font texture \return font texture
+		std::vector<std::string>& getFontPaths() { return m_fontPaths; } //!< Gets font paths \return all font paths
 
 		~ResourceManager(); //!< Default destructor
 	};
