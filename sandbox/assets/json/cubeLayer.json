@@ -12,6 +12,10 @@
       {
         "name": "TessShader",
         "filepath": "assets/shaders/tessShader.glsl"
+      },
+      {
+        "name": "BlinnPhong",
+        "filepath": "assets/shaders/blinnPhong.glsl"
       }
     ],
     "textures": [
@@ -124,7 +128,7 @@
       "material": {
         "type": "assimp",
         "model": "ship",
-        "shader": "TessShader"
+        "shader": "BlinnPhong"
       },
 
       "position": {

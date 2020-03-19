@@ -7,22 +7,17 @@ layout (location = 1) in vec3 aNormal;
 layout (location = 2) in vec2 aTexCoords;
 
 out vec3 fragPosV;
-out vec2 texCoordsV;
+out vec2 texCoordV;
 out vec3 normalV;
-
-layout (std140) uniform Matrices
-{
-	mat4 u_VP;
-};
 
 uniform mat4 u_model;
 
 void main()
 {
-    fragPosV = aPos;
-    normalV = aNormal;
-    texCoordsV = aTexCoords;
-    gl_Position = u_VP * u_model * vec4(aPos, 1.0); 
+    fragPosV = (u_model * vec4(aPos, 1.0)).xyz;
+    normalV = mat3(transpose(inverse(u_model))) * aNormal;
+    texCoordV = vec2(aTexCoords.x, aTexCoords.y);
+    gl_Position = u_model * vec4(aPos, 1.0); 
 }
 
 #region Tessellation Control
@@ -77,8 +72,8 @@ void main()
 
    // pass through position and normal information
    fragPosTC[gl_InvocationID]  = fragPosV[gl_InvocationID];
-   normalTC[gl_InvocationID] = normal[gl_InvocationID];
-   texCoordTC[gl_InvocationID] = texCoord[gl_InvocationID];
+   normalTC[gl_InvocationID] = normalV[gl_InvocationID];
+   texCoordTC[gl_InvocationID] = texCoordV[gl_InvocationID];
 }
 
 #region Tessellation Eval
