@@ -59,32 +59,8 @@ namespace Engine
 			shader->uploadData(it->first, it->second);
 		}
 
-		//if (material->getTessFlag())
-		//{
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Wireframe mode.
 		glDrawElements(GL_PATCHES, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr); // Render the scene.
-		//}
-		//else if (!material->getTessFlag())
-		//{
-		//	glDrawElements(GL_TRIANGLES, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr);
-		//}
-
-		//glDrawElements(GL_TRIANGLES, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr);
-		//glDrawArrays(GL_PATCHES, 0, geometry->getDrawCount() / 3);
-	}
-
-	void OpenGLRenderer::tessSubmit(const std::shared_ptr<Material>& material)
-	{
-		auto shader = material->getShader();
-		shader->bind();
-		auto geometry = static_cast<VertexArray*>(material->getGeometry());
-		geometry->bind();
-		auto uniforms = material->getData();
-		for (auto it = uniforms.begin(); it != uniforms.end(); ++it)
-		{
-			shader->uploadData(it->first, it->second);
-		}
-		glDrawArrays(GL_PATCHES, 0, geometry->getDrawCount() * 3);
 	}
 
 	void OpenGLRenderer::flush()
@@ -145,20 +121,6 @@ namespace Engine
 		}
 
 		glDrawElements(GL_QUADS, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr);
-	}
-
-	void OpenGL2DRenderer::tessSubmit(const std::shared_ptr<Material>& material)
-	{
-		auto shader = material->getShader();
-		shader->bind();
-		auto geometry = static_cast<VertexArray*>(material->getGeometry());
-		geometry->bind();
-		auto uniforms = material->getData();
-		for (auto it = uniforms.begin(); it != uniforms.end(); ++it)
-		{
-			shader->uploadData(it->first, it->second);
-		}
-		glDrawArrays(GL_PATCHES, 0, geometry->getDrawCount());
 	}
 
 	void OpenGL2DRenderer::flush()

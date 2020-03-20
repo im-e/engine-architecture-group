@@ -16,6 +16,10 @@
       {
         "name": "BlinnPhong",
         "filepath": "assets/shaders/blinnPhong.glsl"
+      },
+      {
+        "name": "DirectionalLight",
+        "filepath": "assets/shaders/directionalLight.glsl"
       }
     ],
     "textures": [
@@ -266,6 +270,14 @@
         {
           "name": "TessShader",
           "block": "Light"
+        },
+        {
+          "name": "BlinnPhong",
+          "block": "Light"
+        },
+        {
+          "name": "DirectionalLight",
+          "block": "Light"
         }
       ],
       "data": [
@@ -302,6 +314,14 @@
         },
         {
           "name": "PhongShader",
+          "block": "CameraPosition"
+        },
+        {
+          "name": "BlinnPhong",
+          "block": "CameraPosition"
+        },
+        {
+          "name": "DirectionalLight",
           "block": "CameraPosition"
         }
       ],
