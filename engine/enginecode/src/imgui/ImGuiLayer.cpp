@@ -13,6 +13,10 @@
 #include "components/TextureComponent.h"
 #include "components/ControllerComponent.h"
 #include "components/RigidBodyComponent.h"
+#include "components/ColliderComponent.h"
+#include "components/BoxColliderComponent.h"
+#include "components/CapsuleColliderComponent.h"
+#include "components/SphereColliderComponent.h"
 
 #include "platform/GLFW_KeyCodes.h"
 #include "data/json/JsonLoader.h"

@@ -7,6 +7,9 @@ namespace Engine
 	HDC JsonLoader::hdc;
 	HGLRC JsonLoader::glrc;
 
+	rp3d::Vector3 size;
+	rp3d::decimal radius, length;
+
 	std::shared_ptr<JsonModel> JsonLoader::loadJsonModelAsync(std::string filepath)
 	{
 		std::shared_ptr<JsonModel> model;
@@ -1335,7 +1338,7 @@ namespace Engine
 						types.push_back("Box");
 						types.push_back("Capsule");
 						types.push_back("Sphere");
-						types.push_back("Terrain");
+						//types.push_back("Terrain");
 
 						static const char* currentItem = types[0];
 
@@ -1356,8 +1359,57 @@ namespace Engine
 
 							ImGui::EndCombo();
 						}
-					}				
-				});
+
+						
+						if (currentItem == "Box")
+						{
+							ImGui::InputFloat("X", &size.x, 2);
+							ImGui::InputFloat("Y", &size.y, 2);
+							ImGui::InputFloat("Z", &size.z, 2);
+
+						}
+						if (currentItem == "Capsule")
+						{
+							ImGui::InputFloat("Radius", &radius, 2);
+							ImGui::InputFloat("Length", &length, 2);
+						}
+						if (currentItem == "Sphere")
+						{
+							ImGui::InputFloat("Radius", &radius, 2);
+						}
+						if (ImGui::Button("Add"))
+						{
+							if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>() == nullptr)
+							{
+								std::shared_ptr<ColliderComponent> cc;
+								//rp3d::BodyType t;
+
+								if (currentItem == "Box")
+								{
+									std::shared_ptr<BoxColliderComponent> box;
+									box = std::make_shared<BoxColliderComponent>(BoxColliderComponent(size));
+
+									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
+								}
+								if (currentItem == "Capsule")
+								{
+
+									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
+								}
+								if (currentItem == "Sphere")
+								{
+
+									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
+								}
+
+								//rb = std::make_shared<RigidBodyComponent>(RigidBodyComponent(t, grav));
+
+								//lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
+							}
+						}
+					}
+				}
+				);
 			}
 		}
 	}

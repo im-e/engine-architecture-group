@@ -16,7 +16,10 @@
 #include "components/AIComponent.h"
 #include "components/ColourComponent.h"
 #include "components/RigidbodyComponent.h"
-//#include "components/BoxColliderComponent.h"
+#include "components/ColliderComponent.h"
+#include "components/BoxColliderComponent.h"
+#include "components/CapsuleColliderComponent.h"
+#include "components/SphereColliderComponent.h"
 
 namespace Engine
 {
