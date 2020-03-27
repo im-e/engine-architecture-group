@@ -1447,6 +1447,11 @@ namespace Engine
 							{
 								if (lay->getGameObjects()[layer.getGOName()]->getComponent<TextComponent>())
 								{
+									ResourceManagerInstance->getVAO().remove(layer.getGOName() + "VAO");
+									ResourceManagerInstance->getVBO().remove(layer.getGOName() + "VBO");
+									ResourceManagerInstance->getEBO().remove(layer.getGOName() + "EBO");
+									ResourceManagerInstance->getMaterial().remove(layer.getGOName() + "Mat");
+
 									auto compT = lay->getGameObjects()[layer.getGOName()]->getComponent<TextComponent>();
 									lay->getGameObjects()[layer.getGOName()]->removeComponent(compT);
 

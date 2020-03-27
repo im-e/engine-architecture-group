@@ -20,8 +20,10 @@ namespace Engine
 	private:
 		std::deque<glm::vec3> m_waypoints;
 		std::shared_ptr<luabridge::LuaRef> m_lua;
+		std::vector<glm::vec3> m_path;
 
-		int m_currentWaypoint;
+		int m_currentPathNum;
+		glm::vec3 m_currentPath;
 
 		glm::vec3 m_currentPosition;
 		glm::vec3 m_desiredPosition;
@@ -39,14 +41,21 @@ namespace Engine
 
 		void onAttach(GameObject* owner) override 
 		{ 
-			m_owner = owner;		
-
-			luaUpdate();
+			m_owner = owner;	
 
 			m_currentPosition = owner->getComponent<PositionComponent>()->getCurrentPosition();
 			m_currentRotation = owner->getComponent<PositionComponent>()->getCurrentRotation();
 
+			addPath(m_currentPosition.x, m_currentPosition.y, m_currentPosition.z);
+			m_currentPath = m_path[0];
+
+			addPath(0.0f, 10.0f, 0.0f);
+			addPath(-10.0f, 0.0f, -10.0f);
+
+			luaUpdate();
+
 			m_desiredPosition = m_waypoints.front();
+
 		}
 
 		GameObject* getOwner() override { return m_owner; }
@@ -67,22 +76,23 @@ namespace Engine
 				if (m_waypoints.empty() == false)
 				{
 					m_desiredPosition = m_waypoints.front();
-					//m_currentWaypoint = m_waypoints.front();
+					m_currentPath = m_desiredPosition;
 
 					// find orientation
 						// calculate acos of the dot product in each component
 
-					float angleBetween = glm::dot(m_currentPosition, m_desiredPosition);
+					/*float angleBetween = glm::dot(m_currentPosition, m_desiredPosition);
 					glm::vec3 rotationAxis = glm::cross(m_currentPosition, m_desiredPosition);
 					float s = glm::sqrt((1 + angleBetween) * 2);
 					float invs = 1 / s;
 
 					glm::quat quaternion = glm::quat(s * 0.5f, glm::vec3(rotationAxis) * invs);
-					glm::mat4 rotationMatrix = glm::toMat4(quaternion);
+					glm::mat4 rotationMatrix = glm::toMat4(quaternion);*/
 
 
 					LogInfo("Going to: {0}, {1}, {2}", m_desiredPosition.x, m_desiredPosition.y, m_desiredPosition.z);
 				}
+
 				else 
 				{
 					m_desiredPosition = m_currentPosition;
@@ -119,13 +129,53 @@ namespace Engine
 			m_waypoints.push_front(glm::vec3(x, y, z));
 		}
 
-		glm::vec3 getWaypoint(int index)
+		void addPath(float x, float y, float z)
 		{
-			return m_waypoints[index];
+			m_path.push_back(glm::vec3(x, y, z));
+		}
+
+		void changePath(int index, float x, float y, float z)
+		{
+			m_path[index] = glm::vec3(x, y, z);
+		}
+
+		void removePathBack()
+		{
+			m_path.pop_back();
+		}
+
+		float pathPosX(int index)
+		{
+			return m_path[index].x;
+		}
+
+		float pathPosY(int index)
+		{
+			return m_path[index].y;
+		}
+
+		float pathPosZ(int index)
+		{
+			return m_path[index].z;
 		}
 
 		int numWaypoints() { return m_waypoints.size(); }
-		int getCurrentWaypoint() { return m_currentWaypoint; }
+
+		int currentPathNum() 
+		{ 
+			int result;
+
+			auto iter = std::find(m_path.begin(), m_path.end(), m_currentPath);
+
+			if (iter != m_path.end())
+			{
+				result = std::distance(m_path.begin(), iter);
+			}
+		
+			return result;
+		}
+
+		int numPath() { return m_path.size(); }
 
 		void setLuaFunction(const luabridge::LuaRef& ref)
 		{
@@ -155,7 +205,11 @@ namespace Engine
 				.addFunction("numWaypoints", &AIComponent::numWaypoints)
 				.addFunction("addWaypoint", &AIComponent::addWaypoint)
 				.addFunction("addWaypointFront", &AIComponent::addWaypointFront)
-				.addFunction("currentWaypoint", &AIComponent::getCurrentWaypoint)
+				.addFunction("currentPathNum", &AIComponent::currentPathNum)
+				.addFunction("pathPosX", &AIComponent::pathPosX)
+				.addFunction("pathPosY", &AIComponent::pathPosY)
+				.addFunction("pathPosZ", &AIComponent::pathPosZ)
+				.addFunction("numPath", &AIComponent::numPath)
 				.endClass();
 		}
 
