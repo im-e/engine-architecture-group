@@ -237,7 +237,6 @@ namespace Engine
 								if (x == false && y == false && z == false)
 								{
 									floatingBracket = true;
-									//outputStream << "},";
 								}								
 							}
 						}

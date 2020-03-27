@@ -1467,22 +1467,26 @@ namespace Engine
 							{
 								if (lay->getGameObjects()[layer.getGOName()]->getComponent<TextComponent>())
 								{
+									auto compT = lay->getGameObjects()[layer.getGOName()]->getComponent<TextComponent>();
+									compT->onDetach();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(compT);
+
+									auto compTex = lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>();
+									compTex->onDetach();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(compTex);
+
+									auto compC = lay->getGameObjects()[layer.getGOName()]->getComponent<ColourComponent>();
+									compC->onDetach();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(compC);
+
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>();
+									comp->onDetach();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+
 									ResourceManagerInstance->getVAO().remove(layer.getGOName() + "VAO");
 									ResourceManagerInstance->getVBO().remove(layer.getGOName() + "VBO");
 									ResourceManagerInstance->getEBO().remove(layer.getGOName() + "EBO");
 									ResourceManagerInstance->getMaterial().remove(layer.getGOName() + "Mat");
-
-									auto compT = lay->getGameObjects()[layer.getGOName()]->getComponent<TextComponent>();
-									lay->getGameObjects()[layer.getGOName()]->removeComponent(compT);
-
-									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>();
-									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
-
-									auto compTex = lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>();
-									lay->getGameObjects()[layer.getGOName()]->removeComponent(compTex);
-
-									auto compC = lay->getGameObjects()[layer.getGOName()]->getComponent<ColourComponent>();
-									lay->getGameObjects()[layer.getGOName()]->removeComponent(compC);						
 								}
 								else
 								{

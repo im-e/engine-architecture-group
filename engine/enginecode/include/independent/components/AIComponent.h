@@ -1,5 +1,9 @@
 #pragma once
 
+/*! \file AIComponent.h
+\brief Implements AI for GameObjects
+*/
+
 extern "C"
 {
 #include "lua.h" 
@@ -15,24 +19,28 @@ extern "C"
 
 namespace Engine
 {
+	/*! \class AIComponent
+	\brief Defines an AI component
+	*/
 	class AIComponent : public Component
 	{
 	private:
-		std::deque<glm::vec3> m_waypoints;
-		std::shared_ptr<luabridge::LuaRef> m_lua;
+		std::deque<glm::vec3> m_waypoints; //!< All waypoints
+		std::shared_ptr<luabridge::LuaRef> m_lua; //!< Reference to Lua
 
-		int m_currentWaypoint;
+		int m_currentWaypoint; //!< Current waypoint an AI has to go to
 
-		glm::vec3 m_currentPosition;
-		glm::vec3 m_desiredPosition;
+		glm::vec3 m_currentPosition; //!< Current AI position
+		glm::vec3 m_desiredPosition; //!< Desired AI position
 
-		glm::vec3 m_currentRotation;
-		glm::vec3 m_desiredRotation;
+		glm::vec3 m_currentRotation; //!< Current AI rotation 
+		glm::vec3 m_desiredRotation; //!< Desired AI rotation
 
-		float m_stopSize;
-		std::string m_aiType;
-		std::string m_scriptName;
+		float m_stopSize; //!< AI's stop distance
+		std::string m_aiType; //!< Type of the AI
+		std::string m_scriptName; //!< Script AI is executing
 	public:
+		//! Custom constructor \param stop stop distance \param type AI type \param scriptName script that is being executed
 		AIComponent(float stop, std::string type, std::string scriptName)
 			: m_stopSize(stop), m_aiType(type), m_scriptName(scriptName)
 		{};
@@ -109,29 +117,36 @@ namespace Engine
 			return typeid(decltype(*this));
 		}
 
+		//! Adds a waypoint to the back of the queue \param x x coordinate \param y y coordinate \param z z coordinate
 		void addWaypoint(float x, float y, float z)
 		{
 			m_waypoints.push_back(glm::vec3(x, y, z));
 		}
 
+		//! Adds a waypoint to the front of the queue \param x x coordinate \param y y coordinate \param z z coordinate
 		void addWaypointFront(float x, float y, float z)
 		{
 			m_waypoints.push_front(glm::vec3(x, y, z));
 		}
 
+		//! Gets a waypoint at the index \param index waypoint index in a deque
 		glm::vec3 getWaypoint(int index)
 		{
 			return m_waypoints[index];
 		}
 
+		//! How many waypoints are currently stored \return size of waypoint deque
 		int numWaypoints() { return m_waypoints.size(); }
+		//! Gets current waypoint an AI is going to \return current waypoint
 		int getCurrentWaypoint() { return m_currentWaypoint; }
-
+		
+		//! Sets lua to be executed \param ref lua reference
 		void setLuaFunction(const luabridge::LuaRef& ref)
 		{
 			m_lua = std::make_shared<luabridge::LuaRef>(ref);
 		}
 		
+		//! Updates AI behaviour based on lua scripts
 		void luaUpdate()
 		{
 			if (m_lua)
@@ -148,6 +163,7 @@ namespace Engine
 			}
 		}
 
+		//! Registers a class to LUA
 		void registerClass()
 		{
 			luabridge::getGlobalNamespace(Application::getInstance().getLuaState())
@@ -159,6 +175,7 @@ namespace Engine
 				.endClass();
 		}
 
+		//! Executes script \param luaScriptPath path to the script \param tableName lua table to be executed \param luaFuncName lua function to be executed
 		void doFile(std::string luaScriptPath, std::string tableName, std::string luaFuncName)
 		{
 			if (luaL_dofile(Application::getInstance().getLuaState(), luaScriptPath.c_str()) == 0)
@@ -179,17 +196,23 @@ namespace Engine
 			}
 		}
 
+		//! Sets stop distance \param dist new stop distance
 		void setStopDist(float dist) { m_stopSize = dist; }
 
+		//! Gets stop distance \return current stop distance
 		float getStopDist()
 		{
 			return m_stopSize;
 		}
 
+		//! Sets AI type \param type new type
 		void setAiType(std::string type) { m_aiType = type; }
+		//! Gets current AI type \return AI type
 		std::string& getAiType() { return m_aiType; }
 
+		//! Sets script name \param scr new script
 		void setScriptName(std::string scr) { m_scriptName = scr; }
+		//! Get current script name \return current script associated with this component
 		std::string& getScriptName() { return m_scriptName; }
 
 		~AIComponent()

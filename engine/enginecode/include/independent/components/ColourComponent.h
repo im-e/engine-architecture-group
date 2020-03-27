@@ -1,4 +1,5 @@
 #pragma once
+
 /*! \file ColourComponent.h
 \brief Implement component that controls the colour of a game object
 
@@ -29,13 +30,15 @@ namespace Engine
 		void onAttach(GameObject* owner) override
 		{
 			m_owner = owner;
+
+			std::pair<std::string, void*> data("u_fontColour", (void*)new glm::vec3(m_r, m_g, m_b));
+			ComponentMessage msg(ComponentMessageType::UniformSet, data);
+			sendMessage(msg);
 		}
 
 		void onUpdate(float timestep) override
 		{
-			std::pair<std::string, void*> data("u_fontColour", (void*)new glm::vec3(m_r, m_g, m_b));
-			ComponentMessage msg(ComponentMessageType::UniformSet, data);
-			sendMessage(msg);
+			
 		}
 
 		void onDetach() override

@@ -21,9 +21,9 @@ namespace Engine
 		unsigned int m_texSlotParallax; //!< Texture slot
 		unsigned int m_texSlotSpecular; //!< Texture slot
 		std::string m_diffName; //!< Diffuse texture name
-		std::string m_normalName;
-		std::string m_parallaxName;
-		std::string m_specName;
+		std::string m_normalName; //!< Normal texture name
+		std::string m_parallaxName; //!< Parallax texture name
+		std::string m_specName; //!< Specular texture name
 
 	public:
 		//! Custom constructor \param texSlot initial texture slot
@@ -70,6 +70,7 @@ namespace Engine
 			sendMessage(msg);
 		}
 
+		//! Assigns normal texture to the slot \param index new normal texture slot
 		void assignNormalTexture(int index)
 		{
 			std::pair<std::string, void*> normalData("u_normalTexData", (void*)index);
@@ -77,6 +78,7 @@ namespace Engine
 			sendMessage(msg);
 		}
 
+		//! Assigns parallax texture to the slot \param index new parallax texture slot
 		void assignParallaxTexture(int index)
 		{
 			m_texSlotParallax = index;
@@ -85,6 +87,7 @@ namespace Engine
 			sendMessage(msg);
 		}
 
+		//! Assigns specular texture to the slot \param index new specular texture slot
 		void assignSpecularTexture(int index)
 		{
 			m_texSlotSpecular = index;
@@ -98,13 +101,19 @@ namespace Engine
 		//! Gets diffuse texture name \return current diffuse texture name
 		inline std::string& getDiffName() { return m_diffName; }
 
+		//! Sets normal texture name \param name new normal texture name
 		inline void setNormalTextureName(std::string name) { m_normalName = name; }
+		//! Gets normal texture name \return current normal texture name
 		inline std::string& getNormalName() { return m_normalName; }
 
+		//! Sets parallax texture name \param name new parallax texture name
 		inline void setParallaxTextureName(std::string name) { m_parallaxName = name; }
+		//! Gets parallax texture name \return current parallax texture name
 		inline std::string& getParallaxName() { return m_parallaxName; }
 
+		//! Sets specular texture name \param name new specular texture name
 		inline void setSpecularTextureName(std::string name) { m_specName = name; }
+		//! Gets specular texture name \return current specular texture name
 		inline std::string& getSpecularName() { return m_specName; }
 	};
 }

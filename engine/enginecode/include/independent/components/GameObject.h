@@ -32,7 +32,7 @@ namespace Engine
 		void addComponent(const std::shared_ptr<Component>& comp); //!< Adds components \param comp component to be added
 		void removeComponent(std::shared_ptr<Component> comp); //!< Removes components \param comp component to be removed
 
-		//! Gets component \return component if exists on a gameobject
+		//! Gets component \return component if existing on a gameobject
 		template<typename C>
 		inline std::shared_ptr<C> getComponent()
 		{

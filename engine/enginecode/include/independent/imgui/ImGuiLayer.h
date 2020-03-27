@@ -31,7 +31,7 @@ namespace Engine
 		//! Texture names
 		std::vector<std::string> m_texturesNames;
 
-		//! Is currently managed layer 2D ?
+		//! Is currently managed layer 2D?
 		static bool m_is2D;
 
 	public:

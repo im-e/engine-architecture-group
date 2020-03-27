@@ -54,6 +54,7 @@ namespace Engine {
 		//! Pointer to ImGuiSystem
 		std::shared_ptr<ImGuiSystem> m_imGui;
 
+		//! Pointer to physics world
 		std::shared_ptr<Physics> m_physWorld;
 
 #ifdef NG_PLATFORM_WINDOWS
@@ -93,8 +94,11 @@ namespace Engine {
 
 		void run(); //!< Main loop
 
+		//! Gets lua state \return lua state
 		lua_State* getLuaState();
+		//! Gets physics world \return physics world
 		std::shared_ptr<Physics>& getPhysics();
+		//! Gets layer stack \return layer stack
 		std::shared_ptr<LayerStack>& getLayerStack();
 	};
 

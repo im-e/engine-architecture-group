@@ -65,9 +65,13 @@ namespace Engine
 
 		void onUpdate(float timestep) override
 		{
-			std::pair<std::string, void*> data("u_model", (void*)&m_model[0][0]);
-			ComponentMessage msg(ComponentMessageType::UniformSet, data);
-			sendMessage(msg);
+			auto mat = m_owner->getComponent<MaterialComponent>();
+			if (mat != nullptr)
+			{
+				std::pair<std::string, void*> data("u_model", (void*)&m_model[0][0]);
+				ComponentMessage msg(ComponentMessageType::UniformSet, data);
+				sendMessage(msg);
+			}
 		}
 
 		void onAttach(GameObject* owner) override
