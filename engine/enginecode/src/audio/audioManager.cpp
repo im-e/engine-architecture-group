@@ -1,6 +1,5 @@
 #include "engine_pch.h"
 #include "audio/audioManager.h"
-#include "systems/Log.h"
 #include "core/application.h"
 
 namespace Engine {
@@ -92,8 +91,8 @@ namespace Engine {
 	void AudioManager::updateLocation(float timestep, glm::vec3 position)
 	{
 		//glm::vec3 pos = getCamera()->getCamera()->getPosition();
-		glm::vec3 forward = glm::vec3(0, 0, 1.0f);
-		glm::vec3 up = glm::vec3(0, 1.0f, 0);
+		glm::vec3 forward = glm::vec3(0, 0, -1);
+		glm::vec3 up = glm::vec3(0, 1, 0);
 
 		FMOD_VECTOR lastPos, lastVel, lastForward, lastUp;
 		
@@ -103,15 +102,10 @@ namespace Engine {
 		auto listenerForward = GLMVecToFmod(forward);
 		auto listenerUp = GLMVecToFmod(up);
 		
-		LogInfo(position.x);
-		LogInfo(position.y);
-		LogInfo(position.z);
-
-
 		FMOD_VECTOR vel;
-		vel.x = (listenerPos.x - lastPos.x) * (1.0f / 60.f);
-		vel.y = (listenerPos.y - lastPos.y) * (1.0f / 60.f);
-		vel.z = (listenerPos.z - lastPos.z) * (1.0f / 60.f);
+		vel.x = (listenerPos.x - lastPos.x) * timestep;
+		vel.y = (listenerPos.y - lastPos.y) * timestep;
+		vel.z = (listenerPos.z - lastPos.z) * timestep;
 
 		errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().set3DListenerAttributes(0, &listenerPos, &vel, &listenerForward, &listenerUp));
 

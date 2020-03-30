@@ -20,14 +20,15 @@ namespace Engine
 
 
 		//https://freesound.org/people/Mrthenoronha/sounds/370293/
-		m_audio->loadSound("assets/audio/music/song.wav", true, true, false);
+		//m_audio->loadSound("assets/audio/music/song.wav", true, true, false);
 		m_audio->playSound("assets/audio/music/song.wav");
 
 
 		// To test: Load some sounds here, add them manually to the map,
 		// call Play somewhere further (e.g. update)
+		
 	}
-
+		
 	void JsonLayer::onDetach()
 	{
 		for (auto& renderCommand : m_exitCommands)

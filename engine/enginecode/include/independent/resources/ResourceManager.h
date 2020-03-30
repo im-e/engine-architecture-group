@@ -17,6 +17,8 @@
 #include "data/json/JsonModelLoader.h"
 #include "data/assimp/AssimpModel.h"
 
+#include "audio/audioSound.h"
+
 
 namespace Engine
 {
@@ -36,10 +38,8 @@ namespace Engine
 		AssetManager<Material> m_materials;//!< Collection of materials
 		AssetManager<UniformBuffer> m_UBOs; //!< Collection of UBOs
 		AssetManager<JsonModel> m_jsonModels; //!< Collection of json models
-		AssetManager<AssimpModel> m_assimpModels; //!< Collection of assimp models
-		
-												  
-		//AssetManager<Sound> m_sounds;
+		AssetManager<AssimpModel> m_assimpModels; //!< Collection of assimp models												  
+		AssetManager<Sound> m_sounds; //!< Collection of sounds
 
 		ResourceManager(); //!< Default constructor
 		static ResourceManager* s_instance; //!< Single instance of a class
@@ -105,8 +105,9 @@ namespace Engine
 		*/
 		std::shared_ptr<UniformBuffer> addUBO(const std::string& key, unsigned int size, UniformLayout& layout);
 
-		//std::shared_ptr<Sound> addSound(const std::string& key, bool b3d = true, bool bLooping = false, bool bStream = false, float minDist = 0.25f,
-			//float maxDist = 10000.f, RollOff rollOff = RollOff::InverseTapered);
+		//!
+		std::shared_ptr<Sound> addSound(const std::string& key, bool b3d = true, bool bLooping = false, bool bStream = false, float minDist = 0.25f,
+			float maxDist = 10000.f, RollOff rollOff = RollOff::InverseTapered);
 
 		//! Adds a compiled json model to the collection \param key key associated with a model \param model model to be added
 		void addJsonModelAsync(const std::string& key, std::shared_ptr<JsonModel> model);
@@ -131,7 +132,7 @@ namespace Engine
 		AssetManager<UniformBuffer>& getUBO(); //!< Get collection of UBOs \return m_UBOs collection of UBOs
 		AssetManager<JsonModel>& getJsonModels(); //!< Get collection of json models \return m_JsonModels collection of json models
 		AssetManager<AssimpModel>& getAssimpModels(); //!< Get collection of assimp models \return m_AssimpModels collection of assimp models
-		//AssetManager<Sound>& getSound();
+		AssetManager<Sound>& getSound();
 
 		~ResourceManager(); //!< Default destructor
 	};

@@ -22,8 +22,7 @@ namespace Engine {
 		int errorCheck(FMOD_RESULT result) const;
 
 	public:
-		
-		///// APPLICATION - START, UPDATE AND STOP THE SYSTEM ///////
+	
 		void start(SystemSignal init = SystemSignal::None, ...);
 		void stop(SystemSignal close = SystemSignal::None, ...);
 		void update();

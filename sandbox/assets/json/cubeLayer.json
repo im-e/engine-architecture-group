@@ -45,6 +45,17 @@
         "name": "ship",
         "filepath": "assets/assimpModels/SM_Ship_Fighter_02.fbx"
       }
+    ],
+    "sounds": [
+      {
+        "name": "assets/audio/music/song.wav",
+        "b3d": true,
+        "loop": true,
+        "stream": false,
+        "minDist": 0.2,
+        "maxDist": 1.0,
+        "rollOff": "InverseTapered"
+      }
     ]
   },
 
