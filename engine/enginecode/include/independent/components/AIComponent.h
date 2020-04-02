@@ -50,12 +50,14 @@ namespace Engine
 			m_currentPath = m_path[0];
 
 			addPath(0.0f, 10.0f, 0.0f);
+			addPath(-10.0f, 10.0f, 0.0f);
+			addPath(-10.0f, 0.0f, 0.0f);
 			addPath(-10.0f, 0.0f, -10.0f);
+			addPath(0.0f, 0.0f, -10.0f);
 
 			luaUpdate();
 
 			m_desiredPosition = m_waypoints.front();
-
 		}
 
 		GameObject* getOwner() override { return m_owner; }
@@ -81,16 +83,23 @@ namespace Engine
 					// find orientation
 						// calculate acos of the dot product in each component
 
-					/*float angleBetween = glm::dot(m_currentPosition, m_desiredPosition);
+					float angleBetween = glm::dot(m_currentPosition, m_desiredPosition);
 					glm::vec3 rotationAxis = glm::cross(m_currentPosition, m_desiredPosition);
 					float s = glm::sqrt((1 + angleBetween) * 2);
 					float invs = 1 / s;
-
 					glm::quat quaternion = glm::quat(s * 0.5f, glm::vec3(rotationAxis) * invs);
-					glm::mat4 rotationMatrix = glm::toMat4(quaternion);*/
+					glm::vec3 euler = glm::degrees(glm::eulerAngles(glm::normalize(quaternion)));
 
+					m_desiredRotation = euler;
+
+					/*float dot = glm::dot(m_currentPosition, m_desiredPosition);
+					float magnitude = glm::sqrt((m_currentPosition.x * m_currentPosition.x) + (m_currentPosition.y * m_currentPosition.y) + (m_currentPosition.z * m_currentPosition.z));
+					float angle = glm::acos(dot / magnitude);
+
+					m_desiredRotation = m_currentRotation * angle;*/
 
 					LogInfo("Going to: {0}, {1}, {2}", m_desiredPosition.x, m_desiredPosition.y, m_desiredPosition.z);
+					LogInfo("Rotating to: {0}, {1}, {2}", m_desiredRotation.x, m_desiredRotation.y, m_desiredRotation.z);
 				}
 
 				else 
@@ -109,7 +118,6 @@ namespace Engine
 
 			m_currentPosition = m_owner->getComponent<PositionComponent>()->getCurrentPosition();
 			m_currentRotation = m_owner->getComponent<PositionComponent>()->getCurrentRotation();
-
 		};
 
 		void onEvent(Event& e) override {};
