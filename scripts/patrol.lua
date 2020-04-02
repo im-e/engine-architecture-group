@@ -8,7 +8,15 @@ Path = {
 			if index == 0 then
 				pathState = "forward"
 			elseif index == comp:numPath() - 1 then
-				pathState = "backward"
+				if comp:pathType() == 0 then
+					pathState = "stopped"
+
+				elseif comp:pathType() == 1 then
+					index = -1;
+				
+				elseif comp:pathType() == 2 then
+					pathState = "backward"
+				end
 			end
 
 			if pathState == "forward" then

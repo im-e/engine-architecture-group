@@ -15,6 +15,12 @@ extern "C"
 
 namespace Engine
 {
+	enum class PathType
+	{
+		Single, Constant, Reversing
+	};
+
+
 	class AIComponent : public Component
 	{
 	private:
@@ -24,6 +30,7 @@ namespace Engine
 
 		int m_currentPathNum;
 		glm::vec3 m_currentPath;
+		int m_pathType;
 
 		glm::vec3 m_currentPosition;
 		glm::vec3 m_desiredPosition;
@@ -46,14 +53,16 @@ namespace Engine
 			m_currentPosition = owner->getComponent<PositionComponent>()->getCurrentPosition();
 			m_currentRotation = owner->getComponent<PositionComponent>()->getCurrentRotation();
 
+			m_pathType = (int)PathType::Constant;
+
 			addPath(m_currentPosition.x, m_currentPosition.y, m_currentPosition.z);
 			m_currentPath = m_path[0];
 
 			addPath(0.0f, 10.0f, 0.0f);
 			addPath(-10.0f, 10.0f, 0.0f);
-			addPath(-10.0f, 0.0f, 0.0f);
-			addPath(-10.0f, 0.0f, -10.0f);
-			addPath(0.0f, 0.0f, -10.0f);
+			//addPath(-10.0f, 0.0f, 0.0f);
+			//addPath(-10.0f, 0.0f, -10.0f);
+			//addPath(0.0f, 0.0f, -10.0f);
 
 			luaUpdate();
 
@@ -114,7 +123,7 @@ namespace Engine
 			ComponentMessage rotMsg(ComponentMessageType::AIRotationSet, m_desiredRotation);
 
 			sendMessage(posMsg);
-			sendMessage(rotMsg);
+			//sendMessage(rotMsg);
 
 			m_currentPosition = m_owner->getComponent<PositionComponent>()->getCurrentPosition();
 			m_currentRotation = m_owner->getComponent<PositionComponent>()->getCurrentRotation();
@@ -185,6 +194,11 @@ namespace Engine
 
 		int numPath() { return m_path.size(); }
 
+		int pathType() 
+		{ 
+			return (int)m_pathType; 
+		}
+
 		void setLuaFunction(const luabridge::LuaRef& ref)
 		{
 			m_lua = std::make_shared<luabridge::LuaRef>(ref);
@@ -218,6 +232,7 @@ namespace Engine
 				.addFunction("pathPosY", &AIComponent::pathPosY)
 				.addFunction("pathPosZ", &AIComponent::pathPosZ)
 				.addFunction("numPath", &AIComponent::numPath)
+				.addFunction("pathType", &AIComponent::pathType)
 				.endClass();
 		}
 
