@@ -9,8 +9,8 @@
 namespace Engine
 {
 	/*! \class TextureComponent
-	\brief Applies textures to GOs. 
-	
+	\brief Applies textures to GOs.
+
 		Inherits from Component.
 	*/
 	class TextureComponent : public Component
@@ -31,8 +31,8 @@ namespace Engine
 		{}
 
 		void onAttach(GameObject* owner) override
-		{ 
-			m_owner = owner; 
+		{
+			m_owner = owner;
 			setTexture(m_texSlot);
 
 			m_possibleMessages = { ComponentMessageType::TextureSet };
@@ -40,7 +40,7 @@ namespace Engine
 			for (auto& msg : m_possibleMessages)
 			{
 				m_owner->getMap().insert(std::pair<ComponentMessageType, Component*>(msg, this));
-				switch (msg) 
+				switch (msg)
 				{
 				case ComponentMessageType::TextureSet:
 					m_msgsMap[msg] = [this](std::any data)
@@ -62,9 +62,21 @@ namespace Engine
 			return typeid(decltype(*this));
 		}
 
+		void onDetach() override
+		{
+			for (auto iter = m_owner->getMap().begin(); iter != m_owner->getMap().end(); ++iter)
+			{
+				if ((*iter).second == this)
+				{
+					iter = m_owner->getMap().erase(iter);
+					--iter;
+				}
+			}
+		}
+
 		//! Sets new texture on a GO. \param tex new texture slot
 		void setTexture(unsigned int tex)
-		{		
+		{	
 			std::pair<std::string, void*> data("u_texData", (void*)tex);
 			ComponentMessage msg(ComponentMessageType::UniformSet, data);
 			sendMessage(msg);

@@ -38,7 +38,6 @@ namespace Engine
 
 		void onUpdate(float timestep) override
 		{
-			
 		}
 
 		void onDetach() override

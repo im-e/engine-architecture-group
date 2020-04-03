@@ -117,6 +117,18 @@ namespace Engine
 			sendMessage(msg);
 		}
 
+		void onDetach() override
+		{
+			for (auto iter = m_owner->getMap().begin(); iter != m_owner->getMap().end(); ++iter)
+			{
+				if ((*iter).second == this)
+				{
+					iter = m_owner->getMap().erase(iter);
+					--iter;
+				}
+			}
+		}
+
 		inline const std::type_info& getType() override
 		{
 			return typeid(decltype(*this));

@@ -7,7 +7,7 @@ namespace Engine
 {
 	void Component::sendMessage(const ComponentMessage & msg)
 	{
-		auto & recipients = m_owner->getMap().equal_range(msg.m_msgType);
+		auto recipients = m_owner->getMap().equal_range(msg.m_msgType);
 		for (auto iter = recipients.first; iter != recipients.second; iter++) 
 		{
 			(*iter).second->receiveMessage(msg);
