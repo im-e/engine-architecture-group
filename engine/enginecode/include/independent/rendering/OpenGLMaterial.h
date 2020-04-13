@@ -17,9 +17,10 @@ namespace Engine
 		std::shared_ptr<Shader> m_shader; //!< Current material's shader
 		std::shared_ptr<VertexArray> m_VAO; //!< Current material's geometry
 		std::map<std::string, void *> m_data; //!< Current material's data
+		bool m_tessFlag;
 
 	public:
-		OpenGLMaterial(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO); //!< Custom constructor. \param shader default shader \param VAO default geometry
+		OpenGLMaterial(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO, bool tess = false); //!< Custom constructor. \param shader default shader \param VAO default geometry
 
 		// Inherited via Material
 		void setShader(const std::shared_ptr<Shader>& shader) override;
@@ -29,6 +30,7 @@ namespace Engine
 		std::shared_ptr<Shader> getShader() override;
 		void setGeometry(void * geometry) override;
 		void * getGeometry() override;
+		bool getTessFlag() override;
 		std::map<std::string, void*> getData() override;
 	};
 }

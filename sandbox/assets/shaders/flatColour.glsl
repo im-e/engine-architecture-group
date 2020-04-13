@@ -8,7 +8,7 @@ layout(location = 1) in vec3 a_vertexColour;
 layout(std140) uniform Matrices
 {
 	mat4 u_VP;
-
+	mat4 cameraPosition;
 };
 
 uniform mat4 u_model;

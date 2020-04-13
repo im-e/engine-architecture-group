@@ -36,7 +36,7 @@ namespace Engine
 		//! Sets position of a camera \param pos new position
 		virtual void setPosition(const glm::vec3 pos) = 0;
 		//! Gets current position of a camera \return current position
-		virtual glm::vec3 getPosition() = 0;
+		virtual glm::vec3& getPosition() = 0;
 
 		/*! Creates 2D camera 
 		\param left left boundary of a view 

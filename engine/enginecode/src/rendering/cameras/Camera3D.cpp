@@ -38,7 +38,7 @@ namespace Engine
 		updateViewMatrix();
 	}
 
-	glm::vec3 Camera3D::getPosition()
+	glm::vec3& Camera3D::getPosition()
 	{
 		return m_position;
 	}
