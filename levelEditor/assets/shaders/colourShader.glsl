@@ -16,8 +16,8 @@ void main()
 #region Fragment
 
 #version 440 core
-			
-			out vec4 colour;
+
+out vec4 colour;
 
 in vec2 TexCoords;
 
@@ -27,5 +27,5 @@ void main()
 {           
     //vec4 col = texture(u_colourTexture, TexCoords).rgb;
     //colour = vec4(col, 1.0);
-    colour = vec4(1.0, 0.0, 1.0, 1.0);
+    colour = vec4(1.0, 0.2, 0.5, 1.0);
 }
