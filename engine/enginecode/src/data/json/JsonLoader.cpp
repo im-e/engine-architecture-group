@@ -206,6 +206,7 @@ namespace Engine
 				layer.getRenderer().reset(Engine::Renderer::create3D());
 			if (type.compare("PPR") == 0)
 			{
+				// Passing in default shader to the PPR renderer
 				std::string defShader = jsonFile["Renderer"]["shader"].get<std::string>();
 				layer.getRenderer().reset(Engine::PPRenderer::createPPRenderer(ResourceManagerInstance->getShader().getAsset(defShader)));
 			}
