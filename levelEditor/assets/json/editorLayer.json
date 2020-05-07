@@ -267,7 +267,7 @@
       },
       {
         "type": "BackfaceCulling",
-        "enabled": true
+        "enabled": false
       },
       {
         "type": "Debug",

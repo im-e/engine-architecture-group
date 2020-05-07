@@ -12,6 +12,7 @@ namespace Engine
 		glBindFramebuffer(GL_FRAMEBUFFER, m_frameBufferID);
 
 		glGenTextures(1, &m_colourTexture);
+		glActiveTexture(GL_TEXTURE0 + m_colourTextureUnit);
 		glBindTexture(GL_TEXTURE_2D, m_colourTexture);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Application::getInstance().getWindow()->getWidth(), Application::getInstance().getWindow()->getHeight(), 0, GL_RGB, GL_UNSIGNED_INT, NULL);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -20,6 +21,7 @@ namespace Engine
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	
 		glGenTextures(1, &m_depthTexture);
+		glActiveTexture(GL_TEXTURE0 + m_depthTextureUnit);
 		glBindTexture(GL_TEXTURE_2D, m_depthTexture);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -35,21 +37,13 @@ namespace Engine
 			LogError("ERROR::FRAMGEBUFFER:: Framebuffer is not complete!");
 		}
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	
-		//float vertices[] = 
-		//{
-		//	-1.0, 1.0, 1.0, 0.0, 0.0,
-		//	-1.0, -1.0, 1.0, 0.0, 1.0,
-		//	1.0, -1.0, 1.0, 1.0, 1.0,
-		//	1.0, 1.0, 1.0, 1.0, 0.0
-		//};
 
 		float vertices[] =
 		{
-			-0.5, 0.5, 0.0, 0.0, 0.0,
-			-0.5, -0.5, 0.0, 0.0, 1.0,
-			0.5, -0.5, 0.0, 1.0, 1.0,
-			0.5, 0.5, 0.0, 1.0, 0.0
+			-1.0, 1.0, 0.0, 0.0, 0.0,
+			-1.0, -1.0, 0.0, 0.0, 1.0,
+			1.0, -1.0, 0.0, 1.0, 1.0,
+			1.0, 1.0, 0.0, 1.0, 0.0
 		};
 
 		unsigned int indices[] =
@@ -77,7 +71,9 @@ namespace Engine
 	void OpenGLPPRenderer::beginScene(const SceneData & sceneData)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_frameBufferID);
+		glClearColor(1, 0, 0, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(0, 0, 1, 1);
 
 		for (auto uniformPair : sceneData)
 		{
@@ -94,6 +90,7 @@ namespace Engine
 			}
 		}
 	}
+
 	void OpenGLPPRenderer::endScene()
 	{
 	}
@@ -118,8 +115,15 @@ namespace Engine
 	void OpenGLPPRenderer::flush()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glDisable(GL_DEPTH_TEST);
+		glActiveTexture(m_colourTextureUnit);
+		glBindTexture(GL_TEXTURE_2D, m_colourTexture);
+		int i = 0;
+		m_shader->bind();
+		m_shader->uploadData("u_colourTexture", (void*)m_colourTextureUnit);
 		auto x = ResourceManagerInstance->getVAO().getAsset("PPVAO");
 		x->bind();
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		glEnable(GL_DEPTH_TEST);
 	}
 }

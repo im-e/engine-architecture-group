@@ -15,8 +15,8 @@ namespace Engine
 		unsigned int m_frameBufferID;
 		unsigned int m_colourTexture;
 		unsigned int m_depthTexture;
-		unsigned int m_colourTextureUnit = 20;
-		unsigned int m_depthTextureUnit = 21;
+		unsigned int m_colourTextureUnit = 14;
+		unsigned int m_depthTextureUnit = 15;
 		std::shared_ptr<VertexArray> m_screenQuadVAO;
 		//PerDrawData m_ppUniforms;
 
