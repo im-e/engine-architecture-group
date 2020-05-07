@@ -36,6 +36,26 @@
       {
         "name": "ColorShader",
         "filepath": "assets/shaders/colourShader.glsl"
+      },
+      {
+        "name": "InvertShader",
+        "filepath": "assets/shaders/invertShader.glsl"
+      },
+      {
+        "name": "GreyscaleShader",
+        "filepath": "assets/shaders/greyscaleShader.glsl"
+      },
+      {
+        "name": "KernelShader",
+        "filepath": "assets/shaders/kernelShader.glsl"
+      },
+      {
+        "name": "BlurShader",
+        "filepath": "assets/shaders/blurShader.glsl"
+      },
+      {
+        "name": "EdgeShader",
+        "filepath": "assets/shaders/edgeShader.glsl"
       }
     ],
     "textures": [

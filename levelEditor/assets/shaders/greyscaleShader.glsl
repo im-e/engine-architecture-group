@@ -25,6 +25,7 @@ uniform sampler2D u_colourTexture;
 
 void main()
 {           
-    vec3 col = texture(u_colourTexture, TexCoords).rgb;
-    colour = vec4(col, 1.0);
+	colour = texture(u_colourTexture, TexCoords);
+    float average = 0.2126 * colour.r + 0.7152 * colour.g + 0.0722 * colour.b;
+    colour = vec4(average, average, average, 1.0);
 }
