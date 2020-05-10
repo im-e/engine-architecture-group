@@ -7,7 +7,7 @@
       },
       {
         "name": "SkyboxShader",
-        "filepath": "assets/shaders/skybox.glsl"
+        "filepath": "assets/shaders/skyboxes.glsl"
       },
       {
         "name": "PhongShader",
@@ -220,7 +220,12 @@
         {
           "name": "ParallaxShader",
           "block": "Matrices"
+        },
+        {
+          "name": "SkyboxShader",
+          "block": "Matrices"
         }
+
       ],
       "data": [
         {
