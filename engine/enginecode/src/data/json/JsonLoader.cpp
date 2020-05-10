@@ -1252,7 +1252,7 @@ namespace Engine
 							if (ImGui::Selectable(layer.getShaderNames()[i].c_str(), selected))
 							{
 								PPRShader = layer.getShaderNames()[i].c_str();
-								PPRShaderIndex = i;
+								PPRShaderIndex = std::count(layer.getShaderNames().begin(), layer.getShaderNames().end(), layer.getShaderNames()[i]);
 							}
 
 							if (selected)
@@ -1262,10 +1262,10 @@ namespace Engine
 					}
 					if (ImGui::Button("Add"))
 					{
-						LogWarn(PPRShaderIndex);
-						auto renderer = layer.getRenderer();
+						auto renderer = lay->getRenderer();
 						auto PPRender = std::static_pointer_cast<Engine::PPRenderer>(renderer);
-						PPRender->setPPIndex(1);
+						PPRender->setPPIndex(2);
+						LogWarn(PPRShaderIndex);
 					}
 				}
 			});
