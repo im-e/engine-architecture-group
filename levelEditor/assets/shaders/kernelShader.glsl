@@ -53,6 +53,6 @@ void main()
     vec3 col = vec3(0.0);
     for(int i = 0; i < 9; i++)
         col += sampleTex[i] * kernel[i];
-    
+
     colour = vec4(col, 1.0);
 }  

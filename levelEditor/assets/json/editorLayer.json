@@ -56,6 +56,10 @@
       {
         "name": "EdgeShader",
         "filepath": "assets/shaders/edgeShader.glsl"
+      },
+      {
+        "name": "PPRShader",
+        "filepath": "assets/shaders/PPRShader.glsl"
       }
     ],
     "textures": [
@@ -154,7 +158,7 @@
 
   "Renderer": {
     "type": "PPR",
-    "shader": "ColorShader"
+    "shader": "PPRShader"
   },
 
   "UBO": [

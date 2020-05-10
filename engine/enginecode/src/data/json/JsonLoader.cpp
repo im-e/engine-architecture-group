@@ -209,6 +209,10 @@ namespace Engine
 				// Passing in default shader to the PPR renderer
 				std::string defShader = jsonFile["Renderer"]["shader"].get<std::string>();
 				layer.getRenderer().reset(Engine::PPRenderer::createPPRenderer(ResourceManagerInstance->getShader().getAsset(defShader)));
+
+				auto renderer = layer.getRenderer();
+				auto PPRender = std::static_pointer_cast<Engine::PPRenderer>(renderer);
+				PPRender->setPPIndex(1);
 			}
 				
 		}
@@ -225,6 +229,7 @@ namespace Engine
 					for (auto& lay : ubo["layout"])
 					{
 						std::string SDT = lay.get<std::string>();
+						if (SDT.compare("Int") == 0) { uboLayout.addElement(ShaderDataType::Int); }
 						if (SDT.compare("Float") == 0) { uboLayout.addElement(ShaderDataType::Float); }
 						if (SDT.compare("Vec3") == 0) { uboLayout.addElement(ShaderDataType::Float3); }
 						if (SDT.compare("Mat4") == 0) { uboLayout.addElement(ShaderDataType::Mat4); }
@@ -258,6 +263,10 @@ namespace Engine
 						auto& type = data["type"];
 						if (type == "pointer")
 						{
+							if (data["var"].get<std::string>().compare("effectIndex") == 0)
+							{
+								ptr = (void*)&layer.getCamera()->getCamera()->getViewProjection();
+							}
 							if (data["var"].get<std::string>().compare("VP Matrix") == 0)
 							{
 								ptr = (void*)&layer.getCamera()->getCamera()->getViewProjection();
@@ -605,7 +614,7 @@ namespace Engine
 		{
 			if (jsonFile["Functions"]["Material"].get<bool>() == true)
 			{
-				layer.addImGuiFunction([&](JsonLayer* lay) 
+				layer.addImGuiFunction([&](JsonLayer* lay)
 				{
 					if (ImGui::CollapsingHeader("Material"))
 					{
@@ -1209,7 +1218,7 @@ namespace Engine
 							{
 								LogWarn("Component already exists!");
 							}
-							
+
 						}
 						ImGui::SameLine(100.0f);
 						if (ImGui::Button("Remove"))
@@ -1227,6 +1236,39 @@ namespace Engine
 					}
 				});
 			}
+			layer.addImGuiFunction([&](JsonLayer* lay)
+			{
+				if (ImGui::CollapsingHeader("Post Processing"))
+				{
+					static const char* PPRShader = "";
+					int PPRShaderIndex = 0;
+
+					if (ImGui::BeginCombo("Shaders", PPRShader))
+					{
+						for (int i = 0; i < layer.getShaderNames().size(); i++)
+						{
+							bool selected = (PPRShader == layer.getShaderNames()[i]);
+
+							if (ImGui::Selectable(layer.getShaderNames()[i].c_str(), selected))
+							{
+								PPRShader = layer.getShaderNames()[i].c_str();
+								PPRShaderIndex = i;
+							}
+
+							if (selected)
+								ImGui::SetItemDefaultFocus();
+						}
+						ImGui::EndCombo();
+					}
+					if (ImGui::Button("Add"))
+					{
+						LogWarn(PPRShaderIndex);
+						auto renderer = layer.getRenderer();
+						auto PPRender = std::static_pointer_cast<Engine::PPRenderer>(renderer);
+						PPRender->setPPIndex(1);
+					}
+				}
+			});
 		}
 	}
 }

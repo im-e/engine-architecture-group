@@ -17,6 +17,7 @@ namespace Engine
 		unsigned int m_depthTexture;
 		unsigned int m_colourTextureUnit = 14;
 		unsigned int m_depthTextureUnit = 15;
+		unsigned int m_effectIndex = 2;
 		std::shared_ptr<VertexArray> m_screenQuadVAO;
 		//PerDrawData m_ppUniforms;
 
@@ -31,9 +32,11 @@ namespace Engine
 		void submit(const std::shared_ptr<Material>& material) override;
 		void flush() override;
 		void setPPShader(std::shared_ptr<Shader> shader) override { m_shader = shader; }
+		void setPPIndex(int PPIndex) override { m_effectIndex = PPIndex; }
 		//const int& getColourTextureUnit() const override { return m_colourTextureUnit; }
 		//const int& getDepthTextureUnit() const override;
 		void setColourTextureUnit(unsigned int unit) { m_colourTextureUnit = unit; }
 		void setDepthTextureUnit(unsigned int unit) { m_depthTextureUnit = unit; }
+		std::shared_ptr<VertexArray> returnVAO() { return m_screenQuadVAO; }
 	};
 }

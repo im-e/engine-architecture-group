@@ -121,6 +121,7 @@ namespace Engine
 		int i = 0;
 		m_shader->bind();
 		m_shader->uploadData("u_colourTexture", (void*)m_colourTextureUnit);
+		m_shader->uploadData("u_effectIndex", (void*)m_effectIndex);
 		auto x = ResourceManagerInstance->getVAO().getAsset("PPVAO");
 		x->bind();
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
