@@ -283,11 +283,11 @@
     "init": [
       {
         "type": "DepthTestLess",
-        "enabled": false
+        "enabled": true
       },
       {
         "type": "BackfaceCulling",
-        "enabled": false
+        "enabled": true
       },
       {
         "type": "Debug",
