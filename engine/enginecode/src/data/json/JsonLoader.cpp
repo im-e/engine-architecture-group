@@ -209,10 +209,6 @@ namespace Engine
 				// Passing in default shader to the PPR renderer
 				std::string defShader = jsonFile["Renderer"]["shader"].get<std::string>();
 				layer.getRenderer().reset(Engine::PPRenderer::createPPRenderer(ResourceManagerInstance->getShader().getAsset(defShader)));
-
-				auto renderer = layer.getRenderer();
-				auto PPRender = std::static_pointer_cast<Engine::PPRenderer>(renderer);
-				PPRender->setPPIndex(1);
 			}
 				
 		}
@@ -1236,39 +1232,7 @@ namespace Engine
 					}
 				});
 			}
-			layer.addImGuiFunction([&](JsonLayer* lay)
-			{
-				if (ImGui::CollapsingHeader("Post Processing"))
-				{
-					static const char* PPRShader = "";
-					int PPRShaderIndex = 0;
-
-					if (ImGui::BeginCombo("Shaders", PPRShader))
-					{
-						for (int i = 0; i < layer.getShaderNames().size(); i++)
-						{
-							bool selected = (PPRShader == layer.getShaderNames()[i]);
-
-							if (ImGui::Selectable(layer.getShaderNames()[i].c_str(), selected))
-							{
-								PPRShader = layer.getShaderNames()[i].c_str();
-								PPRShaderIndex = std::count(layer.getShaderNames().begin(), layer.getShaderNames().end(), layer.getShaderNames()[i]);
-							}
-
-							if (selected)
-								ImGui::SetItemDefaultFocus();
-						}
-						ImGui::EndCombo();
-					}
-					if (ImGui::Button("Add"))
-					{
-						auto renderer = lay->getRenderer();
-						auto PPRender = std::static_pointer_cast<Engine::PPRenderer>(renderer);
-						PPRender->setPPIndex(2);
-						LogWarn(PPRShaderIndex);
-					}
-				}
-			});
+			
 		}
 	}
 }
