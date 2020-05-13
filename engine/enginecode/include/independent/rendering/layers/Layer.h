@@ -47,6 +47,7 @@ namespace Engine
 
 		std::shared_ptr<AudioManager>& getAudio() { return m_audio; }
 
+
 		//! Virtual destructor
 		virtual ~Layer() {};
 	};

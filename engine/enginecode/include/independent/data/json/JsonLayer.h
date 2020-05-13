@@ -32,9 +32,7 @@ namespace Engine
 		std::vector<std::shared_ptr<Engine::RenderCommand>> m_postdrawCommands;					//!< Render commands issued after materials are drawn
 		std::vector<std::shared_ptr<Engine::RenderCommand>> m_exitCommands;						//!< Render commands issued prior to renderer shutdown
 		
-		// Pointer to Audio Manager --> which would handle playing/stopping sounds
-				// or giving overall properties to sound
-		// Map of string to Sound
+		std::map<std::string, std::shared_ptr<Engine::Sound>> m_sounds;
 
 		std::list<void*> m_data;			//!< Misc data
 		SceneData m_sceneData;				//!< SceneData
@@ -56,6 +54,8 @@ namespace Engine
 
 		//! Gets a collection of GOs in a layer \return collection of GOs
 		inline std::map<std::string, std::shared_ptr<Engine::GameObject>>& getGameObjects() { return m_gameObjects; }
+		//!
+		inline std::map<std::string, std::shared_ptr<Engine::Sound>>& getSounds() { return m_sounds; }
 
 		//! Gets a collection of predraw commands applied to a layer \return collection of predraw commands
 		inline std::vector<std::shared_ptr<Engine::RenderCommand>>& getPredrawCommands() { return m_predrawCommands; }
@@ -65,6 +65,8 @@ namespace Engine
 		inline std::vector<std::shared_ptr<Engine::RenderCommand>>& getInitCommands() { return m_initCommands; }
 		//! Gets a collection of exit commands applied to a layer \return collection of exit commands
 		inline std::vector<std::shared_ptr<Engine::RenderCommand>>& getExitCommands() { return m_exitCommands; }
+
+		
 
 		//! Gets UBO data associated with a scene \return scene UBO data
 		inline SceneData& getSceneData() { return m_sceneData; }

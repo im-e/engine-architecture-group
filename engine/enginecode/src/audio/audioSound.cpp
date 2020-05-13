@@ -15,13 +15,22 @@ namespace Engine {
 
 	Sound::Sound(const std::string& strSoundName, bool b3d, bool bLooping, bool bStream, float minDist, float maxDist, RollOff rollOff)
 	{
+		m_name = strSoundName;
+		m_b3d = b3d;
+		m_Looping = bLooping;
+		m_Stream = bStream;
+		m_minDist = minDist;
+		m_maxDist = maxDist;
+		m_rollOff = rollOff;
+
+
 		FMOD_MODE eMode = FMOD_DEFAULT;
-		eMode |= b3d ? FMOD_3D : FMOD_2D;
-		eMode |= bLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
-		eMode |= bStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
+		eMode |= m_b3d ? FMOD_3D : FMOD_2D;
+		eMode |= m_Looping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
+		eMode |= m_Stream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
 
 
-		switch (rollOff)
+		switch (m_rollOff)
 		{
 		case RollOff::Linear:
 			eMode |= FMOD_3D_LINEARROLLOFF;
@@ -36,11 +45,11 @@ namespace Engine {
 
 
 		FMOD::Sound* sound = nullptr;
-		errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().createSound(strSoundName.c_str(), eMode, 0, &sound));
-
-		if (b3d)
+		if(!m_b3d) errorCheck(Engine::Application::getInstance().getAudioSystem()->get2DSystem().createSound(m_name.c_str(), eMode, 0, &sound));
+		if (m_b3d)
 		{
-			sound->set3DMinMaxDistance(minDist, maxDist);
+			errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().createSound(m_name.c_str(), eMode, 0, &sound));
+			sound->set3DMinMaxDistance(m_minDist, m_maxDist);
 		}
 		if (sound != nullptr) {
 

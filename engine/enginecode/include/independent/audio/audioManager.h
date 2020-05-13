@@ -14,6 +14,7 @@ namespace Engine {
 	{
 	private:
 		int m_nextChannelID = 0;
+		std::string m_type;
 		std::map<int, FMOD::Channel*> m_channels;
 		std::map<std::string, FMOD::Sound*> m_sounds;
 		std::map<std::string, FMOD::Geometry*> m_geometry;
@@ -25,8 +26,10 @@ namespace Engine {
 
 	public:
 		
+		AudioManager(std::string layerName);
+
 		void update();
-		void updateLocation(float timestep, glm::vec3 position);
+		void updateLocation(float timestep, glm::vec3 position, glm::vec3 camForward, glm::vec3 camUp);
 		void toggleChannelPause(int nChannelID);
 		void togglePauseAllChannels();
 		void setChannel3dPosition(int nChannelID, const glm::vec3& vPosition);
@@ -49,8 +52,3 @@ namespace Engine {
 
 	};
 }
-
-//! \def 
-//#define LOW_LEVEL ::Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem()
-//! \def 
-//#define STUDIO_LEVEL ::Engine::Application::getInstance().getAudioSystem()->getStudioSystem()

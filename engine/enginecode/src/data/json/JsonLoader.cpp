@@ -175,6 +175,7 @@ namespace Engine
 					std::string roll = fnFilepath["rollOff"].get<std::string>();
 					RollOff r;
 
+
 					if (roll == "InverseTapered")
 					{
 						r = RollOff::InverseTapered;
@@ -188,10 +189,8 @@ namespace Engine
 						r = RollOff::LinearSquared;
 					}
 
-					ResourceManagerInstance->addSound(soundName, b3d, loop, stream, minD, maxDist, r);
-					
-					//layer.getSoundMap()[soundname]= sound
-					//
+					layer.getSounds()[soundName] = ResourceManagerInstance->addSound(soundName, b3d, loop, stream, minD, maxDist, r);
+
 				}
 
 			}

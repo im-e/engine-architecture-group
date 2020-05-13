@@ -8,7 +8,8 @@ namespace Engine
 
 	void JsonLayer::onAttach()
 	{
-		m_audio = std::make_shared<AudioManager>();
+		if (m_name == "Game Layer") m_audio.reset(new AudioManager(m_name));
+		if (m_name == "UI Layer") m_audio.reset(new AudioManager(m_name));
 
 		Engine::JsonLoader::loadJson(m_filepath, *this);
 		Engine::JsonLoader::loadGameObjects(m_gameobjectsFilepath, *this);
@@ -18,15 +19,12 @@ namespace Engine
 			m_renderer->actionCommand(renderCommand.get());
 		}
 
-
-		//https://freesound.org/people/Mrthenoronha/sounds/370293/
-		//m_audio->loadSound("assets/audio/music/song.wav", true, true, false);
-		m_audio->playSound("assets/audio/music/song.wav");
-
-
-		// To test: Load some sounds here, add them manually to the map,
-		// call Play somewhere further (e.g. update)
+		for (auto& sound : m_sounds)
+		{
+			m_audio->playSound(sound.first);
+		}
 		
+		//https://freesound.org/people/Mrthenoronha/sounds/370293/
 	}
 		
 	void JsonLayer::onDetach()
@@ -47,17 +45,21 @@ namespace Engine
 #ifdef NG_DEBUG
 			NG_PROFILER_FUNCTION();
 #endif
-		
-		{
-			m_audio->updateLocation(timestep, getCamera()->getCamera()->getPosition());
-			m_audio->update();
-		}
 
 		{
 #ifdef NG_DEBUG
 			NG_PROFILER_SCOPE("Camera update");
 #endif
 			m_cameraController->onUpdate(timestep);
+		}
+
+		{
+#ifdef NG_DEBUG
+			NG_PROFILER_SCOPE("Audio update");
+#endif	
+			m_audio->updateLocation(timestep, getCamera()->getCamera()->getPosition(), 
+				static_cast<Engine::Camera3D*>(getCamera()->getCamera().get())->getForward(), 
+				static_cast<Engine::Camera3D*>(getCamera()->getCamera().get())->getUp());
 		}
 		
 		{

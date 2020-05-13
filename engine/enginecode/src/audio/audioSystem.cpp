@@ -20,17 +20,25 @@ namespace Engine {
 		unsigned int version;
 		errorCheck(FMOD::System_Create(&m_lowLevelSystem));
 		errorCheck(m_lowLevelSystem->getVersion(&version));
-
 		if (version < FMOD_VERSION)
 		{
 			LogError("FMOD lib version {0} doesn't match header version {1}", version, FMOD_VERSION);
 		}
-
 		errorCheck(m_lowLevelSystem->init(m_maxChannels, FMOD_INIT_NORMAL, NULL));
-
 		errorCheck(m_lowLevelSystem->set3DSettings(1.f, 1.f, 1.f));
+		errorCheck(m_lowLevelSystem->setGeometrySettings(100.f));
 
-		errorCheck(m_lowLevelSystem->setGeometrySettings(50.f));
+		//2D system
+		errorCheck(FMOD::System_Create(&m_2dSystem));
+		errorCheck(m_2dSystem->getVersion(&version));
+		if (version < FMOD_VERSION)
+		{
+			LogError("FMOD lib version {0} doesn't match header version {1}", version, FMOD_VERSION);
+		}
+		errorCheck(m_2dSystem->init(m_maxChannels, FMOD_INIT_NORMAL, NULL));
+		errorCheck(m_2dSystem->set3DSettings(1.f, 1.f, 1.f));
+		errorCheck(m_2dSystem->setGeometrySettings(100.f));
+
 	}
 
 	void AudioSystem::stop(SystemSignal close, ...)
@@ -43,6 +51,8 @@ namespace Engine {
 		errorCheck(m_lowLevelSystem->update());
 
 		errorCheck(m_studioSystem->update());
+
+		errorCheck(m_2dSystem->update());
 	}
 
 	

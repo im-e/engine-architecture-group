@@ -48,7 +48,8 @@ namespace Engine {
 
 
 		FMOD::Sound* sound = nullptr;
-		errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().createSound(strSoundName.c_str(), eMode, 0, &sound));
+		if(m_type == "3D") errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().createSound(strSoundName.c_str(), eMode, 0, &sound));
+		if(m_type == "2D") errorCheck(Engine::Application::getInstance().getAudioSystem()->get2DSystem().createSound(strSoundName.c_str(), eMode, 0, &sound));
 
 		if (b3d)
 		{
@@ -69,6 +70,18 @@ namespace Engine {
 
 	}
 
+	AudioManager::AudioManager(std::string layerName)
+	{
+		if (layerName == "Game Layer")
+		{
+			m_type = "3D";
+		}
+		else if (layerName == "UI Layer")
+		{
+			m_type = "2D";
+		}
+	}
+
 	void AudioManager::update()
 	{
 		std::vector<std::map<int, FMOD::Channel*>::iterator> l_stoppedChannels;
@@ -85,29 +98,36 @@ namespace Engine {
 		{
 			m_channels.erase(it);
 		}
+
+		////error check low level system
+		//errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().update());
+		//errorCheck(Engine::Application::getInstance().getAudioSystem()->get2DSystem().update());
+		////error check studio system
+		//errorCheck(Engine::Application::getInstance().getAudioSystem()->getStudioSystem().update());
 	}
 
-	//void AudioManager::set3dListenerAndOrientation(const glm::vec3& position, const glm::vec3& forward, const glm::vec3& up, JsonLayer l)
-	void AudioManager::updateLocation(float timestep, glm::vec3 position)
+	void AudioManager::updateLocation(float timestep, glm::vec3 position, glm::vec3 camForward, glm::vec3 camUp)
 	{
-		//glm::vec3 pos = getCamera()->getCamera()->getPosition();
-		glm::vec3 forward = glm::vec3(0, 0, -1);
-		glm::vec3 up = glm::vec3(0, 1, 0);
 
 		FMOD_VECTOR lastPos, lastVel, lastForward, lastUp;
 		
-		errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().get3DListenerAttributes(0, &lastPos, &lastVel, &lastForward, &lastUp));
-					   		
+		if (m_type == "3D") errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().get3DListenerAttributes(0, &lastPos, &lastVel, &lastForward, &lastUp));
+		else if (m_type == "2D") errorCheck(Engine::Application::getInstance().getAudioSystem()->get2DSystem().get3DListenerAttributes(0, &lastPos, &lastVel, &lastForward, &lastUp));
+		std::cout << m_type << std::endl;
+		std::cout << "F: " << camForward.r << " | " << camForward.g << " | " << camForward.b << std::endl;
+		std::cout << "U: " << camUp.r << " | " << camUp.g << " | " << camUp.b << std::endl;
+
 		auto listenerPos = GLMVecToFmod(position);
-		auto listenerForward = GLMVecToFmod(forward);
-		auto listenerUp = GLMVecToFmod(up);
+		auto listenerForward = GLMVecToFmod(camForward);
+		auto listenerUp = GLMVecToFmod(camUp);
 		
 		FMOD_VECTOR vel;
 		vel.x = (listenerPos.x - lastPos.x) * timestep;
 		vel.y = (listenerPos.y - lastPos.y) * timestep;
 		vel.z = (listenerPos.z - lastPos.z) * timestep;
 
-		errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().set3DListenerAttributes(0, &listenerPos, &vel, &listenerForward, &listenerUp));
+		if (m_type == "3D") errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().set3DListenerAttributes(0, &listenerPos, &vel, &listenerForward, &listenerUp));
+		else if (m_type == "2D") errorCheck(Engine::Application::getInstance().getAudioSystem()->get2DSystem().set3DListenerAttributes(0, &listenerPos, &vel, &listenerForward, &listenerUp));
 
 	}
 
@@ -117,7 +137,8 @@ namespace Engine {
 		
 		int numPolys = def.indices.size() / 3;
 
-		errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().createGeometry(numPolys, def.vertices.size(), &geometry));
+		if (m_type == "3D") errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().createGeometry(numPolys, def.vertices.size(), &geometry));
+		else if (m_type == "2D") errorCheck(Engine::Application::getInstance().getAudioSystem()->get2DSystem().createGeometry(numPolys, def.vertices.size(), &geometry));
 
 		m_geometry[label] = geometry;
 		FMOD_VECTOR triangle[3];
@@ -149,7 +170,7 @@ namespace Engine {
 		auto it = m_sounds.find(strSoundName);
 		if (it == m_sounds.end())
 		{
-			loadSound(strSoundName);
+			m_sounds[strSoundName] = ResourceManagerInstance->getSound().getAsset(strSoundName)->getFmodSound();
 			it = m_sounds.find(strSoundName);
 			if (it == m_sounds.end())
 			{
@@ -157,7 +178,9 @@ namespace Engine {
 			}
 		}
 		FMOD::Channel* pChannel = nullptr;
-		errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().playSound(it->second, nullptr, true, &pChannel));
+		if (m_type == "3D") errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().playSound(it->second, nullptr, true, &pChannel));
+		if (m_type == "2D") errorCheck(Engine::Application::getInstance().getAudioSystem()->get2DSystem().playSound(it->second, nullptr, true, &pChannel));
+
 		if (pChannel)
 		{
 			FMOD_MODE currMode;
@@ -167,6 +190,7 @@ namespace Engine {
 				errorCheck(pChannel->set3DAttributes(&position, nullptr));
 			}
 			errorCheck(pChannel->setPaused(false));
+			m_channels.size();
 			m_channels[channelId] = pChannel;
 		}
 		return channelId;
@@ -268,6 +292,15 @@ namespace Engine {
 
 	void AudioManager::togglePauseAllChannels()
 	{
+		for (auto it = m_channels.begin(); it != m_channels.end(); ++it)
+		{
+			bool isPlaying = false;
+			it->second->isPlaying(&isPlaying);
+			if (isPlaying)
+			{
+				errorCheck(it->second->setPaused(true));
+			}
+		}
 	}
 
 	void AudioManager::toggleChannelPause(int nChannelID)

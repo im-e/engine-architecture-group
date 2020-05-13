@@ -17,6 +17,10 @@ namespace Engine {
 		FMOD::Studio::System* m_studioSystem;
 		FMOD::System* m_lowLevelSystem;
 
+		FMOD::System* m_2dSystem;
+
+
+
 		static const int m_maxChannels = 32;
 
 		int errorCheck(FMOD_RESULT result) const;
@@ -29,6 +33,7 @@ namespace Engine {
 
 		inline FMOD::Studio::System& getStudioSystem() { return *m_studioSystem; }
 		inline FMOD::System& getLowLevelSystem() { return *m_lowLevelSystem; }
+		inline FMOD::System& get2DSystem() { return *m_2dSystem; }
 
 	};
 }
