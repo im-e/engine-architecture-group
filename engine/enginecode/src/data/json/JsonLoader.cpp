@@ -213,6 +213,15 @@ namespace Engine
 				
 		}
 
+		if (jsonFile.count("Skybox") > 0)
+		{
+			std::string type = jsonFile["Skybox"]["type"].get<std::string>();
+			if (type.compare("Space") == 0)
+			{
+				layer.getSkybox().reset(Skybox::createSkyboxCube());
+			}
+		}
+
 		if (jsonFile.count("UBO") > 0)
 		{
 			for (auto& ubo : jsonFile["UBO"])

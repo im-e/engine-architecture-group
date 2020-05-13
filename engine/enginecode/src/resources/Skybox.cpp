@@ -84,6 +84,12 @@ namespace Engine
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	}
 
+	Skybox * Skybox::createSkybox()
+	{
+		switch()
+	}
+
+
 	void Skybox::draw(unsigned int texID)
 	{
 		glDepthFunc(GL_LEQUAL); //change depth function so depth test passes when values are equal to depth buffer's content

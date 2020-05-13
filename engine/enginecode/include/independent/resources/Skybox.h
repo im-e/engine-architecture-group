@@ -15,6 +15,7 @@ namespace Engine
 		Skybox(); // Init skybox
 
 		void createSkyboxCube(); // Creates skybox cube
+		static Skybox* createSkybox();
 		inline std::vector<std::string> getPaths() { return m_paths; } // Gets all file paths
 		void draw(unsigned int texID); // Draw skybox
 		void stop(); // Free resources
