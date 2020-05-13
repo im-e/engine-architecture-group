@@ -1,37 +1,25 @@
 #region Vertex
-
 #version 440 core
-			
-layout(location = 0) in vec3 a_vertexPosition;
-layout(location = 1) in vec3 a_vertexNormal;
-layout(location = 2) in vec2 a_texCoord;
 
-out vec3 fragPosV;
-out vec3 normalV;
-out vec2 texCoordV;
+layout(location = 0) in vec3 aPos;
+out vec3 TexCoords;
 
-uniform mat4 u_model;
+uniform mat4 projection;
+uniform mat4 view;
 
 void main()
 {
-	fragPosV = vec3(u_model * vec4(a_vertexPosition, 1.0));
-	normalV = mat3(transpose(inverse(u_model))) * a_vertexNormal;
-	texCoordV = vec2(a_texCoord.x, a_texCoord.y);
-	gl_Position =  u_model * vec4(a_vertexPosition, 1.0);
+	TexCoords = aPos;
+	vec4 pos = projection * view * vec4(aPos, 1.0);
+	gl_Position = pos.xyww;
 }
 
 #region Tessellation Control
-
 #version 450 core
 layout (vertices = 3) out;
 
-in vec3 fragPosV[];
-in vec3 normalV[];
-in vec2 texCoordV[];
-
-out vec3 fragPosTC[];
-out vec3 normalTC[];
-out vec2 texCoordTC[];
+in vec3 TexCoords[];
+out vec3 TexCoordsTC[];
 
 layout(std140) uniform CameraPosition
 {
@@ -69,15 +57,10 @@ void main()
           gl_TessLevelInner[0] = gl_TessLevelOuter[0]; 
 
    }
-
-   // pass through position and normal information
-   fragPosTC[gl_InvocationID]  = fragPosV[gl_InvocationID];
-   normalTC[gl_InvocationID] = normal[gl_InvocationID];
-   texCoordTC[gl_InvocationID] = texCoord[gl_InvocationID];
+   TexCoordsTC[gl_InvocationID] = TexCoords[gl_InvocationID];
 }
 
 #region Tessellation Eval
-
 #version 450 core
 
 layout(triangles, fractional_even_spacing, ccw) in;
@@ -90,21 +73,14 @@ layout(std140) uniform Matrices
 	mat4 u_VP;
 };
 
-in vec3 fragPosTC[];
-in vec3 normalTC[];
-in vec2 texCoordTC[];
-
-out vec3 fragPosTE;
-out vec3 normalTE;
-out vec2 texCoordTE;
+in vec3 TexCoordsTC[];
+out vec3 TexCoordsTE[];
 
 void main()
 {
-	fragPosTE = interpolate3D(fragPosTC[0], fragPosTC[1], fragPosTC[2]);
-	normalTE = interpolate3D(normalTC[0], normalTC[1], normalTC[2]);
-	texCoordTE = interpolate2D(texCoordTC[0], texCoordTC[1], texCoordTC[2]);
-
-	gl_Position = u_VP * vec4(fragPosTE, 1.0);
+	TexCoordsTE = interpolate2D(texCoordTC[0], texCoordTC[1], texCoordTC[2]);
+	vec4 pos = projection * view * vec4(aPos, 1.0);
+	gl_Position = pos.xyww;
 }
 
 //basic linear interpolation
@@ -123,69 +99,33 @@ vec3 interpolate3D(vec3 v0, vec3 v1, vec3 v2)
 #version 330 core
 layout(triangles) in;
 layout(triangle_strip, max_vertices = 3) out;
-vec3 getNormal();
 
-in vec3 fragPosTE[];
-in vec2 texCoordTE[];
-
-out vec3 fragPosG;
-out vec3 normalG;
-out vec2 texCoordG;
+in vec3 TexCoordsTE[];
+out vec3 TexCoordsG;
 
 void main()
 {
-	for(int i = 0 ; i < 3; i++)
+   for(int i = 0 ; i < 3; i++)
    {
       gl_Position = gl_in[i].gl_Position ;
-      fragPosG = fragPosTE[i] ;
-      normalG = getNormal() ; 
-	  texCoordG = texCoordTE[i];
+      TexCoordsG = TexCoordsTE[i];
       EmitVertex() ;
   }
      EndPrimitive() ;
 }
 
-vec3 getNormal()
-{
-    vec3 a = vec3(gl_in[1].gl_Position) - vec3(gl_in[0].gl_Position);
-    vec3 b = vec3(gl_in[2].gl_Position) - vec3(gl_in[0].gl_Position);
-    return normalize(cross(a, b));
-}
-				
 #region Fragment
 
 #version 440 core
 			
 layout(location = 0) out vec4 colour;
+in vec3 TexCoordsG;
+out vec4 FragColour;
+uniform samplerCube u_skybox;
 
-in vec3 normalV;
-in vec3 fragPosV;
-in vec2 texCoordV;
 
-layout(std140) uniform Light
-{
-	vec3 u_lightPos; 
-	vec3 u_viewPos; 
-	vec3 u_lightColour;
-};
-
-uniform sampler2D u_texData;
 
 void main()
 {
-	float ambientStrength = 0.4;
-	vec3 ambient = ambientStrength * u_lightColour;
-	
-	vec3 norm = normalize(normalV);
-	vec3 lightDir = normalize(u_lightPos - fragPosV);
-	float diff = max(dot(norm, lightDir), 0.0);
-	vec3 diffuse = diff * u_lightColour;
-	
-	float specularStrength = 0.8;
-	vec3 viewDir = normalize(u_viewPos - fragPosV);
-	vec3 reflectDir = reflect(-lightDir, norm);  
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 64);
-	vec3 specular = specularStrength * spec * u_lightColour;  
-	
-	colour = vec4((ambient + diffuse + specular), 1.0) * texture(u_texData, texCoordV);
+	FragColour = texture(u_skybox, TexCoordsG);
 }

@@ -71,9 +71,9 @@ namespace Engine
 	void OpenGLPPRenderer::beginScene(const SceneData & sceneData)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_frameBufferID);
-		glClearColor(1, 0, 0, 1);
+		glClearColor(0.7, 0.7, 0.7, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(0, 0, 1, 1);
+		glClearColor(0.7, 0.7, 0.7, 1);
 
 		for (auto uniformPair : sceneData)
 		{

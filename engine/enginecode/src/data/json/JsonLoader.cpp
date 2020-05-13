@@ -287,6 +287,10 @@ namespace Engine
 								auto cam3D = std::static_pointer_cast<Camera3D>(cam);
 								ptr = (void*)&cam3D->getForward();
 							}
+							if (data["var"].get<std::string>().compare("skyboxSampler") == 0)
+							{
+								ptr = (void*)&layer.getSkybox()->getPaths();
+							}
 						}
 						if (type == "Float3")
 						{

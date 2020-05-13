@@ -247,6 +247,24 @@
       ]
     },
     {
+      "name": "SkyboxUBO",
+      "layout": [
+        "SamplerCube"
+      ],
+      "shaders": [
+        {
+          "name": "SkyboxShader",
+          "block": "SkyboxCube"
+        }
+      ],
+      "data": [
+        {
+          "type": "pointer",
+          "var":  "skyboxSampler"
+        }
+      ]
+    },
+    {
       "name": "LightUBO",
       "layout": [
         "Vec3",
