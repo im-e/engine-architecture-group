@@ -7,7 +7,7 @@
       },
       {
         "name": "SkyboxShader",
-        "filepath": "assets/shaders/skyboxes.glsl"
+        "filepath": "assets/shaders/skybox.glsl"
       },
       {
         "name": "PhongShader",

@@ -1,6 +1,7 @@
 #include "engine_pch.h"
 #include "data/json/JsonLoader.h"
 #include "core/application.h"
+#include "systems/Log.h"
 
 namespace Engine
 {
@@ -218,7 +219,8 @@ namespace Engine
 			std::string type = jsonFile["Skybox"]["type"].get<std::string>();
 			if (type.compare("Space") == 0)
 			{
-				layer.getSkybox().reset(Skybox::createSkyboxCube());
+				layer.getSkybox().reset(Engine::Skybox::createSkybox());
+				LogWarn("SKYBOX SPACE CODE RAN");
 			}
 		}
 

@@ -26,5 +26,6 @@ namespace Engine
 			"Assets/Textures/Skybox/Space_front.png",
 			"Assets/Textures/Skybox/Space_back.png"
 		};
+		unsigned int texID = 1;
 	};
 }

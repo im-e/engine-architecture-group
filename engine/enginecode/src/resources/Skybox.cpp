@@ -96,6 +96,8 @@ namespace Engine
 		case SkyboxAPI::API::OpenGL:
 			return new OpenGLSkybox();
 			break;
+		case SkyboxAPI::API::Direct3D:
+			LogError("Direct3D is not supported.");
 		}
 	}
 
