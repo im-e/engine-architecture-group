@@ -1,5 +1,4 @@
 #pragma once
-
 // Creates skybox (basically a cube)
 
 #include <vector>
@@ -8,7 +7,7 @@ namespace Engine
 {
 	class Skybox
 	{
-	private:
+	protected:
 		std::vector<std::string> m_paths; // paths to skybox's textures
 		unsigned int vao, vbo; // buffers IDs
 	public:

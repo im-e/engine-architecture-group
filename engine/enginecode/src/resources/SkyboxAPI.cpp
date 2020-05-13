@@ -1,5 +1,6 @@
 #include "engine_pch.h"
-#include "resources/SkyboxAPI.h"
+#include "SkyboxAPI.h"
+
 namespace Engine
 {
 	// Currently only supporting OpenGL.
