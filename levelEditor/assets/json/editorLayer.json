@@ -34,27 +34,27 @@
         "filepath": "assets/shaders/directionalLight.glsl"
       },
       {
-        "name": "ColorShader",
+        "name": "ColorShader (PPR)",
         "filepath": "assets/shaders/colourShader.glsl"
       },
       {
-        "name": "InvertShader",
+        "name": "InvertShader (PPR)",
         "filepath": "assets/shaders/invertShader.glsl"
       },
       {
-        "name": "GreyscaleShader",
+        "name": "GreyscaleShader (PPR)",
         "filepath": "assets/shaders/greyscaleShader.glsl"
       },
       {
-        "name": "KernelShader",
+        "name": "KernelShader (PPR)",
         "filepath": "assets/shaders/kernelShader.glsl"
       },
       {
-        "name": "BlurShader",
+        "name": "BlurShader (PPR)",
         "filepath": "assets/shaders/blurShader.glsl"
       },
       {
-        "name": "EdgeShader",
+        "name": "EdgeShader (PPR)",
         "filepath": "assets/shaders/edgeShader.glsl"
       },
       {
