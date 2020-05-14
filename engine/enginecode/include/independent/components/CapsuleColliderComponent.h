@@ -6,6 +6,8 @@ namespace Engine {
 	{
 	private:
 		rp3d::decimal capRad, capHeight;
+		rp3d::CollisionBody *body;
+
 	public:
 
 		CapsuleColliderComponent() { };
@@ -16,8 +18,8 @@ namespace Engine {
 
 			rp3d::CapsuleShape shape(capRad, capHeight);
 
-			getParentObject()->addCollisionShape(&shape, getParentObject()->getTransform(), getParentObject()->getMass());
-
+			body = Application::getInstance().getPhysics()->getWorld()->createCollisionBody(getParentObject()->getTransform()); //Create body in physics world
+			getParentObject()->addCollisionShape(&shape, getParentObject()->getTransform(), getParentObject()->getMass()); //Create proxyShape
 		};
 
 
@@ -27,10 +29,14 @@ namespace Engine {
 		}
 		void onUpdate(float timestep) override
 		{
+			//Update render position from rigid body
+			body->setTransform(getParentObject()->getTransform());
 		}
 
 		void onDetach()
 		{
+			//Clean up body
+			Application::getInstance().getPhysics()->getWorld()->destroyCollisionBody(body);
 		}
 
 		inline const std::type_info& getType() override

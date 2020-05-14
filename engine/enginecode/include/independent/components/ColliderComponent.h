@@ -22,6 +22,9 @@ namespace Engine {
 	
 
 	public:
+
+		ColliderComponent() {}; //Default Constructor
+
 		void onAttach(GameObject* owner) override
 		{
 			m_owner = owner; //Sets owner 
@@ -51,6 +54,7 @@ namespace Engine {
 			parentObject = parent;
 		}
 
+		//Find object's rigid body
 		rp3d::RigidBody *getParentObject()
 		{
 			return parentObject;

@@ -5,18 +5,18 @@ namespace Engine {
 	{
 	private:
 		rp3d::decimal sphereRad;
+		rp3d::CollisionBody *body;
 
 	public:
 		SphereColliderComponent() {};
 		SphereColliderComponent(rp3d::decimal radius) 
 		{
 			sphereRad = radius;
-			//parentObject = body->getBody();
-			//
+			
 			rp3d::SphereShape shape(sphereRad);
-			//
-			//proxy = parentObject->addCollisionShape(&shape, parentObject->getTransform(), parentObject->getMass());
-			getParentObject()->addCollisionShape(&shape, getParentObject()->getTransform(), getParentObject()->getMass());
+			
+			body = Application::getInstance().getPhysics()->getWorld()->createCollisionBody(getParentObject()->getTransform()); //Create body in physics world
+			getParentObject()->addCollisionShape(&shape, getParentObject()->getTransform(), getParentObject()->getMass()); //Create proxyShape
 		};
 
 
@@ -27,11 +27,14 @@ namespace Engine {
 		}
 		void onUpdate(float timestep) override
 		{
+			//Update render position from rigid body
+			body->setTransform(getParentObject()->getTransform());
 		}
 
 		void onDetach()
 		{
-			
+			//Clean up body
+			Application::getInstance().getPhysics()->getWorld()->destroyCollisionBody(body);
 		};
 
 		inline const std::type_info& getType() override

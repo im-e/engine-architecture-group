@@ -13,10 +13,12 @@ namespace Engine
 		rp3d::Transform bodyTra, curTra, prevTra, intTra;
 		rp3d::Quaternion bodyOri;	
 		rp3d::Vector3 bodyPos;	
-
+		rp3d::BodyType m_type;
 		float bodyDen = 1.0f;
+		bool m_gravity;
 
-
+		glm::mat4 m_model;
+		bool safe = false;
 	public:
 		rp3d::Vector3 m_linear, m_angular = rp3d::Vector3(0,0,0);
 		glm::vec3 linear, angular = glm::vec3(0, 0, 0);
@@ -29,46 +31,61 @@ namespace Engine
 			bodyTra.setOrientation(rp3d::Quaternion::identity());
 		} 
 		RigidBodyComponent(rp3d::BodyType type, bool gravity){
-			bodyTra.setPosition(rp3d::Vector3(0.0, 0.0, 0.0));
-			bodyTra.setOrientation(rp3d::Quaternion::identity());
-			body->enableGravity(gravity);
+
+			m_type = type;
+			m_gravity = gravity;
+
+			
 		}
 
 		void onAttach(GameObject * owner) override
 		{
 			m_owner = owner;
 			
-			bodyTra.setPosition(m_owner->getComponent<PositionComponent>()->getRenderPosition());
-			body = Application::getInstance().getPhysics()->getWorld()->createRigidBody(bodyTra);
+			//Get model world position
+			m_model = m_owner->getComponent<PositionComponent>()->getModel();
+
 			
+			//Get opengl mesh for model
+			bodyTra.setFromOpenGL(&m_model[0][0]);
+			
+			//Create rigid body at position
+			body = Application::getInstance().getPhysics()->getWorld()->createRigidBody(bodyTra);
+			body->enableGravity(m_gravity);
+			body->setType(m_type);
+			
+			prevTra = body->getTransform();
 			for (auto& msg : m_possibleMessages)
 			{
 				m_owner->getMap().insert(std::pair<ComponentMessageType, Component*>(msg, this));
 			}
+			safe = true;
 		}
 		void onUpdate(float timestep) override
 		{
-			std::pair<glm::vec3, glm::vec3> data(linear * timestep, angular * timestep);
-			
-			ComponentMessage msg(ComponentMessageType::RP3DPositionIntegrate, std::any(data));
-			sendMessage(msg);
+			if(safe){
+				std::pair<glm::vec3, glm::vec3> data(linear * timestep, angular * timestep);
 
+				
+				ComponentMessage msg(ComponentMessageType::RP3DPositionIntegrate, std::any(data));
+				sendMessage(msg);
 
-			
-
-			
 				curTra = body->getTransform();
-
+				
+				//Interpolate transform between physics cycles
 				intTra = rp3d::Transform::interpolateTransforms(prevTra, curTra, Application::getInstance().getPhysFactor());
 
 
-				m_owner->getComponent<PositionComponent>()->setPosition(setRenderPosition());
-				m_owner->getComponent<PositionComponent>()->setRotation(setRenderRotation());
+				
+
+				//Match rendered body position with rigid body position
+				body->getTransform().getOpenGLMatrix(&m_model[0][0]);
+				m_owner->getComponent<PositionComponent>()->setModel(m_model);
 
 				body->setTransform(intTra);
-				
+	
 				prevTra = curTra;
-			
+			}
 		}
 
 		void onDetach() override
@@ -80,7 +97,7 @@ namespace Engine
 			return typeid(decltype(*this));
 		}
 
-		inline glm::vec3 setRenderPosition()
+		inline glm::vec3 &setRenderPosition()
 		{
 			glm::vec3 temp;
 			temp.x = this->getBody()->getTransform().getPosition().x;
@@ -88,7 +105,7 @@ namespace Engine
 			temp.z = this->getBody()->getTransform().getPosition().z;
 			return temp;
 		}
-		inline glm::vec3 setRenderRotation()
+		inline glm::vec3 &setRenderRotation()
 		{
 			glm::vec3 temp;
 			temp.x = body->getTransform().getOrientation().x;
@@ -104,6 +121,7 @@ namespace Engine
 		void changeType(rp3d::BodyType type)
 		{
 			body->setType(type); //Allows changing of body type
+			m_type = type;
 		}
 		void setPosition(rp3d::Vector3 position)
 		{

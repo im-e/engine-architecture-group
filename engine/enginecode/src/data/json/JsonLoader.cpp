@@ -1379,10 +1379,10 @@ namespace Engine
 						}
 						if (ImGui::Button("Add"))
 						{
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>() == nullptr)
+							if ((lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>() != nullptr) && (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>() == nullptr)) //Only create if rigid body attached
 							{
 								std::shared_ptr<ColliderComponent> cc;
-								//rp3d::BodyType t;
+								
 
 								if (currentItem == "Box")
 								{
@@ -1393,19 +1393,33 @@ namespace Engine
 								}
 								if (currentItem == "Capsule")
 								{
-
+									std::shared_ptr<CapsuleColliderComponent> capsule;
+									capsule = std::make_shared<CapsuleColliderComponent>(CapsuleColliderComponent(radius, length));
 									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
 								}
 								if (currentItem == "Sphere")
 								{
-
+									std::shared_ptr<SphereColliderComponent> sphere;
+									sphere = std::make_shared<SphereColliderComponent>(SphereColliderComponent(radius));
 									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
 								}
 
-								//rb = std::make_shared<RigidBodyComponent>(RigidBodyComponent(t, grav));
-
-								//lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
+								
 							}
+						}
+						ImGui::SameLine(100.0f);
+						if (ImGui::Button("Remove"))
+						{
+							if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>())
+							{
+								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>();
+								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+							}
+							else
+							{
+								LogWarn("Component did not exist anyway!");
+							}
+
 						}
 					}
 				}
