@@ -236,6 +236,7 @@ namespace Engine
 					for (auto& lay : ubo["layout"])
 					{
 						std::string SDT = lay.get<std::string>();
+						if (SDT.compare("Int") == 0) { uboLayout.addElement(ShaderDataType::Int); }
 						if (SDT.compare("Float") == 0) { uboLayout.addElement(ShaderDataType::Float); }
 						if (SDT.compare("Vec3") == 0) { uboLayout.addElement(ShaderDataType::Float3); }
 						if (SDT.compare("Mat4") == 0) { uboLayout.addElement(ShaderDataType::Mat4); }
@@ -269,6 +270,10 @@ namespace Engine
 						auto& type = data["type"];
 						if (type == "pointer")
 						{
+							if (data["var"].get<std::string>().compare("effectIndex") == 0)
+							{
+								ptr = (void*)&layer.getCamera()->getCamera()->getViewProjection();
+							}
 							if (data["var"].get<std::string>().compare("VP Matrix") == 0)
 							{
 								ptr = (void*)&layer.getCamera()->getCamera()->getViewProjection();
@@ -620,7 +625,7 @@ namespace Engine
 		{
 			if (jsonFile["Functions"]["Material"].get<bool>() == true)
 			{
-				layer.addImGuiFunction([&](JsonLayer* lay) 
+				layer.addImGuiFunction([&](JsonLayer* lay)
 				{
 					if (ImGui::CollapsingHeader("Material"))
 					{
@@ -1224,7 +1229,7 @@ namespace Engine
 							{
 								LogWarn("Component already exists!");
 							}
-							
+
 						}
 						ImGui::SameLine(100.0f);
 						if (ImGui::Button("Remove"))
@@ -1242,6 +1247,7 @@ namespace Engine
 					}
 				});
 			}
+			
 		}
 	}
 }

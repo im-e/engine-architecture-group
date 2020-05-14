@@ -22,6 +22,7 @@ namespace Engine
 	{
 		m_gameObjectWindow = false;
 		m_manageCompWindow = false;
+		m_managePPWindow = false;
 
 		auto textures = ResourceManagerInstance->getTexture().getCollection();
 		auto jsonModels = ResourceManagerInstance->getJsonModels().getCollection();
@@ -78,6 +79,11 @@ namespace Engine
 		if (ImGui::Button("Manage components"))
 		{
 			m_manageCompWindow = true;
+		}
+
+		if (ImGui::Button("Post Processing"))
+		{
+			m_managePPWindow = true;
 		}
 		if (ImGui::CollapsingHeader("Save"))
 		{
@@ -203,6 +209,7 @@ namespace Engine
 
 		addGO();
 		manageComponents();
+		managePPRenderer();
 
 		ImGuiIO& io = ImGui::GetIO();
 		glm::vec2 res = glm::vec2(800, 600);
@@ -294,6 +301,46 @@ namespace Engine
 			ImGui::End();
 		}
 		
+	}
+
+	void ImGuiLayer::managePPRenderer()
+	{
+		if (m_managePPWindow)
+		{
+			if (ImGui::CollapsingHeader("Post Processing"))
+			{
+				static const char* PPRShader = "";
+				static int PPRShaderIndex = 2;
+
+				if (ImGui::BeginCombo("Shaders", PPRShader))
+				{
+					for (int i = 0; i < m_shadersNames.size(); i++)
+					{
+						bool selected = (PPRShader == m_shadersNames[i]);
+
+						if (ImGui::Selectable(m_shadersNames[i].c_str(), selected))
+						{
+							PPRShader = m_shadersNames[i].c_str();
+							PPRShaderIndex = i;
+						}
+
+						if (selected)
+							ImGui::SetItemDefaultFocus();
+					}
+					ImGui::EndCombo();
+				}
+				if (ImGui::Button("Add"))
+				{
+					auto renderer = m_layer->getRenderer();
+					auto PPRender = std::static_pointer_cast<Engine::PPRenderer>(renderer);
+					PPRender->setPPIndex(PPRShaderIndex);
+					LogWarn(PPRShaderIndex);
+				}
+			}
+			ImGui::Spacing();
+			if (ImGui::Button("Close"))
+				m_managePPWindow = false;
+		}
 	}
 
 	void ImGuiLayer::addImGuiFunction(std::function<void(JsonLayer*)> func)

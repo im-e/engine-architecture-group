@@ -22,6 +22,7 @@ namespace Engine
 		//virtual void submit(const std::shared_ptr<Material>& material) = 0; //!< Submits material for drawing \param material material to be submitted
 		//virtual void flush() = 0; //!< Draw everything (used with batch rendering)
 		virtual void setPPShader(std::shared_ptr<Shader> shader) = 0;
+		virtual void setPPIndex(int PPIndex) = 0;
 		//virtual const int& getColourTextureUnit() = 0;
 		//virtual const int& getDepthTextureUnit() = 0;
 		virtual void setColourTextureUnit(unsigned int unit) = 0;

@@ -16,7 +16,7 @@ namespace Engine
 		glBindTexture(GL_TEXTURE_2D, m_colourTexture);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Application::getInstance().getWindow()->getWidth(), Application::getInstance().getWindow()->getHeight(), 0, GL_RGB, GL_UNSIGNED_INT, NULL);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); 
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	
@@ -40,10 +40,10 @@ namespace Engine
 
 		float vertices[] =
 		{
-			-1.0, 1.0, 0.0, 0.0, 0.0,
-			-1.0, -1.0, 0.0, 0.0, 1.0,
-			1.0, -1.0, 0.0, 1.0, 1.0,
-			1.0, 1.0, 0.0, 1.0, 0.0
+			-1.0, 1.0, 0.0, 0.0, 1.0,
+			-1.0, -1.0, 0.0, 0.0, 0.0,
+			1.0, -1.0, 0.0, 1.0, 0.0,
+			1.0, 1.0, 0.0, 1.0, 1.0
 		};
 
 		unsigned int indices[] =
@@ -71,9 +71,9 @@ namespace Engine
 	void OpenGLPPRenderer::beginScene(const SceneData & sceneData)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_frameBufferID);
-		glClearColor(0.7, 0.7, 0.7, 1);
+		//glClearColor(1, 0, 0, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(0.7, 0.7, 0.7, 1);
+		//glClearColor(0, 0, 1, 1);
 
 		for (auto uniformPair : sceneData)
 		{
@@ -121,6 +121,7 @@ namespace Engine
 		int i = 0;
 		m_shader->bind();
 		m_shader->uploadData("u_colourTexture", (void*)m_colourTextureUnit);
+		m_shader->uploadData("u_effectIndex", (void*)m_effectIndex);
 		auto x = ResourceManagerInstance->getVAO().getAsset("PPVAO");
 		x->bind();
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
