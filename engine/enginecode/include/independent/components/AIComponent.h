@@ -20,17 +20,14 @@ namespace Engine
 		Single, Constant, Reversing
 	};
 
-
 	class AIComponent : public Component
 	{
 	private:
 		std::deque<glm::vec3> m_waypoints;
 		std::shared_ptr<luabridge::LuaRef> m_lua;
-		std::vector<glm::vec3> m_path;
-
+		
 		int m_currentPathNum;
 		glm::vec3 m_currentPath;
-		int m_pathType;
 
 		glm::vec3 m_currentPosition;
 		glm::vec3 m_desiredPosition;
@@ -38,13 +35,20 @@ namespace Engine
 		glm::vec3 m_currentRotation;
 		glm::vec3 m_desiredRotation;
 
+		// These values below should be saved as they are required for the component
 		float m_stopSize;
 		std::string m_aiType;
 		std::string m_scriptName;
+		std::vector<glm::vec3> m_path;
+		int m_pathType;
 	public:
-		AIComponent(float stop, std::string type, std::string scriptName)
+		AIComponent(float stop, std::string type, std::string scriptName, std::string pathType)
 			: m_stopSize(stop), m_aiType(type), m_scriptName(scriptName)
-		{};
+		{
+			if (pathType == "Single") { m_pathType = (int)PathType::Single; }
+			else if (pathType == "Constant") { m_pathType = (int)PathType::Constant; }
+			else if (pathType == "Reversing") { m_pathType = (int)PathType::Reversing; }
+		};
 
 		void onAttach(GameObject* owner) override 
 		{ 
@@ -53,16 +57,10 @@ namespace Engine
 			m_currentPosition = owner->getComponent<PositionComponent>()->getCurrentPosition();
 			m_currentRotation = owner->getComponent<PositionComponent>()->getCurrentRotation();
 
-			m_pathType = (int)PathType::Constant;
-
 			addPath(m_currentPosition.x, m_currentPosition.y, m_currentPosition.z);
 			m_currentPath = m_path[0];
 
-			addPath(0.0f, 10.0f, 0.0f);
-			addPath(-10.0f, 10.0f, 0.0f);
-			//addPath(-10.0f, 0.0f, 0.0f);
-			//addPath(-10.0f, 0.0f, -10.0f);
-			//addPath(0.0f, 0.0f, -10.0f);
+			addPath(m_currentPosition.x, m_currentPosition.y, m_currentPosition.z); // Needs second path on attach by default or velocity component takes priority
 
 			luaUpdate();
 
@@ -92,8 +90,12 @@ namespace Engine
 					// find orientation
 						// calculate acos of the dot product in each component
 
-					float angleBetween = glm::dot(m_currentPosition, m_desiredPosition);
-					glm::vec3 rotationAxis = glm::cross(m_currentPosition, m_desiredPosition);
+					//float angleBetween = glm::dot(m_currentPosition, m_desiredPosition);
+					//glm::vec3 rotationAxis = glm::cross(m_currentPosition, m_desiredPosition); // (m_currentRotation = get orientation and convert to unit vectors  , m_desiredPosition - m_currentPosition <-normalise this)
+					
+					float angleBetween = glm::dot(glm::normalize(m_currentRotation), glm::normalize(m_desiredPosition - m_currentPosition));
+					glm::vec3 rotationAxis = glm::cross(glm::normalize(m_currentRotation), glm::normalize(m_desiredPosition - m_currentPosition));
+					
 					float s = glm::sqrt((1 + angleBetween) * 2);
 					float invs = 1 / s;
 					glm::quat quaternion = glm::quat(s * 0.5f, glm::vec3(rotationAxis) * invs);
@@ -120,10 +122,10 @@ namespace Engine
 
 			// Send messages to other (velocity/rigidbody if physics implemented) components
 			ComponentMessage posMsg(ComponentMessageType::AIPositionSet, m_desiredPosition);
-			ComponentMessage rotMsg(ComponentMessageType::AIRotationSet, m_desiredRotation);
+			//ComponentMessage rotMsg(ComponentMessageType::AIRotationSet, m_desiredRotation); // Never got rotation working
 
 			sendMessage(posMsg);
-			//sendMessage(rotMsg);
+			//endMessage(rotMsg); // 
 
 			m_currentPosition = m_owner->getComponent<PositionComponent>()->getCurrentPosition();
 			m_currentRotation = m_owner->getComponent<PositionComponent>()->getCurrentRotation();
@@ -198,6 +200,16 @@ namespace Engine
 		{ 
 			return (int)m_pathType; 
 		}
+
+		/*std::string getPathName(int index)
+		{
+			return "Path " + std::to_string(index);
+		}*/
+
+		/*std::vector<glm::vec3>& getPath()
+		{
+			return m_path;
+		}*/
 
 		void setLuaFunction(const luabridge::LuaRef& ref)
 		{

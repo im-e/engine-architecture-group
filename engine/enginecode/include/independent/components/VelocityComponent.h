@@ -174,7 +174,7 @@ namespace Engine
 					{
 						// TODO rotation
 							// How to???
-						m_angular = tempAngular * 50.0f;
+						m_angular = tempAngular * 5000.0f;
 						glm::vec3 desired = std::any_cast<glm::vec3>(data);
 						glm::vec3 current = owner->getComponent<PositionComponent>()->getCurrentRotation();
 

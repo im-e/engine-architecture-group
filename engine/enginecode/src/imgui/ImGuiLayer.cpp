@@ -50,6 +50,10 @@ namespace Engine
 			m_shadersNames.push_back(s.first);
 		}
 
+		m_pathTypes.push_back("Single");
+		m_pathTypes.push_back("Constant");
+		m_pathTypes.push_back("Reversing");
+
 		Engine::JsonLoader::loadImGui(m_filepath, *this);
 	}
 
@@ -339,6 +343,11 @@ namespace Engine
 	std::vector<std::string>& ImGuiLayer::getTexturesNames()
 	{
 		return m_texturesNames;
+	}
+
+	std::vector<std::string>& ImGuiLayer::getPathTypes()
+	{
+		return m_pathTypes;
 	}
 
 	JsonLayer * ImGuiLayer::getJsonLayer()

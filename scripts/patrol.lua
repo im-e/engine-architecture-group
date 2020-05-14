@@ -7,14 +7,14 @@ Path = {
 			index = comp:currentPathNum()
 			if index == 0 then
 				pathState = "forward"
-			elseif index == comp:numPath() - 1 then
-				if comp:pathType() == 0 then
+			elseif index == comp:numPath() - 1 then  
+				if comp:pathType() == 0 then -- Single
 					pathState = "stopped"
 
-				elseif comp:pathType() == 1 then
+				elseif comp:pathType() == 1 then -- Constant
 					index = -1;
 				
-				elseif comp:pathType() == 2 then
+				elseif comp:pathType() == 2 then -- Reversing
 					pathState = "backward"
 				end
 			end

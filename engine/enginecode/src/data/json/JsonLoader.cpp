@@ -606,8 +606,9 @@ namespace Engine
 						float stop = go["AI"]["stopDist"].get<float>();
 						std::string type = go["AI"]["aiType"].get<std::string>();
 						std::string script = go["AI"]["script"].get<std::string>();
+						std::string pathType = go["AI"]["pathType"].get<std::string>();
 						
-						ai = std::make_shared<AIComponent>(AIComponent(stop, type, script));
+						ai = std::make_shared<AIComponent>(AIComponent(stop, type, script, pathType));
 						ai->registerClass();
 						ai->doFile("../scripts/" + script + ".lua", type, "update");
 						
@@ -1234,11 +1235,86 @@ namespace Engine
 							static char aiType[32] = "";
 							static char scriptName[32] = "";
 
+							static float pathX = 0.0f;
+							static float pathY = 0.0f;
+							static float pathZ = 0.0f;
+
 							ImGui::InputFloat("Stop distance", &stopDist, 0.01f, 0.1f, 2);
 							ImGui::InputText("AI Type", aiType, IM_ARRAYSIZE(aiType));
-							ImGui::InputText("", scriptName, IM_ARRAYSIZE(scriptName));
-							ImGui::SameLine();
-							ImGui::Text(".lua");
+							
+							static const char* pathType = "";
+
+							if (ImGui::BeginCombo("Path Type", pathType))
+							{
+								for (int i = 0; i < 3; i++)
+								{
+									bool selected = (pathType == layer.getPathTypes()[i]);
+
+									if (ImGui::Selectable(layer.getPathTypes()[i].c_str(), selected))
+									{
+										pathType = layer.getPathTypes()[i].c_str();
+									}
+
+									if (selected)
+										ImGui::SetItemDefaultFocus();
+								}
+								ImGui::EndCombo();
+							}
+
+								ImGui::InputText("", scriptName, IM_ARRAYSIZE(scriptName));
+								ImGui::SameLine();
+								ImGui::Text(".lua");
+
+								static const char* selectedPath = "";
+								static int selectedPathIndex;
+
+								if (ImGui::BeginCombo("Path", selectedPath))
+								{
+									std::vector<std::string> paths;
+									int pathSize = lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->numPath();
+
+									for (int i = 0; i < lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->numPath(); i++)
+									{
+										std::string pathNum = std::to_string(i);
+										std::string currentPath = "Path " + pathNum;
+
+										paths.push_back(currentPath);
+										bool selected = (selectedPath == paths[i]);
+
+										if (ImGui::Selectable(paths[i].c_str(), selected))
+										{
+											std::string selectedPathNum = std::to_string(i);
+											selectedPath = ("Path " + pathNum).c_str();
+											selectedPathIndex = i;
+
+											LogInfo(selectedPath);
+											LogInfo(paths[i].c_str());
+											LogInfo(selectedPathIndex);
+
+											pathX = lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->pathPosX(selectedPathIndex);
+											pathY = lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->pathPosY(selectedPathIndex);
+											pathZ = lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->pathPosZ(selectedPathIndex);
+										}
+
+										if (selected)
+											ImGui::SetItemDefaultFocus();
+									}
+									ImGui::EndCombo();
+								}
+
+								ImGui::InputFloat("X", &pathX, 1);
+								ImGui::InputFloat("Y", &pathY, 1);
+								ImGui::InputFloat("Z", &pathZ, 1);
+
+								if (ImGui::Button("Add Path")) // Add to the Path
+								{
+									lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->addPath(pathX, pathY, pathZ);
+								}
+								ImGui::SameLine(100);
+								if (ImGui::Button("Change Path")) // Change the Path
+								{
+									lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->changePath(selectedPathIndex, pathX, pathY, pathZ);
+								}
 
 							if (ImGui::Button("Add"))
 							{
@@ -1247,7 +1323,9 @@ namespace Engine
 									std::shared_ptr<AIComponent> ai;
 									std::string scrName = scriptName;
 
-									ai = std::make_shared<AIComponent>(AIComponent(stopDist, aiType, scriptName));
+									LogInfo(pathType);
+
+									ai = std::make_shared<AIComponent>(AIComponent(stopDist, aiType, scriptName, pathType)); ////////////////////////////////////////
 									ai->registerClass();
 									ai->doFile("../scripts/" + scrName + ".lua", aiType, "update");
 
@@ -1467,6 +1545,7 @@ namespace Engine
 								else
 								{
 									LogWarn("Text component did not exist anyway!");
+
 								}
 							}
 						}
