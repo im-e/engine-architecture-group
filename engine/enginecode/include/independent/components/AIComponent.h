@@ -1,9 +1,5 @@
 #pragma once
 
-/*! \file AIComponent.h
-\brief Implements AI for GameObjects
-*/
-
 extern "C"
 {
 #include "lua.h" 
@@ -19,40 +15,54 @@ extern "C"
 
 namespace Engine
 {
-	/*! \class AIComponent
-	\brief Defines an AI component
-	*/
+	enum class PathType
+	{
+		Single, Constant, Reversing
+	};
+
 	class AIComponent : public Component
 	{
 	private:
-		std::deque<glm::vec3> m_waypoints; //!< All waypoints
-		std::shared_ptr<luabridge::LuaRef> m_lua; //!< Reference to Lua
+		std::deque<glm::vec3> m_waypoints;
+		std::shared_ptr<luabridge::LuaRef> m_lua;
+		
+		int m_currentPathNum;
+		glm::vec3 m_currentPath;
 
-		int m_currentWaypoint; //!< Current waypoint an AI has to go to
+		glm::vec3 m_currentPosition;
+		glm::vec3 m_desiredPosition;
 
-		glm::vec3 m_currentPosition; //!< Current AI position
-		glm::vec3 m_desiredPosition; //!< Desired AI position
+		glm::vec3 m_currentRotation;
+		glm::vec3 m_desiredRotation;
 
-		glm::vec3 m_currentRotation; //!< Current AI rotation 
-		glm::vec3 m_desiredRotation; //!< Desired AI rotation
-
-		float m_stopSize; //!< AI's stop distance
-		std::string m_aiType; //!< Type of the AI
-		std::string m_scriptName; //!< Script AI is executing
+		// These values below should be saved as they are required for the component
+		float m_stopSize;
+		std::string m_aiType;
+		std::string m_scriptName;
+		std::vector<glm::vec3> m_path;
+		int m_pathType;
 	public:
-		//! Custom constructor \param stop stop distance \param type AI type \param scriptName script that is being executed
-		AIComponent(float stop, std::string type, std::string scriptName)
+		AIComponent(float stop, std::string type, std::string scriptName, std::string pathType)
 			: m_stopSize(stop), m_aiType(type), m_scriptName(scriptName)
-		{};
+		{
+			if (pathType == "Single") { m_pathType = (int)PathType::Single; }
+			else if (pathType == "Constant") { m_pathType = (int)PathType::Constant; }
+			else if (pathType == "Reversing") { m_pathType = (int)PathType::Reversing; }
+		};
 
 		void onAttach(GameObject* owner) override 
 		{ 
-			m_owner = owner;		
-
-			luaUpdate();
+			m_owner = owner;	
 
 			m_currentPosition = owner->getComponent<PositionComponent>()->getCurrentPosition();
 			m_currentRotation = owner->getComponent<PositionComponent>()->getCurrentRotation();
+
+			addPath(m_currentPosition.x, m_currentPosition.y, m_currentPosition.z);
+			m_currentPath = m_path[0];
+
+			addPath(m_currentPosition.x, m_currentPosition.y, m_currentPosition.z); // Needs second path on attach by default or velocity component takes priority
+
+			luaUpdate();
 
 			m_desiredPosition = m_waypoints.front();
 		}
@@ -75,22 +85,34 @@ namespace Engine
 				if (m_waypoints.empty() == false)
 				{
 					m_desiredPosition = m_waypoints.front();
-					//m_currentWaypoint = m_waypoints.front();
+					m_currentPath = m_desiredPosition;
 
 					// find orientation
 						// calculate acos of the dot product in each component
 
-					float angleBetween = glm::dot(m_currentPosition, m_desiredPosition);
-					glm::vec3 rotationAxis = glm::cross(m_currentPosition, m_desiredPosition);
+					//float angleBetween = glm::dot(m_currentPosition, m_desiredPosition);
+					//glm::vec3 rotationAxis = glm::cross(m_currentPosition, m_desiredPosition); // (m_currentRotation = get orientation and convert to unit vectors  , m_desiredPosition - m_currentPosition <-normalise this)
+					
+					float angleBetween = glm::dot(glm::normalize(m_currentRotation), glm::normalize(m_desiredPosition - m_currentPosition));
+					glm::vec3 rotationAxis = glm::cross(glm::normalize(m_currentRotation), glm::normalize(m_desiredPosition - m_currentPosition));
+					
 					float s = glm::sqrt((1 + angleBetween) * 2);
 					float invs = 1 / s;
-
 					glm::quat quaternion = glm::quat(s * 0.5f, glm::vec3(rotationAxis) * invs);
-					glm::mat4 rotationMatrix = glm::toMat4(quaternion);
+					glm::vec3 euler = glm::degrees(glm::eulerAngles(glm::normalize(quaternion)));
 
+					m_desiredRotation = euler;
+
+					/*float dot = glm::dot(m_currentPosition, m_desiredPosition);
+					float magnitude = glm::sqrt((m_currentPosition.x * m_currentPosition.x) + (m_currentPosition.y * m_currentPosition.y) + (m_currentPosition.z * m_currentPosition.z));
+					float angle = glm::acos(dot / magnitude);
+
+					m_desiredRotation = m_currentRotation * angle;*/
 
 					LogInfo("Going to: {0}, {1}, {2}", m_desiredPosition.x, m_desiredPosition.y, m_desiredPosition.z);
+					LogInfo("Rotating to: {0}, {1}, {2}", m_desiredRotation.x, m_desiredRotation.y, m_desiredRotation.z);
 				}
+
 				else 
 				{
 					m_desiredPosition = m_currentPosition;
@@ -100,14 +122,13 @@ namespace Engine
 
 			// Send messages to other (velocity/rigidbody if physics implemented) components
 			ComponentMessage posMsg(ComponentMessageType::AIPositionSet, m_desiredPosition);
-			ComponentMessage rotMsg(ComponentMessageType::AIRotationSet, m_desiredRotation);
+			//ComponentMessage rotMsg(ComponentMessageType::AIRotationSet, m_desiredRotation); // Never got rotation working
 
 			sendMessage(posMsg);
-			sendMessage(rotMsg);
+			//endMessage(rotMsg); // 
 
 			m_currentPosition = m_owner->getComponent<PositionComponent>()->getCurrentPosition();
 			m_currentRotation = m_owner->getComponent<PositionComponent>()->getCurrentRotation();
-
 		};
 
 		void onEvent(Event& e) override {};
@@ -117,36 +138,84 @@ namespace Engine
 			return typeid(decltype(*this));
 		}
 
-		//! Adds a waypoint to the back of the queue \param x x coordinate \param y y coordinate \param z z coordinate
 		void addWaypoint(float x, float y, float z)
 		{
 			m_waypoints.push_back(glm::vec3(x, y, z));
 		}
 
-		//! Adds a waypoint to the front of the queue \param x x coordinate \param y y coordinate \param z z coordinate
 		void addWaypointFront(float x, float y, float z)
 		{
 			m_waypoints.push_front(glm::vec3(x, y, z));
 		}
 
-		//! Gets a waypoint at the index \param index waypoint index in a deque
-		glm::vec3 getWaypoint(int index)
+		void addPath(float x, float y, float z)
 		{
-			return m_waypoints[index];
+			m_path.push_back(glm::vec3(x, y, z));
 		}
 
-		//! How many waypoints are currently stored \return size of waypoint deque
+		void changePath(int index, float x, float y, float z)
+		{
+			m_path[index] = glm::vec3(x, y, z);
+		}
+
+		void removePathBack()
+		{
+			m_path.pop_back();
+		}
+
+		float pathPosX(int index)
+		{
+			return m_path[index].x;
+		}
+
+		float pathPosY(int index)
+		{
+			return m_path[index].y;
+		}
+
+		float pathPosZ(int index)
+		{
+			return m_path[index].z;
+		}
+
 		int numWaypoints() { return m_waypoints.size(); }
-		//! Gets current waypoint an AI is going to \return current waypoint
-		int getCurrentWaypoint() { return m_currentWaypoint; }
+
+		int currentPathNum() 
+		{ 
+			int result;
+
+			auto iter = std::find(m_path.begin(), m_path.end(), m_currentPath);
+
+			if (iter != m_path.end())
+			{
+				result = std::distance(m_path.begin(), iter);
+			}
 		
-		//! Sets lua to be executed \param ref lua reference
+			return result;
+		}
+
+		int numPath() { return m_path.size(); }
+
+		int pathType() 
+		{ 
+			return (int)m_pathType; 
+		}
+
+		/*std::string getPathName(int index)
+		{
+			return "Path " + std::to_string(index);
+		}*/
+
+		/*std::vector<glm::vec3>& getPath()
+		{
+			return m_path;
+		}*/
+
 		void setLuaFunction(const luabridge::LuaRef& ref)
 		{
 			m_lua = std::make_shared<luabridge::LuaRef>(ref);
 		}
 		
-		//! Updates AI behaviour based on lua scripts
 		void luaUpdate()
 		{
 			if (m_lua)
@@ -163,7 +232,6 @@ namespace Engine
 			}
 		}
 
-		//! Registers a class to LUA
 		void registerClass()
 		{
 			luabridge::getGlobalNamespace(Application::getInstance().getLuaState())
@@ -171,11 +239,15 @@ namespace Engine
 				.addFunction("numWaypoints", &AIComponent::numWaypoints)
 				.addFunction("addWaypoint", &AIComponent::addWaypoint)
 				.addFunction("addWaypointFront", &AIComponent::addWaypointFront)
-				.addFunction("currentWaypoint", &AIComponent::getCurrentWaypoint)
+				.addFunction("currentPathNum", &AIComponent::currentPathNum)
+				.addFunction("pathPosX", &AIComponent::pathPosX)
+				.addFunction("pathPosY", &AIComponent::pathPosY)
+				.addFunction("pathPosZ", &AIComponent::pathPosZ)
+				.addFunction("numPath", &AIComponent::numPath)
+				.addFunction("pathType", &AIComponent::pathType)
 				.endClass();
 		}
 
-		//! Executes script \param luaScriptPath path to the script \param tableName lua table to be executed \param luaFuncName lua function to be executed
 		void doFile(std::string luaScriptPath, std::string tableName, std::string luaFuncName)
 		{
 			if (luaL_dofile(Application::getInstance().getLuaState(), luaScriptPath.c_str()) == 0)
@@ -196,23 +268,17 @@ namespace Engine
 			}
 		}
 
-		//! Sets stop distance \param dist new stop distance
 		void setStopDist(float dist) { m_stopSize = dist; }
 
-		//! Gets stop distance \return current stop distance
 		float getStopDist()
 		{
 			return m_stopSize;
 		}
 
-		//! Sets AI type \param type new type
 		void setAiType(std::string type) { m_aiType = type; }
-		//! Gets current AI type \return AI type
 		std::string& getAiType() { return m_aiType; }
 
-		//! Sets script name \param scr new script
 		void setScriptName(std::string scr) { m_scriptName = scr; }
-		//! Get current script name \return current script associated with this component
 		std::string& getScriptName() { return m_scriptName; }
 
 		~AIComponent()

@@ -30,6 +30,8 @@ namespace Engine
 		std::vector<std::string> m_assimpModelNames;
 		//! Texture names
 		std::vector<std::string> m_texturesNames;
+		//! Path types
+		std::vector<std::string> m_pathTypes;
 
 		//! Is currently managed layer 2D?
 		static bool m_is2D;
@@ -65,6 +67,8 @@ namespace Engine
 		std::vector<std::string>& getAssimpModelsNames();
 		//! Gets textures names \return all textures names
 		std::vector<std::string>& getTexturesNames();
+		//! Get path types \return all path types
+		std::vector<std::string>& getPathTypes();
 
 		//! Gets associated json layer \return associated json layer
 		JsonLayer* getJsonLayer();

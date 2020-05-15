@@ -18,6 +18,7 @@ namespace Engine
 	private:
 		glm::vec3 m_linear; //!< Linear velocity
 		glm::vec3 m_angular; //!< Angular velocity
+		float m_diffOffset = 0.001f;
 	public:
 		//! Custom constructor. \param linear initial linear velocity \param angular initial angular velocity
 		VelocityComponent(glm::vec3 linear, glm::vec3 angular)
@@ -37,7 +38,8 @@ namespace Engine
 			m_possibleMessages = { ComponentMessageType::VelocitySetLinear, ComponentMessageType::VelocitySetAngular,
 									ComponentMessageType::AIPositionSet,	ComponentMessageType::AIRotationSet };
 
-			glm::vec3 temp = m_linear;
+			glm::vec3 tempLinear = m_linear;
+			glm::vec3 tempAngular = m_angular;
 
 			for (auto& msg : m_possibleMessages)
 			{
@@ -63,15 +65,15 @@ namespace Engine
 					break;
 
 				case ComponentMessageType::AIPositionSet:
-					m_msgsMap[msg] = [temp, owner, this](std::any data)
+					m_msgsMap[msg] = [tempLinear, owner, this](std::any data)
 					{
-						m_linear = temp;
+						m_linear = tempLinear;
 						glm::vec3 desired = std::any_cast<glm::vec3>(data);
 						glm::vec3 current = owner->getComponent<PositionComponent>()->getCurrentPosition();
 						
 						glm::vec3 diff = current - desired;
 
-						if (diff.x > 0.001f || diff.x < -0.001f)
+						if (diff.x > m_diffOffset || diff.x < -m_diffOffset)
 						{
 							if (diff.x > 0.0f)
 							{
@@ -101,7 +103,7 @@ namespace Engine
 							m_linear.x = 0.0f;
 						}
 
-						if (diff.y > 0.001f || diff.y < -0.001f)
+						if (diff.y > m_diffOffset || diff.y < -m_diffOffset)
 						{
 							if (diff.y > 0.0f)
 							{
@@ -131,7 +133,7 @@ namespace Engine
 							m_linear.y = 0.0f;
 						}
 
-						if (diff.z > 0.001f || diff.z < -0.001f)
+						if (diff.z > m_diffOffset || diff.z < -m_diffOffset)
 						{
 							if (diff.z > 0.0f)
 							{
@@ -168,10 +170,106 @@ namespace Engine
 					break;
 
 				case ComponentMessageType::AIRotationSet:
-					m_msgsMap[msg] = [this](std::any data)
+					m_msgsMap[msg] = [tempAngular, owner, this](std::any data)
 					{
 						// TODO rotation
 							// How to???
+						m_angular = tempAngular * 5000.0f;
+						glm::vec3 desired = std::any_cast<glm::vec3>(data);
+						glm::vec3 current = owner->getComponent<PositionComponent>()->getCurrentRotation();
+
+						glm::vec3 diff = current - desired;
+
+						if (diff.x > m_diffOffset || diff.x < -m_diffOffset)
+						{
+							if (diff.x > 0.0f)
+							{
+								if (m_angular.x > 0.0f)
+								{
+									m_angular.x *= -1;
+								}
+								else
+								{
+									m_angular.x = m_angular.x;
+								}
+							}
+							else
+							{
+								if (m_angular.x < 0.0f)
+								{
+									m_angular.x *= -1; // reverse
+								}
+								else
+								{
+									m_angular.x = m_angular.x;
+								}
+							}
+						}
+						else
+						{
+							m_angular.x = 0.0f;
+						}
+
+						if (diff.y > m_diffOffset || diff.y < -m_diffOffset)
+						{
+							if (diff.y > 0.0f)
+							{
+								if (m_angular.y > 0.0f)
+								{
+									m_angular.y *= -1;
+								}
+								else
+								{
+									m_angular.y = m_angular.y;
+								}
+							}
+							else
+							{
+								if (m_angular.y < 0.0f)
+								{
+									m_angular.y *= -1; // reverse
+								}
+								else
+								{
+									m_angular.y = m_angular.y;
+								}
+							}
+						}
+						else
+						{
+							m_angular.y = 0.0f;
+						}
+
+						if (diff.z > m_diffOffset || diff.z < -m_diffOffset)
+						{
+							if (diff.z > 0.0f)
+							{
+								if (m_angular.z > 0.0f)
+								{
+									m_angular.z *= -1;
+								}
+								else
+								{
+									m_angular.z = m_angular.z;
+								}
+							}
+							else
+							{
+								if (m_angular.z < 0.0f)
+								{
+									m_angular.z *= -1; // reverse
+								}
+								else
+								{
+									m_angular.z = m_angular.z;
+								}
+							}
+						}
+						else
+						{
+							m_angular.z = 0.0f;
+						}
+
 						return true;
 					};
 					break;

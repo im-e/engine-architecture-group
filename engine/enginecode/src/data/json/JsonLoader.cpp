@@ -163,7 +163,6 @@ namespace Engine
 					std::string filepath = fnFilepath["filepath"].get<std::string>();
 					int size = fnFilepath["charSize"].get<int>();
 					fonts[filepath] = size;
-					ResourceManagerInstance->getFontPaths().push_back(filepath);
 				}
 				if (!fonts.empty()) ResourceManagerInstance->populateCharacters(fonts);
 			}
@@ -516,6 +515,7 @@ namespace Engine
 						}
 						
 					}
+
 					else if (go["material"].count("text") > 0)
 					{
 						std::shared_ptr<MaterialComponent> textMat;
@@ -526,7 +526,10 @@ namespace Engine
 						std::string text = go["material"]["text"].get<std::string>();
 						std::string font = go["material"]["font"].get<std::string>();
 						int charSize = go["material"]["charSize"].get<int>();
-					
+						float r = go["material"]["colour"]["r"].get<float>();
+						float g = go["material"]["colour"]["g"].get<float>();
+						float b = go["material"]["colour"]["b"].get<float>();
+						
 						textLabel = std::make_shared<TextComponent>(TextComponent(goName, font, charSize, text));
 						
 						gameObject->addComponent(textLabel);
@@ -539,10 +542,6 @@ namespace Engine
 						textTex = std::make_shared<TextureComponent>
 							(TextureComponent(ResourceManagerInstance->getFontTexture()->getSlot()));
 						gameObject->addComponent(textTex);
-
-						float r = go["material"]["colour"]["r"].get<float>();
-						float g = go["material"]["colour"]["g"].get<float>();
-						float b = go["material"]["colour"]["b"].get<float>();
 
 						textCol = std::make_shared<ColourComponent>(ColourComponent(r, g, b));
 						gameObject->addComponent(textCol);
@@ -607,8 +606,9 @@ namespace Engine
 						float stop = go["AI"]["stopDist"].get<float>();
 						std::string type = go["AI"]["aiType"].get<std::string>();
 						std::string script = go["AI"]["script"].get<std::string>();
+						std::string pathType = go["AI"]["pathType"].get<std::string>();
 						
-						ai = std::make_shared<AIComponent>(AIComponent(stop, type, script));
+						ai = std::make_shared<AIComponent>(AIComponent(stop, type, script, pathType));
 						ai->registerClass();
 						ai->doFile("../scripts/" + script + ".lua", type, "update");
 						
@@ -1235,11 +1235,86 @@ namespace Engine
 							static char aiType[32] = "";
 							static char scriptName[32] = "";
 
+							static float pathX = 0.0f;
+							static float pathY = 0.0f;
+							static float pathZ = 0.0f;
+
 							ImGui::InputFloat("Stop distance", &stopDist, 0.01f, 0.1f, 2);
 							ImGui::InputText("AI Type", aiType, IM_ARRAYSIZE(aiType));
-							ImGui::InputText("", scriptName, IM_ARRAYSIZE(scriptName));
-							ImGui::SameLine();
-							ImGui::Text(".lua");
+							
+							static const char* pathType = "";
+
+							if (ImGui::BeginCombo("Path Type", pathType))
+							{
+								for (int i = 0; i < 3; i++)
+								{
+									bool selected = (pathType == layer.getPathTypes()[i]);
+
+									if (ImGui::Selectable(layer.getPathTypes()[i].c_str(), selected))
+									{
+										pathType = layer.getPathTypes()[i].c_str();
+									}
+
+									if (selected)
+										ImGui::SetItemDefaultFocus();
+								}
+								ImGui::EndCombo();
+							}
+
+								ImGui::InputText("", scriptName, IM_ARRAYSIZE(scriptName));
+								ImGui::SameLine();
+								ImGui::Text(".lua");
+
+								static const char* selectedPath = "";
+								static int selectedPathIndex;
+
+								if (ImGui::BeginCombo("Path", selectedPath))
+								{
+									std::vector<std::string> paths;
+									int pathSize = lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->numPath();
+
+									for (int i = 0; i < lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->numPath(); i++)
+									{
+										std::string pathNum = std::to_string(i);
+										std::string currentPath = "Path " + pathNum;
+
+										paths.push_back(currentPath);
+										bool selected = (selectedPath == paths[i]);
+
+										if (ImGui::Selectable(paths[i].c_str(), selected))
+										{
+											std::string selectedPathNum = std::to_string(i);
+											selectedPath = ("Path " + pathNum).c_str();
+											selectedPathIndex = i;
+
+											LogInfo(selectedPath);
+											LogInfo(paths[i].c_str());
+											LogInfo(selectedPathIndex);
+
+											pathX = lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->pathPosX(selectedPathIndex);
+											pathY = lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->pathPosY(selectedPathIndex);
+											pathZ = lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->pathPosZ(selectedPathIndex);
+										}
+
+										if (selected)
+											ImGui::SetItemDefaultFocus();
+									}
+									ImGui::EndCombo();
+								}
+
+								ImGui::InputFloat("X", &pathX, 1);
+								ImGui::InputFloat("Y", &pathY, 1);
+								ImGui::InputFloat("Z", &pathZ, 1);
+
+								if (ImGui::Button("Add Path")) // Add to the Path
+								{
+									lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->addPath(pathX, pathY, pathZ);
+								}
+								ImGui::SameLine(100);
+								if (ImGui::Button("Change Path")) // Change the Path
+								{
+									lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->changePath(selectedPathIndex, pathX, pathY, pathZ);
+								}
 
 							if (ImGui::Button("Add"))
 							{
@@ -1248,7 +1323,9 @@ namespace Engine
 									std::shared_ptr<AIComponent> ai;
 									std::string scrName = scriptName;
 
-									ai = std::make_shared<AIComponent>(AIComponent(stopDist, aiType, scriptName));
+									LogInfo(pathType);
+
+									ai = std::make_shared<AIComponent>(AIComponent(stopDist, aiType, scriptName, pathType)); ////////////////////////////////////////
 									ai->registerClass();
 									ai->doFile("../scripts/" + scrName + ".lua", aiType, "update");
 
@@ -1403,33 +1480,15 @@ namespace Engine
 						if (ImGui::CollapsingHeader("Text"))
 						{
 							static char tText[32];
+							static int charSize = 12;
 							static float r = 255.0f;
 							static float g = 255.0f; 
 							static float b = 255.0f;
 
 							static ImVec4 color = ImColor(r, g, b, 255.0f);
 
-							static const char* currentItem = ResourceManagerInstance->getFontPaths()[0].c_str();
-
-							if (ImGui::BeginCombo("Type", currentItem))
-							{
-								for (int i = 0; i < ResourceManagerInstance->getFontPaths().size(); i++)
-								{
-									bool selected = (currentItem == ResourceManagerInstance->getFontPaths()[i]);
-
-									if (ImGui::Selectable(ResourceManagerInstance->getFontPaths()[i].c_str(), selected))
-									{
-										currentItem = ResourceManagerInstance->getFontPaths()[i].c_str();
-									}
-
-									if (selected)
-										ImGui::SetItemDefaultFocus();
-								}
-
-								ImGui::EndCombo();
-							}
-
 							ImGui::InputText("Text label", tText, IM_ARRAYSIZE(tText));
+							ImGui::InputInt("Size", &charSize);
 							ImGui::ColorPicker3("Text color", (float*)&color);
 
 							if (ImGui::Button("Add"))
@@ -1437,9 +1496,9 @@ namespace Engine
 								if (lay->getGameObjects()[layer.getGOName()]->getComponent<TextComponent>() == nullptr)
 								{
 									std::shared_ptr<TextComponent> tComp;
-									tComp = std::make_shared<TextComponent>(TextComponent(layer.getGOName(), currentItem, 32, tText));								
+									tComp = std::make_shared<TextComponent>(TextComponent(layer.getGOName(), "assets/fonts/04b_20/04b_20__.ttf", charSize, tText));								
 
-									auto mat = tComp->getLabel()->getMaterial();
+									auto& mat = tComp->getLabel()->getMaterial();
 									std::shared_ptr<MaterialComponent> mComp;
 									mComp = std::make_shared<MaterialComponent>(mat);
 
@@ -1471,15 +1530,22 @@ namespace Engine
 									ResourceManagerInstance->getEBO().remove(layer.getGOName() + "EBO");
 									ResourceManagerInstance->getMaterial().remove(layer.getGOName() + "Mat");
 
-									lay->getGameObjects()[layer.getGOName()]->removeComponent(lay->getGameObjects()[layer.getGOName()]->getComponent<TextComponent>());
-									lay->getGameObjects()[layer.getGOName()]->removeComponent(lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>());
-									lay->getGameObjects()[layer.getGOName()]->removeComponent(lay->getGameObjects()[layer.getGOName()]->getComponent<ColourComponent>());
-									lay->getGameObjects()[layer.getGOName()]->removeComponent(lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>());
+									auto compT = lay->getGameObjects()[layer.getGOName()]->getComponent<TextComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(compT);
 
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+
+									auto compTex = lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(compTex);
+
+									auto compC = lay->getGameObjects()[layer.getGOName()]->getComponent<ColourComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(compC);						
 								}
 								else
 								{
 									LogWarn("Text component did not exist anyway!");
+
 								}
 							}
 						}
