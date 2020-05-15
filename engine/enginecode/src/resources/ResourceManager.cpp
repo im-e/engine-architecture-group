@@ -266,6 +266,16 @@ namespace Engine
 		}
 	}
 
+	std::shared_ptr<Sound> ResourceManager::addSound(const std::string& key, bool b3d, bool bLooping, bool bStream, float minDist, float maxDist, RollOff rollOff)
+	{
+		std::shared_ptr<Sound> sound;
+		sound.reset(Sound::create(key, b3d, bLooping, bStream, minDist, maxDist, rollOff));
+		m_sounds.add(key, sound);
+
+		return sound;
+	}
+
+
 	void ResourceManager::addJsonModelAsync(const std::string & key, std::shared_ptr<JsonModel> model)
 	{
 		m_jsonModels.add(key, model);
@@ -319,6 +329,11 @@ namespace Engine
 	AssetManager<AssimpModel>& ResourceManager::getAssimpModels()
 	{
 		return m_assimpModels;
+	}
+
+	AssetManager<Sound>& ResourceManager::getSound()
+	{
+		return m_sounds;
 	}
 
 	ResourceManager::~ResourceManager()

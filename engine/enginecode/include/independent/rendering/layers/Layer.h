@@ -9,6 +9,7 @@
 #include "rendering/renderer/Renderer.h"
 #include "rendering/cameras/CameraController.h"
 #include "resources/ResourceManager.h"
+#include "audio/audioManager.h"
 
 namespace Engine
 {
@@ -42,6 +43,7 @@ namespace Engine
 		std::shared_ptr<CameraController>& getCamera() { return m_cameraController; }
 		//! Gets renderer associated with a layer \return renderer
 		std::shared_ptr<Renderer>& getRenderer() { return m_renderer; }
+
 
 		//! Virtual destructor
 		virtual ~Layer() {};
