@@ -163,6 +163,7 @@ namespace Engine
 					std::string filepath = fnFilepath["filepath"].get<std::string>();
 					int size = fnFilepath["charSize"].get<int>();
 					fonts[filepath] = size;
+					ResourceManagerInstance->getFontPaths().push_back(filepath);
 				}
 				if (!fonts.empty()) ResourceManagerInstance->populateCharacters(fonts);
 			}
@@ -1480,15 +1481,33 @@ namespace Engine
 						if (ImGui::CollapsingHeader("Text"))
 						{
 							static char tText[32];
-							static int charSize = 12;
 							static float r = 255.0f;
-							static float g = 255.0f; 
+							static float g = 255.0f;
 							static float b = 255.0f;
 
 							static ImVec4 color = ImColor(r, g, b, 255.0f);
 
+							static const char* currentItem = ResourceManagerInstance->getFontPaths()[0].c_str();
+
+							if (ImGui::BeginCombo("Type", currentItem))
+							{
+								for (int i = 0; i < ResourceManagerInstance->getFontPaths().size(); i++)
+								{
+									bool selected = (currentItem == ResourceManagerInstance->getFontPaths()[i]);
+
+									if (ImGui::Selectable(ResourceManagerInstance->getFontPaths()[i].c_str(), selected))
+									{
+										currentItem = ResourceManagerInstance->getFontPaths()[i].c_str();
+									}
+
+									if (selected)
+										ImGui::SetItemDefaultFocus();
+								}
+
+								ImGui::EndCombo();
+							}
+
 							ImGui::InputText("Text label", tText, IM_ARRAYSIZE(tText));
-							ImGui::InputInt("Size", &charSize);
 							ImGui::ColorPicker3("Text color", (float*)&color);
 
 							if (ImGui::Button("Add"))
@@ -1496,9 +1515,9 @@ namespace Engine
 								if (lay->getGameObjects()[layer.getGOName()]->getComponent<TextComponent>() == nullptr)
 								{
 									std::shared_ptr<TextComponent> tComp;
-									tComp = std::make_shared<TextComponent>(TextComponent(layer.getGOName(), "assets/fonts/04b_20/04b_20__.ttf", charSize, tText));								
+									tComp = std::make_shared<TextComponent>(TextComponent(layer.getGOName(), currentItem, 32, tText));
 
-									auto& mat = tComp->getLabel()->getMaterial();
+									auto mat = tComp->getLabel()->getMaterial();
 									std::shared_ptr<MaterialComponent> mComp;
 									mComp = std::make_shared<MaterialComponent>(mat);
 
@@ -1530,22 +1549,15 @@ namespace Engine
 									ResourceManagerInstance->getEBO().remove(layer.getGOName() + "EBO");
 									ResourceManagerInstance->getMaterial().remove(layer.getGOName() + "Mat");
 
-									auto compT = lay->getGameObjects()[layer.getGOName()]->getComponent<TextComponent>();
-									lay->getGameObjects()[layer.getGOName()]->removeComponent(compT);
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(lay->getGameObjects()[layer.getGOName()]->getComponent<TextComponent>());
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>());
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(lay->getGameObjects()[layer.getGOName()]->getComponent<ColourComponent>());
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>());
 
-									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<MaterialComponent>();
-									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
-
-									auto compTex = lay->getGameObjects()[layer.getGOName()]->getComponent<TextureComponent>();
-									lay->getGameObjects()[layer.getGOName()]->removeComponent(compTex);
-
-									auto compC = lay->getGameObjects()[layer.getGOName()]->getComponent<ColourComponent>();
-									lay->getGameObjects()[layer.getGOName()]->removeComponent(compC);						
 								}
 								else
 								{
 									LogWarn("Text component did not exist anyway!");
-
 								}
 							}
 						}

@@ -2,9 +2,9 @@
 
 extern "C"
 {
-#include "lua.h" 
-#include "lualib.h"
-#include "lauxlib.h"
+	#include "lua.h" 
+	#include "lualib.h"
+	#include "lauxlib.h"
 }
 #include <../LuaBridge/Source/LuaBridge/LuaBridge.h>
 
@@ -200,16 +200,6 @@ namespace Engine
 		{ 
 			return (int)m_pathType; 
 		}
-
-		/*std::string getPathName(int index)
-		{
-			return "Path " + std::to_string(index);
-		}*/
-
-		/*std::vector<glm::vec3>& getPath()
-		{
-			return m_path;
-		}*/
 
 		void setLuaFunction(const luabridge::LuaRef& ref)
 		{
