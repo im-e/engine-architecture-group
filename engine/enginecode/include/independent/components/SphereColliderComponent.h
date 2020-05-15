@@ -6,23 +6,25 @@ namespace Engine {
 	private:
 		rp3d::decimal sphereRad;
 		rp3d::CollisionBody *body;
-
+		rp3d::SphereShape *shape;
 	public:
 		SphereColliderComponent() {};
 		SphereColliderComponent(rp3d::decimal radius) 
 		{
 			sphereRad = radius;
 			
-			rp3d::SphereShape shape(sphereRad);
+			shape = new rp3d::SphereShape(sphereRad);
 			
 			body = Application::getInstance().getPhysics()->getWorld()->createCollisionBody(getParentObject()->getTransform()); //Create body in physics world
-			getParentObject()->addCollisionShape(&shape, getParentObject()->getTransform(), getParentObject()->getMass()); //Create proxyShape
+			
 		};
 
 
 		void onAttach(GameObject* owner)override
 		{
 			m_owner = owner;
+			setParentObject(m_owner->getComponent<RigidBodyComponent>()->getBody());
+			getParentObject()->addCollisionShape(shape, getParentObject()->getTransform(), getParentObject()->getMass()); //Create proxyShape
 			
 		}
 		void onUpdate(float timestep) override

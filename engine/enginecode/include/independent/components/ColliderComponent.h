@@ -27,10 +27,19 @@ namespace Engine {
 
 		void onAttach(GameObject* owner) override
 		{
-			m_owner = owner; //Sets owner 
+			m_owner = owner; //Sets 
+
+			for (auto& msg : m_possibleMessages)
+			{
+				m_owner->getMap().insert(std::pair<ComponentMessageType, Component*>(msg, this));
+			}
 		}
 
 		void onDetach()
+		{
+		}
+
+		void onUpdate(float timestep) override
 		{
 		}
 
