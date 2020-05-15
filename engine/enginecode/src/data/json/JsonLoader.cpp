@@ -167,8 +167,37 @@ namespace Engine
 				}
 				if (!fonts.empty()) ResourceManagerInstance->populateCharacters(fonts);
 			}
-		}
-		
+			if (jsonFile["Asyncload"].count("sounds") > 0)
+			{
+				for (auto& fnFilepath : jsonFile["Asyncload"]["sounds"])
+				{
+					std::string soundName = fnFilepath["name"].get<std::string>();
+					bool b3d = fnFilepath["b3d"].get<bool>();
+					bool loop = fnFilepath["loop"].get<bool>();
+					bool stream = fnFilepath["stream"].get<bool>();
+					float minD = fnFilepath["minDist"].get<float>();
+					float maxDist = fnFilepath["maxDist"].get<float>();
+					std::string roll = fnFilepath["rollOff"].get<std::string>();
+					RollOff r;
+
+					if (roll == "InverseTapered")
+					{
+						r = RollOff::InverseTapered;
+					}
+					else if (roll == "Linear")
+					{
+						r = RollOff::Linear;
+					}
+					else if (roll == "LinearSquared")
+					{
+						r = RollOff::LinearSquared;
+					}
+					layer.getSounds()[soundName] = ResourceManagerInstance->addSound(soundName, b3d, loop, stream, minD, maxDist, r);
+				}
+
+			}
+
+		}	
 
 		if (jsonFile.count("Camera") > 0)
 		{

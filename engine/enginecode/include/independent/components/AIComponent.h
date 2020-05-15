@@ -73,7 +73,24 @@ namespace Engine
 
 		GameObject* getOwner() override { return m_owner; }
 
-		void onDetach() override { m_lua.reset(); };
+		void onDetach() override
+		{ 
+			auto iter = m_owner->getMap().begin();
+			while (iter != m_owner->getMap().end())
+			{
+				if ((*iter).second == this)
+				{
+					iter = m_owner->getMap().erase(iter);
+					--iter;
+				}
+				else
+				{
+					++iter;
+				}
+			}
+
+			m_lua.reset(); 
+		};
 
 		void onUpdate(float timestep) override 
 		{

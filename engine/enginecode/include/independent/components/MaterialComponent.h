@@ -59,12 +59,17 @@ namespace Engine
 
 		void onDetach() override
 		{
-			for (auto iter = m_owner->getMap().begin(); iter != m_owner->getMap().end(); ++iter)
+			auto iter = m_owner->getMap().begin();
+			while (iter != m_owner->getMap().end())
 			{
 				if ((*iter).second == this)
 				{
 					iter = m_owner->getMap().erase(iter);
 					--iter;
+				}
+				else
+				{
+					++iter;
 				}
 			}
 		}

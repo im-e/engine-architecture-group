@@ -41,7 +41,19 @@ namespace Engine
 
 		void onDetach() override
 		{
-
+			auto iter = m_owner->getMap().begin();
+			while (iter != m_owner->getMap().end())
+			{
+				if ((*iter).second == this)
+				{
+					iter = m_owner->getMap().erase(iter);
+					--iter;
+				}
+				else
+				{
+					++iter;
+				}
+			}
 		}
 
 		void onEvent(Event& e) override
