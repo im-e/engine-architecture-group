@@ -22,7 +22,6 @@ namespace Engine
 		std::string m_name; //!< Name of a layer
 		std::shared_ptr<Renderer> m_renderer; //!< Pointer to a renderer
 		std::shared_ptr<CameraController> m_cameraController; //!< Pointer to a camera controller
-		std::shared_ptr<AudioManager> m_audio; //! Pointer to a AudioManager
 
 	public:
 		//! Default constructor
@@ -44,8 +43,6 @@ namespace Engine
 		std::shared_ptr<CameraController>& getCamera() { return m_cameraController; }
 		//! Gets renderer associated with a layer \return renderer
 		std::shared_ptr<Renderer>& getRenderer() { return m_renderer; }
-
-		std::shared_ptr<AudioManager>& getAudio() { return m_audio; }
 
 
 		//! Virtual destructor

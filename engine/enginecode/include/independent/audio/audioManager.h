@@ -38,8 +38,9 @@ namespace Engine {
 		void loadBank(const std::string& strBankName, FMOD_STUDIO_LOAD_BANK_FLAGS flags);
 		void loadSound(const std::string& strSoundName, bool b3d = true, bool bLooping = false, bool bStream = false, float minDist = 0.25f,
 			float maxDist = 10000.f, RollOff rollOff = RollOff::InverseTapered);
-		void unLoadSound(const std::string& strsoundName);
+		void unloadSound(const std::string& strsoundName);
 		int playSound(const std::string& strSoundName, const glm::vec3& vPos = glm::vec3{ 0 , 0 , 0 });
+		void stopSound(const std::string& strSoundName);
 		void loadEvent(const std::string& strEventName);
 		void playEvent(const std::string& strEventName);
 		void stopEvent(const std::string& strEventName, bool bImmediate = false);

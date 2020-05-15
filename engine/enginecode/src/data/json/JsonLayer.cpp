@@ -8,8 +8,7 @@ namespace Engine
 
 	void JsonLayer::onAttach()
 	{
-		if (m_name == "Game Layer") m_audio.reset(new AudioManager(m_name));
-		if (m_name == "UI Layer") m_audio.reset(new AudioManager(m_name));
+		
 
 		Engine::JsonLoader::loadJson(m_filepath, *this);
 		Engine::JsonLoader::loadGameObjects(m_gameobjectsFilepath, *this);
@@ -18,13 +17,7 @@ namespace Engine
 		{
 			m_renderer->actionCommand(renderCommand.get());
 		}
-
-		for (auto& sound : m_sounds)
-		{
-			m_audio->playSound(sound.first);
-		}
 		
-		//https://freesound.org/people/Mrthenoronha/sounds/370293/
 	}
 		
 	void JsonLayer::onDetach()
@@ -56,10 +49,34 @@ namespace Engine
 		{
 #ifdef NG_DEBUG
 			NG_PROFILER_SCOPE("Audio update");
-#endif	
-			m_audio->updateLocation(timestep, getCamera()->getCamera()->getPosition(), 
-				static_cast<Engine::Camera3D*>(getCamera()->getCamera().get())->getForward(), 
-				static_cast<Engine::Camera3D*>(getCamera()->getCamera().get())->getUp());
+#endif		
+
+			for (auto& GO : m_gameObjects)
+			{
+				if (m_name == "Game Layer") 
+				{
+					auto soundManagers = GO.second->getComponent<SoundComponent>();
+
+					if (soundManagers != nullptr)
+					{
+						soundManagers->getSource()->updateLocation(timestep, getCamera()->getCamera()->getPosition(),
+							static_cast<Engine::Camera3D*>(getCamera()->getCamera().get())->getForward(),
+							static_cast<Engine::Camera3D*>(getCamera()->getCamera().get())->getUp());
+					}					
+				}
+				else if (m_name == "UI Layer") 
+				{
+					auto soundManagers = GO.second->getComponent<SoundComponent>();
+
+					if (soundManagers != nullptr)
+					{
+						soundManagers->getSource()->updateLocation(timestep, getCamera()->getCamera()->getPosition(),
+							glm::vec3(0, 0, -1),
+							glm::vec3(0, 1, 0));
+					}					
+				}
+			}			
+			
 		}
 		
 		{

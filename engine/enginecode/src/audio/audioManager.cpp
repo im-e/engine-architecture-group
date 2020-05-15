@@ -60,7 +60,7 @@ namespace Engine {
 		}
 	}
 
-	void AudioManager::unLoadSound(const std::string& strSoundName)
+	void AudioManager::unloadSound(const std::string& strSoundName)
 	{
 		auto it = m_sounds.find(strSoundName);
 		if (it == m_sounds.end())
@@ -98,12 +98,6 @@ namespace Engine {
 		{
 			m_channels.erase(it);
 		}
-
-		////error check low level system
-		//errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().update());
-		//errorCheck(Engine::Application::getInstance().getAudioSystem()->get2DSystem().update());
-		////error check studio system
-		//errorCheck(Engine::Application::getInstance().getAudioSystem()->getStudioSystem().update());
 	}
 
 	void AudioManager::updateLocation(float timestep, glm::vec3 position, glm::vec3 camForward, glm::vec3 camUp)
@@ -111,11 +105,13 @@ namespace Engine {
 
 		FMOD_VECTOR lastPos, lastVel, lastForward, lastUp;
 		
-		if (m_type == "3D") errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().get3DListenerAttributes(0, &lastPos, &lastVel, &lastForward, &lastUp));
+		if (m_type == "3D") {
+			errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().get3DListenerAttributes(0, &lastPos, &lastVel, &lastForward, &lastUp));
+			std::cout << "P:"  << position.r << " | " << position.g << " | " << position.b << std::endl;
+			std::cout << "F: " << camForward.r << " | " << camForward.g << " | " << camForward.b << std::endl;
+			std::cout << "U: " << camUp.r << " | " << camUp.g << " | " << camUp.b << std::endl;
+		}
 		else if (m_type == "2D") errorCheck(Engine::Application::getInstance().getAudioSystem()->get2DSystem().get3DListenerAttributes(0, &lastPos, &lastVel, &lastForward, &lastUp));
-		std::cout << m_type << std::endl;
-		std::cout << "F: " << camForward.r << " | " << camForward.g << " | " << camForward.b << std::endl;
-		std::cout << "U: " << camUp.r << " | " << camUp.g << " | " << camUp.b << std::endl;
 
 		auto listenerPos = GLMVecToFmod(position);
 		auto listenerForward = GLMVecToFmod(camForward);
@@ -194,6 +190,20 @@ namespace Engine {
 			m_channels[channelId] = pChannel;
 		}
 		return channelId;
+	}
+
+	void AudioManager::stopSound(const std::string& strSoundName)
+	{
+		for (auto it = m_channels.begin(); it != m_channels.end(); ++it)
+		{
+			bool isPlaying = false;
+			it->second->isPlaying(&isPlaying);
+			if (isPlaying)
+			{
+				errorCheck(it->second->setPaused(true));
+				
+			}
+		}
 	}
 
 	void AudioManager::playEvent(const std::string& strEventName)
