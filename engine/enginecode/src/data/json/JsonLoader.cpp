@@ -564,11 +564,7 @@ namespace Engine
 				{
 					std::shared_ptr<VelocityComponent> vel;
 					glm::vec3 linear(go["velocity"]["linear"]["x"].get<float>(), go["velocity"]["linear"]["y"].get<float>(), go["velocity"]["linear"]["z"].get<float>());
-					glm::vec3 angular(go["velocity"]["angular"]["x"].get<float>(), go["velocity"]["angular"]["y"].get<float>(), go["velocity"]["angular"]["z"].get<float>());
-
-					vel = std::make_shared<VelocityComponent>
-						(VelocityComponent(linear, angular));
-					gameObject->addComponent(vel);
+					glm::vec3 angular(go["velocity"]["angular"]["x"].get<float>(), go["velocity"]["angular"]["y"].get<float>(), go["velocity"]["angular"]["z"].get<float>());				
 
 					if (go.count("oscillate") > 0)
 					{
@@ -603,18 +599,37 @@ namespace Engine
 					if (go.count("AI") > 0)
 					{
 						std::shared_ptr<AIComponent> ai;
-						
+
 						float stop = go["AI"]["stopDist"].get<float>();
 						std::string type = go["AI"]["aiType"].get<std::string>();
 						std::string script = go["AI"]["script"].get<std::string>();
 						std::string pathType = go["AI"]["pathType"].get<std::string>();
-						
+						std::vector<glm::vec3> pathWaypoints;
+
+						for (auto& waypoint : go["AI"]["waypoints"])
+						{
+							float x = waypoint["x"].get<float>();
+							float y = waypoint["y"].get<float>();
+							float z = waypoint["z"].get<float>();
+
+							pathWaypoints.push_back(glm::vec3(x, y, z));
+						}
+
 						ai = std::make_shared<AIComponent>(AIComponent(stop, type, script, pathType));
 						ai->registerClass();
 						ai->doFile("../scripts/" + script + ".lua", type, "update");
-						
+
+						for (int j = 0; j < pathWaypoints.size(); j++)
+						{
+							ai->addPath(pathWaypoints[j].x, pathWaypoints[j].y, pathWaypoints[j].z);
+						}
+
 						gameObject->addComponent(ai);
 					}
+
+					vel = std::make_shared<VelocityComponent>
+						(VelocityComponent(linear, angular));
+					gameObject->addComponent(vel);
 				}
 			}
 		}
@@ -1262,35 +1277,33 @@ namespace Engine
 								ImGui::EndCombo();
 							}
 
-								ImGui::InputText("", scriptName, IM_ARRAYSIZE(scriptName));
-								ImGui::SameLine();
-								ImGui::Text(".lua");
+							ImGui::InputText("", scriptName, IM_ARRAYSIZE(scriptName));
+							ImGui::SameLine();
+							ImGui::Text(".lua");
 
+
+							if (lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>())
+							{
 								static const char* selectedPath = "";
 								static int selectedPathIndex;
 
 								if (ImGui::BeginCombo("Path", selectedPath))
 								{
-									std::vector<std::string> paths;
+									std::vector<const char*> paths;
 									int pathSize = lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->numPath();
 
-									for (int i = 0; i < lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->numPath(); i++)
-									{
+									for (int i = 0; i < pathSize; i++)
+									{			
 										std::string pathNum = std::to_string(i);
 										std::string currentPath = "Path " + pathNum;
+										paths.push_back(currentPath.c_str());
 
-										paths.push_back(currentPath);
 										bool selected = (selectedPath == paths[i]);
 
-										if (ImGui::Selectable(paths[i].c_str(), selected))
+										if (ImGui::Selectable(paths[i], selected))
 										{
-											std::string selectedPathNum = std::to_string(i);
-											selectedPath = ("Path " + pathNum).c_str();
+											selectedPath = paths[i];
 											selectedPathIndex = i;
-
-											LogInfo(selectedPath);
-											LogInfo(paths[i].c_str());
-											LogInfo(selectedPathIndex);
 
 											pathX = lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->pathPosX(selectedPathIndex);
 											pathY = lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->pathPosY(selectedPathIndex);
@@ -1316,7 +1329,8 @@ namespace Engine
 								{
 									lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>()->changePath(selectedPathIndex, pathX, pathY, pathZ);
 								}
-
+							}
+								
 							if (ImGui::Button("Add"))
 							{
 								if (lay->getGameObjects()[layer.getGOName()]->getComponent<AIComponent>() == nullptr)

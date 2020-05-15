@@ -39,11 +39,12 @@ namespace Engine
 		float m_stopSize;
 		std::string m_aiType;
 		std::string m_scriptName;
+		std::string m_pathTypeName;
 		std::vector<glm::vec3> m_path;
 		int m_pathType;
 	public:
 		AIComponent(float stop, std::string type, std::string scriptName, std::string pathType)
-			: m_stopSize(stop), m_aiType(type), m_scriptName(scriptName)
+			: m_stopSize(stop), m_aiType(type), m_scriptName(scriptName), m_pathTypeName(pathType)
 		{
 			if (pathType == "Single") { m_pathType = (int)PathType::Single; }
 			else if (pathType == "Constant") { m_pathType = (int)PathType::Constant; }
@@ -57,10 +58,13 @@ namespace Engine
 			m_currentPosition = owner->getComponent<PositionComponent>()->getCurrentPosition();
 			m_currentRotation = owner->getComponent<PositionComponent>()->getCurrentRotation();
 
-			addPath(m_currentPosition.x, m_currentPosition.y, m_currentPosition.z);
-			m_currentPath = m_path[0];
+			if (m_path.empty())
+			{
+				addPath(m_currentPosition.x, m_currentPosition.y, m_currentPosition.z);
+				addPath(-m_currentPosition.x, -m_currentPosition.y, -m_currentPosition.z); // Needs second path on attach by default or velocity component takes priority
+			}
 
-			addPath(m_currentPosition.x, m_currentPosition.y, m_currentPosition.z); // Needs second path on attach by default or velocity component takes priority
+			m_currentPath = m_path[0];
 
 			luaUpdate();
 
@@ -199,6 +203,16 @@ namespace Engine
 		int pathType() 
 		{ 
 			return (int)m_pathType; 
+		}
+
+		std::string getPathTypeName()
+		{
+			return m_pathTypeName;
+		}
+
+		std::vector<glm::vec3>& getPathWaypoints()
+		{
+			return m_path;
 		}
 
 		void setLuaFunction(const luabridge::LuaRef& ref)

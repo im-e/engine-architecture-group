@@ -222,8 +222,26 @@ namespace Engine
 							float stopDist = comp->getStopDist();
 							std::string aiType = comp->getAiType();
 							std::string scriptName = comp->getScriptName();
+							std::string pathType = comp->getPathTypeName();
+							std::vector<glm::vec3> waypoints = comp->getPathWaypoints();
 
-							outputStream << "\"AI\": { \"stopDist\": " + std::to_string(stopDist) + ", \"aiType\": \"" + aiType + "\", \"script\": \"" + scriptName + "\"";
+							outputStream << "\"AI\": { \"stopDist\": " + std::to_string(stopDist) + ", \"aiType\": \"" + aiType + "\", \"script\": \"" + scriptName + "\", \"pathType\": \"" + pathType + "\", \"waypoints\": [";
+
+							for (int i = 0; i < waypoints.size(); i++)
+							{
+								outputStream << "{ \"x\": " + std::to_string(waypoints[i].x) + ", \"y\": " + std::to_string(waypoints[i].y) + ",\"z\": " + std::to_string(waypoints[i].z);
+
+								if (i == waypoints.size() - 1)
+								{
+									outputStream << "}";
+								}
+								else
+								{
+									outputStream << "},";
+								}
+							}
+
+							outputStream << "]";
 						}
 
 						if (j < comps.size() - 1)
