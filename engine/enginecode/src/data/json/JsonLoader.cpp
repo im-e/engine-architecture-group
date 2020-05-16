@@ -1388,27 +1388,28 @@ namespace Engine
 						{
 							if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>() == nullptr)
 							{				
-
-								std::shared_ptr<ColliderComponent> cc;
+								
+								
 
 
 								if (currentItem == "Box")
 								{
-
+									std::shared_ptr<BoxColliderComponent> cc;
 									cc = std::make_shared<BoxColliderComponent>(BoxColliderComponent(size));
 
 									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
-									LogWarn("Made  box collider");
+									
 								}
 								if (currentItem == "Capsule")
 								{
-
-									cc = std::make_shared<ColliderComponent>(CapsuleColliderComponent(radius, length));
+									std::shared_ptr<CapsuleColliderComponent> cc;
+									cc = std::make_shared<CapsuleColliderComponent>(CapsuleColliderComponent(radius, length));
 									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
 								}
 								if (currentItem == "Sphere")
-								{
-									cc = std::make_shared<ColliderComponent>(SphereColliderComponent(radius));
+								{	
+									std::shared_ptr<SphereColliderComponent> cc;
+									cc = std::make_shared<SphereColliderComponent>(SphereColliderComponent(radius));
 									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
 								}
 							}

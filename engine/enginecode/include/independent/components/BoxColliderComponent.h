@@ -31,7 +31,7 @@ namespace Engine {
 
 		void onUpdate(float timestep) override
 		{
-			//Update render position from rigid body
+			//Update collider position from rigid body
 			body->setTransform(getParentObject()->getTransform());
 		}
 
