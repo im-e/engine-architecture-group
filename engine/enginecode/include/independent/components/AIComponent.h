@@ -130,10 +130,9 @@ namespace Engine
 
 					m_desiredRotation = m_currentRotation * angle;*/
 
-					LogInfo("Going to: {0}, {1}, {2}", m_desiredPosition.x, m_desiredPosition.y, m_desiredPosition.z);
-					LogInfo("Rotating to: {0}, {1}, {2}", m_desiredRotation.x, m_desiredRotation.y, m_desiredRotation.z);
+					//LogInfo("Going to: {0}, {1}, {2}", m_desiredPosition.x, m_desiredPosition.y, m_desiredPosition.z);
+					//LogInfo("Rotating to: {0}, {1}, {2}", m_desiredRotation.x, m_desiredRotation.y, m_desiredRotation.z);
 				}
-
 				else 
 				{
 					m_desiredPosition = m_currentPosition;

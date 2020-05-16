@@ -211,6 +211,7 @@ namespace Engine
 		{
 			m_model = phyModel * m_scale;
 		}
+
 		inline rp3d::Vector3 &getRenderPosition()
 		{
 			rp3d::Vector3 temp;

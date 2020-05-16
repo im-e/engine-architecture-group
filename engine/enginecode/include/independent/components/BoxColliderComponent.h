@@ -8,7 +8,6 @@ namespace Engine {
 	private:
 		rp3d::Vector3 boxDim;
 		rp3d::CollisionBody *body;
-		
 
 	public:
 
@@ -16,17 +15,18 @@ namespace Engine {
 		BoxColliderComponent(rp3d::Vector3 boxSize)
 		{
 			boxDim = boxSize;
-			shape = new rp3d::BoxShape(boxDim); //Set collision shape dimensions
-			
-			
-			
+			shape = new rp3d::BoxShape(boxDim); //Set collision shape dimensions	
 		};
-		void onAttach(GameObject* owner)override
+
+		void onAttach(GameObject* owner) override
 		{	
 			m_owner = owner;
-			setParentObject(m_owner->getComponent<RigidBodyComponent>()->getBody());
-			body = Application::getInstance().getPhysics()->getWorld()->createCollisionBody(getParentObject()->getTransform()); //Create body in physics world
-			getParentObject()->addCollisionShape(shape, getParentObject()->getTransform(), getParentObject()->getMass()); //Create proxyShape and attach to rigidbody
+
+			rp3d::RigidBody* rb = m_owner->getComponent<RigidBodyComponent>()->getBody();
+			setParentObject(rb);
+			body = Application::getInstance().getPhysics()->getWorld()->createCollisionBody(rb->getTransform()); //Create body in physics world
+
+			proxy = rb->addCollisionShape(shape, rb->getTransform(), rb->getMass()); //Create proxyShape and attach to rigidbody
 		}
 
 		void onUpdate(float timestep) override

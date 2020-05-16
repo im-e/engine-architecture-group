@@ -7,7 +7,8 @@
 #include "systems/system.h"
 #include <reactphysics3d.h>
 
-namespace Engine {
+namespace Engine 
+{
 
 	class Physics : public System
 	{
@@ -15,7 +16,7 @@ namespace Engine {
 		//! Pointer to ReactPhysics3D world
 		static std::shared_ptr<rp3d::DynamicsWorld> m_world;
     //! Gravity values
-		rp3d::Vector3 gravity = rp3d::Vector3(0.0, -1, 0.0);
+		rp3d::Vector3 gravity = rp3d::Vector3(0.0, -1.0, 0.0);
 
 	public:
 		//! Default constructor

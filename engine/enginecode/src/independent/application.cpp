@@ -71,14 +71,14 @@ namespace Engine
 		{
 			//count fps
 			frameStart = Time_Now;
+
 			m_accumulator += m_timestep;
-			while (m_accumulator >= m_timestep)
-			{
-				m_physWorld->getWorld()->update(m_timestep);
+			if(m_accumulator >= m_timestep)
+			{		
 				m_accumulator -= m_timestep;
 			}
 
-
+			m_physWorld->getWorld()->update(m_timestep);
 			for (auto& it = m_layerStack->begin(); it != m_layerStack->end(); it++)
 			{
 				(*it)->onUpdate(m_timestep);

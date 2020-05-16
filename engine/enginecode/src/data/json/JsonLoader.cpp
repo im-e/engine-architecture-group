@@ -1406,84 +1406,81 @@ namespace Engine
 			{
 				layer.addImGuiFunction([&](JsonLayer* lay)
 				{
-					if (ImGui::CollapsingHeader("Rigidbody"))
 					if (!layer.is2D())
 					{
-						/*if (ImGui::CollapsingHeader("Rigidbody"))
-					{
-						std::vector<const char*> types;
-						types.push_back("Static");
-						types.push_back("Kinematic");
-						types.push_back("Dynamic");
-
-						static const char* currentItem = types[types.size() - 1];
-						static bool grav;
-
-						if (ImGui::BeginCombo("Type", currentItem))
+						if (ImGui::CollapsingHeader("Rigidbody"))
 						{
-							for (int i = 0; i < types.size(); i++)
-							{
-								bool selected = (currentItem == types[i]);
+							std::vector<const char*> types;
+							types.push_back("Static");
+							types.push_back("Kinematic");
+							types.push_back("Dynamic");
 
-								if (ImGui::Selectable(types[i], selected))
+							static const char* currentItem = types[types.size() - 1];
+							static bool grav;
+
+							if (ImGui::BeginCombo("Type", currentItem))
+							{
+								for (int i = 0; i < types.size(); i++)
 								{
-									currentItem = types[i];
+									bool selected = (currentItem == types[i]);
+
+									if (ImGui::Selectable(types[i], selected))
+									{
+										currentItem = types[i];
+									}
+
+									if (selected)
+										ImGui::SetItemDefaultFocus();
 								}
 
-								if (selected)
-									ImGui::SetItemDefaultFocus();
+								ImGui::EndCombo();
 							}
 
-							ImGui::EndCombo();
+							ImGui::Checkbox("Gravity", &grav);
+
+							if (ImGui::Button("Add"))
+							{
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>() == nullptr)
+								{
+									std::shared_ptr<RigidBodyComponent> rb;
+									rp3d::BodyType t;
+
+									if (currentItem == "Static") t = rp3d::BodyType::STATIC;
+									if (currentItem == "Kinematic") t = rp3d::BodyType::KINEMATIC;
+									if (currentItem == "Dynamic") t = rp3d::BodyType::DYNAMIC;
+
+									rb = std::make_shared<RigidBodyComponent>(RigidBodyComponent(t, grav));
+
+									lay->getGameObjects()[layer.getGOName()]->addComponent(rb);
+								}
+								else
+								{
+									LogWarn("Component already exists!");
+								}
+
+							}
+							ImGui::SameLine(100.0f);
+							if (ImGui::Button("Remove"))
+							{
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>())
+								{
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+									LogWarn("Collider component removed");
+								}
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>())
+								{
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+								}
+								else
+								{
+									LogWarn("Component did not exist anyway!");
+								}
+
+							}
 						}
-
-						ImGui::Checkbox("Gravity", &grav);
-
-						if (ImGui::Button("Add"))
-						{
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>() == nullptr)
-							{
-								std::shared_ptr<RigidBodyComponent> rb;
-								rp3d::BodyType t;
-
-								if (currentItem == "Static") t = rp3d::BodyType::STATIC;
-								if (currentItem == "Kinematic") t = rp3d::BodyType::KINEMATIC;
-								if (currentItem == "Dynamic") t = rp3d::BodyType::DYNAMIC;
-
-								rb = std::make_shared<RigidBodyComponent>(RigidBodyComponent(t, grav));
-
-								lay->getGameObjects()[layer.getGOName()]->addComponent(rb);
-							}
-							else
-							{
-								LogWarn("Component already exists!");
-							}
-
-						}
-						ImGui::SameLine(100.0f);
-						if (ImGui::Button("Remove"))
-						{
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>())
-							{
-								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>();
-								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
-								LogWarn("Collider component removed");
-							}
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>())
-							{
-								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>();
-								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
-							}
-							else
-							{
-								LogWarn("Component did not exist anyway!");
-							}
-
-						}
-					}
-					}*/
-					}
-					
+					}				
 				});
 			}
 
@@ -1493,74 +1490,97 @@ namespace Engine
 				{
 					if (!layer.is2D())
 					{
-						std::vector<const char*> types;
-						types.push_back("Box");
-						types.push_back("Capsule");
-						types.push_back("Sphere");
+						if (ImGui::CollapsingHeader("Collider"))
+						{
+							std::vector<const char*> types;
+							types.push_back("Box");
+							types.push_back("Capsule");
+							types.push_back("Sphere");
 
-						if (currentItem == "Box")
-						{
-							ImGui::InputFloat("X", &size.x, 2);
-							ImGui::InputFloat("Y", &size.y, 2);
-							ImGui::InputFloat("Z", &size.z, 2);
+							static const char* currentItem = types[0];
 
-						}
-						if (currentItem == "Capsule")
-						{
-							ImGui::InputFloat("Radius", &radius, 2);
-							ImGui::InputFloat("Length", &length, 2);
-						}
-						if (currentItem == "Sphere")
-						{
-							ImGui::InputFloat("Radius", &radius, 2);
-						}
-
-						if (ImGui::Button("Add"))
-						{
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>() == nullptr)
-							{				
-								if (currentItem == "Box")
+							if (ImGui::BeginCombo("Type", currentItem))
+							{
+								for (int i = 0; i < types.size(); i++)
 								{
-									std::shared_ptr<BoxColliderComponent> cc;
-									cc = std::make_shared<BoxColliderComponent>(BoxColliderComponent(size));
-									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
-									
+									bool selected = (currentItem == types[i]);
+
+									if (ImGui::Selectable(types[i], selected))
+									{
+										currentItem = types[i];
+									}
+
+									if (selected)
+										ImGui::SetItemDefaultFocus();
 								}
-								if (currentItem == "Capsule")
+
+								ImGui::EndCombo();
+							}
+
+							if (currentItem == "Box")
+							{
+								ImGui::InputFloat("X", &size.x, 2);
+								ImGui::InputFloat("Y", &size.y, 2);
+								ImGui::InputFloat("Z", &size.z, 2);
+
+							}
+							if (currentItem == "Capsule")
+							{
+								ImGui::InputFloat("Radius", &radius, 2);
+								ImGui::InputFloat("Length", &length, 2);
+							}
+							if (currentItem == "Sphere")
+							{
+								ImGui::InputFloat("Radius", &radius, 2);
+							}
+
+							if (ImGui::Button("Add"))
+							{
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>() == nullptr)
 								{
-									std::shared_ptr<CapsuleColliderComponent> cc;
-									cc = std::make_shared<CapsuleColliderComponent>(CapsuleColliderComponent(radius, length));
-									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
-								}
-								if (currentItem == "Sphere")
-								{	
-									std::shared_ptr<SphereColliderComponent> cc;
-									cc = std::make_shared<SphereColliderComponent>(SphereColliderComponent(radius));
-									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
-								}
-							}
-							else
-							{
-								LogWarn("Component already exists!");
-							}
+									if (currentItem == "Box")
+									{
+										std::shared_ptr<BoxColliderComponent> cc;
+										cc = std::make_shared<BoxColliderComponent>(BoxColliderComponent(size));
 
-						}
-						ImGui::SameLine(100.0f);
-						if (ImGui::Button("Remove"))
-						{
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>())
-							{
-								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>();
-								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
-							}
-							else
-							{
-								LogWarn("Component did not exist anyway!");
-							}
+										lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
 
+									}
+									if (currentItem == "Capsule")
+									{
+										std::shared_ptr<CapsuleColliderComponent> cc;
+										cc = std::make_shared<CapsuleColliderComponent>(CapsuleColliderComponent(radius, length));
+										lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
+									}
+									if (currentItem == "Sphere")
+									{
+										std::shared_ptr<SphereColliderComponent> cc;
+										cc = std::make_shared<SphereColliderComponent>(SphereColliderComponent(radius));
+										lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
+									}
+								}
+								else
+								{
+									LogWarn("Component already exists!");
+								}
+
+							}
+							ImGui::SameLine(100.0f);
+							if (ImGui::Button("Remove"))
+							{
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>())
+								{
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+								}
+								else
+								{
+									LogWarn("Component did not exist anyway!");
+								}
+
+							}
 						}
-            
-					}						
+					}				
 				});
 			}
 
