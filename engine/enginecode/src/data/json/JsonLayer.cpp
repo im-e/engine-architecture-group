@@ -7,6 +7,8 @@ namespace Engine
 {
 	void JsonLayer::onAttach()
 	{
+		
+
 		Engine::JsonLoader::loadJson(m_filepath, *this);
 		Engine::JsonLoader::loadGameObjects(m_gameobjectsFilepath, *this);
 
@@ -14,8 +16,9 @@ namespace Engine
 		{
 			m_renderer->actionCommand(renderCommand.get());
 		}
+		
 	}
-
+		
 	void JsonLayer::onDetach()
 	{
 		for (auto& renderCommand : m_exitCommands)
@@ -40,6 +43,39 @@ namespace Engine
 			NG_PROFILER_SCOPE("Camera update");
 #endif
 			m_cameraController->onUpdate(timestep);
+		}
+
+		{
+#ifdef NG_DEBUG
+			NG_PROFILER_SCOPE("Audio update");
+#endif		
+
+			for (auto& GO : m_gameObjects)
+			{
+				if (m_name == "Game Layer") 
+				{
+					auto soundManagers = GO.second->getComponent<SoundComponent>();
+
+					if (soundManagers != nullptr)
+					{
+						soundManagers->getSource()->updateLocation(timestep, getCamera()->getCamera()->getPosition(),
+							static_cast<Engine::Camera3D*>(getCamera()->getCamera().get())->getForward(),
+							static_cast<Engine::Camera3D*>(getCamera()->getCamera().get())->getUp());
+					}					
+				}
+				else if (m_name == "UI Layer") 
+				{
+					auto soundManagers = GO.second->getComponent<SoundComponent>();
+
+					if (soundManagers != nullptr)
+					{
+						soundManagers->getSource()->updateLocation(timestep, getCamera()->getCamera()->getPosition(),
+							glm::vec3(0, 0, -1),
+							glm::vec3(0, 1, 0));
+					}					
+				}
+			}			
+			
 		}
 		
 		{

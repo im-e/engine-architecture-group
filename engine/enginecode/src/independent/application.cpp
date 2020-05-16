@@ -33,6 +33,10 @@ namespace Engine
 		m_timer = std::make_shared<Timer>();
 		m_timer->start(Engine::SystemSignal::None);
 
+		//create audio System
+		m_audio.reset(new AudioSystem());
+		m_audio->start(Engine::SystemSignal::None);
+
 		m_physWorld = std::make_shared<Physics>();
 		m_physWorld->start(Engine::SystemSignal::None);
 
@@ -80,6 +84,8 @@ namespace Engine
 				(*it)->onUpdate(m_timestep);
 			}
 
+			m_audio->update();
+
 			m_appWindow->onUpdate(m_timestep);
 
 			frameEnd = Time_Now;
@@ -100,6 +106,11 @@ namespace Engine
 	std::shared_ptr<Physics>& Application::getPhysics()
 	{
 		return m_physWorld;
+	}
+
+	std::shared_ptr<LayerStack>& Application::getLayerStack()
+	{
+		return m_layerStack;
 	}
 
 	void Application::onEvent(Event & e)
@@ -239,6 +250,7 @@ namespace Engine
 			}			
 		}
 
+		m_audio->stop();
 		m_physWorld->stop(Engine::SystemSignal::None);
 		lua_close(lua);
 	}

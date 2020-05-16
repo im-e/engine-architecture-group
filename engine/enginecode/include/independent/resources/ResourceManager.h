@@ -19,6 +19,8 @@
 #include "data/json/JsonModelLoader.h"
 #include "data/assimp/AssimpModel.h"
 
+#include "audio/audioSound.h"
+
 
 namespace Engine
 {
@@ -38,12 +40,14 @@ namespace Engine
 		AssetManager<Material> m_materials;//!< Collection of materials
 		AssetManager<UniformBuffer> m_UBOs; //!< Collection of UBOs
 		AssetManager<JsonModel> m_jsonModels; //!< Collection of json models
-		AssetManager<AssimpModel> m_assimpModels; //!< Collection of assimp models
+		AssetManager<AssimpModel> m_assimpModels; //!< Collection of assimp models												  
+		AssetManager<Sound> m_sounds; //!< Collection of sounds
 
 		std::map<std::string, std::vector<Character>> m_characters; //!< Renderable characters
-		const int m_ASCIIstart = 32;
-		const int m_ASCIIend = 126;
+		const int m_ASCIIstart = 32; //!< Beginning of ASCII
+		const int m_ASCIIend = 126; //!< End of ASCII
 		std::shared_ptr<Texture> m_fontTexture; //!< Texture which stores fonts
+		std::vector<std::string> m_fontPaths; //!< Font paths
 
 		ResourceManager(); //!< Default constructor
 		static ResourceManager* s_instance; //!< Single instance of a class
@@ -111,6 +115,10 @@ namespace Engine
 		*/
 		std::shared_ptr<UniformBuffer> addUBO(const std::string& key, unsigned int size, UniformLayout& layout);
 
+		//!
+		std::shared_ptr<Sound> addSound(const std::string& key, bool b3d = true, bool bLooping = false, bool bStream = false, float minDist = 0.25f,
+			float maxDist = 10000.f, RollOff rollOff = RollOff::InverseTapered);
+
 		//! Adds a compiled json model to the collection \param key key associated with a model \param model model to be added
 		void addJsonModelAsync(const std::string& key, std::shared_ptr<JsonModel> model);
 		//! Adds a compiled assimp model to the collection \param key key associated with a model \param model model to be added
@@ -125,6 +133,11 @@ namespace Engine
 			return s_instance;
 		};
 
+		std::shared_ptr<VertexArray> overwriteVAO(const std::string& key);
+		std::shared_ptr<VertexBuffer> overwriteVBO(const std::string& key, float* vertices, unsigned int size, BufferLayout& layout);
+		std::shared_ptr<IndexBuffer> overwriteEBO(const std::string& key, unsigned int* indices, unsigned int size);
+		std::shared_ptr<Material> overwriteMaterial(const std::string& key, const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO);
+
 		AssetManager<VertexArray>& getVAO(); //!< Get collection of the VAOs \return m_VAOs collection of the VAOs
 		AssetManager<VertexBuffer>& getVBO(); //!< Get collection of the VBOs \return m_VBOs collection of the VBOs
 		AssetManager<IndexBuffer>& getEBO(); //!< Get collection of the index buffers \return m_EBOs collection of index buffers
@@ -134,10 +147,12 @@ namespace Engine
 		AssetManager<UniformBuffer>& getUBO(); //!< Get collection of UBOs \return m_UBOs collection of UBOs
 		AssetManager<JsonModel>& getJsonModels(); //!< Get collection of json models \return m_JsonModels collection of json models
 		AssetManager<AssimpModel>& getAssimpModels(); //!< Get collection of assimp models \return m_AssimpModels collection of assimp models
+		AssetManager<Sound>& getSound();
 
 		void populateCharacters(std::unordered_map<std::string, unsigned int> fontsAndSizes); //!< Preloads the characters
-		std::shared_ptr<Character> getCharacter(std::string font, unsigned int ASCIIcode); //!< Gets specified character from specified font
-		inline std::shared_ptr<Texture> getFontTexture() { return m_fontTexture; } //!< Gets the font texture
+		std::shared_ptr<Character> getCharacter(std::string font, unsigned int ASCIIcode); //!< Gets specified character from specified font \return a character
+		inline std::shared_ptr<Texture>& getFontTexture() { return m_fontTexture; } //!< Gets the font texture \return font texture
+		std::vector<std::string>& getFontPaths() { return m_fontPaths; } //!< Gets font paths \return all font paths
 
 		~ResourceManager(); //!< Default destructor
 	};

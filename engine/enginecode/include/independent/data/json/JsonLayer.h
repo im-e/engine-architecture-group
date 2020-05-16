@@ -20,6 +20,8 @@
 #include "components/BoxColliderComponent.h"
 #include "components/CapsuleColliderComponent.h"
 #include "components/SphereColliderComponent.h"
+#include "components/TextComponent.h"
+#include "components/SoundComponent.h"
 
 namespace Engine
 {
@@ -38,6 +40,8 @@ namespace Engine
 		std::vector<std::shared_ptr<Engine::RenderCommand>> m_predrawCommands;					//!< Render commands issued before materials are drawn
 		std::vector<std::shared_ptr<Engine::RenderCommand>> m_postdrawCommands;					//!< Render commands issued after materials are drawn
 		std::vector<std::shared_ptr<Engine::RenderCommand>> m_exitCommands;						//!< Render commands issued prior to renderer shutdown
+
+		std::map<std::string, std::shared_ptr<Engine::Sound>> m_sounds; //!< Map of sounds loaded per layer
 
 		std::list<void*> m_data;			//!< Misc data
 		SceneData m_sceneData;				//!< SceneData
@@ -59,6 +63,8 @@ namespace Engine
 
 		//! Gets a collection of GOs in a layer \return collection of GOs
 		inline std::map<std::string, std::shared_ptr<Engine::GameObject>>& getGameObjects() { return m_gameObjects; }
+		//! Get sounds \return collection of sounds
+		inline std::map<std::string, std::shared_ptr<Engine::Sound>>& getSounds() { return m_sounds; }
 
 		//! Gets a collection of predraw commands applied to a layer \return collection of predraw commands
 		inline std::vector<std::shared_ptr<Engine::RenderCommand>>& getPredrawCommands() { return m_predrawCommands; }

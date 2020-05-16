@@ -11,28 +11,37 @@ namespace Engine
 	{
 		setFont(fontName);
 		setCharSize(charSize);
-		setText(text);
 		/*setPosition(position);
 		setOrientation(orientation);
 		setScale(scale);
 		setColour(colour);*/
+		setName(key);
 
 		m_textShader = ResourceManagerInstance->getShader().getAsset("TextShaderFT");
 		m_VAO = ResourceManagerInstance->addVAO(key + "VAO");
 
+		editText(text);
+
+		//https://learnopengl.com/In-Practice/Text-Rendering
+	}
+
+	void OpenGLTextLabel::editText(const std::string& text)
+	{
+		setText(text);
+
 		float textVerts[4 * 4];
 		unsigned int textIndices[4] = { 0, 1, 2, 3 };
 
-		m_VAO->setIndexBuffer(ResourceManagerInstance->addEBO(key + "IBO", textIndices, 4 * text.length()));
-		m_VBO = ResourceManagerInstance->addVBO(key + "VBO", nullptr, sizeof(textVerts) * text.length(), m_textShader->getBufferLayout());
-
+		m_VAO->setIndexBuffer(ResourceManagerInstance->overwriteEBO(m_name + "EBO", textIndices, 4 * text.length()));
+		m_VBO = ResourceManagerInstance->overwriteVBO(m_name + "VBO", nullptr, sizeof(textVerts) * text.length(), m_textShader->getBufferLayout());
+			
 		unsigned int loopCount = 0;
 		float xAdvance = 0;
 
 		std::string::const_iterator c;
 		for (c = text.begin(); c != text.end(); c++)
 		{
-		    std::shared_ptr<Character> ch = ResourceManagerInstance->getCharacter(getFont(), (*c));
+			std::shared_ptr<Character> ch = ResourceManagerInstance->getCharacter(getFont(), (*c));
 
 			glm::vec2 bearing = ch->getBearing();
 
@@ -45,7 +54,7 @@ namespace Engine
 			float xPos = xAdvance + bearing.x;
 			float yPos = 0 - (height - bearing.y);
 
-			float textVertices[4 * 4] = 
+			float textVertices[4 * 4] =
 			{
 				xPos,						-yPos - height,					startPos.x,		startPos.y,				// Top Left
 				xPos + width,				-yPos - height,					endPos.x,		startPos.y,				// Top Right
@@ -58,11 +67,10 @@ namespace Engine
 			loopCount++;
 			xAdvance += (ch->getAdvance() >> 6); // Bitshift by 6 to get pixel values
 		}
-		
-		m_VAO->setVertexBuffer(m_VBO);
-		m_material = ResourceManagerInstance->addMaterial(key + "Mat", m_textShader, m_VAO);
 
-		//https://learnopengl.com/In-Practice/Text-Rendering
+		m_VAO->setVertexBuffer(m_VBO);
+
+		m_material = ResourceManagerInstance->overwriteMaterial(m_name + "Mat", m_textShader, m_VAO);
 	}
 }
 

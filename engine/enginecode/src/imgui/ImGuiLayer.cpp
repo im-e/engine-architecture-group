@@ -23,6 +23,8 @@
 
 namespace Engine
 {
+	bool ImGuiLayer::m_is2D;
+
 	void ImGuiLayer::onAttach()
 	{
 		m_gameObjectWindow = false;
@@ -53,6 +55,10 @@ namespace Engine
 			m_shadersNames.push_back(s.first);
 		}
 
+		m_pathTypes.push_back("Single");
+		m_pathTypes.push_back("Constant");
+		m_pathTypes.push_back("Reversing");
+
 		Engine::JsonLoader::loadImGui(m_filepath, *this);
 	}
 
@@ -66,9 +72,8 @@ namespace Engine
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		// https://eliasdaler.github.io/using-imgui-with-sfml-pt2/
 		ImGui::Begin("Editor window");
-		if(ImGui::Button("Add GameObject"))
+		if (ImGui::Button("Add GameObject"))
 		{
 			m_gameObjectWindow = true;
 		}
@@ -84,6 +89,18 @@ namespace Engine
 		{
 			m_manageCompWindow = true;
 		}
+
+		ImGui::SameLine(150);
+		ImGui::Checkbox("Manage 2D", &m_is2D);
+		if (m_is2D)
+		{
+			m_layer = static_cast<JsonLayer*>(Application::getInstance().getLayerStack()->getLayers()[1].get());
+		}
+		else
+		{
+			m_layer = static_cast<JsonLayer*>(Application::getInstance().getLayerStack()->getLayers()[0].get());
+		}
+
 		if (ImGui::CollapsingHeader("Save"))
 		{
 			static char fileName[32] = "Default";
@@ -110,32 +127,67 @@ namespace Engine
 
 					outputStream << "{ \"name\": \"" + name + "\",";
 
-					bool hasMat = false;
+					bool hasMat = false;					
+					bool floatingBracket = false;
 					int j = 0;
 
 					for (auto& c : comps)
 					{
-						if (c->getType().hash_code() == typeid(MaterialComponent).hash_code() && hasMat == false)
+						auto typeHash = c->getType().hash_code();
+						bool isMat = typeHash == typeid(MaterialComponent).hash_code();
+						bool isTexture = typeHash == typeid(TextureComponent).hash_code();
+						bool isColour = typeHash == typeid(ColourComponent).hash_code();
+
+						if (floatingBracket && !isMat && !isTexture && !isColour)
+						{
+							outputStream << "},";
+							floatingBracket = false;
+						}
+
+						if (c->getType().hash_code() == typeid(TextComponent).hash_code())
+						{
+							std::shared_ptr<TextComponent> comp = std::static_pointer_cast<TextComponent>(c);
+
+							std::string text = comp->getLabel()->getText();
+							std::string font = comp->getLabel()->getFont();
+							unsigned int charSize = comp->getLabel()->getCharSize();
+
+							std::shared_ptr<ColourComponent> cComp = go.second->getComponent<ColourComponent>();
+
+							float r = cComp->getRGB().x;
+							float g = cComp->getRGB().y;
+							float b = cComp->getRGB().z;
+
+							outputStream << "\"material\": { \"text\": \"" << text << "\", \"font\": \"" << font << "\", \"charSize\": " << std::to_string(charSize) << ", \"colour\": { \"r\": " << std::to_string(r) << ", \"g\": " << std::to_string(g) << ", \"b\": " << std::to_string(b) << "}";
+						}
+						else if (c->getType().hash_code() == typeid(MaterialComponent).hash_code() && hasMat == false)
 						{
 							hasMat = true;
-							std::shared_ptr<MaterialComponent> comp = std::static_pointer_cast<MaterialComponent>(c);
 
-							std::string type = comp->getTypeName();
-							std::string model = comp->getModelName();
-							std::string shader = comp->getShaderName();
+							if (!m_is2D)
+							{
+								std::shared_ptr<MaterialComponent> comp = std::static_pointer_cast<MaterialComponent>(c);
 
-							outputStream << "\"material\": { \"type\": \"" + type + "\", \"model\": \"" + model + "\", \"shader\": \"" + shader + "\"";
+								std::string type = comp->getTypeName();
+								std::string model = comp->getModelName();
+								std::string shader = comp->getShaderName();
+
+								outputStream << "\"material\": { \"type\": \"" + type + "\", \"model\": \"" + model + "\", \"shader\": \"" + shader + "\"";
+							}		
 						}
 						else if (c->getType().hash_code() == typeid(TextureComponent).hash_code())
 						{
-							std::shared_ptr<TextureComponent> comp = std::static_pointer_cast<TextureComponent>(c);
-							
-							std::string diffuse = comp->getDiffName();
-							std::string normal = comp->getNormalName();
-							std::string parallax = comp->getParallaxName();
-							std::string spec = comp->getSpecularName();
+							if (!m_is2D)
+							{
+								std::shared_ptr<TextureComponent> comp = std::static_pointer_cast<TextureComponent>(c);
 
-							outputStream << "\"texture\": { \"diffuse\": \"" + diffuse + "\", \"specular\": \"" + spec + "\", \"normal\": \"" + normal + "\", \"parallax\": \"" + parallax + "\"";
+								std::string diffuse = comp->getDiffName();
+								std::string normal = comp->getNormalName();
+								std::string parallax = comp->getParallaxName();
+								std::string spec = comp->getSpecularName();
+
+								outputStream << "\"texture\": { \"diffuse\": \"" + diffuse + "\", \"specular\": \"" + spec + "\", \"normal\": \"" + normal + "\", \"parallax\": \"" + parallax + "\"";
+							}					
 						}
 						else if (c->getType().hash_code() == typeid(PositionComponent).hash_code())
 						{
@@ -175,8 +227,26 @@ namespace Engine
 							float stopDist = comp->getStopDist();
 							std::string aiType = comp->getAiType();
 							std::string scriptName = comp->getScriptName();
+							std::string pathType = comp->getPathTypeName();
+							std::vector<glm::vec3> waypoints = comp->getPathWaypoints();
 
-							outputStream << "\"AI\": { \"stopDist\": " + std::to_string(stopDist) + ", \"aiType\": \"" + aiType + "\", \"script\": \"" + scriptName + "\"";
+							outputStream << "\"AI\": { \"stopDist\": " + std::to_string(stopDist) + ", \"aiType\": \"" + aiType + "\", \"script\": \"" + scriptName + "\", \"pathType\": \"" + pathType + "\", \"waypoints\": [";
+
+							for (int i = 0; i < waypoints.size(); i++)
+							{
+								outputStream << "{ \"x\": " + std::to_string(waypoints[i].x) + ", \"y\": " + std::to_string(waypoints[i].y) + ",\"z\": " + std::to_string(waypoints[i].z);
+
+								if (i == waypoints.size() - 1)
+								{
+									outputStream << "}";
+								}
+								else
+								{
+									outputStream << "},";
+								}
+							}
+
+							outputStream << "]";
 						}
 						else if (c->getType().hash_code() == typeid(RigidBodyComponent).hash_code())
 						{
@@ -186,17 +256,29 @@ namespace Engine
 							bool grav = comp->getBody()->isGravityEnabled();
 						}
 
-
 						if (j < comps.size() - 1)
 						{
-							outputStream << "},";
+							if (!m_is2D)
+							{
+								outputStream << "},";
+							}
+							else
+							{
+								bool x = c->getType().hash_code() == typeid(MaterialComponent).hash_code();
+								bool y = c->getType().hash_code() == typeid(TextureComponent).hash_code();
+								bool z = c->getType().hash_code() == typeid(ColourComponent).hash_code();
+
+								if (x == false && y == false && z == false)
+								{
+									floatingBracket = true;
+								}								
+							}
 						}
 						else
 						{
 							outputStream << "}";
 						}
 						j++;
-						
 					}
 					if (i < m_layer->getGameObjects().size() - 1)
 					{
@@ -221,7 +303,7 @@ namespace Engine
 		ImGuiIO& io = ImGui::GetIO();
 		glm::vec2 res = glm::vec2(800, 600);
 		io.DisplaySize = ImVec2((float)res.x, (float)res.y);
-		
+
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
@@ -338,6 +420,11 @@ namespace Engine
 	std::vector<std::string>& ImGuiLayer::getTexturesNames()
 	{
 		return m_texturesNames;
+	}
+
+	std::vector<std::string>& ImGuiLayer::getPathTypes()
+	{
+		return m_pathTypes;
 	}
 
 	JsonLayer * ImGuiLayer::getJsonLayer()

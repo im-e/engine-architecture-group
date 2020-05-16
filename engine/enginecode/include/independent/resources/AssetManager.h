@@ -46,6 +46,7 @@ namespace Engine
 			m_assets[key] = asset;
 		else
 			LogWarn("Asset at key {0} already exists.", key);
+		
 	}
 
 	template<typename T>

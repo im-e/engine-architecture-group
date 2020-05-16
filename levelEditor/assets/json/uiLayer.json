@@ -4,6 +4,10 @@
       {
         "name": "TextShader",
         "filepath": "assets/shaders/textShader.glsl"
+      },
+      {
+        "name": "TextShaderFT",
+        "filepath": "assets/shaders/textShaderFT.glsl"
       }
     ],
     "textures": [
@@ -15,19 +19,27 @@
     "models": [
       {
         "type": "json",
-        "name": "Text",
+        "name": "TextModel",
         "filepath": "assets/jsonModels/textModel.txt"
       }
+    ],
+    "fonts": [
+      {
+        "name": "04b_20__",
+        "filepath": "assets/fonts/04b_20/04b_20__.ttf",
+        "charSize": 32
+      },
+      {
+        "name": "remachine-script",
+        "filepath": "assets/fonts/remachine-script/RemachineScript.ttf",
+        "charSize": 32
+      },
+      {
+        "name": "alexandria",
+        "filepath": "assets/fonts/alexandria/AlexandriaFLF.ttf",
+        "charSize": 32
+      }
     ]
-  },
-
-  "MemoryInfo": {
-    "gameObjects": 1,
-    "materials": 1,
-    "position": 1,
-    "velocity": 0,
-    "oscillates": 0,
-    "textures": 1
   },
 
   "Camera": {
@@ -43,37 +55,9 @@
     "type": "2D"
   },
 
-  "GameObject": [
-    {
-      "name": "TextModel",
-      "material": {
-        "type":  "json",
-        "model": "Text",
-        "shader": "TextShader"
-      },
-      "position": {
-        "translation": {
-          "x": 550.0,
-          "y": 500.0,
-          "z": 0.0
-        },
-        "rotation": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "scale": {
-          "x": 1.0,
-          "y": 1.0,
-          "z": 1.0
-        }
-      },
-      "texture": {
-        "name": "TextTexture"
-      }
-    }
-
-  ],
+  "Skybox": {
+    "type": "Space"
+  },
 
   "UBO": [
     {
@@ -82,6 +66,10 @@
         "Mat4"
       ],
       "shaders": [
+        {
+          "name": "TextShaderFT",
+          "block": "Matrices"
+        },
         {
           "name": "TextShader",
           "block": "Matrices"
@@ -103,10 +91,26 @@
         "enabled": true
       }
     ],
-    "predraw": [
+    "predraw": [     
+      {
+        "type": "DepthTestLess",
+        "enabled": false
+      },
+      {
+        "type": "BackfaceCulling",
+        "enabled": false
+      }
 
     ],
     "postdraw": [
+      {
+        "type": "DepthTestLess",
+        "enabled": true
+      },
+      {
+        "type": "BackfaceCulling",
+        "enabled": true
+      }
 
     ],
     "exit": [

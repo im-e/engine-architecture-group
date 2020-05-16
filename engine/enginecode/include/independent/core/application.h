@@ -12,6 +12,7 @@
 #include <memory>
 #include <vector>
 
+
 #include "systems/Timer.h"
 #include "systems/Log.h"
 #include "systems/ImGuiSystem.h"
@@ -26,6 +27,7 @@
 #include "rendering/layers/LayerStack.h"
 #include "platform/WindowsSys.h"
 #include "windows/window.h"
+#include "audio/audioSystem.h"
 
 namespace Engine {
 
@@ -53,7 +55,10 @@ namespace Engine {
 		std::shared_ptr<Timer> m_timer;
 		//! Pointer to ImGuiSystem
 		std::shared_ptr<ImGuiSystem> m_imGui;
+		//! Pointer to AudioManager
+		std::shared_ptr<AudioSystem> m_audio;
 
+		//! Pointer to physics world
 		std::shared_ptr<Physics> m_physWorld;
 
 #ifdef NG_PLATFORM_WINDOWS
@@ -69,11 +74,13 @@ namespace Engine {
 
 		lua_State *lua; //!< Lua state
 
-		float m_accumulator;
+		float m_accumulator; //!< Rp3d regulator to match graphics display
 
 	public:
 		virtual ~Application(); //!< Deconstructor
 		inline static Application& getInstance() { return *s_instance; } //!< Instance getter from singleton pattern
+		inline std::shared_ptr<AudioSystem> getAudioSystem() { return m_audio; } //!
+		
 		void onEvent(Event& e); //!< Function handling events
 
 		bool onClose(WindowCloseEvent& e); //!< Gets called on window close event
@@ -95,13 +102,19 @@ namespace Engine {
 
 		void run(); //!< Main loop
 
+		//! Gets lua state \return lua state
 		lua_State* getLuaState();
+		//! Gets physics world \return physics world
 		std::shared_ptr<Physics>& getPhysics();
-
+    
+    //! Gets Rp3D regulator of matching graphics display with physics \return physics regulator
 		float getPhysFactor()
 		{
 			return m_accumulator / m_timestep;
 		}
+    
+		//! Gets layer stack \return layer stack
+		std::shared_ptr<LayerStack>& getLayerStack();
 	};
 
 	// To be defined in users code
