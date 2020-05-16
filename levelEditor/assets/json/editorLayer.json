@@ -10,6 +10,10 @@
         "filepath": "assets/shaders/skybox.glsl"
       },
       {
+        "name": "CubemapShader",
+        "filepath": "assets/shaders/cubemap.glsl"
+      },
+      {
         "name": "PhongShader",
         "filepath": "assets/shaders/texturedPhong.glsl"
       },
@@ -159,6 +163,12 @@
   "Renderer": {
     "type": "PPR",
     "shader": "PPRShader"
+  },
+
+  "Skybox": {
+    "type": "Space",
+    "CubemapShader": "CubemapShader",
+    "SkyboxShader": "SkyboxShader"
   },
 
   "UBO": [

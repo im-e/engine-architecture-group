@@ -86,7 +86,7 @@ namespace Engine
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	}
 
-	Skybox * Skybox::createSkybox()
+	Skybox * Skybox::createSkybox(std::shared_ptr<Shader> defSkyboxShader, std::shared_ptr<Shader> defCubemapShader)
 	{
 		switch (SkyboxAPI::getAPI())
 		{
@@ -94,7 +94,7 @@ namespace Engine
 			LogError("Lack of graphics API not supported!");
 			break;
 		case SkyboxAPI::API::OpenGL:
-			return new OpenGLSkybox();
+			return new OpenGLSkybox(defSkyboxShader, defCubemapShader);
 			break;
 		case SkyboxAPI::API::Direct3D:
 			LogError("Direct3D is not supported.");

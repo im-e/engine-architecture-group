@@ -219,7 +219,9 @@ namespace Engine
 			std::string type = jsonFile["Skybox"]["type"].get<std::string>();
 			if (type.compare("Space") == 0)
 			{
-				layer.getSkybox().reset(Engine::Skybox::createSkybox());
+				std::string defCubemapShader = jsonFile["Skybox"]["CubemapShader"].get<std::string>();
+				std::string defSkyboxShader = jsonFile["Skybox"]["SkyboxShader"].get<std::string>();
+				layer.getSkybox().reset(Engine::Skybox::createSkybox(ResourceManagerInstance->getShader().getAsset(defSkyboxShader), ResourceManagerInstance->getShader().getAsset(defCubemapShader)));
 				LogWarn("SKYBOX SPACE CODE RAN");
 			}
 		}

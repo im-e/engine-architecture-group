@@ -2,25 +2,95 @@
 #include <glad/glad.h>
 #include "resources/OpenGLSkybox.h"
 
-Engine::OpenGLSkybox::OpenGLSkybox()
+Engine::OpenGLSkybox::OpenGLSkybox(const std::shared_ptr<Shader> defSkyboxShader, const std::shared_ptr<Shader> defCubemapShader)
 {
-	m_paths.push_back("Assets/Textures/Skybox/Space_Right.png");
-	m_paths.push_back("Assets/Textures/Skybox/Space_left.png");
-	m_paths.push_back("Assets/Textures/Skybox/Space_top.png");
-	m_paths.push_back("Assets/Textures/Skybox/Space_bot.png");
-	m_paths.push_back("Assets/Textures/Skybox/Space_front.png");
-	m_paths.push_back("Assets/Textures/Skybox/Space_back.png");
+	unsigned int cubeTexture = loadTexture("assets/textures/wood_diffuse.png");
+	unsigned int skyboxTexture = loadCubemap(faces);
+	m_cubemapShader = defCubemapShader;
+	m_skyboxShader = defSkyboxShader;
+
+	m_cubemapShader->bind();
+	m_cubemapShader->uploadData("u_cubemap", (void*)0);
+
+	m_skyboxShader->bind(); 
+	m_skyboxShader->uploadData("u_skybox", (void*)0);
+
+	glBindVertexArray(cubeVAO);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, cubeTexture);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glBindVertexArray(0);
 
 	glDepthFunc(GL_LEQUAL); //change depth function so depth test passes when values are equal to depth buffer's content
+	m_skyboxShader->bind();
 	glBindVertexArray(vao);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, texID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTexture);
 
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 
 	glBindVertexArray(0);
 	glDepthFunc(GL_LESS); //change depth check back to normal
+}
+
+unsigned int Engine::OpenGLSkybox::loadCubemap(std::vector<std::string> cubeFaces)
+{
+	unsigned int texID;
+	glGenTextures(1, &texID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, texID);
+	int width, height, nrComponents;
+	for (unsigned int i = 0; i < cubeFaces.size(); i++)
+	{
+		unsigned char *data = stbi_load(cubeFaces[i].c_str(), &width, &height, &nrComponents, 0);
+		if (data)
+		{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+			stbi_image_free(data);
+		}
+		else
+		{
+			LogError("CUBEMAP FAILED TO LOAD AT PATH: " + cubeFaces[i] + "\n");
+		}
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	return texID;
+}
+
+unsigned int Engine::OpenGLSkybox::loadTexture(const char* path)
+{
+	unsigned int texID;
+	glGenTextures(1, &texID);
+	int width, height, nrComponents;
+	unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
+	if (data)
+	{
+		GLenum format;
+		if (nrComponents == 1)
+			format = GL_RED;
+		else if (nrComponents == 3)
+			format = GL_RGB;
+		else if (nrComponents == 4)
+			format = GL_RGBA;
+
+		glBindTexture(GL_TEXTURE_2D, texID);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		stbi_image_free(data);
+	}
+	else
+	{
+		stbi_image_free(data);
+	}
+	return texID;
 }
 
 void Engine::OpenGLSkybox::draw(unsigned int texID)
