@@ -7,7 +7,6 @@ namespace Engine {
 	private:
 		rp3d::decimal capRad, capHeight;
 		rp3d::CollisionBody *body;
-		rp3d::CapsuleShape *shape;
 
 	public:
 
@@ -19,7 +18,7 @@ namespace Engine {
 
 			shape = new rp3d::CapsuleShape(capRad, capHeight);
 
-			body = Application::getInstance().getPhysics()->getWorld()->createCollisionBody(getParentObject()->getTransform()); //Create body in physics world
+			
 			
 		};
 
@@ -28,6 +27,7 @@ namespace Engine {
 		{
 			m_owner = owner;
 			setParentObject(m_owner->getComponent<RigidBodyComponent>()->getBody());
+			body = Application::getInstance().getPhysics()->getWorld()->createCollisionBody(getParentObject()->getTransform()); //Create body in physics world
 			getParentObject()->addCollisionShape(shape, getParentObject()->getTransform(), getParentObject()->getMass()); //Create proxyShape
 		}
 		void onUpdate(float timestep) override

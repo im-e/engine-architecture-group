@@ -1313,6 +1313,12 @@ namespace Engine
 						ImGui::SameLine(100.0f);
 						if (ImGui::Button("Remove"))
 						{
+							if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>())
+							{
+								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>();
+								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+								LogWarn("Collider component removed");
+							}
 							if (lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>())
 							{
 								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>();
@@ -1331,6 +1337,7 @@ namespace Engine
 			if (jsonFile["Functions"]["Collider"].get<bool>() == true)
 			{
 				layer.addImGuiFunction([&](JsonLayer* lay)
+				
 				{
 					if (ImGui::CollapsingHeader("Collider"))
 					{
@@ -1338,9 +1345,9 @@ namespace Engine
 						types.push_back("Box");
 						types.push_back("Capsule");
 						types.push_back("Sphere");
-						//types.push_back("Terrain");
 
 						static const char* currentItem = types[0];
+
 
 						if (ImGui::BeginCombo("Type", currentItem))
 						{
@@ -1360,7 +1367,6 @@ namespace Engine
 							ImGui::EndCombo();
 						}
 
-						
 						if (currentItem == "Box")
 						{
 							ImGui::InputFloat("X", &size.x, 2);
@@ -1377,52 +1383,47 @@ namespace Engine
 						{
 							ImGui::InputFloat("Radius", &radius, 2);
 						}
+
 						if (ImGui::Button("Add"))
 						{
-							if ((lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>() != nullptr) && (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>() == nullptr)) //Only create if rigid body attached
-							{
+							if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>() == nullptr)
+							{				
+
 								std::shared_ptr<ColliderComponent> cc;
-								
+
 
 								if (currentItem == "Box")
 								{
-									std::shared_ptr<BoxColliderComponent> box;
-									box = std::make_shared<BoxColliderComponent>(BoxColliderComponent(size));
+
+									cc = std::make_shared<BoxColliderComponent>(BoxColliderComponent(size));
 
 									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
+									LogWarn("Made  box collider");
 								}
 								if (currentItem == "Capsule")
 								{
-									std::shared_ptr<CapsuleColliderComponent> capsule;
-									capsule = std::make_shared<CapsuleColliderComponent>(CapsuleColliderComponent(radius, length));
+
+									cc = std::make_shared<ColliderComponent>(CapsuleColliderComponent(radius, length));
 									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
 								}
 								if (currentItem == "Sphere")
 								{
-									std::shared_ptr<SphereColliderComponent> sphere;
-									sphere = std::make_shared<SphereColliderComponent>(SphereColliderComponent(radius));
+									cc = std::make_shared<ColliderComponent>(SphereColliderComponent(radius));
 									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
 								}
-
-								
 							}
+							else
+							{
+								LogWarn("Component already exists!");
+							}
+
 						}
 						ImGui::SameLine(100.0f);
 						if (ImGui::Button("Remove"))
 						{
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<BoxColliderComponent>())
+							if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>())
 							{
-								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<BoxColliderComponent>();
-								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
-							}
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<CapsuleColliderComponent>())
-							{
-								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<CapsuleColliderComponent>();
-								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
-							}
-							if (lay->getGameObjects()[layer.getGOName()]->getComponent<SphereColliderComponent>())
-							{
-								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<SphereColliderComponent>();
+								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>();
 								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
 							}
 							else
@@ -1432,8 +1433,7 @@ namespace Engine
 
 						}
 					}
-				}
-				);
+				});
 			}
 		}
 	}

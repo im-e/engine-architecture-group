@@ -6,7 +6,7 @@ namespace Engine {
 	private:
 		rp3d::decimal sphereRad;
 		rp3d::CollisionBody *body;
-		rp3d::SphereShape *shape;
+
 	public:
 		SphereColliderComponent() {};
 		SphereColliderComponent(rp3d::decimal radius) 
@@ -15,7 +15,6 @@ namespace Engine {
 			
 			shape = new rp3d::SphereShape(sphereRad);
 			
-			body = Application::getInstance().getPhysics()->getWorld()->createCollisionBody(getParentObject()->getTransform()); //Create body in physics world
 			
 		};
 
@@ -24,6 +23,7 @@ namespace Engine {
 		{
 			m_owner = owner;
 			setParentObject(m_owner->getComponent<RigidBodyComponent>()->getBody());
+			body = Application::getInstance().getPhysics()->getWorld()->createCollisionBody(getParentObject()->getTransform()); //Create body in physics world
 			getParentObject()->addCollisionShape(shape, getParentObject()->getTransform(), getParentObject()->getMass()); //Create proxyShape
 			
 		}
