@@ -114,7 +114,7 @@ namespace Engine
 		{
 			shader->uploadData(it->first, it->second);
 		}
-
+		
 		glDrawElements(GL_TRIANGLES, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
