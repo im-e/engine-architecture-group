@@ -45,16 +45,6 @@ layout(std140) uniform Light
 	vec3 u_lightColour;
 };
 
-//layout(std140) uniform Settings
-//{
-//	vec3 u_ambient; 
-//	vec3 u_diffuse; 
-//	vec3 u_specular;
-//	float u_constant;
-//	float u_linear;
-//	float u_quadratic;
-//};
-
 uniform sampler2D u_texData;
 uniform sampler2D u_specularTexData;
 

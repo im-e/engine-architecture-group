@@ -9,7 +9,8 @@
 #include <fstream>
 #include <sstream>
 #include "rendering/Buffers.h"
-
+#include "resources/SkyboxAPI.h"
+#include "resources/OpenGLSkybox.h"
 
 namespace Engine
 {
@@ -22,6 +23,7 @@ namespace Engine
 		m_paths.push_back("Assets/Textures/Skybox/Space_front.png");
 		m_paths.push_back("Assets/Textures/Skybox/Space_back.png");
 	}
+
 
 	void Skybox::createSkyboxCube()
 	{
@@ -83,6 +85,22 @@ namespace Engine
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	}
+
+	Skybox * Skybox::createSkybox(std::shared_ptr<Shader> defSkyboxShader, std::shared_ptr<Shader> defCubemapShader)
+	{
+		switch (SkyboxAPI::getAPI())
+		{
+		case SkyboxAPI::API::None:
+			LogError("Lack of graphics API not supported!");
+			break;
+		case SkyboxAPI::API::OpenGL:
+			return new OpenGLSkybox(defSkyboxShader, defCubemapShader);
+			break;
+		case SkyboxAPI::API::Direct3D:
+			LogError("Direct3D is not supported.");
+		}
+	}
+
 
 	void Skybox::draw(unsigned int texID)
 	{

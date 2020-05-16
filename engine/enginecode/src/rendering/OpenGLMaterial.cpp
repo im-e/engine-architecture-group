@@ -3,11 +3,12 @@
 
 namespace Engine
 {
-	OpenGLMaterial::OpenGLMaterial(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO)
+	OpenGLMaterial::OpenGLMaterial(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO, bool tess)
 	{
 		m_shader = shader;
 		m_VAO = VAO;
 		m_geometry = (void *) VAO.get();
+		m_tessFlag = tess;
 	}
 
 	void OpenGLMaterial::setShader(const std::shared_ptr<Shader>& shader)
@@ -42,6 +43,11 @@ namespace Engine
 	void * OpenGLMaterial::getGeometry()
 	{
 		return m_geometry;
+	}
+
+	bool OpenGLMaterial::getTessFlag()
+	{
+		return m_tessFlag;
 	}
 
 	std::map<std::string, void*> OpenGLMaterial::getData()

@@ -6,7 +6,7 @@
 
 namespace Engine
 {
-	Material * Material::create(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO)
+	Material * Material::create(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO, bool tess)
 	{
 		switch (RenderAPI::getAPI())
 		{
@@ -14,7 +14,7 @@ namespace Engine
 			LogError("Lack of graphics API not supported!");
 			break;
 		case RenderAPI::API::OpenGL:
-			return new OpenGLMaterial(shader, VAO);
+			return new OpenGLMaterial(shader, VAO, tess);
 			break;
 		case RenderAPI::API::Direct3D:
 			LogError("Direct3D not yet supported!");
@@ -24,7 +24,7 @@ namespace Engine
 		return nullptr;
 	}
 
-	Material * Material::create(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexBuffer>& VBO)
+	Material * Material::create(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexBuffer>& VBO, bool tess)
 	{
 		switch (RenderAPI::getAPI())
 		{

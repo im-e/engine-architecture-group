@@ -18,6 +18,7 @@ namespace Editor
 
 	LevelEditor::~LevelEditor()
 	{
+
 	}
 }
 

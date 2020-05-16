@@ -41,6 +41,7 @@ namespace Engine
 		\return new RenderAPI specific texture
 		*/
 		static Texture* createFromRawData(unsigned int width, unsigned int height, unsigned int channels, unsigned char* texData);
+		static Texture* createDepth(unsigned int width, unsigned int height, unsigned int channels, unsigned char* texData);
 
 		//! Generates texture
 		virtual void compile() = 0;

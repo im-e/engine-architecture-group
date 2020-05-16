@@ -10,6 +10,10 @@
         "filepath": "assets/shaders/skybox.glsl"
       },
       {
+        "name": "CubemapShader",
+        "filepath": "assets/shaders/cubemap.glsl"
+      },
+      {
         "name": "PhongShader",
         "filepath": "assets/shaders/texturedPhong.glsl"
       },
@@ -34,8 +38,32 @@
         "filepath": "assets/shaders/directionalLight.glsl"
       },
       {
-        "name": "SpotLightShader",
-        "filepath": "assets/shaders/spotLight.glsl"
+        "name": "ColorShader (PPR)",
+        "filepath": "assets/shaders/colourShader.glsl"
+      },
+      {
+        "name": "InvertShader (PPR)",
+        "filepath": "assets/shaders/invertShader.glsl"
+      },
+      {
+        "name": "GreyscaleShader (PPR)",
+        "filepath": "assets/shaders/greyscaleShader.glsl"
+      },
+      {
+        "name": "KernelShader (PPR)",
+        "filepath": "assets/shaders/kernelShader.glsl"
+      },
+      {
+        "name": "BlurShader (PPR)",
+        "filepath": "assets/shaders/blurShader.glsl"
+      },
+      {
+        "name": "EdgeShader (PPR)",
+        "filepath": "assets/shaders/edgeShader.glsl"
+      },
+      {
+        "name": "PPRShader",
+        "filepath": "assets/shaders/PPRShader.glsl"
       }
     ],
     "textures": [
@@ -153,7 +181,14 @@
   },
 
   "Renderer": {
-    "type": "3D"
+    "type": "PPR",
+    "shader": "PPRShader"
+  },
+
+  "Skybox": {
+    "type": "Space",
+    "CubemapShader": "CubemapShader",
+    "SkyboxShader": "SkyboxShader"
   },
 
   "UBO": [
@@ -180,10 +215,6 @@
           "block": "Matrices"
         },
         {
-          "name": "SpotLightShader",
-          "block": "Matrices"
-        },
-        {
           "name": "BlinnPhongShader",
           "block": "Matrices"
         },
@@ -200,18 +231,6 @@
         {
           "type": "pointer",
           "var": "VP Matrix"
-        },
-        {
-          "type": "pointer",
-          "var": "camPosition"
-        },
-        {
-          "type": "pointer",
-          "var": "camForward"
-        },
-        {
-          "type": "pointer",
-          "var": "cutOff"
         }
       ]
     },
@@ -233,10 +252,6 @@
         },
         {
           "name": "PointLightShader",
-          "block": "Light"
-        },
-        {
-          "name": "SpotLightShader",
           "block": "Light"
         },
         {
@@ -274,43 +289,25 @@
       ]
     },
     {
-      "name": "Settings",
+      "name": "cameraUBO",
       "layout": [
-        "Vec3",
-        "Vec3",
         "Vec3",
         "Vec3"
       ],
       "shaders": [
         {
-          "name": "DirectionalLightShader",
-          "block": "Settings"
+          "name": "PointLightShader",
+          "block": "Camera"
         }
       ],
       "data": [
         {
-          "type": "Float3",
-          "x": 1.0,
-          "y": 4.0,
-          "z": -6.0
+          "type": "pointer",
+          "var": "camPosition"
         },
         {
-          "type": "Float3",
-          "x": 0.0,
-          "y": 0.0,
-          "z": -4.5
-        },
-        {
-          "type": "Float3",
-          "x": 1.0,
-          "y": 1.0,
-          "z": 1.0
-        },
-        {
-          "type": "Float3",
-          "x": 1.0,
-          "y": 1.0,
-          "z": 1.0
+          "type": "pointer",
+          "var": "camForward"
         }
       ]
     }
@@ -333,7 +330,7 @@
       {
         "type": "ClearColor",
         "r": 0.3,
-        "g": 0.3,
+        "g": 0.5,
         "b": 0.3,
         "a": 1.0
       }

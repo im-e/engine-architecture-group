@@ -180,7 +180,10 @@ namespace Engine
 							{
 								if (data["var"].get<std::string>().compare("VP Matrix") == 0)
 									LogInfo("Camera view-projection matrix");
-
+								if (data["var"].get<std::string>().compare("Camera Position") == 0)
+								{
+									LogInfo("Camera-position"); // Get the position of the camera.
+								}
 								else LogInfo("Unknown pointer");
 							}
 							if (type == "Float3") LogInfo("\tFloat3: ({0}, {1}, {2})", data["x"].get<float>(), data["y"].get<float>(), data["z"].get<float>());
