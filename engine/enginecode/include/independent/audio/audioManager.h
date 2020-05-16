@@ -51,5 +51,6 @@ namespace Engine {
 		void addGeometry(const std::string label, const AudioGeometryDefinition& def);
 		void moveGeometry(const std::string label, const glm::vec3& position);
 
+		std::map<int, FMOD::Channel*>& getChannels() { return m_channels; }
 	};
 }

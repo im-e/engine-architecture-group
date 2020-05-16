@@ -66,6 +66,7 @@ namespace Engine
 		Time_Point frameStart, frameEnd;
 
 		m_timestep = 0.f;
+		m_accumulator = 0.0f;
 
 		while (m_running)
 		{

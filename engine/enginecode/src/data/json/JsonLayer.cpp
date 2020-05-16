@@ -52,12 +52,13 @@ namespace Engine
 
 			for (auto& GO : m_gameObjects)
 			{
-				if (m_name == "Game Layer") 
+				if (m_name == "Game Layer" || m_name == "Editor Layer") 
 				{
 					auto soundManagers = GO.second->getComponent<SoundComponent>();
 
 					if (soundManagers != nullptr)
 					{
+						soundManagers->getSource()->update();
 						soundManagers->getSource()->updateLocation(timestep, getCamera()->getCamera()->getPosition(),
 							static_cast<Engine::Camera3D*>(getCamera()->getCamera().get())->getForward(),
 							static_cast<Engine::Camera3D*>(getCamera()->getCamera().get())->getUp());
@@ -69,6 +70,7 @@ namespace Engine
 
 					if (soundManagers != nullptr)
 					{
+						soundManagers->getSource()->update();
 						soundManagers->getSource()->updateLocation(timestep, getCamera()->getCamera()->getPosition(),
 							glm::vec3(0, 0, -1),
 							glm::vec3(0, 1, 0));

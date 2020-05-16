@@ -195,7 +195,8 @@ namespace Engine
 					{
 						r = RollOff::LinearSquared;
 					}
-					layer.getSounds()[soundName] = ResourceManagerInstance->addSound(soundName, b3d, loop, stream, minD, maxDist, r);
+					ResourceManagerInstance->addSound(soundName, b3d, loop, stream, minD, maxDist, r);
+					layer.getSounds()[soundName] = ResourceManagerInstance->getSound().getAsset(soundName);
 				}
 
 			}
@@ -662,6 +663,20 @@ namespace Engine
 					vel = std::make_shared<VelocityComponent>
 						(VelocityComponent(linear, angular));
 					gameObject->addComponent(vel);
+				}
+
+				if (go.count("sound") > 0)
+				{
+					std::shared_ptr<SoundComponent> sound;
+
+					std::string soundName = go["sound"]["soundName"].get<std::string>();
+					std::string soundType = go["sound"]["audioType"].get<std::string>();
+					float vol = go["sound"]["volume"].get<float>();
+					int awake = go["sound"]["playOnAwake"].get<int>();
+
+					sound = std::make_shared<SoundComponent>
+						(SoundComponent(ResourceManagerInstance->getSound().getAsset(soundName), soundName, soundType, vol, (bool)awake));
+					gameObject->addComponent(sound);
 				}
 			}
 		}
@@ -1477,7 +1492,6 @@ namespace Engine
 								{
 									LogWarn("Component did not exist anyway!");
 								}
-
 							}
 						}
 					}				
@@ -1671,6 +1685,68 @@ namespace Engine
 								{
 									LogWarn("Text component did not exist anyway!");
 								}
+							}
+						}
+					}
+				});
+			}
+
+			if (jsonFile["Functions"]["Sound"].get<bool>() == true)
+			{
+				layer.addImGuiFunction([&](JsonLayer* lay)
+				{
+					if (ImGui::CollapsingHeader("Sound"))
+					{
+						static bool playAwake = false; 
+						static const char* currentItem = "";
+						static float volume = 100.0f;
+
+						if (ImGui::BeginCombo("Sound name", currentItem))
+						{
+							for (int i = 0; i < layer.getSoundNames().size(); i++)
+							{
+								bool selected = (currentItem == layer.getSoundNames()[i]);
+
+								if (ImGui::Selectable(layer.getSoundNames()[i].c_str(), selected))
+								{
+									currentItem = layer.getSoundNames()[i].c_str();
+								}
+
+								if (selected)
+									ImGui::SetItemDefaultFocus();
+							}
+
+							ImGui::EndCombo();
+						}
+
+						ImGui::InputFloat("Volume", &volume, 1);
+						ImGui::Checkbox("Play on awake", &playAwake);
+
+						if (ImGui::Button("Add"))
+						{
+							if (lay->getGameObjects()[layer.getGOName()]->getComponent<SoundComponent>() == nullptr)
+							{
+								std::shared_ptr<SoundComponent> soundComp;
+								soundComp = std::make_shared<SoundComponent>
+									(SoundComponent(ResourceManagerInstance->getSound().getAsset(currentItem), currentItem, lay->getName(), volume / 100.0f, playAwake));
+
+								lay->getGameObjects()[layer.getGOName()]->addComponent(soundComp);
+							}
+							else
+							{
+								LogWarn("Component already exists!");
+							}
+						}
+						ImGui::SameLine(100);
+						if (ImGui::Button("Remove"))
+						{
+							if (lay->getGameObjects()[layer.getGOName()]->getComponent<SoundComponent>())
+							{	
+								lay->getGameObjects()[layer.getGOName()]->removeComponent(lay->getGameObjects()[layer.getGOName()]->getComponent<SoundComponent>());
+							}
+							else
+							{
+								LogWarn("Text component did not exist anyway!");
 							}
 						}
 					}

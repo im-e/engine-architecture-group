@@ -118,6 +118,26 @@
         "name": "box",
         "filepath": "assets/assimpModels/RoyaltyFreeBox.obj"
       }
+    ],
+    "sounds": [
+      {
+        "name": "assets/audio/music/song.wav",
+        "b3d": true,
+        "loop": true,
+        "stream": false,
+        "minDist": 5.0,
+        "maxDist": 500.0,
+        "rollOff": "InverseTapered"
+      },
+      {
+        "name": "assets/audio/music/Forest.wav",
+        "b3d": true,
+        "loop": true,
+        "stream": false,
+        "minDist": 5.0,
+        "maxDist": 10.0,
+        "rollOff": "InverseTapered"
+      }
     ]
   },
 

@@ -72,7 +72,7 @@ namespace Engine {
 
 	AudioManager::AudioManager(std::string layerName)
 	{
-		if (layerName == "Game Layer")
+		if (layerName == "Game Layer" || layerName == "Editor Layer")
 		{
 			m_type = "3D";
 		}
@@ -102,19 +102,16 @@ namespace Engine {
 
 	void AudioManager::updateLocation(float timestep, glm::vec3 position, glm::vec3 camForward, glm::vec3 camUp)
 	{
-
 		FMOD_VECTOR lastPos, lastVel, lastForward, lastUp;
 		
-		if (m_type == "3D") {
+		if (m_type == "3D") 
+		{
 			errorCheck(Engine::Application::getInstance().getAudioSystem()->getLowLevelSystem().get3DListenerAttributes(0, &lastPos, &lastVel, &lastForward, &lastUp));
-			std::cout << "P:"  << position.r << " | " << position.g << " | " << position.b << std::endl;
-			std::cout << "F: " << camForward.r << " | " << camForward.g << " | " << camForward.b << std::endl;
-			std::cout << "U: " << camUp.r << " | " << camUp.g << " | " << camUp.b << std::endl;
 		}
 		else if (m_type == "2D") errorCheck(Engine::Application::getInstance().getAudioSystem()->get2DSystem().get3DListenerAttributes(0, &lastPos, &lastVel, &lastForward, &lastUp));
 
 		auto listenerPos = GLMVecToFmod(position);
-		auto listenerForward = GLMVecToFmod(camForward);
+		auto listenerForward = GLMVecToFmod(-camForward);
 		auto listenerUp = GLMVecToFmod(camUp);
 		
 		FMOD_VECTOR vel;

@@ -34,6 +34,7 @@ namespace Engine
 		auto jsonModels = ResourceManagerInstance->getJsonModels().getCollection();
 		auto assimpModels = ResourceManagerInstance->getAssimpModels().getCollection();
 		auto shaders = ResourceManagerInstance->getShader().getCollection();
+		auto sounds = ResourceManagerInstance->getSound().getCollection();
 
 		for (auto& t : textures)
 		{
@@ -53,6 +54,11 @@ namespace Engine
 		for (auto& s : shaders)
 		{
 			m_shadersNames.push_back(s.first);
+		}
+
+		for (auto& s : sounds)
+		{
+			m_soundNames.push_back(s.first);
 		}
 
 		m_pathTypes.push_back("Single");
@@ -248,12 +254,16 @@ namespace Engine
 
 							outputStream << "]";
 						}
-						else if (c->getType().hash_code() == typeid(RigidBodyComponent).hash_code())
+						else if (c->getType().hash_code() == typeid(SoundComponent).hash_code())
 						{
-							std::shared_ptr<RigidBodyComponent> comp = std::static_pointer_cast<RigidBodyComponent>(c);
+							std::shared_ptr<SoundComponent> comp = std::static_pointer_cast<SoundComponent>(c);
 
-							//rp3d::Vector3 position = comp->getBody()->getTransform().getPosition();
-							bool grav = comp->getBody()->isGravityEnabled();
+							std::string soundName = comp->getSoundName();
+							std::string audioType = comp->getAudioType();
+							float volume = comp->getVolume();
+							bool playOnAwake = comp->playOnAwake();
+
+							outputStream << "\"sound\": { \"soundName\": \"" + soundName + "\", \"audioType\": \"" + audioType + "\", \"volume\": " + std::to_string(volume) + ", \"playOnAwake\": " + std::to_string(playOnAwake);
 						}
 
 						if (j < comps.size() - 1)
@@ -425,6 +435,11 @@ namespace Engine
 	std::vector<std::string>& ImGuiLayer::getPathTypes()
 	{
 		return m_pathTypes;
+	}
+
+	std::vector<std::string>& ImGuiLayer::getSoundNames()
+	{
+		return m_soundNames;
 	}
 
 	JsonLayer * ImGuiLayer::getJsonLayer()

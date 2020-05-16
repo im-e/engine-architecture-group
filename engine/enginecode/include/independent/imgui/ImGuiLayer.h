@@ -32,6 +32,8 @@ namespace Engine
 		std::vector<std::string> m_texturesNames;
 		//! Path types
 		std::vector<std::string> m_pathTypes;
+		//! Sound names
+		std::vector<std::string> m_soundNames;
 
 		//! Is currently managed layer 2D?
 		static bool m_is2D;
@@ -69,6 +71,8 @@ namespace Engine
 		std::vector<std::string>& getTexturesNames();
 		//! Get path types \return all path types
 		std::vector<std::string>& getPathTypes();
+		//! Get sound names \return all sound names
+		std::vector<std::string>& getSoundNames();
 
 		//! Gets associated json layer \return associated json layer
 		JsonLayer* getJsonLayer();
