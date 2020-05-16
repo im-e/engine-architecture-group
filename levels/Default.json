@@ -169,7 +169,7 @@
       "sound": {
         "soundName": "assets/audio/music/song.wav",
         "audioType": "Editor Layer",
-        "volume": 1.000000,
+        "volume": 0.2,
         "playOnAwake": 1
       }
     },

@@ -40,6 +40,10 @@
       {
         "name": "ColorShader",
         "filepath": "assets/shaders/colourShader.glsl"
+      },
+      {
+        "name": "PPRShader",
+        "filepath": "assets/shaders/PPRShader.glsl"
       }
     ],
     "textures": [
@@ -132,6 +136,15 @@
         "minDist": 5.0,
         "maxDist": 10.0,
         "rollOff": "InverseTapered"
+      },
+      {
+        "name": "assets/audio/music/Forest.wav",
+        "b3d": true,
+        "loop": true,
+        "stream": false,
+        "minDist": 5.0,
+        "maxDist": 10.0,
+        "rollOff": "InverseTapered"
       }
     ]
   },
@@ -212,24 +225,6 @@
         {
           "type": "pointer",
           "var": "cutOff"
-        }
-      ]
-    },
-    {
-      "name": "SkyboxUBO",
-      "layout": [
-        "SamplerCube"
-      ],
-      "shaders": [
-        {
-          "name": "SkyboxShader",
-          "block": "SkyboxCube"
-        }
-      ],
-      "data": [
-        {
-          "type": "pointer",
-          "var": "skyboxSampler"
         }
       ]
     },

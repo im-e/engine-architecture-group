@@ -55,10 +55,6 @@
     "type": "2D"
   },
 
-  "Skybox": {
-    "type": "Space"
-  },
-
   "UBO": [
     {
       "name": "TextUBO",
@@ -91,7 +87,7 @@
         "enabled": true
       }
     ],
-    "predraw": [     
+    "predraw": [
       {
         "type": "DepthTestLess",
         "enabled": false
