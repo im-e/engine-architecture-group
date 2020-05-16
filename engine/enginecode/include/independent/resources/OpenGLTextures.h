@@ -14,7 +14,7 @@ namespace Engine
 	class OpenGLTexture : public Texture
 	{
 	private:
-		static unsigned int s_slot; //!< Static slot in the memory where a texture is stored
+		
 
 		unsigned char * m_data; //! Texture data
 		int m_width; //! Texture width
@@ -38,5 +38,7 @@ namespace Engine
 		unsigned int getSlot() const override; //!< Get slot where the texture is stored \return slot
 
 		void compile() override;
+
+		static unsigned int s_slot; //!< Static slot in the memory where a texture is stored
 	};
 }

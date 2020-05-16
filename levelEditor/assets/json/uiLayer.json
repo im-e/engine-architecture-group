@@ -55,10 +55,6 @@
     "type": "2D"
   },
 
-  "Skybox": {
-    "type": "Space"
-  },
-
   "UBO": [
     {
       "name": "TextUBO",

@@ -2,6 +2,7 @@
 #include "rendering/renderer/OpenGLRenderer.h"
 
 #include <glad/glad.h>
+#include "resources/ResourceManager.h"
 
 namespace Engine
 {
@@ -120,10 +121,13 @@ namespace Engine
 			shader->uploadData(it->first, it->second);
 		}
 
+		glActiveTexture(ResourceManagerInstance->getFontTexture()->getSlot()+1);
+		glBindTexture(GL_TEXTURE_2D, ResourceManagerInstance->getFontTexture()->getSlot()+1);
 		glDrawArrays(GL_QUADS, 0, geometry->getDrawCount());
 	}
 
 	void OpenGL2DRenderer::flush()
 	{
+		
 	}
 }

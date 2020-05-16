@@ -354,8 +354,7 @@ namespace Engine
 	void OpenGLShader::parseSource(const std::string & path)
 	{
 		std::fstream handleFile(path, std::ios::in);
-		enum { None = -1, Vertex = 0, Fragment = 1, Geometry = 2, TessellationControl = 3, TessellationEval = 4
-		} regions;
+		enum { None = -1, Vertex = 0, Fragment = 1, Geometry = 2, TessellationControl = 3, TessellationEval = 4 } regions;
 
 		if (handleFile.is_open() == false)
 			LogError("Could not open file at {0}", path);
@@ -366,8 +365,8 @@ namespace Engine
 		{
 			if (line.find("#region Vertex") != std::string::npos) { regions = Vertex;		continue; }
 			if (line.find("#region Fragment") != std::string::npos) { regions = Fragment;	continue; }
-			if (line.find("#region Geometry") != std::string::npos) { regions = Geometry;		continue; }
-			if (line.find("#region Tessellation Control") != std::string::npos) { regions = TessellationControl;		continue; }
+			if (line.find("#region Geometry") != std::string::npos) { regions = Geometry;	continue; }
+			if (line.find("#region Tessellation Control") != std::string::npos) { regions = TessellationControl; continue; }
 			if (line.find("#region Tessellation Eval") != std::string::npos) { regions = TessellationEval; continue; }
 
 			if (regions != None) source[regions] += (line + "\n");

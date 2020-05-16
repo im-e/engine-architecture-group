@@ -64,8 +64,7 @@ namespace Engine
 			{
 				// create vector of futures
 				std::vector<std::future<std::shared_ptr<Shader>>> futures;
-				
-				
+						
 				for (auto& fnFilepath : jsonFile["Asyncload"]["shaders"])
 				{
 					// launch async here
@@ -244,6 +243,23 @@ namespace Engine
 
 			if (type.compare("3D") == 0)
 				layer.getRenderer().reset(Engine::Renderer::create3D());
+
+			if (type.compare("PPR") == 0)
+			{
+				// Passing in default shader to the PPR renderer
+				std::string defShader = jsonFile["Renderer"]["shader"].get<std::string>();
+				layer.getRenderer().reset(Engine::PPRenderer::createPPRenderer(ResourceManagerInstance->getShader().getAsset(defShader)));
+			}
+		}
+
+		if (jsonFile.count("Skybox") > 0)
+		{
+			std::string type = jsonFile["Skybox"]["type"].get<std::string>();
+			if (type.compare("Space") == 0)
+			{
+				std::string defSkyboxShader = jsonFile["Skybox"]["SkyboxShader"].get<std::string>();
+				layer.getSkybox().reset(Engine::Skybox::createSkybox(ResourceManagerInstance->getShader().getAsset(defSkyboxShader)));
+			}
 		}
 
 		if (jsonFile.count("UBO") > 0)
@@ -258,6 +274,7 @@ namespace Engine
 					for (auto& lay : ubo["layout"])
 					{
 						std::string SDT = lay.get<std::string>();
+						if (SDT.compare("Int") == 0) { uboLayout.addElement(ShaderDataType::Int); }
 						if (SDT.compare("Float") == 0) { uboLayout.addElement(ShaderDataType::Float); }
 						if (SDT.compare("Vec3") == 0) { uboLayout.addElement(ShaderDataType::Float3); }
 						if (SDT.compare("Mat4") == 0) { uboLayout.addElement(ShaderDataType::Mat4); }
@@ -291,6 +308,10 @@ namespace Engine
 						auto& type = data["type"];
 						if (type == "pointer")
 						{
+							if (data["var"].get<std::string>().compare("effectIndex") == 0)
+							{
+								ptr = (void*)&layer.getCamera()->getCamera()->getViewProjection();
+							}
 							if (data["var"].get<std::string>().compare("VP Matrix") == 0)
 							{
 								ptr = (void*)&layer.getCamera()->getCamera()->getViewProjection();
@@ -308,6 +329,10 @@ namespace Engine
 								auto cam = layer.getCamera()->getCamera();
 								auto cam3D = std::static_pointer_cast<Camera3D>(cam);
 								ptr = (void*)&cam3D->getForward();
+							}
+							if (data["var"].get<std::string>().compare("skyboxSampler") == 0)
+							{
+								ptr = (void*)&layer.getSkybox()->getPaths();
 							}
 						}
 						if (type == "Float3")

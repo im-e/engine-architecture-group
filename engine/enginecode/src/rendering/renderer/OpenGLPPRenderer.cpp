@@ -3,6 +3,8 @@
 
 #include <glad/glad.h>
 #include "core/application.h"
+#include "resources/OpenGLTextures.h"
+
 namespace Engine
 {
 	OpenGLPPRenderer::OpenGLPPRenderer(const std::shared_ptr<Shader>& defaultPPRShader)
@@ -12,6 +14,8 @@ namespace Engine
 		glBindFramebuffer(GL_FRAMEBUFFER, m_frameBufferID);
 
 		glGenTextures(1, &m_colourTexture);
+		OpenGLTexture::s_slot++;
+		m_colourTextureUnit = OpenGLTexture::s_slot;
 		glActiveTexture(GL_TEXTURE0 + m_colourTextureUnit);
 		glBindTexture(GL_TEXTURE_2D, m_colourTexture);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Application::getInstance().getWindow()->getWidth(), Application::getInstance().getWindow()->getHeight(), 0, GL_RGB, GL_UNSIGNED_INT, NULL);
@@ -21,6 +25,8 @@ namespace Engine
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	
 		glGenTextures(1, &m_depthTexture);
+		OpenGLTexture::s_slot++;
+		m_depthTextureUnit = OpenGLTexture::s_slot;
 		glActiveTexture(GL_TEXTURE0 + m_depthTextureUnit);
 		glBindTexture(GL_TEXTURE_2D, m_depthTexture);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -29,8 +35,8 @@ namespace Engine
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, Application::getInstance().getWindow()->getWidth(), Application::getInstance().getWindow()->getHeight(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_colourTexture, 0);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depthTexture, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_colourTextureUnit, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depthTextureUnit, 0);
 
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		{
@@ -117,7 +123,7 @@ namespace Engine
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glDisable(GL_DEPTH_TEST);
 		glActiveTexture(m_colourTextureUnit);
-		glBindTexture(GL_TEXTURE_2D, m_colourTexture);
+		glBindTexture(GL_TEXTURE_2D, m_colourTextureUnit);
 		int i = 0;
 		m_shader->bind();
 		m_shader->uploadData("u_colourTexture", (void*)m_colourTextureUnit);

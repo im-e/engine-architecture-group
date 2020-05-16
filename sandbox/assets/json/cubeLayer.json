@@ -136,7 +136,6 @@
     ]
   },
 
-
   "Camera": {
     "type": "Fps3D",
     "translationSpeed": 10.0,
@@ -148,7 +147,8 @@
   },
 
   "Renderer": {
-    "type": "3D"
+    "type": "PPR",
+    "shader": "PPRShader"
   },
 
   "UBO": [
@@ -229,7 +229,7 @@
       "data": [
         {
           "type": "pointer",
-          "var":  "skyboxSampler"
+          "var": "skyboxSampler"
         }
       ]
     },

@@ -16,11 +16,6 @@ namespace Engine
 	class PPRenderer : public Renderer
 	{
 	public:
-		//virtual void actionCommand(RenderCommand* command) = 0; //!< Issues commands
-		//virtual void beginScene(const SceneData& sceneData) = 0; //!< Uploads common data in the scene (frame)
-		//virtual void endScene() = 0; //!< Ends scene (frame)
-		//virtual void submit(const std::shared_ptr<Material>& material) = 0; //!< Submits material for drawing \param material material to be submitted
-		//virtual void flush() = 0; //!< Draw everything (used with batch rendering)
 		virtual void setPPShader(std::shared_ptr<Shader> shader) = 0;
 		virtual void setPPIndex(int PPIndex) = 0;
 		//virtual const int& getColourTextureUnit() = 0;

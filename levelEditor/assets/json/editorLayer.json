@@ -6,14 +6,6 @@
         "filepath": "assets/shaders/flatColour.glsl"
       },
       {
-        "name": "SkyboxShader",
-        "filepath": "assets/shaders/skybox.glsl"
-      },
-      {
-        "name": "CubemapShader",
-        "filepath": "assets/shaders/cubemap.glsl"
-      },
-      {
         "name": "PhongShader",
         "filepath": "assets/shaders/texturedPhong.glsl"
       },
@@ -64,6 +56,10 @@
       {
         "name": "PPRShader",
         "filepath": "assets/shaders/PPRShader.glsl"
+      },
+      {
+        "name": "SkyboxShader",
+        "filepath": "assets/shaders/skybox.glsl"
       }
     ],
     "textures": [
@@ -154,7 +150,7 @@
         "loop": true,
         "stream": false,
         "minDist": 5.0,
-        "maxDist": 500.0,
+        "maxDist": 10.0,
         "rollOff": "InverseTapered"
       },
       {
@@ -169,7 +165,6 @@
     ]
   },
 
-
   "Camera": {
     "type": "Fps3D",
     "translationSpeed": 10.0,
@@ -183,12 +178,6 @@
   "Renderer": {
     "type": "PPR",
     "shader": "PPRShader"
-  },
-
-  "Skybox": {
-    "type": "Space",
-    "CubemapShader": "CubemapShader",
-    "SkyboxShader": "SkyboxShader"
   },
 
   "UBO": [
@@ -330,7 +319,7 @@
       {
         "type": "ClearColor",
         "r": 0.3,
-        "g": 0.5,
+        "g": 0.3,
         "b": 0.3,
         "a": 1.0
       }

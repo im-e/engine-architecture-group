@@ -1,29 +1,132 @@
 #include "engine_pch.h"
 #include <glad/glad.h>
 #include "resources/OpenGLSkybox.h"
+#include "resources/ResourceManager.h"
 
-Engine::OpenGLSkybox::OpenGLSkybox(const std::shared_ptr<Shader> defSkyboxShader, const std::shared_ptr<Shader> defCubemapShader)
+Engine::OpenGLSkybox::OpenGLSkybox(const std::shared_ptr<Shader> defSkyboxShader)
 {
-	unsigned int cubeTexture = loadTexture("assets/textures/wood_diffuse.png");
+	float cubeVertices[] = {
+		// positions          // texture Coords
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+	};
+	float skyboxVertices[] = {
+		// positions          
+		-1.0f,  1.0f, -1.0f,
+		-1.0f, -1.0f, -1.0f,
+		 1.0f, -1.0f, -1.0f,
+		 1.0f, -1.0f, -1.0f,
+		 1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+
+		-1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+
+		 1.0f, -1.0f, -1.0f,
+		 1.0f, -1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f, -1.0f,
+		 1.0f, -1.0f, -1.0f,
+
+		-1.0f, -1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+
+		-1.0f,  1.0f, -1.0f,
+		 1.0f,  1.0f, -1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f, -1.0f,
+
+		-1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		 1.0f, -1.0f, -1.0f,
+		 1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		 1.0f, -1.0f,  1.0f
+	};
+	unsigned int cubeTexture = loadTexture("assets/textures/skybox/Space_Top.png");
 	unsigned int skyboxTexture = loadCubemap(faces);
-	m_cubemapShader = defCubemapShader;
-	m_skyboxShader = defSkyboxShader;
 
-	m_cubemapShader->bind();
-	m_cubemapShader->uploadData("u_cubemap", (void*)0);
+	//glGenVertexArrays(1, &cubeVAO);
+	//glGenBuffers(1, &cubeVBO);
+	//glBindVertexArray(cubeVAO);
+	//glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), &cubeVertices, GL_STATIC_DRAW);
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	//glEnableVertexAttribArray(1);
+	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	//
+	//glGenVertexArrays(1, &vao);
+	//glGenBuffers(1, &vbo);
+	//glBindVertexArray(vao);
+	//glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	//
+	//glBindVertexArray(cubeVAO);
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, cubeTexture);
+	//glDrawArrays(GL_TRIANGLES, 0, 36);
+	//glBindVertexArray(0);
 
-	m_skyboxShader->bind(); 
-	m_skyboxShader->uploadData("u_skybox", (void*)0);
+	m_skyboxVAO = ResourceManagerInstance->addVAO("SkyboxVAO");
+	ResourceManagerInstance->addVBO("SkyboxVBO", skyboxVertices, sizeof(skyboxVertices), m_skyboxShader->getBufferLayout());
+	ResourceManagerInstance->getVAO().getAsset("SkyboxVAO")->setVertexBuffer(ResourceManagerInstance->getVBO().getAsset("SkyboxVBO"));
 
-	glBindVertexArray(cubeVAO);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, cubeTexture);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glBindVertexArray(0);
 
 	glDepthFunc(GL_LEQUAL); //change depth function so depth test passes when values are equal to depth buffer's content
-	m_skyboxShader->bind();
-	glBindVertexArray(vao);
+	//glBindVertexArray(vao);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTexture);
@@ -32,6 +135,7 @@ Engine::OpenGLSkybox::OpenGLSkybox(const std::shared_ptr<Shader> defSkyboxShader
 
 	glBindVertexArray(0);
 	glDepthFunc(GL_LESS); //change depth check back to normal
+	//stop();
 }
 
 unsigned int Engine::OpenGLSkybox::loadCubemap(std::vector<std::string> cubeFaces)
@@ -45,6 +149,7 @@ unsigned int Engine::OpenGLSkybox::loadCubemap(std::vector<std::string> cubeFace
 		unsigned char *data = stbi_load(cubeFaces[i].c_str(), &width, &height, &nrComponents, 0);
 		if (data)
 		{
+			LogWarn("Texture: " + cubeFaces[i] + " loaded \n");
 			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 			stbi_image_free(data);
 		}
