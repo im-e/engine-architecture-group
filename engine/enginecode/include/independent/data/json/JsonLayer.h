@@ -15,6 +15,11 @@
 #include "components/ControllerComponent.h"
 #include "components/AIComponent.h"
 #include "components/ColourComponent.h"
+#include "components/RigidbodyComponent.h"
+#include "components/ColliderComponent.h"
+#include "components/BoxColliderComponent.h"
+#include "components/CapsuleColliderComponent.h"
+#include "components/SphereColliderComponent.h"
 #include "components/TextComponent.h"
 #include "components/SoundComponent.h"
 

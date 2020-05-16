@@ -158,7 +158,7 @@ namespace Engine
 		}
 
 		//! Sets position \param newPos new position
-		inline void setPosition(glm::vec3 newPos)
+		inline void setPosition(glm::vec3 &newPos)
 		{
 			m_initialTransformVec = newPos;
 			m_transformVec = newPos;
@@ -166,7 +166,7 @@ namespace Engine
 		}
 
 		//! Sets rotation \param newRot new rotation
-		inline void setRotation(glm::vec3 newRot)
+		inline void setRotation(glm::vec3 &newRot)
 		{
 			m_initialRotationVec = newRot;
 
@@ -200,6 +200,25 @@ namespace Engine
 		inline glm::vec3 getInitialScale()
 		{
 			return m_initialScaleVec;
+		}
+
+		inline glm::mat4 &getModel()
+		{
+			return m_model;
+		}
+
+		void setModel(glm::mat4 &phyModel)
+		{
+			m_model = phyModel * m_scale;
+		}
+		inline rp3d::Vector3 &getRenderPosition()
+		{
+			rp3d::Vector3 temp;
+			temp.x = this->getCurrentPosition().x;
+			temp.y = this->getCurrentPosition().y;
+			temp.z = this->getCurrentPosition().z;
+			return temp;
+
 		}
 	};
 }

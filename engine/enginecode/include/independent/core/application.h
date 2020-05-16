@@ -74,6 +74,8 @@ namespace Engine {
 
 		lua_State *lua; //!< Lua state
 
+		float m_accumulator; //!< Rp3d regulator to match graphics display
+
 	public:
 		virtual ~Application(); //!< Deconstructor
 		inline static Application& getInstance() { return *s_instance; } //!< Instance getter from singleton pattern
@@ -104,6 +106,13 @@ namespace Engine {
 		lua_State* getLuaState();
 		//! Gets physics world \return physics world
 		std::shared_ptr<Physics>& getPhysics();
+    
+    //! Gets Rp3D regulator of matching graphics display with physics \return physics regulator
+		float getPhysFactor()
+		{
+			return m_accumulator / m_timestep;
+		}
+    
 		//! Gets layer stack \return layer stack
 		std::shared_ptr<LayerStack>& getLayerStack();
 	};

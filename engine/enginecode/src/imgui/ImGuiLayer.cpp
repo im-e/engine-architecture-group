@@ -12,6 +12,11 @@
 #include "components/OscillateComponent.h"
 #include "components/TextureComponent.h"
 #include "components/ControllerComponent.h"
+#include "components/RigidBodyComponent.h"
+#include "components/ColliderComponent.h"
+#include "components/BoxColliderComponent.h"
+#include "components/CapsuleColliderComponent.h"
+#include "components/SphereColliderComponent.h"
 
 #include "platform/GLFW_KeyCodes.h"
 #include "data/json/JsonLoader.h"
@@ -242,6 +247,13 @@ namespace Engine
 							}
 
 							outputStream << "]";
+						}
+						else if (c->getType().hash_code() == typeid(RigidBodyComponent).hash_code())
+						{
+							std::shared_ptr<RigidBodyComponent> comp = std::static_pointer_cast<RigidBodyComponent>(c);
+
+							//rp3d::Vector3 position = comp->getBody()->getTransform().getPosition();
+							bool grav = comp->getBody()->isGravityEnabled();
 						}
 
 						if (j < comps.size() - 1)

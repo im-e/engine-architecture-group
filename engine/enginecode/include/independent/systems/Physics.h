@@ -14,8 +14,8 @@ namespace Engine {
 	private:
 		//! Pointer to ReactPhysics3D world
 		static std::shared_ptr<rp3d::DynamicsWorld> m_world;
-		//! Gravity values
-		rp3d::Vector3 gravity = rp3d::Vector3(0.0, -9.81, 0.0);
+    //! Gravity values
+		rp3d::Vector3 gravity = rp3d::Vector3(0.0, -1, 0.0);
 
 	public:
 		//! Default constructor

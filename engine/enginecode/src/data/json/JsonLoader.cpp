@@ -7,6 +7,9 @@ namespace Engine
 	HDC JsonLoader::hdc;
 	HGLRC JsonLoader::glrc;
 
+	rp3d::Vector3 size;
+	rp3d::decimal radius, length;
+
 	std::shared_ptr<JsonModel> JsonLoader::loadJsonModelAsync(std::string filepath)
 	{
 		std::shared_ptr<JsonModel> model;
@@ -1403,6 +1406,7 @@ namespace Engine
 			{
 				layer.addImGuiFunction([&](JsonLayer* lay)
 				{
+					if (ImGui::CollapsingHeader("Rigidbody"))
 					if (!layer.is2D())
 					{
 						/*if (ImGui::CollapsingHeader("Rigidbody"))
@@ -1459,6 +1463,12 @@ namespace Engine
 						ImGui::SameLine(100.0f);
 						if (ImGui::Button("Remove"))
 						{
+							if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>())
+							{
+								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>();
+								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+								LogWarn("Collider component removed");
+							}
 							if (lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>())
 							{
 								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>();
@@ -1470,6 +1480,7 @@ namespace Engine
 							}
 
 						}
+					}
 					}*/
 					}
 					
@@ -1482,36 +1493,74 @@ namespace Engine
 				{
 					if (!layer.is2D())
 					{
-						/*if (ImGui::CollapsingHeader("Collider"))
+						std::vector<const char*> types;
+						types.push_back("Box");
+						types.push_back("Capsule");
+						types.push_back("Sphere");
+
+						if (currentItem == "Box")
 						{
-							std::vector<const char*> types;
-							types.push_back("Box");
-							types.push_back("Capsule");
-							types.push_back("Sphere");
-							types.push_back("Terrain");
+							ImGui::InputFloat("X", &size.x, 2);
+							ImGui::InputFloat("Y", &size.y, 2);
+							ImGui::InputFloat("Z", &size.z, 2);
 
-							static const char* currentItem = types[0];
+						}
+						if (currentItem == "Capsule")
+						{
+							ImGui::InputFloat("Radius", &radius, 2);
+							ImGui::InputFloat("Length", &length, 2);
+						}
+						if (currentItem == "Sphere")
+						{
+							ImGui::InputFloat("Radius", &radius, 2);
+						}
 
-							if (ImGui::BeginCombo("Type", currentItem))
-							{
-								for (int i = 0; i < types.size(); i++)
+						if (ImGui::Button("Add"))
+						{
+							if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>() == nullptr)
+							{				
+								if (currentItem == "Box")
 								{
-									bool selected = (currentItem == types[i]);
-
-									if (ImGui::Selectable(types[i], selected))
-									{
-										currentItem = types[i];
-									}
-
-									if (selected)
-										ImGui::SetItemDefaultFocus();
-								}
-
-								ImGui::EndCombo();
-							}
-						}*/
-					}
+									std::shared_ptr<BoxColliderComponent> cc;
+									cc = std::make_shared<BoxColliderComponent>(BoxColliderComponent(size));
+									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
 									
+								}
+								if (currentItem == "Capsule")
+								{
+									std::shared_ptr<CapsuleColliderComponent> cc;
+									cc = std::make_shared<CapsuleColliderComponent>(CapsuleColliderComponent(radius, length));
+									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
+								}
+								if (currentItem == "Sphere")
+								{	
+									std::shared_ptr<SphereColliderComponent> cc;
+									cc = std::make_shared<SphereColliderComponent>(SphereColliderComponent(radius));
+									lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
+								}
+							}
+							else
+							{
+								LogWarn("Component already exists!");
+							}
+
+						}
+						ImGui::SameLine(100.0f);
+						if (ImGui::Button("Remove"))
+						{
+							if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>())
+							{
+								auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>();
+								lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+							}
+							else
+							{
+								LogWarn("Component did not exist anyway!");
+							}
+
+						}
+            
+					}						
 				});
 			}
 
