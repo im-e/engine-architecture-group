@@ -3,6 +3,8 @@
 
 #include <glad/glad.h>
 #include "resources/ResourceManager.h"
+#include "platform/GLFW_KeyCodes.h"
+#include "platform/GLFW_InputPoller.h"
 
 namespace Engine
 {
@@ -60,7 +62,7 @@ namespace Engine
 			shader->uploadData(it->first, it->second);
 		}
 
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Wireframe mode.
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Uncomment to see tessellation
 		glDrawElements(GL_PATCHES, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr); // Render the scene.
 	}
 

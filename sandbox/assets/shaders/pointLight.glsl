@@ -33,16 +33,18 @@ layout(vertices = 3) out;
 
 in vec3 fragPosV[];
 in vec3 normalV[];
-in vec3 texCoordsV[];
+in vec2 texCoordsV[];
 
 out vec3 fragPosTC[];
 out vec3 normalTC[];
 out vec2 texCoordsTC[];
 
-layout(std140) uniform CameraPosition
+layout (std140) uniform Camera
 {
 	vec3 u_camPos;
+	vec3 u_camForward;
 };
+
 
 float GetTessLevel(float Distance0, float Distance1)
 {
@@ -56,7 +58,7 @@ float GetTessLevel(float Distance0, float Distance1)
 	{
 		return 1.0f;
 	}
-	tess = 5.0f;
+
 	return tess;
 }
 
@@ -78,8 +80,8 @@ void main()
 
    // pass through position and normal information
    fragPosTC[gl_InvocationID]  = fragPosV[gl_InvocationID];
-   normalTC[gl_InvocationID] = normal[gl_InvocationID];
-   texCoordTC[gl_InvocationID] = texCoord[gl_InvocationID];
+   normalTC[gl_InvocationID] = normalV[gl_InvocationID];
+   texCoordsTC[gl_InvocationID] = texCoordsV[gl_InvocationID];
 }
 
 #region Tessellation Eval
@@ -98,7 +100,7 @@ layout(std140) uniform Matrices
 
 in vec3 fragPosTC[];
 in vec3 normalTC[];
-in vec2 texCoordTC[];
+in vec2 texCoordsTC[];
 
 out vec3 fragPosTE;
 out vec3 normalTE;
@@ -108,7 +110,7 @@ void main()
 {
 	fragPosTE = interpolate3D(fragPosTC[0], fragPosTC[1], fragPosTC[2]);
 	normalTE = interpolate3D(normalTC[0], normalTC[1], normalTC[2]);
-	texCoordTE = interpolate2D(texCoordTC[0], texCoordTC[1], texCoordTC[2]);
+	texCoordTE = interpolate2D(texCoordsTC[0], texCoordsTC[1], texCoordsTC[2]);
 
 	gl_Position = u_VP * vec4(fragPosTE, 1.0);
 }
@@ -200,7 +202,7 @@ void main()
 	
     // diffuse 
     vec3 norm = normalize(normalG);
-	vec3 lightDir = normalize(u_lightPos - fragPosG);
+	lightDir = normalize(u_lightPos - fragPosG);
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = diff * color; 
     
@@ -225,6 +227,5 @@ void main()
         
     vec3 result = ambient + diffuse + specular;
     FragColor = vec4(result, 1.0);
-	}
-} 
+	
 } 

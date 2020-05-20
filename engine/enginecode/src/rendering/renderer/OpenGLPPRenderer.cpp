@@ -4,6 +4,7 @@
 #include <glad/glad.h>
 #include "core/application.h"
 #include "resources/OpenGLTextures.h"
+#include "platform/GLFW_InputPoller.h"
 
 namespace Engine
 {
@@ -115,7 +116,8 @@ namespace Engine
 			shader->uploadData(it->first, it->second);
 		}
 		
-		glDrawElements(GL_TRIANGLES, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Uncomment to see tessellation
+		glDrawElements(GL_PATCHES, geometry->getDrawCount(), GL_UNSIGNED_INT, nullptr); // Render the scene.
 	}
 
 	void OpenGLPPRenderer::flush()
@@ -130,6 +132,7 @@ namespace Engine
 		m_shader->uploadData("u_effectIndex", (void*)m_effectIndex);
 		auto x = ResourceManagerInstance->getVAO().getAsset("PPVAO");
 		x->bind();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		glEnable(GL_DEPTH_TEST);
 	}

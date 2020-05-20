@@ -50,7 +50,7 @@ float GetTessLevel(float Distance0, float Distance1)
 	{
 		return 1.0f;
 	}
-	tess = 5.0f;
+
 	return tess;
 }
 

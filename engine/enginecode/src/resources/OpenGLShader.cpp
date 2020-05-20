@@ -538,7 +538,7 @@ namespace Engine
 				switch (ShaderData::stringToDataType(type))
 				{
 				case ShaderDataType::None:
-					LogError("Layout error");
+					LogError("Unrecognized layout");
 					break;
 				case ShaderDataType::Int:
 					m_bufferLayout.addElement(ShaderDataType::Int);

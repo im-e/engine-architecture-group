@@ -18,9 +18,7 @@ namespace Engine
 		unsigned int m_colourTextureUnit = 14;
 		unsigned int m_depthTextureUnit = 15;
 		unsigned int m_effectIndex = 2;
-		std::shared_ptr<VertexArray> m_screenQuadVAO;
-		//PerDrawData m_ppUniforms;
-
+		std::shared_ptr<VertexArray> m_screenQuadVAO;	
 
 	public:
 		OpenGLPPRenderer(const std::shared_ptr<Shader>& defaultPPShader); //!< Default constructor

@@ -71,31 +71,31 @@ float GetTessLevel(float Distance0, float Distance1)
 {
 	float avgDist = (Distance0 + Distance1) / 2.0f;
 	float tess = 0.0f;
-
-
+	
 	float exponent = -0.105f * avgDist;
 	tess = exp(exponent) * 15.0f;
 	if(tess < 1.0f)
 	{
 		return 1.0f;
 	}
-	tess = 5.0f;
+	
 	return tess;
 }
 
 void main()
 {
-   float eyeToVertexDist1 = distance(u_camPos, fragmentPos[1]);
-   float eyeToVertexDist2 = distance(u_camPos, fragmentPos[2]);
+   float eyeToVertexDist0 = distance(u_camPos, FragPos[0]);
+   float eyeToVertexDist1 = distance(u_camPos, FragPos[1]);
+   float eyeToVertexDist2 = distance(u_camPos, FragPos[2]);
    if (gl_InvocationID==0)
    {
-		  fragPosTC[gl_InvocationID]  = fragmentPos[gl_InvocationID];
+		  fragPosTC[gl_InvocationID]  = FragPos[gl_InvocationID];
 
 		   // Calculate the tessellation levels
           gl_TessLevelOuter[0] = GetTessLevel(eyeToVertexDist1, eyeToVertexDist2); 
-          gl_TessLevelOuter[1] = gl_TessLevelOuter[0]; 
-          gl_TessLevelOuter[2] = gl_TessLevelOuter[0];
-          gl_TessLevelInner[0] = gl_TessLevelOuter[0]; 
+          gl_TessLevelOuter[1] = GetTessLevel(eyeToVertexDist2, eyeToVertexDist0);  
+          gl_TessLevelOuter[2] = GetTessLevel(eyeToVertexDist0, eyeToVertexDist1); 
+          gl_TessLevelInner[0] = gl_TessLevelOuter[2]; 
 
    }
 

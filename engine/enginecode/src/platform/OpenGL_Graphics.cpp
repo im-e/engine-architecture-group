@@ -29,14 +29,17 @@ namespace Engine
 
 	void OpenGL_Graphics::unbindCurrentThread()
 	{
-		if (std::this_thread::get_id() != m_initialThreadID) {
+		if (std::this_thread::get_id() != m_initialThreadID) 
+		{
 			auto hglrc = wglGetCurrentContext();
-			if (!wglDeleteContext(hglrc)) {
+			if (!wglDeleteContext(hglrc)) 
+			{
 				auto what = GetLastError();
 				LogError("Thread Unbind Failed: {0}", what);
 			}
 		}
-		else {
+		else 
+		{
 			wglMakeCurrent(NULL, NULL);
 		}
 
@@ -47,13 +50,15 @@ namespace Engine
 	{
 		m_gpuAccessMutex.lock();
 		
-		if (std::this_thread::get_id() != m_initialThreadID) {
+		if (std::this_thread::get_id() != m_initialThreadID) 
+		{
 			auto hwnd = glfwGetWin32Window(m_window);
 			auto hdc = GetDC(hwnd);
 
 			auto hglrc = wglCreateContext(hdc);
 
-			if (!wglShareLists(m_originalContext, hglrc)) {
+			if (!wglShareLists(m_originalContext, hglrc)) 
+			{
 				auto what = GetLastError();
 				LogError("wglShareLists Failed: {0}", what);
 			}
@@ -63,7 +68,8 @@ namespace Engine
 				LogError("Thread Swap Failed: {0}", what);
 			}
 		}
-		else {
+		else 
+		{
 			auto hwnd = glfwGetWin32Window(m_window);
 			auto hdc = GetDC(hwnd);
 			
