@@ -31,21 +31,15 @@ namespace Engine
 	};
 }
 
-#ifndef NG_UNIT_TEST
 /*! \def LogInfo(...)
 	Displays information
 */
 #define LogInfo(...) ::Engine::Log::getLogger()->info(__VA_ARGS__)
-/*! \def LogWarn 
+/*! \def LogWarn
 	Displays warnings
 */
 #define LogWarn(...) ::Engine::Log::getLogger()->warn(__VA_ARGS__)
-/*! \def LogError 
+/*! \def LogError
 	Displays errors
 */
 #define LogError(...) ::Engine::Log::getLogger()->error(__VA_ARGS__)
-#else
-#define LogInfo(...) 
-#define LogWarn(...) 
-#define LogError(...) 
-#endif

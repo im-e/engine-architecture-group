@@ -1,34 +1,33 @@
 #include <gtest/gtest.h>
 #include <iostream>
+#include "core/application.h"
 
 #include "platform/OpenGL/OpenGL_Graphics.h"
 #include "windows/WinPlatformWindow.h"
 
-int OpenGL()
+class TestSandbox : public Engine::Application
 {
-	glfwInit();
-	GLFWwindow* win = glfwCreateWindow(1, 1, "test", NULL, NULL);
-	glfwMakeContextCurrent(win);
-	int result = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-	return result;
-}
+public:
+	TestSandbox()
+	{
+	}
 
-int CloseGL()
-{
-	glfwTerminate();
-	return 0;
-}
-
+	~TestSandbox() override
+	{
+	};
+};
 
 int main(int argc, char **argv) 
 {
-	OpenGL();
+	auto app = new TestSandbox();
+
 	::testing::InitGoogleTest(&argc, argv);
 	RUN_ALL_TESTS();
 
 	std::cout << std::endl << "Press enter to continue" << std::endl;
 	std::getchar();
 
-	CloseGL();
+	delete app;
+
 	return 0;
 }

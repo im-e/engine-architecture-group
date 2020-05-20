@@ -5,8 +5,7 @@ workspace "Engine"
 	configurations
 	{
 		"Debug",
-		"Release",
-		"Test"
+		"Release"
 	}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}"
@@ -78,11 +77,6 @@ project "Engine"
 		
 	filter "configurations:Debug"
 		defines "NG_DEBUG"
-		runtime "Debug"
-		symbols "On"
-
-	filter "configurations:Test"
-		defines "NG_DEBUG;NG_UNIT_TEST"
 		runtime "Debug"
 		symbols "On"
 
@@ -297,7 +291,14 @@ project "Sandbox"
 			"vendor/glfw/include",
 			"vendor/glad/include",
 			"vendor/json/single_include/nlohmann",
-			"vendor/assimp/include"
+			"vendor/assimp/include",
+			"vendor/reactphysics3d/src",
+			"vendor/ImGui",
+			"vendor/lua",
+			"vendor/LuaBridge/Source",
+			"vendor/FMOD/core/inc",
+			"vendor/FMOD/fsbank/inc",
+			"vendor/FMOD/studio/inc"
 		}
 
         links 
@@ -308,24 +309,50 @@ project "Sandbox"
 			"Glad",
 			"Freetype",
 			"assimp",
-			"reactdphysics3d"
+			"reactphysics3d",
+			"IMGui",
+			"Lua"
+		}
+
+		libdirs
+		{
+			"vendor/FMOD/core/lib/x64",
+			"vendor/FMOD/fsbank/lib/x64",
+			"vendor/FMOD/studio/lib/x64"
 		}
 		
 		filter "system:windows"
 			cppdialect "C++17"
 			systemversion "latest"
+			defines
+			{
+				"NG_PLATFORM_WINDOWS"
+			}
+			
+			debugenvs
+			{
+				"PATH=PATH;../vendor/FMOD/core/lib/x64;../vendor/FMOD/studio/lib/x64"
+			}
 
 		filter "configurations:Debug"
 			runtime "Debug"
 			symbols "On"
-
-		filter "configurations:Test"
-			runtime "Debug"
-			symbols "On"
+			links
+			{
+				"Engine",
+				"fmodL_vc.lib",
+				"fmodstudioL_vc.lib"
+			}
 
 		filter "configurations:Release"
 			runtime "Release"
 			optimize "On"
+			links
+			{
+				"Engine",
+				"fmodL_vc.lib",
+				"fmodstudioL_vc.lib"
+			}
 
 project "Spike"
 	location "spike"

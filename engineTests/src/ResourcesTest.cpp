@@ -20,6 +20,7 @@ TEST(Textures, LoadTexture)
 	testTexture.reset(Engine::Texture::createFromFile("assets/textures/letterCube.png"));
 	EXPECT_NE(testTexture.get(), nullptr);
 }
+
 TEST(Textures, GetTextureData)
 {
 	int width = testTexture->getWidth();

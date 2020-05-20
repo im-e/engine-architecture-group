@@ -5,8 +5,8 @@ TEST(DataTest, PushLayer)
 	m_layerStack.reset(new Engine::LayerStack());
 	m_layerStack->start(Engine::SystemSignal::None);
 
-	m_layerStack->push(std::make_shared<Engine::JsonLayer>(Engine::JsonLayer("assets/json/testLayer.json", "TestLayer")));
-	m_layerStack->push(std::make_shared<Engine::JsonLayer>(Engine::JsonLayer("assets/json/testLayer.json", "TestLayer2")));
+	m_layerStack->push(std::make_shared<Engine::JsonLayer>(Engine::JsonLayer("assets/json/testLayer.json", "", "TestLayer")));
+	m_layerStack->push(std::make_shared<Engine::JsonLayer>(Engine::JsonLayer("assets/json/testLayer.json", "", "TestLayer2")));
 
 	int i = 0;
 	for (auto& it = m_layerStack->begin(); it != m_layerStack->end(); it++)
