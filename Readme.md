@@ -6,20 +6,48 @@ Meetings: https://docs.google.com/document/d/1nvCUfFUZRD1n--IuPNlEN4mOXbdCRSbSYg
 
 Game engine using C++ and OpenGL.
 
+Authors:
+
+Jan Kalinowski
+
+Charlie Jenkinson
+
+Reece Carey
+
+Thomas Stillman-Allbones
+
+Alfie Barton
+
+Lily Burgham
+
 Engine provides debugging functionality, such as logging and timing events. The code's been abstracted and would easily be translated to work with various platforms and graphics libraries.
 
-Current controls are as follows:
+It is capable of:
 
----WASD - move 3D camera around
+-- Loading complex models with ASSIMP
 
----IJKL - move middle cube around
+-- Loading resources asynchronously using multithreading
 
----ZXC - rotate middle cube (note: vectors are not updated; cube will always move towards its local-space vectors)
+-- Controlling AI with Lua scripts with dynamic pathing
 
----Arrows - move 2D camera
+-- Creating levels with editor created in ImGui utilizing GameObject and ECS
 
----Click & hold left mouse button to rotate 3D camera. Mouse cursor has been locked in a single position - press ESC to regain  control of your mouse.
+-- Saving created levels to json file
+
+-- Loading created levels from json files
+
+-- Editing 2D and 3D layers with level editor
+
+-- Tessellating geometries
+
+-- Applying postprocessing effects
+
+-- Applying gravity to rigidbodies
+
+-- Batch rendering text 
  
+-- Playing 2D and 3D sounds with FMOD
+
 Currently available macros:
 
 ---LogInfo - logs messages (green text)
@@ -52,4 +80,4 @@ Keycodes are adapted from GLFW. They are the same, apart from changing their pre
       
 Doxygen documentation is fully generated - you can find it under doc/index.html
 
-In order to run unit tests, switch startup project to EngineTests & switch configuration to TEST. For all other test data, please see testing/ folder
+In order to run unit tests, switch startup project to EngineTests & switch configuration to DEBUG.
