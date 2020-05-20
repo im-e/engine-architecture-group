@@ -61,6 +61,8 @@ $(function() {
 <code>#include &lt;glm/glm.hpp&gt;</code><br />
 <code>#include &lt;glm/gtc/matrix_transform.hpp&gt;</code><br />
 <code>#include &lt;glm/gtx/quaternion.hpp&gt;</code><br />
+<code>#include &lt;glm/gtx/transform.hpp&gt;</code><br />
+<code>#include &lt;reactphysics3d.h&gt;</code><br />
 </div>
 <p><a href="_component_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -83,22 +85,31 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a42b52035259cb56ecdcff7b25822abe5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5">Engine::ComponentMessageType</a> { <br />
 &#160;&#160;<a class="el" href="namespace_engine.html#a629eac9f8d060a1f7261a9b912e0fa77a6adf97f83acf6453d4a6a4b1070f3754">Engine::None</a> = 0, 
 <a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5a4a73c4e62d78d42bfa1e6e07ba36133b">Engine::ComponentMessageType::PositionIntegrate</a>, 
+<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5a1855225ced3fac56a426545cf2e151cb">Engine::ComponentMessageType::RP3DPositionIntegrate</a>, 
 <a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5a07348789a9cd5946e1f078c6f4457e2b">Engine::ComponentMessageType::PositionSet</a>, 
-<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5ac13ef5ed0dac6b7f5e0f3dc5d9c63e63">Engine::ComponentMessageType::RelativePositionSet</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5aa6419f96acce6d11dbf8b0fbf67cf799">Engine::ComponentMessageType::VelocityIntegrate</a>, 
+&#160;&#160;<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5ac13ef5ed0dac6b7f5e0f3dc5d9c63e63">Engine::ComponentMessageType::RelativePositionSet</a>, 
+<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5aa6419f96acce6d11dbf8b0fbf67cf799">Engine::ComponentMessageType::VelocityIntegrate</a>, 
 <a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5afb5e8c0826e8937e550695fc3b2dfef9">Engine::ComponentMessageType::VelocitySetLinear</a>, 
 <a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5a4035c653f00082983c07b2b87263a9d3">Engine::ComponentMessageType::VelocitySetAngular</a>, 
-<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5a50573cf55832e9d891e35e912a7a50dd">Engine::ComponentMessageType::AccelerationSet</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5ac17e6984c1e5a887a49831beadee6bca">Engine::ComponentMessageType::KeyPressed</a>, 
-<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5a4a77f07c8ad223b71ab4ce78a63841ab">Engine::ComponentMessageType::KeyReleased</a>, 
+&#160;&#160;<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5a50573cf55832e9d891e35e912a7a50dd">Engine::ComponentMessageType::AccelerationSet</a>, 
+<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5abe31b72e136d24a1523c41066c81e5e6">Engine::ComponentMessageType::AIPositionSet</a>, 
+<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5af45d40157e7066a5d83a8015b05dcd78">Engine::ComponentMessageType::AIRotationSet</a>, 
+<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5ac17e6984c1e5a887a49831beadee6bca">Engine::ComponentMessageType::KeyPressed</a>, 
+<br />
+&#160;&#160;<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5a4a77f07c8ad223b71ab4ce78a63841ab">Engine::ComponentMessageType::KeyReleased</a>, 
 <a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5a49dabe49d62a3521f7c10400138c38d5">Engine::ComponentMessageType::MouseButton</a>, 
 <a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5ab4efa1e1d0671dddbd78735a0bd24274">Engine::ComponentMessageType::MouseScroll</a>, 
+<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5ac2770ad109c8063ce69a3608a9a16c08">Engine::ComponentMessageType::MouseMoved</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5ac2770ad109c8063ce69a3608a9a16c08">Engine::ComponentMessageType::MouseMoved</a>, 
-<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5ae3cd598ca491dcfb1da76b4785ae1e10">Engine::ComponentMessageType::UniformSet</a>, 
-<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5ac7d8ba80f7929450489c9a671996a2f3">Engine::ComponentMessageType::TextureSet</a>
+&#160;&#160;<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5ae3cd598ca491dcfb1da76b4785ae1e10">Engine::ComponentMessageType::UniformSet</a>, 
+<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5ac7d8ba80f7929450489c9a671996a2f3">Engine::ComponentMessageType::TextureSet</a>, 
+<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5a86fa2c4e3d99244d298a27736b09e2dd">Engine::ComponentMessageType::RigidBodySet</a>, 
+<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5a368d5b8224e87e97674458d3519fecc2">Engine::ComponentMessageType::LinearForceApply</a>, 
+<br />
+&#160;&#160;<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5a754cbc9eeb46613f60e9a22786bfa531">Engine::ComponentMessageType::AngularForceApply</a>, 
+<a class="el" href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5ad67c86980d37e94385bf440d52e1e349">Engine::ComponentMessageType::ColourSet</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a42b52035259cb56ecdcff7b25822abe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set of all message types.  <a href="namespace_engine.html#a42b52035259cb56ecdcff7b25822abe5">More...</a><br /></td></tr>

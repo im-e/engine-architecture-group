@@ -77,7 +77,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a779e3cc127a5f339695ead8cef9b4704"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_uniform_buffer.html#a779e3cc127a5f339695ead8cef9b4704">attachShaderBlock</a> (const std::shared_ptr&lt; <a class="el" href="class_engine_1_1_shader.html">Shader</a> &gt; &amp;shader, const std::string &amp;blockName)=0</td></tr>
 <tr class="memdesc:a779e3cc127a5f339695ead8cef9b4704"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attaches block of data to the shader.  <a href="class_engine_1_1_uniform_buffer.html#a779e3cc127a5f339695ead8cef9b4704">More...</a><br /></td></tr>
 <tr class="separator:a779e3cc127a5f339695ead8cef9b4704"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb48d51c81a581539a4ce613ca994611"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_uniform_buffer.html#acb48d51c81a581539a4ce613ca994611">setData</a> (unsigned int offset, unsigned int size, void *data)=0</td></tr>
+<tr class="memitem:acb48d51c81a581539a4ce613ca994611"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_uniform_buffer.html#acb48d51c81a581539a4ce613ca994611">setData</a> (unsigned int offset, unsigned int <a class="el" href="namespace_engine.html#a3ee0451df8c87b41dc929d83568a25f2">size</a>, void *data)=0</td></tr>
 <tr class="memdesc:acb48d51c81a581539a4ce613ca994611"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set data in the data block.  <a href="class_engine_1_1_uniform_buffer.html#acb48d51c81a581539a4ce613ca994611">More...</a><br /></td></tr>
 <tr class="separator:acb48d51c81a581539a4ce613ca994611"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a156db29640b695c2b4afcebdc839d7b3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_engine_1_1_uniform_layout.html">UniformLayout</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_uniform_buffer.html#a156db29640b695c2b4afcebdc839d7b3">getLayout</a> () const =0</td></tr>
@@ -86,10 +86,10 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ac19dda6d22f25cedbca84fa673912e81"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_engine_1_1_uniform_buffer.html">UniformBuffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_uniform_buffer.html#ac19dda6d22f25cedbca84fa673912e81">create</a> (unsigned int size, <a class="el" href="class_engine_1_1_uniform_layout.html">UniformLayout</a> &amp;layout)</td></tr>
+<tr class="memitem:ac19dda6d22f25cedbca84fa673912e81"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_engine_1_1_uniform_buffer.html">UniformBuffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_uniform_buffer.html#ac19dda6d22f25cedbca84fa673912e81">create</a> (unsigned int <a class="el" href="namespace_engine.html#a3ee0451df8c87b41dc929d83568a25f2">size</a>, <a class="el" href="class_engine_1_1_uniform_layout.html">UniformLayout</a> &amp;layout)</td></tr>
 <tr class="memdesc:ac19dda6d22f25cedbca84fa673912e81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create new UBO.  <a href="class_engine_1_1_uniform_buffer.html#ac19dda6d22f25cedbca84fa673912e81">More...</a><br /></td></tr>
 <tr class="separator:ac19dda6d22f25cedbca84fa673912e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99dc1b4f78ce9a2386b6976d5cfd719e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_engine_1_1_uniform_buffer.html">UniformBuffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_uniform_buffer.html#a99dc1b4f78ce9a2386b6976d5cfd719e">create</a> (unsigned int size, unsigned int rangeStart, unsigned int rangeEnd, <a class="el" href="class_engine_1_1_uniform_layout.html">UniformLayout</a> &amp;layout)</td></tr>
+<tr class="memitem:a99dc1b4f78ce9a2386b6976d5cfd719e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_engine_1_1_uniform_buffer.html">UniformBuffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_uniform_buffer.html#a99dc1b4f78ce9a2386b6976d5cfd719e">create</a> (unsigned int <a class="el" href="namespace_engine.html#a3ee0451df8c87b41dc929d83568a25f2">size</a>, unsigned int rangeStart, unsigned int rangeEnd, <a class="el" href="class_engine_1_1_uniform_layout.html">UniformLayout</a> &amp;layout)</td></tr>
 <tr class="memdesc:a99dc1b4f78ce9a2386b6976d5cfd719e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create new UBO.  <a href="class_engine_1_1_uniform_buffer.html#a99dc1b4f78ce9a2386b6976d5cfd719e">More...</a><br /></td></tr>
 <tr class="separator:a99dc1b4f78ce9a2386b6976d5cfd719e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -105,7 +105,7 @@ Protected Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents data common for objects in the scenes. </p>
 
-<p class="definition">Definition at line <a class="el" href="_buffers_8h_source.html#l00229">229</a> of file <a class="el" href="_buffers_8h_source.html">Buffers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_buffers_8h_source.html#l00230">230</a> of file <a class="el" href="_buffers_8h_source.html">Buffers.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a779e3cc127a5f339695ead8cef9b4704"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a779e3cc127a5f339695ead8cef9b4704">&#9670;&nbsp;</a></span>attachShaderBlock()</h2>
@@ -428,7 +428,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Buffer's layout. </p>
 
-<p class="definition">Definition at line <a class="el" href="_buffers_8h_source.html#l00233">233</a> of file <a class="el" href="_buffers_8h_source.html">Buffers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_buffers_8h_source.html#l00234">234</a> of file <a class="el" href="_buffers_8h_source.html">Buffers.h</a>.</p>
 
 </div>
 </div>
@@ -454,7 +454,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Buffer's ID. </p>
 
-<p class="definition">Definition at line <a class="el" href="_buffers_8h_source.html#l00232">232</a> of file <a class="el" href="_buffers_8h_source.html">Buffers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_buffers_8h_source.html#l00233">233</a> of file <a class="el" href="_buffers_8h_source.html">Buffers.h</a>.</p>
 
 </div>
 </div>

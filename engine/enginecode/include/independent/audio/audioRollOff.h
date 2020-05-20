@@ -1,10 +1,18 @@
 #pragma once
 
-namespace Engine {
+/*! \file audioRollOff.h
+\brief Provides RollOff definitions
+*/
+
+namespace Engine 
+{
+	/*! \enum RollOff
+	\brief defines RollOFf
+	*/
 	enum class RollOff
 	{
-		Linear,
-		LinearSquared,
-		InverseTapered
+		Linear, //!< Linear rolloff
+		LinearSquared, //!< Linear squared rolloff
+		InverseTapered //!< InverseTapered rolloff
 	};
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-/*!\file ImGuiSystem
+/*!\file ImGuiSystem.h
 \brief Responsible to start and stop ImGui
 */
 
@@ -13,7 +13,7 @@
 namespace Engine
 {
 	/*! \class ImGuiSystem
-	\brief responsible for handling ImGui system
+	\brief Responsible for handling ImGui system
 	*/
 	class ImGuiSystem : public System
 	{
@@ -22,8 +22,6 @@ namespace Engine
 	public:
 		// Inherited via System
 		virtual void start(SystemSignal init, ...) override;
-
 		virtual void stop(SystemSignal close, ...) override;
-
 	};
 }

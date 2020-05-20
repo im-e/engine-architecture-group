@@ -63,12 +63,18 @@ Inheritance diagram for Engine::Component:</div>
  <div class="center">
   <img src="class_engine_1_1_component.png" usemap="#Engine::Component_map" alt=""/>
   <map id="Engine::Component_map" name="Engine::Component_map">
-<area href="class_engine_1_1_controller_component.html" title="Provides implementation to manually control GameObject." alt="Engine::ControllerComponent" shape="rect" coords="0,56,176,80"/>
-<area href="class_engine_1_1_material_component.html" title="Defines component providing materials for GOs." alt="Engine::MaterialComponent" shape="rect" coords="186,56,362,80"/>
-<area href="class_engine_1_1_oscillate_component.html" title="Defines component to move a GO up and down." alt="Engine::OscillateComponent" shape="rect" coords="372,56,548,80"/>
-<area href="class_engine_1_1_position_component.html" title="Defines a component responsible for integrating and setting position of a GO." alt="Engine::PositionComponent" shape="rect" coords="558,56,734,80"/>
-<area href="class_engine_1_1_texture_component.html" title="Applies textures to GOs." alt="Engine::TextureComponent" shape="rect" coords="744,56,920,80"/>
-<area href="class_engine_1_1_velocity_component.html" title="Implements velocity component for GO." alt="Engine::VelocityComponent" shape="rect" coords="930,56,1106,80"/>
+<area href="class_engine_1_1_a_i_component.html" title="Defins an AI component." alt="Engine::AIComponent" shape="rect" coords="187,56,364,80"/>
+<area href="class_engine_1_1_collider_component.html" title="Base class for colliders. Currently not working." alt="Engine::ColliderComponent" shape="rect" coords="187,112,364,136"/>
+<area href="class_engine_1_1_colour_component.html" title="Defines component to set the colour of a game object." alt="Engine::ColourComponent" shape="rect" coords="187,168,364,192"/>
+<area href="class_engine_1_1_controller_component.html" title="Provides implementation to manually control GameObject." alt="Engine::ControllerComponent" shape="rect" coords="187,224,364,248"/>
+<area href="class_engine_1_1_material_component.html" title="Defines component providing materials for GOs." alt="Engine::MaterialComponent" shape="rect" coords="187,280,364,304"/>
+<area href="class_engine_1_1_oscillate_component.html" title="Defines component to move a GO up and down." alt="Engine::OscillateComponent" shape="rect" coords="187,336,364,360"/>
+<area href="class_engine_1_1_position_component.html" title="Defines a component responsible for integrating and setting position of a GO." alt="Engine::PositionComponent" shape="rect" coords="187,392,364,416"/>
+<area href="class_engine_1_1_rigid_body_component.html" title="Defines a physics body." alt="Engine::RigidBodyComponent" shape="rect" coords="187,448,364,472"/>
+<area href="class_engine_1_1_sound_component.html" title="Defines a sound component." alt="Engine::SoundComponent" shape="rect" coords="187,504,364,528"/>
+<area href="class_engine_1_1_text_component.html" title="Implements text component." alt="Engine::TextComponent" shape="rect" coords="187,560,364,584"/>
+<area href="class_engine_1_1_texture_component.html" title="Applies textures to GOs." alt="Engine::TextureComponent" shape="rect" coords="187,616,364,640"/>
+<area href="class_engine_1_1_velocity_component.html" title="Implements velocity component for GO." alt="Engine::VelocityComponent" shape="rect" coords="187,672,364,696"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -92,6 +98,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a41edc08bc6423ff89c9be04c849e2636"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_component.html#a41edc08bc6423ff89c9be04c849e2636">receiveMessage</a> (const <a class="el" href="class_engine_1_1_component_message.html">ComponentMessage</a> &amp;msg)</td></tr>
 <tr class="memdesc:a41edc08bc6423ff89c9be04c849e2636"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receives messages and takes appropriate action.  <a href="class_engine_1_1_component.html#a41edc08bc6423ff89c9be04c849e2636">More...</a><br /></td></tr>
 <tr class="separator:a41edc08bc6423ff89c9be04c849e2636"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca2a7cc691a59a4eaadda7a8d95f76f5"><td class="memItemLeft" align="right" valign="top">virtual const std::type_info &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_component.html#aca2a7cc691a59a4eaadda7a8d95f76f5">getType</a> ()</td></tr>
+<tr class="memdesc:aca2a7cc691a59a4eaadda7a8d95f76f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get type info of the component.  <a href="class_engine_1_1_component.html#aca2a7cc691a59a4eaadda7a8d95f76f5">More...</a><br /></td></tr>
+<tr class="separator:aca2a7cc691a59a4eaadda7a8d95f76f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b28bdb4f7e1f23e9b519eef1aed8828"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_component.html#a6b28bdb4f7e1f23e9b519eef1aed8828">~Component</a> ()</td></tr>
 <tr class="memdesc:a6b28bdb4f7e1f23e9b519eef1aed8828"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor.  <a href="class_engine_1_1_component.html#a6b28bdb4f7e1f23e9b519eef1aed8828">More...</a><br /></td></tr>
 <tr class="separator:a6b28bdb4f7e1f23e9b519eef1aed8828"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -117,7 +126,7 @@ Protected Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base class for all components. </p>
 
-<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00047">47</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00051">51</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a6b28bdb4f7e1f23e9b519eef1aed8828"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6b28bdb4f7e1f23e9b519eef1aed8828">&#9670;&nbsp;</a></span>~Component()</h2>
@@ -144,7 +153,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Default destructor. </p>
 
-<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00080">80</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00090">90</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
 
 </div>
 </div>
@@ -175,7 +184,41 @@ Protected Attributes</h2></td></tr>
 <p>Gets owner of a component. </p>
 <dl class="section return"><dt>Returns</dt><dd>owner </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00062">62</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
+<p>Reimplemented in <a class="el" href="class_engine_1_1_a_i_component.html#a038e2e0ab626978afee8a5ddebf621aa">Engine::AIComponent</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00066">66</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
+
+</div>
+</div>
+<a id="aca2a7cc691a59a4eaadda7a8d95f76f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca2a7cc691a59a4eaadda7a8d95f76f5">&#9670;&nbsp;</a></span>getType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const std::type_info&amp; Engine::Component::getType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get type info of the component. </p>
+<dl class="section return"><dt>Returns</dt><dd>unique type of the ptr to the component </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_engine_1_1_velocity_component.html#a8361729cdd8fd6193f2294f33a7aaea8">Engine::VelocityComponent</a>, <a class="el" href="class_engine_1_1_a_i_component.html#a81f2ffa1122db918ccd8b5d0a4ab1b8a">Engine::AIComponent</a>, <a class="el" href="class_engine_1_1_position_component.html#a4a2bf839ab57bcd460aaf7eb3b2fa094">Engine::PositionComponent</a>, <a class="el" href="class_engine_1_1_rigid_body_component.html#af980ea764a2d23df85a452132edefec7">Engine::RigidBodyComponent</a>, <a class="el" href="class_engine_1_1_oscillate_component.html#ab6818b0a842fe3f205f8e2b6a7e63cfd">Engine::OscillateComponent</a>, <a class="el" href="class_engine_1_1_sound_component.html#a4d54819695ed9214285f1f829c9415b7">Engine::SoundComponent</a>, <a class="el" href="class_engine_1_1_controller_component.html#ace679a8cea639163a45ecc634b889fae">Engine::ControllerComponent</a>, <a class="el" href="class_engine_1_1_colour_component.html#a764bdb08795c2a1b736285f966d6bfb4">Engine::ColourComponent</a>, <a class="el" href="class_engine_1_1_box_collider_component.html#aa634f0c2ef19ce9699d5b2be109d253b">Engine::BoxColliderComponent</a>, <a class="el" href="class_engine_1_1_capsule_collider_component.html#aadec61535d3d64df7ef785a65b0ad8ce">Engine::CapsuleColliderComponent</a>, <a class="el" href="class_engine_1_1_sphere_collider_component.html#a8314f0cbb8f78a9cd23d0d68e1787469">Engine::SphereColliderComponent</a>, <a class="el" href="class_engine_1_1_text_component.html#a6112ee5fcc0b0493ff616a24f762ddc7">Engine::TextComponent</a>, <a class="el" href="class_engine_1_1_collider_component.html#ac4d786ba666966398605122fae3c5a99">Engine::ColliderComponent</a>, <a class="el" href="class_engine_1_1_texture_component.html#a206c699d383c6d75cd9d9b94b62c7e6f">Engine::TextureComponent</a>, and <a class="el" href="class_engine_1_1_material_component.html#ac378f13ab900a35d4c88474d8153e01f">Engine::MaterialComponent</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00084">84</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
 
 </div>
 </div>
@@ -211,9 +254,9 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="class_engine_1_1_controller_component.html#abb51677c7df141ba2720df05f23786db">Engine::ControllerComponent</a>, <a class="el" href="class_engine_1_1_position_component.html#a6e655f2fa421a7e7058654f3b3d4ddb1">Engine::PositionComponent</a>, <a class="el" href="class_engine_1_1_oscillate_component.html#a9ecefd40ccd27019011cb9b707034ed2">Engine::OscillateComponent</a>, <a class="el" href="class_engine_1_1_velocity_component.html#a48177cf720ad1ae3e0f28bdebf249a1a">Engine::VelocityComponent</a>, <a class="el" href="class_engine_1_1_material_component.html#a085ad273b7a85fbc7bc0eee812bbfbe4">Engine::MaterialComponent</a>, and <a class="el" href="class_engine_1_1_texture_component.html#abc1a227bf4279f9441d21418d2be9cf0">Engine::TextureComponent</a>.</p>
+<p>Reimplemented in <a class="el" href="class_engine_1_1_controller_component.html#abb51677c7df141ba2720df05f23786db">Engine::ControllerComponent</a>, <a class="el" href="class_engine_1_1_position_component.html#a6e655f2fa421a7e7058654f3b3d4ddb1">Engine::PositionComponent</a>, <a class="el" href="class_engine_1_1_a_i_component.html#a2c552b229447bcd5ec85f5b257c2c58f">Engine::AIComponent</a>, <a class="el" href="class_engine_1_1_rigid_body_component.html#a22e22500483fd70487e27cb7a8626795">Engine::RigidBodyComponent</a>, <a class="el" href="class_engine_1_1_sound_component.html#adbe0e531dfedabc1adf65141fcd83b33">Engine::SoundComponent</a>, <a class="el" href="class_engine_1_1_oscillate_component.html#a9ecefd40ccd27019011cb9b707034ed2">Engine::OscillateComponent</a>, <a class="el" href="class_engine_1_1_collider_component.html#a18576ba423006f804245c025ca0b9103">Engine::ColliderComponent</a>, <a class="el" href="class_engine_1_1_capsule_collider_component.html#aa346de5a23b219c3ec4fb6d56bd5a85a">Engine::CapsuleColliderComponent</a>, <a class="el" href="class_engine_1_1_velocity_component.html#a48177cf720ad1ae3e0f28bdebf249a1a">Engine::VelocityComponent</a>, <a class="el" href="class_engine_1_1_texture_component.html#abc1a227bf4279f9441d21418d2be9cf0">Engine::TextureComponent</a>, <a class="el" href="class_engine_1_1_box_collider_component.html#ace4f19579fa669421cfaee0eb5261da6">Engine::BoxColliderComponent</a>, <a class="el" href="class_engine_1_1_material_component.html#a085ad273b7a85fbc7bc0eee812bbfbe4">Engine::MaterialComponent</a>, <a class="el" href="class_engine_1_1_sphere_collider_component.html#aa0f716ab27a680c766e028863084f9bf">Engine::SphereColliderComponent</a>, <a class="el" href="class_engine_1_1_text_component.html#a7df9c544b37f02ca012a98597ff04c65">Engine::TextComponent</a>, and <a class="el" href="class_engine_1_1_colour_component.html#a6f35f22985962af43eb067eb2ed07e9b">Engine::ColourComponent</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00060">60</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00064">64</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
 
 </div>
 </div>
@@ -241,6 +284,8 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Called when object is being detached from an owner. </p>
+
+<p>Reimplemented in <a class="el" href="class_engine_1_1_velocity_component.html#a16896dc8017353e779ab328268645cbe">Engine::VelocityComponent</a>, <a class="el" href="class_engine_1_1_sound_component.html#adbec9e145519aaab7a97f0ac5926fee3">Engine::SoundComponent</a>, <a class="el" href="class_engine_1_1_position_component.html#a3332c3bbafaee119e4e3905837fcb755">Engine::PositionComponent</a>, <a class="el" href="class_engine_1_1_oscillate_component.html#a86bfe02387d2ccf5a8ae320d8d4a746c">Engine::OscillateComponent</a>, <a class="el" href="class_engine_1_1_rigid_body_component.html#ae8daa25c019db1adb99a92945e552a81">Engine::RigidBodyComponent</a>, <a class="el" href="class_engine_1_1_a_i_component.html#a0ca94f52b8094e5565209da8ea7e8853">Engine::AIComponent</a>, <a class="el" href="class_engine_1_1_controller_component.html#ae60bdc624bdc7c24f31c3d6221e796a0">Engine::ControllerComponent</a>, <a class="el" href="class_engine_1_1_texture_component.html#a92c668685bf8a11d0a4c4de8e98822bd">Engine::TextureComponent</a>, <a class="el" href="class_engine_1_1_material_component.html#aef289fec1a0e027eaf2842274314aa97">Engine::MaterialComponent</a>, <a class="el" href="class_engine_1_1_colour_component.html#a6feda54c3dd00a293026dcd1f64c7f61">Engine::ColourComponent</a>, <a class="el" href="class_engine_1_1_text_component.html#ab5fda5089674c057baf3c8a750dec879">Engine::TextComponent</a>, <a class="el" href="class_engine_1_1_box_collider_component.html#a392407728bec9d5e88535e368d58ac98">Engine::BoxColliderComponent</a>, <a class="el" href="class_engine_1_1_capsule_collider_component.html#a496ddd7c2e5ae1ac1d1cb7740996855d">Engine::CapsuleColliderComponent</a>, <a class="el" href="class_engine_1_1_sphere_collider_component.html#a6d3a674b64b1ec2fda443b898ff7ae10">Engine::SphereColliderComponent</a>, and <a class="el" href="class_engine_1_1_collider_component.html#a04875f458ab7e811bd288875ddd65847">Engine::ColliderComponent</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_component_8cpp_source.html#l00017">17</a> of file <a class="el" href="_component_8cpp_source.html">Component.cpp</a>.</p>
 
@@ -278,9 +323,9 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="class_engine_1_1_oscillate_component.html#a55bb10ec700743d65afd85757aa11551">Engine::OscillateComponent</a>, and <a class="el" href="class_engine_1_1_texture_component.html#a978844c1979d63e9e27fa9f97eba3f0e">Engine::TextureComponent</a>.</p>
+<p>Reimplemented in <a class="el" href="class_engine_1_1_a_i_component.html#abded8f4986a82457b64f5cd8728a87bf">Engine::AIComponent</a>, <a class="el" href="class_engine_1_1_colour_component.html#a5fb7ee87bb639c2e7aa34bfa0b3a4257">Engine::ColourComponent</a>, <a class="el" href="class_engine_1_1_oscillate_component.html#a55bb10ec700743d65afd85757aa11551">Engine::OscillateComponent</a>, <a class="el" href="class_engine_1_1_text_component.html#a793086e7b27b20352975b0b54236b276">Engine::TextComponent</a>, and <a class="el" href="class_engine_1_1_texture_component.html#a978844c1979d63e9e27fa9f97eba3f0e">Engine::TextureComponent</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00068">68</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00072">72</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
 
 </div>
 </div>
@@ -316,9 +361,9 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="class_engine_1_1_position_component.html#a551158a53dbfc998def4482c030731cc">Engine::PositionComponent</a>, <a class="el" href="class_engine_1_1_texture_component.html#a9420af85118f07cf843f893625970df3">Engine::TextureComponent</a>, <a class="el" href="class_engine_1_1_oscillate_component.html#ad6d356614fccf809048fa028f36742b0">Engine::OscillateComponent</a>, <a class="el" href="class_engine_1_1_controller_component.html#a0625b03d1ce3e79fdb424538d4c826ed">Engine::ControllerComponent</a>, and <a class="el" href="class_engine_1_1_velocity_component.html#a34bb7db93791e6abbed91847dc722e74">Engine::VelocityComponent</a>.</p>
+<p>Reimplemented in <a class="el" href="class_engine_1_1_a_i_component.html#a0f52b0445509773505fbaf1205a1c07b">Engine::AIComponent</a>, <a class="el" href="class_engine_1_1_rigid_body_component.html#affeba1d1fb55cd26205a07a8c960523b">Engine::RigidBodyComponent</a>, <a class="el" href="class_engine_1_1_sound_component.html#a9bc70b0b6ddf2f145423c0ab3ca16908">Engine::SoundComponent</a>, <a class="el" href="class_engine_1_1_position_component.html#a551158a53dbfc998def4482c030731cc">Engine::PositionComponent</a>, <a class="el" href="class_engine_1_1_collider_component.html#ab940ab628a6f772b7092183eab0c0760">Engine::ColliderComponent</a>, <a class="el" href="class_engine_1_1_texture_component.html#a9420af85118f07cf843f893625970df3">Engine::TextureComponent</a>, <a class="el" href="class_engine_1_1_oscillate_component.html#ad6d356614fccf809048fa028f36742b0">Engine::OscillateComponent</a>, <a class="el" href="class_engine_1_1_box_collider_component.html#a8d4f104f9dd5782a8d8870c28e7b5b59">Engine::BoxColliderComponent</a>, <a class="el" href="class_engine_1_1_capsule_collider_component.html#af8c71cea341c1bb14497b4fc3e988010">Engine::CapsuleColliderComponent</a>, <a class="el" href="class_engine_1_1_sphere_collider_component.html#a59582471a0333562d475ab6c6482eb3e">Engine::SphereColliderComponent</a>, <a class="el" href="class_engine_1_1_colour_component.html#a81cc241448a9dcf6d48bfc4498cbbf54">Engine::ColourComponent</a>, <a class="el" href="class_engine_1_1_text_component.html#aa405755b216cc9cf993015b3080f1663">Engine::TextComponent</a>, <a class="el" href="class_engine_1_1_velocity_component.html#a34bb7db93791e6abbed91847dc722e74">Engine::VelocityComponent</a>, and <a class="el" href="class_engine_1_1_controller_component.html#a0625b03d1ce3e79fdb424538d4c826ed">Engine::ControllerComponent</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00066">66</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00070">70</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
 
 </div>
 </div>
@@ -354,7 +399,7 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00071">71</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00075">75</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
 
 </div>
 </div>
@@ -417,7 +462,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Maps type to an appropriate function. </p>
 
-<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00054">54</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00058">58</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
 
 </div>
 </div>
@@ -443,7 +488,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Owner. </p>
 
-<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00051">51</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00055">55</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
 
 </div>
 </div>
@@ -469,7 +514,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Collection of possible messages a component can receive. </p>
 
-<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00052">52</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_component_8h_source.html#l00056">56</a> of file <a class="el" href="_component_8h_source.html">Component.h</a>.</p>
 
 </div>
 </div>

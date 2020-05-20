@@ -9,6 +9,11 @@
 
 namespace Engine
 {
+	/*! \class ImGuiLayer
+	\brief Defines an ImGui layer. 
+	
+		Inherits from Layer
+	*/
 	class ImGuiLayer : public Layer
 	{
 	private:
@@ -56,8 +61,9 @@ namespace Engine
 		void addGO();
 		//! Opens the window to manage components
 		void manageComponents();
-
+		//! Opens a window to manage postprocessing effect
 		void managePPRenderer();
+
 		//! Adds a function to set of functions \param func new function
 		void addImGuiFunction(std::function<void(JsonLayer*)> func);
 		//! Gets all the functions \return ImGui functions 

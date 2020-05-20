@@ -63,7 +63,7 @@ namespace Engine
 
 		//! Gets a collection of GOs in a layer \return collection of GOs
 		inline std::map<std::string, std::shared_ptr<Engine::GameObject>>& getGameObjects() { return m_gameObjects; }
-		//! Get sounds \return collection of sounds
+		//! Get sounds in a layer \return collection of sounds
 		inline std::map<std::string, std::shared_ptr<Engine::Sound>>& getSounds() { return m_sounds; }
 
 		//! Gets a collection of predraw commands applied to a layer \return collection of predraw commands

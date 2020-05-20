@@ -109,6 +109,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5ac8fe1d87146a71e42ed9e567ef60b1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_window.html#a5ac8fe1d87146a71e42ed9e567ef60b1">setWidth</a> (float w)=0</td></tr>
 <tr class="memdesc:a5ac8fe1d87146a71e42ed9e567ef60b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets window's size on y axis.  <a href="class_engine_1_1_window.html#a5ac8fe1d87146a71e42ed9e567ef60b1">More...</a><br /></td></tr>
 <tr class="separator:a5ac8fe1d87146a71e42ed9e567ef60b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e7b36b7bf05067e4784e4979ffbd318"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_window.html#a3e7b36b7bf05067e4784e4979ffbd318">setCursorDisabled</a> ()=0</td></tr>
+<tr class="memdesc:a3e7b36b7bf05067e4784e4979ffbd318"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables cursor.  <a href="class_engine_1_1_window.html#a3e7b36b7bf05067e4784e4979ffbd318">More...</a><br /></td></tr>
+<tr class="separator:a3e7b36b7bf05067e4784e4979ffbd318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa48886d41acc0d3214c51c8c204a6939"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_window.html#aa48886d41acc0d3214c51c8c204a6939">setCursorEnabled</a> ()=0</td></tr>
+<tr class="memdesc:aa48886d41acc0d3214c51c8c204a6939"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables cursor.  <a href="class_engine_1_1_window.html#aa48886d41acc0d3214c51c8c204a6939">More...</a><br /></td></tr>
+<tr class="separator:aa48886d41acc0d3214c51c8c204a6939"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75955c4855c840f3a61ef0f163547219"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_engine_1_1_graphics_context.html">GraphicsContext</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_window.html#a75955c4855c840f3a61ef0f163547219">getGraphicsContext</a> ()</td></tr>
+<tr class="memdesc:a75955c4855c840f3a61ef0f163547219"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets current graphics context.  <a href="class_engine_1_1_window.html#a75955c4855c840f3a61ef0f163547219">More...</a><br /></td></tr>
+<tr class="separator:a75955c4855c840f3a61ef0f163547219"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3723c9b47bc710f190d4cf022ce0c12"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_window.html#ab3723c9b47bc710f190d4cf022ce0c12">~Window</a> ()</td></tr>
 <tr class="memdesc:ab3723c9b47bc710f190d4cf022ce0c12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor.  <a href="class_engine_1_1_window.html#ab3723c9b47bc710f190d4cf022ce0c12">More...</a><br /></td></tr>
 <tr class="separator:ab3723c9b47bc710f190d4cf022ce0c12"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -116,7 +125,6 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aaa5c2093ac89dae5b31ba426462f6894"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_engine_1_1_window.html">Window</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_window.html#aaa5c2093ac89dae5b31ba426462f6894">create</a> (const <a class="el" href="struct_engine_1_1_window_properties.html">WindowProperties</a> &amp;properties=<a class="el" href="struct_engine_1_1_window_properties.html">WindowProperties</a>())</td></tr>
-<tr class="memdesc:aaa5c2093ac89dae5b31ba426462f6894"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates window.  <a href="class_engine_1_1_window.html#aaa5c2093ac89dae5b31ba426462f6894">More...</a><br /></td></tr>
 <tr class="separator:aaa5c2093ac89dae5b31ba426462f6894"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -137,7 +145,7 @@ Protected Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="class_engine_1_1_window.html" title="Window&#39;s interface.">Window</a>'s interface. </p>
 
-<p class="definition">Definition at line <a class="el" href="window_8h_source.html#l00037">37</a> of file <a class="el" href="window_8h_source.html">window.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="window_8h_source.html#l00035">35</a> of file <a class="el" href="window_8h_source.html">window.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab3723c9b47bc710f190d4cf022ce0c12"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab3723c9b47bc710f190d4cf022ce0c12">&#9670;&nbsp;</a></span>~Window()</h2>
@@ -164,7 +172,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Virtual destructor. </p>
 
-<p class="definition">Definition at line <a class="el" href="window_8h_source.html#l00063">63</a> of file <a class="el" href="window_8h_source.html">window.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="window_8h_source.html#l00064">64</a> of file <a class="el" href="window_8h_source.html">window.h</a>.</p>
 
 </div>
 </div>
@@ -221,10 +229,39 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Creates window. </p>
+<p>Creates window </p>
 
 <p class="definition">Definition at line <a class="el" href="_win_platform_window_8cpp_source.html#l00015">15</a> of file <a class="el" href="_win_platform_window_8cpp_source.html">WinPlatformWindow.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a75955c4855c840f3a61ef0f163547219"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75955c4855c840f3a61ef0f163547219">&#9670;&nbsp;</a></span>getGraphicsContext()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="class_engine_1_1_graphics_context.html">GraphicsContext</a>&gt; Engine::Window::getGraphicsContext </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets current graphics context. </p>
+<dl class="section return"><dt>Returns</dt><dd>current context </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="window_8h_source.html#l00061">61</a> of file <a class="el" href="window_8h_source.html">window.h</a>.</p>
 
 </div>
 </div>
@@ -475,6 +512,64 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a3e7b36b7bf05067e4784e4979ffbd318"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e7b36b7bf05067e4784e4979ffbd318">&#9670;&nbsp;</a></span>setCursorDisabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Engine::Window::setCursorDisabled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Disables cursor. </p>
+
+<p>Implemented in <a class="el" href="class_engine_1_1_win_platform_window.html#a499cbf8e56887339e7c937d6bd552652">Engine::WinPlatformWindow</a>.</p>
+
+</div>
+</div>
+<a id="aa48886d41acc0d3214c51c8c204a6939"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa48886d41acc0d3214c51c8c204a6939">&#9670;&nbsp;</a></span>setCursorEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Engine::Window::setCursorEnabled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Enables cursor. </p>
+
+<p>Implemented in <a class="el" href="class_engine_1_1_win_platform_window.html#a31764217c15da0fcafdacf32353991db">Engine::WinPlatformWindow</a>.</p>
+
+</div>
+</div>
 <a id="afec5978ef0bda960ecee3bb969549936"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afec5978ef0bda960ecee3bb969549936">&#9670;&nbsp;</a></span>setEventCallback()</h2>
 
@@ -622,7 +717,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Callback event function. </p>
 
-<p class="definition">Definition at line <a class="el" href="window_8h_source.html#l00059">59</a> of file <a class="el" href="window_8h_source.html">window.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="window_8h_source.html#l00058">58</a> of file <a class="el" href="window_8h_source.html">window.h</a>.</p>
 
 </div>
 </div>
@@ -648,7 +743,7 @@ Protected Attributes</h2></td></tr>
 
 <p>OpenGL graphics context. </p>
 
-<p class="definition">Definition at line <a class="el" href="window_8h_source.html#l00040">40</a> of file <a class="el" href="window_8h_source.html">window.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="window_8h_source.html#l00038">38</a> of file <a class="el" href="window_8h_source.html">window.h</a>.</p>
 
 </div>
 </div>
@@ -674,7 +769,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Windows properties struct object. </p>
 
-<p class="definition">Definition at line <a class="el" href="window_8h_source.html#l00042">42</a> of file <a class="el" href="window_8h_source.html">window.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="window_8h_source.html#l00039">39</a> of file <a class="el" href="window_8h_source.html">window.h</a>.</p>
 
 </div>
 </div>

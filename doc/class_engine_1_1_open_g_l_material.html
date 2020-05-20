@@ -68,9 +68,9 @@ Inheritance diagram for Engine::OpenGLMaterial:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a75ba1f30b5ab6546272befc987316b78"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_material.html#a75ba1f30b5ab6546272befc987316b78">OpenGLMaterial</a> (const std::shared_ptr&lt; <a class="el" href="class_engine_1_1_shader.html">Shader</a> &gt; &amp;shader, const std::shared_ptr&lt; <a class="el" href="class_engine_1_1_vertex_array.html">VertexArray</a> &gt; &amp;VAO)</td></tr>
-<tr class="memdesc:a75ba1f30b5ab6546272befc987316b78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom constructor.  <a href="class_engine_1_1_open_g_l_material.html#a75ba1f30b5ab6546272befc987316b78">More...</a><br /></td></tr>
-<tr class="separator:a75ba1f30b5ab6546272befc987316b78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a162a3b16cba34f0e60acf0a37a15bc48"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_material.html#a162a3b16cba34f0e60acf0a37a15bc48">OpenGLMaterial</a> (const std::shared_ptr&lt; <a class="el" href="class_engine_1_1_shader.html">Shader</a> &gt; &amp;shader, const std::shared_ptr&lt; <a class="el" href="class_engine_1_1_vertex_array.html">VertexArray</a> &gt; &amp;VAO, bool tess=false)</td></tr>
+<tr class="memdesc:a162a3b16cba34f0e60acf0a37a15bc48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom constructor.  <a href="class_engine_1_1_open_g_l_material.html#a162a3b16cba34f0e60acf0a37a15bc48">More...</a><br /></td></tr>
+<tr class="separator:a162a3b16cba34f0e60acf0a37a15bc48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61cbf7448716ca56c6b55ccea9fc74de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_material.html#a61cbf7448716ca56c6b55ccea9fc74de">setShader</a> (const std::shared_ptr&lt; <a class="el" href="class_engine_1_1_shader.html">Shader</a> &gt; &amp;shader) override</td></tr>
 <tr class="memdesc:a61cbf7448716ca56c6b55ccea9fc74de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binds new shader to the material.  <a href="class_engine_1_1_open_g_l_material.html#a61cbf7448716ca56c6b55ccea9fc74de">More...</a><br /></td></tr>
 <tr class="separator:a61cbf7448716ca56c6b55ccea9fc74de"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -80,7 +80,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adc63d7da76924716c53c5d3fe656f80e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_material.html#adc63d7da76924716c53c5d3fe656f80e">setShaderDataElement</a> (const std::string &amp;dataName, void *data) override</td></tr>
 <tr class="memdesc:adc63d7da76924716c53c5d3fe656f80e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets an individual element of data in a shader.  <a href="class_engine_1_1_open_g_l_material.html#adc63d7da76924716c53c5d3fe656f80e">More...</a><br /></td></tr>
 <tr class="separator:adc63d7da76924716c53c5d3fe656f80e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e1b6c477edbe9fcd8e22fdead6c6e24"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_material.html#a7e1b6c477edbe9fcd8e22fdead6c6e24">setVertexData</a> (float *vertices, unsigned int size, unsigned int offset) override</td></tr>
+<tr class="memitem:a7e1b6c477edbe9fcd8e22fdead6c6e24"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_material.html#a7e1b6c477edbe9fcd8e22fdead6c6e24">setVertexData</a> (float *vertices, unsigned int <a class="el" href="namespace_engine.html#a3ee0451df8c87b41dc929d83568a25f2">size</a>, unsigned int offset) override</td></tr>
 <tr class="memdesc:a7e1b6c477edbe9fcd8e22fdead6c6e24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets vertex data of the material.  <a href="class_engine_1_1_open_g_l_material.html#a7e1b6c477edbe9fcd8e22fdead6c6e24">More...</a><br /></td></tr>
 <tr class="separator:a7e1b6c477edbe9fcd8e22fdead6c6e24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d17b6e4beeff174b4a228cf1266bed6"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_engine_1_1_shader.html">Shader</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_material.html#a7d17b6e4beeff174b4a228cf1266bed6">getShader</a> () override</td></tr>
@@ -92,6 +92,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a986c9717c08328299ea33ce19cd08b02"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_material.html#a986c9717c08328299ea33ce19cd08b02">getGeometry</a> () override</td></tr>
 <tr class="memdesc:a986c9717c08328299ea33ce19cd08b02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get geometry associated with the material.  <a href="class_engine_1_1_open_g_l_material.html#a986c9717c08328299ea33ce19cd08b02">More...</a><br /></td></tr>
 <tr class="separator:a986c9717c08328299ea33ce19cd08b02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76779b7b23dc11c72f083edb1d994f35"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_material.html#a76779b7b23dc11c72f083edb1d994f35">getTessFlag</a> () override</td></tr>
+<tr class="memdesc:a76779b7b23dc11c72f083edb1d994f35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the tessellation flag.  <a href="class_engine_1_1_open_g_l_material.html#a76779b7b23dc11c72f083edb1d994f35">More...</a><br /></td></tr>
+<tr class="separator:a76779b7b23dc11c72f083edb1d994f35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43d66ab3c446dc9a1092980dc627d0c8"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, void * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_material.html#a43d66ab3c446dc9a1092980dc627d0c8">getData</a> () override</td></tr>
 <tr class="memdesc:a43d66ab3c446dc9a1092980dc627d0c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get data of the material.  <a href="class_engine_1_1_open_g_l_material.html#a43d66ab3c446dc9a1092980dc627d0c8">More...</a><br /></td></tr>
 <tr class="separator:a43d66ab3c446dc9a1092980dc627d0c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -107,14 +110,17 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a58ad0433f6f9ba280b2ce4ba211eb1eb"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, void * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_material.html#a58ad0433f6f9ba280b2ce4ba211eb1eb">m_data</a></td></tr>
 <tr class="memdesc:a58ad0433f6f9ba280b2ce4ba211eb1eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current material's data.  <a href="class_engine_1_1_open_g_l_material.html#a58ad0433f6f9ba280b2ce4ba211eb1eb">More...</a><br /></td></tr>
 <tr class="separator:a58ad0433f6f9ba280b2ce4ba211eb1eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85cb6a19748438e69993cc5a8db4ea9c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_material.html#a85cb6a19748438e69993cc5a8db4ea9c">m_tessFlag</a></td></tr>
+<tr class="memdesc:a85cb6a19748438e69993cc5a8db4ea9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Should rendered material be tessellated?  <a href="class_engine_1_1_open_g_l_material.html#a85cb6a19748438e69993cc5a8db4ea9c">More...</a><br /></td></tr>
+<tr class="separator:a85cb6a19748438e69993cc5a8db4ea9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_static_methods_class_engine_1_1_material"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_class_engine_1_1_material')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="class_engine_1_1_material.html">Engine::Material</a></td></tr>
-<tr class="memitem:aa86127afae041e35de577c065c607c9f inherit pub_static_methods_class_engine_1_1_material"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_engine_1_1_material.html">Material</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material.html#aa86127afae041e35de577c065c607c9f">create</a> (const std::shared_ptr&lt; <a class="el" href="class_engine_1_1_shader.html">Shader</a> &gt; &amp;shader, const std::shared_ptr&lt; <a class="el" href="class_engine_1_1_vertex_array.html">VertexArray</a> &gt; &amp;VAO)</td></tr>
-<tr class="separator:aa86127afae041e35de577c065c607c9f inherit pub_static_methods_class_engine_1_1_material"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeff3ec201dc4197c985044d4d673c584 inherit pub_static_methods_class_engine_1_1_material"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_engine_1_1_material.html">Material</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material.html#aeff3ec201dc4197c985044d4d673c584">create</a> (const std::shared_ptr&lt; <a class="el" href="class_engine_1_1_shader.html">Shader</a> &gt; &amp;shader, const std::shared_ptr&lt; <a class="el" href="class_engine_1_1_vertex_buffer.html">VertexBuffer</a> &gt; &amp;VBO)</td></tr>
-<tr class="separator:aeff3ec201dc4197c985044d4d673c584 inherit pub_static_methods_class_engine_1_1_material"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2675ad60347f9049f0cbe11ee011bbd3 inherit pub_static_methods_class_engine_1_1_material"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_engine_1_1_material.html">Material</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material.html#a2675ad60347f9049f0cbe11ee011bbd3">create</a> (const std::shared_ptr&lt; <a class="el" href="class_engine_1_1_shader.html">Shader</a> &gt; &amp;shader, const std::shared_ptr&lt; <a class="el" href="class_engine_1_1_vertex_array.html">VertexArray</a> &gt; &amp;VAO, bool tess=false)</td></tr>
+<tr class="separator:a2675ad60347f9049f0cbe11ee011bbd3 inherit pub_static_methods_class_engine_1_1_material"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa22efc5b7fbc31bfd88127123d53c232 inherit pub_static_methods_class_engine_1_1_material"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_engine_1_1_material.html">Material</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material.html#aa22efc5b7fbc31bfd88127123d53c232">create</a> (const std::shared_ptr&lt; <a class="el" href="class_engine_1_1_shader.html">Shader</a> &gt; &amp;shader, const std::shared_ptr&lt; <a class="el" href="class_engine_1_1_vertex_buffer.html">VertexBuffer</a> &gt; &amp;VBO, bool tess=false)</td></tr>
+<tr class="separator:aa22efc5b7fbc31bfd88127123d53c232 inherit pub_static_methods_class_engine_1_1_material"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_class_engine_1_1_material"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_engine_1_1_material')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_engine_1_1_material.html">Engine::Material</a></td></tr>
 <tr class="memitem:a084ca7e9c11f833863da039fc27fd094 inherit pro_attribs_class_engine_1_1_material"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material.html#a084ca7e9c11f833863da039fc27fd094">m_geometry</a></td></tr>
 <tr class="memdesc:a084ca7e9c11f833863da039fc27fd094 inherit pro_attribs_class_engine_1_1_material"><td class="mdescLeft">&#160;</td><td class="mdescRight">Geometry of the shader. Can be either VAO (OpenGL) or VBO (Non OpenGL)  <a href="class_engine_1_1_material.html#a084ca7e9c11f833863da039fc27fd094">More...</a><br /></td></tr>
@@ -125,8 +131,8 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_open_g_l_material_8h_source.html#l00014">14</a> of file <a class="el" href="_open_g_l_material_8h_source.html">OpenGLMaterial.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a75ba1f30b5ab6546272befc987316b78"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75ba1f30b5ab6546272befc987316b78">&#9670;&nbsp;</a></span>OpenGLMaterial()</h2>
+<a id="a162a3b16cba34f0e60acf0a37a15bc48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a162a3b16cba34f0e60acf0a37a15bc48">&#9670;&nbsp;</a></span>OpenGLMaterial()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -141,7 +147,13 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="class_engine_1_1_vertex_array.html">VertexArray</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>VAO</em>&#160;</td>
+          <td class="paramname"><em>VAO</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>tess</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -193,7 +205,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_engine_1_1_material.html#a7b810430fb41d2d721f1f25fbba43a61">Engine::Material</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00047">47</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00053">53</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
 
 </div>
 </div>
@@ -225,7 +237,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_engine_1_1_material.html#a7ecf68ed56a161f2f04be8b6732b604b">Engine::Material</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00042">42</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00043">43</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
 
 </div>
 </div>
@@ -257,7 +269,38 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_engine_1_1_material.html#a2a65f045a820e25baa091b3f0b00bf1e">Engine::Material</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00037">37</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00038">38</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a76779b7b23dc11c72f083edb1d994f35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76779b7b23dc11c72f083edb1d994f35">&#9670;&nbsp;</a></span>getTessFlag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Engine::OpenGLMaterial::getTessFlag </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the tessellation flag. </p>
+
+<p>Implements <a class="el" href="class_engine_1_1_material.html#a2e21d20f82a4ac3026ea116c10f590c3">Engine::Material</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00048">48</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
 
 </div>
 </div>
@@ -295,7 +338,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_engine_1_1_material.html#af2740ed1316ab617d281191384be002c">Engine::Material</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00018">18</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00019">19</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
 
 </div>
 </div>
@@ -333,7 +376,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_engine_1_1_material.html#abf569488a15f2dba4371cc070f351e97">Engine::Material</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00013">13</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00014">14</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
 
 </div>
 </div>
@@ -371,7 +414,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_engine_1_1_material.html#ab792a1f2114f06be7e5f44ccaacfec2a">Engine::Material</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00023">23</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00024">24</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
 
 </div>
 </div>
@@ -420,7 +463,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_engine_1_1_material.html#abfd4328e0544882c77efeeadb7014e3a">Engine::Material</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00028">28</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00029">29</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
 
 </div>
 </div>
@@ -476,7 +519,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_engine_1_1_material.html#a1a4ae9d12826190dab9086b3b1356601">Engine::Material</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00033">33</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8cpp_source.html#l00034">34</a> of file <a class="el" href="_open_g_l_material_8cpp_source.html">OpenGLMaterial.cpp</a>.</p>
 
 </div>
 </div>
@@ -530,6 +573,32 @@ Additional Inherited Members</h2></td></tr>
 <p>Current material's shader. </p>
 
 <p class="definition">Definition at line <a class="el" href="_open_g_l_material_8h_source.html#l00017">17</a> of file <a class="el" href="_open_g_l_material_8h_source.html">OpenGLMaterial.h</a>.</p>
+
+</div>
+</div>
+<a id="a85cb6a19748438e69993cc5a8db4ea9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85cb6a19748438e69993cc5a8db4ea9c">&#9670;&nbsp;</a></span>m_tessFlag</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Engine::OpenGLMaterial::m_tessFlag</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Should rendered material be tessellated? </p>
+
+<p class="definition">Definition at line <a class="el" href="_open_g_l_material_8h_source.html#l00020">20</a> of file <a class="el" href="_open_g_l_material_8h_source.html">OpenGLMaterial.h</a>.</p>
 
 </div>
 </div>

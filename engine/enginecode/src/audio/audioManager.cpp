@@ -287,14 +287,6 @@ namespace Engine {
 		errorCheck(it->second->setParameterByName(strParameterName.c_str(), value));
 	}
 
-	void AudioManager::getEventParameter(const std::string& strEventName, const std::string& strEventParameter, float* value)
-	{
-	}
-
-	void AudioManager::setEventPosition(const std::string& strEventName, const glm::vec3& position)
-	{
-	}
-
 
 
 	void AudioManager::togglePauseAllChannels()
@@ -318,10 +310,5 @@ namespace Engine {
 	bool AudioManager::isChannelPlaying(int nChannelID) const
 	{
 		return false;
-	}
-
-	void AudioManager::moveGeometry(const std::string label, const glm::vec3& position)
-	{
-
 	}
 }

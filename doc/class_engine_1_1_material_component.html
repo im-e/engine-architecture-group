@@ -69,7 +69,7 @@ Inheritance diagram for Engine::MaterialComponent:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a1fe9b5fbc218cc6fccaa189d4d706cc5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material_component.html#a1fe9b5fbc218cc6fccaa189d4d706cc5">MaterialComponent</a> (const std::shared_ptr&lt; <a class="el" href="class_engine_1_1_material.html">Material</a> &gt; &amp;material)</td></tr>
-<tr class="memdesc:a1fe9b5fbc218cc6fccaa189d4d706cc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom constructor.  <a href="class_engine_1_1_material_component.html#a1fe9b5fbc218cc6fccaa189d4d706cc5">More...</a><br /></td></tr>
+<tr class="memdesc:a1fe9b5fbc218cc6fccaa189d4d706cc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Model's name associated with material.  <a href="class_engine_1_1_material_component.html#a1fe9b5fbc218cc6fccaa189d4d706cc5">More...</a><br /></td></tr>
 <tr class="separator:a1fe9b5fbc218cc6fccaa189d4d706cc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6ccaed9c748224b3a7428f7776648e1"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_engine_1_1_material.html">Material</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material_component.html#af6ccaed9c748224b3a7428f7776648e1">getMaterial</a> ()</td></tr>
 <tr class="memdesc:af6ccaed9c748224b3a7428f7776648e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets material associated with a GO.  <a href="class_engine_1_1_material_component.html#af6ccaed9c748224b3a7428f7776648e1">More...</a><br /></td></tr>
@@ -77,13 +77,34 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a085ad273b7a85fbc7bc0eee812bbfbe4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material_component.html#a085ad273b7a85fbc7bc0eee812bbfbe4">onAttach</a> (<a class="el" href="class_engine_1_1_game_object.html">GameObject</a> *owner) override</td></tr>
 <tr class="memdesc:a085ad273b7a85fbc7bc0eee812bbfbe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when component is attached to a gameobject.  <a href="class_engine_1_1_material_component.html#a085ad273b7a85fbc7bc0eee812bbfbe4">More...</a><br /></td></tr>
 <tr class="separator:a085ad273b7a85fbc7bc0eee812bbfbe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac378f13ab900a35d4c88474d8153e01f"><td class="memItemLeft" align="right" valign="top">const std::type_info &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material_component.html#ac378f13ab900a35d4c88474d8153e01f">getType</a> () override</td></tr>
+<tr class="memdesc:ac378f13ab900a35d4c88474d8153e01f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get type info of the component.  <a href="class_engine_1_1_material_component.html#ac378f13ab900a35d4c88474d8153e01f">More...</a><br /></td></tr>
+<tr class="separator:ac378f13ab900a35d4c88474d8153e01f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef289fec1a0e027eaf2842274314aa97"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material_component.html#aef289fec1a0e027eaf2842274314aa97">onDetach</a> () override</td></tr>
+<tr class="memdesc:aef289fec1a0e027eaf2842274314aa97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when object is being detached from an owner.  <a href="class_engine_1_1_material_component.html#aef289fec1a0e027eaf2842274314aa97">More...</a><br /></td></tr>
+<tr class="separator:aef289fec1a0e027eaf2842274314aa97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ed1140e30aa4aa8106e8704b303dff5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material_component.html#a8ed1140e30aa4aa8106e8704b303dff5">setShaderName</a> (std::string name)</td></tr>
+<tr class="memdesc:a8ed1140e30aa4aa8106e8704b303dff5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets shader name.  <a href="class_engine_1_1_material_component.html#a8ed1140e30aa4aa8106e8704b303dff5">More...</a><br /></td></tr>
+<tr class="separator:a8ed1140e30aa4aa8106e8704b303dff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a104b4d0cc1729499726c59a3a96091eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material_component.html#a104b4d0cc1729499726c59a3a96091eb">setModelName</a> (std::string name)</td></tr>
+<tr class="memdesc:a104b4d0cc1729499726c59a3a96091eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets model name.  <a href="class_engine_1_1_material_component.html#a104b4d0cc1729499726c59a3a96091eb">More...</a><br /></td></tr>
+<tr class="separator:a104b4d0cc1729499726c59a3a96091eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1067d3f8124334ee601098a35593b794"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material_component.html#a1067d3f8124334ee601098a35593b794">setTypeName</a> (std::string name)</td></tr>
+<tr class="memdesc:a1067d3f8124334ee601098a35593b794"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets type name.  <a href="class_engine_1_1_material_component.html#a1067d3f8124334ee601098a35593b794">More...</a><br /></td></tr>
+<tr class="separator:a1067d3f8124334ee601098a35593b794"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab84f384e1318dc1a6f3709eb8fc8ab29"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material_component.html#ab84f384e1318dc1a6f3709eb8fc8ab29">getShaderName</a> ()</td></tr>
+<tr class="memdesc:ab84f384e1318dc1a6f3709eb8fc8ab29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets shader name.  <a href="class_engine_1_1_material_component.html#ab84f384e1318dc1a6f3709eb8fc8ab29">More...</a><br /></td></tr>
+<tr class="separator:ab84f384e1318dc1a6f3709eb8fc8ab29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a350b5d8400f060b4e042ecf5f6ae78f9"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material_component.html#a350b5d8400f060b4e042ecf5f6ae78f9">getModelName</a> ()</td></tr>
+<tr class="memdesc:a350b5d8400f060b4e042ecf5f6ae78f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets model name.  <a href="class_engine_1_1_material_component.html#a350b5d8400f060b4e042ecf5f6ae78f9">More...</a><br /></td></tr>
+<tr class="separator:a350b5d8400f060b4e042ecf5f6ae78f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33b27ba362a22fd3acab74718fd6ed3e"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material_component.html#a33b27ba362a22fd3acab74718fd6ed3e">getTypeName</a> ()</td></tr>
+<tr class="memdesc:a33b27ba362a22fd3acab74718fd6ed3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets type name.  <a href="class_engine_1_1_material_component.html#a33b27ba362a22fd3acab74718fd6ed3e">More...</a><br /></td></tr>
+<tr class="separator:a33b27ba362a22fd3acab74718fd6ed3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_engine_1_1_component"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_engine_1_1_component')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_engine_1_1_component.html">Engine::Component</a></td></tr>
 <tr class="memitem:aae98a62b1157db012713e6ee16b1341e inherit pub_methods_class_engine_1_1_component"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_engine_1_1_game_object.html">GameObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_component.html#aae98a62b1157db012713e6ee16b1341e">getOwner</a> ()</td></tr>
 <tr class="memdesc:aae98a62b1157db012713e6ee16b1341e inherit pub_methods_class_engine_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets owner of a component.  <a href="class_engine_1_1_component.html#aae98a62b1157db012713e6ee16b1341e">More...</a><br /></td></tr>
 <tr class="separator:aae98a62b1157db012713e6ee16b1341e inherit pub_methods_class_engine_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7c60005f892987efdb69cd9e09c168d inherit pub_methods_class_engine_1_1_component"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_component.html#ab7c60005f892987efdb69cd9e09c168d">onDetach</a> ()</td></tr>
-<tr class="memdesc:ab7c60005f892987efdb69cd9e09c168d inherit pub_methods_class_engine_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when object is being detached from an owner.  <a href="class_engine_1_1_component.html#ab7c60005f892987efdb69cd9e09c168d">More...</a><br /></td></tr>
-<tr class="separator:ab7c60005f892987efdb69cd9e09c168d inherit pub_methods_class_engine_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:addbf4c39ae043652de01a214129ff3fe inherit pub_methods_class_engine_1_1_component"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_component.html#addbf4c39ae043652de01a214129ff3fe">onUpdate</a> (float timestep)</td></tr>
 <tr class="memdesc:addbf4c39ae043652de01a214129ff3fe inherit pub_methods_class_engine_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called every tick. Updates components.  <a href="class_engine_1_1_component.html#addbf4c39ae043652de01a214129ff3fe">More...</a><br /></td></tr>
 <tr class="separator:addbf4c39ae043652de01a214129ff3fe inherit pub_methods_class_engine_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -102,6 +123,14 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a147f1f0197948de371dd214e55ca73f1"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_engine_1_1_material.html">Material</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material_component.html#a147f1f0197948de371dd214e55ca73f1">m_material</a></td></tr>
 <tr class="memdesc:a147f1f0197948de371dd214e55ca73f1"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_engine_1_1_material.html" title="implements materials for the engine">Material</a> associated with a GO.  <a href="class_engine_1_1_material_component.html#a147f1f0197948de371dd214e55ca73f1">More...</a><br /></td></tr>
 <tr class="separator:a147f1f0197948de371dd214e55ca73f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2336278ae400e9f14de8ccc07d33fb4e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material_component.html#a2336278ae400e9f14de8ccc07d33fb4e">m_typeName</a></td></tr>
+<tr class="separator:a2336278ae400e9f14de8ccc07d33fb4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae841985085a3ba265c8946028a4ad89a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material_component.html#ae841985085a3ba265c8946028a4ad89a">m_shaderName</a></td></tr>
+<tr class="memdesc:ae841985085a3ba265c8946028a4ad89a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_engine_1_1_material.html" title="implements materials for the engine">Material</a>'s type name (json/assimp)  <a href="class_engine_1_1_material_component.html#ae841985085a3ba265c8946028a4ad89a">More...</a><br /></td></tr>
+<tr class="separator:ae841985085a3ba265c8946028a4ad89a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae74f921fbdfc21eee566fdeb86cae1cf"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_material_component.html#ae74f921fbdfc21eee566fdeb86cae1cf">m_modelName</a></td></tr>
+<tr class="memdesc:ae74f921fbdfc21eee566fdeb86cae1cf"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_engine_1_1_shader.html" title="API agnostic base class for all shaders.">Shader</a>'s name associated with material.  <a href="class_engine_1_1_material_component.html#ae74f921fbdfc21eee566fdeb86cae1cf">More...</a><br /></td></tr>
+<tr class="separator:ae74f921fbdfc21eee566fdeb86cae1cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -150,15 +179,15 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Custom constructor. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Model's name associated with material. </p>
+<p>Custom constructor</p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">material</td><td>material of a GO </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00024">24</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00028">28</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
 
 </div>
 </div>
@@ -189,7 +218,129 @@ Additional Inherited Members</h2></td></tr>
 <p>Gets material associated with a GO. </p>
 <dl class="section return"><dt>Returns</dt><dd>material of a GO </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00026">26</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00030">30</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="a350b5d8400f060b4e042ecf5f6ae78f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a350b5d8400f060b4e042ecf5f6ae78f9">&#9670;&nbsp;</a></span>getModelName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string&amp; Engine::MaterialComponent::getModelName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets model name. </p>
+<dl class="section return"><dt>Returns</dt><dd>current model name </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00090">90</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="ab84f384e1318dc1a6f3709eb8fc8ab29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab84f384e1318dc1a6f3709eb8fc8ab29">&#9670;&nbsp;</a></span>getShaderName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string&amp; Engine::MaterialComponent::getShaderName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets shader name. </p>
+<dl class="section return"><dt>Returns</dt><dd>current shader name </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00087">87</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="ac378f13ab900a35d4c88474d8153e01f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac378f13ab900a35d4c88474d8153e01f">&#9670;&nbsp;</a></span>getType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::type_info&amp; Engine::MaterialComponent::getType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get type info of the component. </p>
+<dl class="section return"><dt>Returns</dt><dd>unique type of the ptr to the component </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_engine_1_1_component.html#aca2a7cc691a59a4eaadda7a8d95f76f5">Engine::Component</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00055">55</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="a33b27ba362a22fd3acab74718fd6ed3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33b27ba362a22fd3acab74718fd6ed3e">&#9670;&nbsp;</a></span>getTypeName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string&amp; Engine::MaterialComponent::getTypeName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets type name. </p>
+<dl class="section return"><dt>Returns</dt><dd>current type name </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00093">93</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
 
 </div>
 </div>
@@ -227,7 +378,146 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_engine_1_1_component.html#a65426ef991ca092058d365cff80f5bb4">Engine::Component</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00028">28</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00032">32</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="aef289fec1a0e027eaf2842274314aa97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef289fec1a0e027eaf2842274314aa97">&#9670;&nbsp;</a></span>onDetach()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Engine::MaterialComponent::onDetach </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Called when object is being detached from an owner. </p>
+
+<p>Reimplemented from <a class="el" href="class_engine_1_1_component.html#ab7c60005f892987efdb69cd9e09c168d">Engine::Component</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00060">60</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="a104b4d0cc1729499726c59a3a96091eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a104b4d0cc1729499726c59a3a96091eb">&#9670;&nbsp;</a></span>setModelName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Engine::MaterialComponent::setModelName </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets model name. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>new model name </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00081">81</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="a8ed1140e30aa4aa8106e8704b303dff5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ed1140e30aa4aa8106e8704b303dff5">&#9670;&nbsp;</a></span>setShaderName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Engine::MaterialComponent::setShaderName </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets shader name. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>new shader name </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00078">78</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="a1067d3f8124334ee601098a35593b794"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1067d3f8124334ee601098a35593b794">&#9670;&nbsp;</a></span>setTypeName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Engine::MaterialComponent::setTypeName </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets type name. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>new type name </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00084">84</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
 
 </div>
 </div>
@@ -255,6 +545,82 @@ Additional Inherited Members</h2></td></tr>
 <p><a class="el" href="class_engine_1_1_material.html" title="implements materials for the engine">Material</a> associated with a GO. </p>
 
 <p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00021">21</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="ae74f921fbdfc21eee566fdeb86cae1cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae74f921fbdfc21eee566fdeb86cae1cf">&#9670;&nbsp;</a></span>m_modelName</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Engine::MaterialComponent::m_modelName</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="class_engine_1_1_shader.html" title="API agnostic base class for all shaders.">Shader</a>'s name associated with material. </p>
+
+<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00025">25</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="ae841985085a3ba265c8946028a4ad89a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae841985085a3ba265c8946028a4ad89a">&#9670;&nbsp;</a></span>m_shaderName</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Engine::MaterialComponent::m_shaderName</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="class_engine_1_1_material.html" title="implements materials for the engine">Material</a>'s type name (json/assimp) </p>
+
+<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00024">24</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="a2336278ae400e9f14de8ccc07d33fb4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2336278ae400e9f14de8ccc07d33fb4e">&#9670;&nbsp;</a></span>m_typeName</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Engine::MaterialComponent::m_typeName</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_material_component_8h_source.html#l00023">23</a> of file <a class="el" href="_material_component_8h_source.html">MaterialComponent.h</a>.</p>
 
 </div>
 </div>

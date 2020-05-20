@@ -1,26 +1,38 @@
 #pragma once
-// Creates skybox (basically a cube)
+
+/*! \file Skybox.h
+\brief Creates a skybox. Currently not working.
+*/
 
 #include <vector>
 #include "resources/Shader.h"
 
 namespace Engine
 {
+	/*! \class Skybox
+	\brief Creates a skybox.
+	
+		Currently not working
+	*/
 	class Skybox
 	{
 	protected:
-		std::vector<std::string> m_paths; // paths to skybox's textures
-		unsigned int vao, vbo; // buffers IDs
-		unsigned int cubeVAO, cubeVBO;
+		std::vector<std::string> m_paths; //!< Paths to skybox's textures
+		unsigned int vao, vbo; //!< Buffers IDs
+		unsigned int cubeVAO; //!< Skybox VAO
+		unsigned int cubeVBO; //!< Skybox VBO
 	public:
-		Skybox(); // Init skybox
-
-		void createSkyboxCube(); // Creates skybox cube
+		//! Default constructor
+		Skybox();
+		//! Creates a skybox \param defSkyboxShader default skybox shader
 		static Skybox* createSkybox(std::shared_ptr<Shader> defSkyboxShader);
-		inline std::vector<std::string> getPaths() { return m_paths; } // Gets all file paths
-		void draw(unsigned int texID); // Draw skybox
-		void stop(); // Free resources
 
+		void createSkyboxCube(); //!< Creates skybox cube
+		inline std::vector<std::string> getPaths() { return m_paths; } //! Gets all texture paths \return texture paths
+		void draw(unsigned int texID); //! Draws a skybox \param texID texture to be bound
+		void stop(); //! Free resources
+
+		//! Skybox textures
 		std::vector<std::string> faces
 		{
 			"Assets/Textures/Skybox/Space_Right.png",
@@ -31,6 +43,7 @@ namespace Engine
 			"Assets/Textures/Skybox/Space_back.png"
 		};
 
+		//! Destructor
 		~Skybox();
 	};
 }

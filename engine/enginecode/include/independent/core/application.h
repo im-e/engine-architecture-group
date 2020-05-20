@@ -107,7 +107,7 @@ namespace Engine {
 		//! Gets physics world \return physics world
 		std::shared_ptr<Physics>& getPhysics();
     
-    //! Gets Rp3D regulator of matching graphics display with physics \return physics regulator
+		//! Gets Rp3D regulator of matching graphics display with physics \return physics regulator
 		float getPhysFactor()
 		{
 			return m_accumulator / m_timestep;

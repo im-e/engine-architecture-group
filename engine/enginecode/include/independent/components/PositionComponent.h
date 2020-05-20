@@ -202,16 +202,19 @@ namespace Engine
 			return m_initialScaleVec;
 		}
 
+		//! Gets current rendering model \return rendering model
 		inline glm::mat4 &getModel()
 		{
 			return m_model;
 		}
 
+		//! Integrates rendering with physics \param phyModel physics model
 		void setModel(glm::mat4 &phyModel)
 		{
 			m_model = phyModel * m_scale;
 		}
 
+		//! Gets current rendering position \return rendering position
 		inline rp3d::Vector3 &getRenderPosition()
 		{
 			rp3d::Vector3 temp;
@@ -219,7 +222,6 @@ namespace Engine
 			temp.y = this->getCurrentPosition().y;
 			temp.z = this->getCurrentPosition().z;
 			return temp;
-
 		}
 	};
 }

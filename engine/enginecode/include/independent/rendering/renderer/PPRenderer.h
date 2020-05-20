@@ -16,13 +16,15 @@ namespace Engine
 	class PPRenderer : public Renderer
 	{
 	public:
+		//! Sets postprocessing shader \param shader new postprocessing shader
 		virtual void setPPShader(std::shared_ptr<Shader> shader) = 0;
+		//! Sets postprocessing effect index \param PPIndex new effect index
 		virtual void setPPIndex(int PPIndex) = 0;
-		//virtual const int& getColourTextureUnit() = 0;
-		//virtual const int& getDepthTextureUnit() = 0;
+		//! Sets colour texture unit \param unit new unit
 		virtual void setColourTextureUnit(unsigned int unit) = 0;
+		//! Sets depth texture unit \param unit new unit
 		virtual void setDepthTextureUnit(unsigned int unit) = 0;
-		//! Creates 3D view for the engine
+		//! Creates a postprocessing renderer \param defaultPPRShader default postprocessing shader
 		static PPRenderer* createPPRenderer(std::shared_ptr<Shader> defaultPPRShader);
 	}; 
 }

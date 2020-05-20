@@ -15,15 +15,20 @@
 namespace Engine
 {
 
-	//! Result of visual profiling
+	/*! \struct VisualProfileResult 
+	\brief Result of visual profiling
+	*/
 	struct VisualProfileResult
 	{
 		std::string m_name; //!< Name to be displayed
-		long long m_start, m_end; //!< Time points
+		long long m_start; //!< Time start point
+		long long m_end; //!< Time end point
 		uint32_t m_threadID; //!< Thread ID
 	};
 
-	//! Name of the session
+	/*! \struct InstrumentationSession 
+	\brief Name of the session
+	*/
 	struct InstrumentationSession
 	{
 		std::string m_name; //!< Name

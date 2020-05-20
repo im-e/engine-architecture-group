@@ -1,17 +1,28 @@
 #pragma once
 
-#include "ColliderComponent.h"
-namespace Engine {
+/*! \file BoxColliderComponent.h
+\brief Defines box collider. Currently not working
+*/
 
+#include "ColliderComponent.h"
+
+namespace Engine 
+{
+	/*! \class BoxColliderComponent
+	\brief Defines a box collider. Currently not working.
+
+		Inherits from collider component.
+	*/
 	class BoxColliderComponent : public ColliderComponent
 	{
 	private:
-		rp3d::Vector3 boxDim;
-		rp3d::CollisionBody *body;
+		rp3d::Vector3 boxDim; //!< Box dimensions 
+		rp3d::CollisionBody *body; //!< Collision body
 
 	public:
-
-		BoxColliderComponent() {};//default constructor
+		//! Default constructor
+		BoxColliderComponent() {};
+		//! Custom constructor \param boxSize collider size
 		BoxColliderComponent(rp3d::Vector3 boxSize)
 		{
 			boxDim = boxSize;

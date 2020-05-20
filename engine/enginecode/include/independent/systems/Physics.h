@@ -1,6 +1,6 @@
 #pragma once
 
-/*! \file Physics
+/*! \file Physics.h
 \brief Implements physics system
 */
 
@@ -9,13 +9,15 @@
 
 namespace Engine 
 {
-
+	/*! \class Physics
+	\brief Definition for physics system.
+	*/
 	class Physics : public System
 	{
 	private:
 		//! Pointer to ReactPhysics3D world
 		static std::shared_ptr<rp3d::DynamicsWorld> m_world;
-    //! Gravity values
+		//! Gravity values
 		rp3d::Vector3 gravity = rp3d::Vector3(0.0, -1.0, 0.0);
 
 	public:

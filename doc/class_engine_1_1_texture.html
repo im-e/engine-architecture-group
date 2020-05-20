@@ -81,6 +81,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af09f28545dbbac0c800f6b124d44225a"><td class="memItemLeft" align="right" valign="top">virtual unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_texture.html#af09f28545dbbac0c800f6b124d44225a">getSlot</a> () const =0</td></tr>
 <tr class="memdesc:af09f28545dbbac0c800f6b124d44225a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get slot.  <a href="class_engine_1_1_texture.html#af09f28545dbbac0c800f6b124d44225a">More...</a><br /></td></tr>
 <tr class="separator:af09f28545dbbac0c800f6b124d44225a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae587c75d7b6bff27419f74c60b408a75"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_texture.html#ae587c75d7b6bff27419f74c60b408a75">compile</a> ()=0</td></tr>
+<tr class="memdesc:ae587c75d7b6bff27419f74c60b408a75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates texture.  <a href="class_engine_1_1_texture.html#ae587c75d7b6bff27419f74c60b408a75">More...</a><br /></td></tr>
+<tr class="separator:ae587c75d7b6bff27419f74c60b408a75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -88,6 +91,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ae04f235c0af74f02d1272e340fa6f638"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1cb7f4a2af22172d69ff25e7a2637e21"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_engine_1_1_texture.html">Texture</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_texture.html#a1cb7f4a2af22172d69ff25e7a2637e21">createFromRawData</a> (unsigned int width, unsigned int height, unsigned int channels, unsigned char *texData)</td></tr>
 <tr class="separator:a1cb7f4a2af22172d69ff25e7a2637e21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a923293de61e2886a3bcbf2cd384b9adf"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_engine_1_1_texture.html">Texture</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_texture.html#a923293de61e2886a3bcbf2cd384b9adf">createDepth</a> (unsigned int width, unsigned int height, unsigned int channels, unsigned char *texData)</td></tr>
+<tr class="separator:a923293de61e2886a3bcbf2cd384b9adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -112,6 +117,95 @@ Protected Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_texture_8h_source.html#l00016">16</a> of file <a class="el" href="_texture_8h_source.html">Texture.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="ae587c75d7b6bff27419f74c60b408a75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae587c75d7b6bff27419f74c60b408a75">&#9670;&nbsp;</a></span>compile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Engine::Texture::compile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Generates texture. </p>
+
+<p>Implemented in <a class="el" href="class_engine_1_1_open_g_l_texture.html#a2c5b69ca5c2c18d4fa36886a015e61e3">Engine::OpenGLTexture</a>.</p>
+
+</div>
+</div>
+<a id="a923293de61e2886a3bcbf2cd384b9adf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a923293de61e2886a3bcbf2cd384b9adf">&#9670;&nbsp;</a></span>createDepth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_engine_1_1_texture.html">Texture</a> * Engine::Texture::createDepth </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>channels</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned char *&#160;</td>
+          <td class="paramname"><em>texData</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Creates a depth texture based on current <a class="el" href="class_engine_1_1_render_a_p_i.html" title="Defines current render API.">RenderAPI</a> </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>width of the texture </td></tr>
+    <tr><td class="paramname">height</td><td>height of the texture </td></tr>
+    <tr><td class="paramname">channels</td><td>channels of the texture </td></tr>
+    <tr><td class="paramname">texData</td><td>pointer to texture data in the memory </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>new <a class="el" href="class_engine_1_1_render_a_p_i.html" title="Defines current render API.">RenderAPI</a> specific texture </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_texture_8cpp_source.html#l00043">43</a> of file <a class="el" href="_texture_8cpp_source.html">Texture.cpp</a>.</p>
+
+</div>
+</div>
 <a id="ae04f235c0af74f02d1272e340fa6f638"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae04f235c0af74f02d1272e340fa6f638">&#9670;&nbsp;</a></span>createFromFile()</h2>
 
@@ -135,7 +229,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Creates a texture based on current <a class="el" href="class_engine_1_1_render_a_p_i.html" title="Defines current render API.">RenderAPI</a> </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Creates a texture from file based on current <a class="el" href="class_engine_1_1_render_a_p_i.html" title="Defines current render API.">RenderAPI</a> </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>path to the texture on the disc </td></tr>
   </table>
@@ -192,7 +286,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Creates a texture based on current <a class="el" href="class_engine_1_1_render_a_p_i.html" title="Defines current render API.">RenderAPI</a> </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Creates a texture from raw data based on current <a class="el" href="class_engine_1_1_render_a_p_i.html" title="Defines current render API.">RenderAPI</a> </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">width</td><td>width of the texture </td></tr>
     <tr><td class="paramname">height</td><td>height of the texture </td></tr>
@@ -350,7 +444,7 @@ Protected Attributes</h2></td></tr>
 
 <p>How many channels does a texture have (RGBA format) </p>
 
-<p class="definition">Definition at line <a class="el" href="_texture_8h_source.html#l00024">24</a> of file <a class="el" href="_texture_8h_source.html">Texture.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_texture_8h_source.html#l00023">23</a> of file <a class="el" href="_texture_8h_source.html">Texture.h</a>.</p>
 
 </div>
 </div>
@@ -376,7 +470,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Height of a texture. </p>
 
-<p class="definition">Definition at line <a class="el" href="_texture_8h_source.html#l00023">23</a> of file <a class="el" href="_texture_8h_source.html">Texture.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_texture_8h_source.html#l00022">22</a> of file <a class="el" href="_texture_8h_source.html">Texture.h</a>.</p>
 
 </div>
 </div>
@@ -454,7 +548,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Width of a texture. </p>
 
-<p class="definition">Definition at line <a class="el" href="_texture_8h_source.html#l00022">22</a> of file <a class="el" href="_texture_8h_source.html">Texture.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_texture_8h_source.html#l00021">21</a> of file <a class="el" href="_texture_8h_source.html">Texture.h</a>.</p>
 
 </div>
 </div>

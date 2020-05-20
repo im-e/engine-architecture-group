@@ -45,6 +45,8 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_engine_1_1_open_g_l_texture-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Engine::OpenGLTexture Class Reference</div>  </div>
@@ -68,11 +70,11 @@ Inheritance diagram for Engine::OpenGLTexture:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:afe0e64e8b55c5ceb29a3c34de1e527bb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_texture.html#afe0e64e8b55c5ceb29a3c34de1e527bb">OpenGLTexture</a> ()</td></tr>
-<tr class="memdesc:afe0e64e8b55c5ceb29a3c34de1e527bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="class_engine_1_1_open_g_l_texture.html#afe0e64e8b55c5ceb29a3c34de1e527bb">More...</a><br /></td></tr>
+<tr class="memdesc:afe0e64e8b55c5ceb29a3c34de1e527bb"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_engine_1_1_texture.html" title="Base class for all other texture types (API agnostic)">Texture</a> channels.  <a href="class_engine_1_1_open_g_l_texture.html#afe0e64e8b55c5ceb29a3c34de1e527bb">More...</a><br /></td></tr>
 <tr class="separator:afe0e64e8b55c5ceb29a3c34de1e527bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a318ad90812c3e8af3957fa2d1b8e1c75"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_texture.html#a318ad90812c3e8af3957fa2d1b8e1c75">OpenGLTexture</a> (const std::string &amp;path)</td></tr>
-<tr class="memdesc:a318ad90812c3e8af3957fa2d1b8e1c75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom constructor.  <a href="class_engine_1_1_open_g_l_texture.html#a318ad90812c3e8af3957fa2d1b8e1c75">More...</a><br /></td></tr>
-<tr class="separator:a318ad90812c3e8af3957fa2d1b8e1c75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86dde7426f613bf21224339714cc0a9e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_texture.html#a86dde7426f613bf21224339714cc0a9e">OpenGLTexture</a> (const std::string path)</td></tr>
+<tr class="memdesc:a86dde7426f613bf21224339714cc0a9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom constructor.  <a href="class_engine_1_1_open_g_l_texture.html#a86dde7426f613bf21224339714cc0a9e">More...</a><br /></td></tr>
+<tr class="separator:a86dde7426f613bf21224339714cc0a9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d04c866471fbfd47ba0b96381867634"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_texture.html#a8d04c866471fbfd47ba0b96381867634">OpenGLTexture</a> (unsigned int width, unsigned int height, unsigned int channels, unsigned char *texData)</td></tr>
 <tr class="separator:a8d04c866471fbfd47ba0b96381867634"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afab98e66ca589fb38d6d4ddcdc9392c1"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_texture.html#afab98e66ca589fb38d6d4ddcdc9392c1">getWidth</a> () const override</td></tr>
@@ -87,6 +89,29 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4441d685f60adb9fe8d8133b92897489"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_texture.html#a4441d685f60adb9fe8d8133b92897489">getSlot</a> () const override</td></tr>
 <tr class="memdesc:a4441d685f60adb9fe8d8133b92897489"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get slot where the texture is stored.  <a href="class_engine_1_1_open_g_l_texture.html#a4441d685f60adb9fe8d8133b92897489">More...</a><br /></td></tr>
 <tr class="separator:a4441d685f60adb9fe8d8133b92897489"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c5b69ca5c2c18d4fa36886a015e61e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_texture.html#a2c5b69ca5c2c18d4fa36886a015e61e3">compile</a> () override</td></tr>
+<tr class="memdesc:a2c5b69ca5c2c18d4fa36886a015e61e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates an OpenGL texture.  <a href="class_engine_1_1_open_g_l_texture.html#a2c5b69ca5c2c18d4fa36886a015e61e3">More...</a><br /></td></tr>
+<tr class="separator:a2c5b69ca5c2c18d4fa36886a015e61e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:ab9b37573994ce6b092adf8c45c23eaa1"><td class="memItemLeft" align="right" valign="top">static unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_texture.html#ab9b37573994ce6b092adf8c45c23eaa1">s_slot</a> = 0</td></tr>
+<tr class="memdesc:ab9b37573994ce6b092adf8c45c23eaa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static slot in the memory where a texture is stored.  <a href="class_engine_1_1_open_g_l_texture.html#ab9b37573994ce6b092adf8c45c23eaa1">More...</a><br /></td></tr>
+<tr class="separator:ab9b37573994ce6b092adf8c45c23eaa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:aa232da27242faa9389554d217b3c5b18"><td class="memItemLeft" align="right" valign="top">unsigned char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_texture.html#aa232da27242faa9389554d217b3c5b18">m_data</a></td></tr>
+<tr class="separator:aa232da27242faa9389554d217b3c5b18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dc6979a3a0d4bc721b3fd27471e6cb5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_texture.html#a1dc6979a3a0d4bc721b3fd27471e6cb5">m_width</a></td></tr>
+<tr class="memdesc:a1dc6979a3a0d4bc721b3fd27471e6cb5"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_engine_1_1_texture.html" title="Base class for all other texture types (API agnostic)">Texture</a> data.  <a href="class_engine_1_1_open_g_l_texture.html#a1dc6979a3a0d4bc721b3fd27471e6cb5">More...</a><br /></td></tr>
+<tr class="separator:a1dc6979a3a0d4bc721b3fd27471e6cb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f22d7e9aa0728c7fb74f913ef0e7630"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_texture.html#a2f22d7e9aa0728c7fb74f913ef0e7630">m_height</a></td></tr>
+<tr class="memdesc:a2f22d7e9aa0728c7fb74f913ef0e7630"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_engine_1_1_texture.html" title="Base class for all other texture types (API agnostic)">Texture</a> width.  <a href="class_engine_1_1_open_g_l_texture.html#a2f22d7e9aa0728c7fb74f913ef0e7630">More...</a><br /></td></tr>
+<tr class="separator:a2f22d7e9aa0728c7fb74f913ef0e7630"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd7edb69fa083ceebdb2ddcfbd485862"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_open_g_l_texture.html#abd7edb69fa083ceebdb2ddcfbd485862">m_channels</a></td></tr>
+<tr class="memdesc:abd7edb69fa083ceebdb2ddcfbd485862"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_engine_1_1_texture.html" title="Base class for all other texture types (API agnostic)">Texture</a> height.  <a href="class_engine_1_1_open_g_l_texture.html#abd7edb69fa083ceebdb2ddcfbd485862">More...</a><br /></td></tr>
+<tr class="separator:abd7edb69fa083ceebdb2ddcfbd485862"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -95,6 +120,8 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:ae04f235c0af74f02d1272e340fa6f638 inherit pub_static_methods_class_engine_1_1_texture"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1cb7f4a2af22172d69ff25e7a2637e21 inherit pub_static_methods_class_engine_1_1_texture"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_engine_1_1_texture.html">Texture</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_texture.html#a1cb7f4a2af22172d69ff25e7a2637e21">createFromRawData</a> (unsigned int width, unsigned int height, unsigned int channels, unsigned char *texData)</td></tr>
 <tr class="separator:a1cb7f4a2af22172d69ff25e7a2637e21 inherit pub_static_methods_class_engine_1_1_texture"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a923293de61e2886a3bcbf2cd384b9adf inherit pub_static_methods_class_engine_1_1_texture"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_engine_1_1_texture.html">Texture</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_texture.html#a923293de61e2886a3bcbf2cd384b9adf">createDepth</a> (unsigned int width, unsigned int height, unsigned int channels, unsigned char *texData)</td></tr>
+<tr class="separator:a923293de61e2886a3bcbf2cd384b9adf inherit pub_static_methods_class_engine_1_1_texture"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_class_engine_1_1_texture"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_engine_1_1_texture')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_engine_1_1_texture.html">Engine::Texture</a></td></tr>
 <tr class="memitem:a9667fbd596ada79b5ca35a3c36a5f12d inherit pro_attribs_class_engine_1_1_texture"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_texture.html#a9667fbd596ada79b5ca35a3c36a5f12d">m_texID</a></td></tr>
 <tr class="memdesc:a9667fbd596ada79b5ca35a3c36a5f12d inherit pro_attribs_class_engine_1_1_texture"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique ID.  <a href="class_engine_1_1_texture.html#a9667fbd596ada79b5ca35a3c36a5f12d">More...</a><br /></td></tr>
@@ -132,14 +159,15 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Default constructor. </p>
+<p><a class="el" href="class_engine_1_1_texture.html" title="Base class for all other texture types (API agnostic)">Texture</a> channels. </p>
+<p>Default constructor </p>
 
-<p class="definition">Definition at line <a class="el" href="_open_g_l_texture_8cpp_source.html#l00006">6</a> of file <a class="el" href="_open_g_l_texture_8cpp_source.html">OpenGLTexture.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_open_g_l_texture_8cpp_source.html#l00009">9</a> of file <a class="el" href="_open_g_l_texture_8cpp_source.html">OpenGLTexture.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a318ad90812c3e8af3957fa2d1b8e1c75"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a318ad90812c3e8af3957fa2d1b8e1c75">&#9670;&nbsp;</a></span>OpenGLTexture() <span class="overload">[2/3]</span></h2>
+<a id="a86dde7426f613bf21224339714cc0a9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86dde7426f613bf21224339714cc0a9e">&#9670;&nbsp;</a></span>OpenGLTexture() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -147,7 +175,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">Engine::OpenGLTexture::OpenGLTexture </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const std::string&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
         </tr>
@@ -162,7 +190,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_open_g_l_texture_8cpp_source.html#l00010">10</a> of file <a class="el" href="_open_g_l_texture_8cpp_source.html">OpenGLTexture.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_open_g_l_texture_8cpp_source.html#l00013">13</a> of file <a class="el" href="_open_g_l_texture_8cpp_source.html">OpenGLTexture.cpp</a>.</p>
 
 </div>
 </div>
@@ -213,11 +241,42 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_open_g_l_texture_8cpp_source.html#l00040">40</a> of file <a class="el" href="_open_g_l_texture_8cpp_source.html">OpenGLTexture.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_open_g_l_texture_8cpp_source.html#l00018">18</a> of file <a class="el" href="_open_g_l_texture_8cpp_source.html">OpenGLTexture.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a2c5b69ca5c2c18d4fa36886a015e61e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c5b69ca5c2c18d4fa36886a015e61e3">&#9670;&nbsp;</a></span>compile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Engine::OpenGLTexture::compile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Generates an OpenGL texture. </p>
+
+<p>Implements <a class="el" href="class_engine_1_1_texture.html#ae587c75d7b6bff27419f74c60b408a75">Engine::Texture</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_open_g_l_texture_8cpp_source.html#l00077">77</a> of file <a class="el" href="_open_g_l_texture_8cpp_source.html">OpenGLTexture.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a42d3c988be20fdbed88dcc5016795802"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a42d3c988be20fdbed88dcc5016795802">&#9670;&nbsp;</a></span>getChannels()</h2>
 
@@ -246,7 +305,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_engine_1_1_texture.html#acd5d1fd6f56d0e24f3022148bd642a93">Engine::Texture</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_open_g_l_texture_8cpp_source.html#l00075">75</a> of file <a class="el" href="_open_g_l_texture_8cpp_source.html">OpenGLTexture.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_open_g_l_texture_8cpp_source.html#l00067">67</a> of file <a class="el" href="_open_g_l_texture_8cpp_source.html">OpenGLTexture.cpp</a>.</p>
 
 </div>
 </div>
@@ -278,7 +337,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_engine_1_1_texture.html#a5ee76ee9732c3e5fc20b0c32f1f38457">Engine::Texture</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_open_g_l_texture_8cpp_source.html#l00070">70</a> of file <a class="el" href="_open_g_l_texture_8cpp_source.html">OpenGLTexture.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_open_g_l_texture_8cpp_source.html#l00062">62</a> of file <a class="el" href="_open_g_l_texture_8cpp_source.html">OpenGLTexture.cpp</a>.</p>
 
 </div>
 </div>
@@ -310,7 +369,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_engine_1_1_texture.html#af09f28545dbbac0c800f6b124d44225a">Engine::Texture</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_open_g_l_texture_8cpp_source.html#l00080">80</a> of file <a class="el" href="_open_g_l_texture_8cpp_source.html">OpenGLTexture.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_open_g_l_texture_8cpp_source.html#l00072">72</a> of file <a class="el" href="_open_g_l_texture_8cpp_source.html">OpenGLTexture.cpp</a>.</p>
 
 </div>
 </div>
@@ -342,7 +401,136 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_engine_1_1_texture.html#ad912cc0b439759ca79ee0b3e700230a0">Engine::Texture</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_open_g_l_texture_8cpp_source.html#l00065">65</a> of file <a class="el" href="_open_g_l_texture_8cpp_source.html">OpenGLTexture.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_open_g_l_texture_8cpp_source.html#l00057">57</a> of file <a class="el" href="_open_g_l_texture_8cpp_source.html">OpenGLTexture.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="abd7edb69fa083ceebdb2ddcfbd485862"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd7edb69fa083ceebdb2ddcfbd485862">&#9670;&nbsp;</a></span>m_channels</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Engine::OpenGLTexture::m_channels</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="class_engine_1_1_texture.html" title="Base class for all other texture types (API agnostic)">Texture</a> height. </p>
+
+<p class="definition">Definition at line <a class="el" href="_open_g_l_textures_8h_source.html#l00020">20</a> of file <a class="el" href="_open_g_l_textures_8h_source.html">OpenGLTextures.h</a>.</p>
+
+</div>
+</div>
+<a id="aa232da27242faa9389554d217b3c5b18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa232da27242faa9389554d217b3c5b18">&#9670;&nbsp;</a></span>m_data</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned char* Engine::OpenGLTexture::m_data</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_open_g_l_textures_8h_source.html#l00017">17</a> of file <a class="el" href="_open_g_l_textures_8h_source.html">OpenGLTextures.h</a>.</p>
+
+</div>
+</div>
+<a id="a2f22d7e9aa0728c7fb74f913ef0e7630"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f22d7e9aa0728c7fb74f913ef0e7630">&#9670;&nbsp;</a></span>m_height</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Engine::OpenGLTexture::m_height</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="class_engine_1_1_texture.html" title="Base class for all other texture types (API agnostic)">Texture</a> width. </p>
+
+<p class="definition">Definition at line <a class="el" href="_open_g_l_textures_8h_source.html#l00019">19</a> of file <a class="el" href="_open_g_l_textures_8h_source.html">OpenGLTextures.h</a>.</p>
+
+</div>
+</div>
+<a id="a1dc6979a3a0d4bc721b3fd27471e6cb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1dc6979a3a0d4bc721b3fd27471e6cb5">&#9670;&nbsp;</a></span>m_width</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Engine::OpenGLTexture::m_width</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="class_engine_1_1_texture.html" title="Base class for all other texture types (API agnostic)">Texture</a> data. </p>
+
+<p class="definition">Definition at line <a class="el" href="_open_g_l_textures_8h_source.html#l00018">18</a> of file <a class="el" href="_open_g_l_textures_8h_source.html">OpenGLTextures.h</a>.</p>
+
+</div>
+</div>
+<a id="ab9b37573994ce6b092adf8c45c23eaa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9b37573994ce6b092adf8c45c23eaa1">&#9670;&nbsp;</a></span>s_slot</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int Engine::OpenGLTexture::s_slot = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Static slot in the memory where a texture is stored. </p>
+
+<p class="definition">Definition at line <a class="el" href="_open_g_l_textures_8h_source.html#l00042">42</a> of file <a class="el" href="_open_g_l_textures_8h_source.html">OpenGLTextures.h</a>.</p>
 
 </div>
 </div>

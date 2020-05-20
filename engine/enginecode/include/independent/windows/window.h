@@ -1,7 +1,6 @@
 #pragma once
 
-/*!
-	\file window.h
+/*! \file window.h
 	\brief Every window's interface
 */
 
@@ -30,8 +29,7 @@ namespace Engine
 			: m_title(title), m_width(width), m_height(height), m_isFullScreen(fullscreen), m_isVSync(vSync) {}
 	};
 
-	/*!
-	\class Window
+	/*! \class Window
 	\brief Window's interface
 	*/
 	class Window

@@ -94,13 +94,16 @@ namespace Engine
 		\param texData pointer to texture data in the memory
 		*/
 		std::shared_ptr<Texture> addTexture(const std::string& key, unsigned int width, unsigned int height, unsigned int channels, unsigned char* texData);
+		/*! Adds skybox to collection of textures
+		\param key key associated with a skybox
+		\param faces skybox textures
+		*/
+		std::shared_ptr<Texture> addSkybox(const std::string& key, std::vector<std::string> faces);
 		/*! Adds material to collection of materials (OpenGL)
 		\param key key associated with a material
 		\param shader shader used by a material
 		\param VAO material's geometry
 		*/
-		std::shared_ptr<Texture> addSkybox(const std::string& key, std::vector<std::string> faces);
-
 		std::shared_ptr<Material> addMaterial(const std::string& key, const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO);
 		/*! Adds material to collection of materials (Non OpenGL)
 		\param key key associated with a material
@@ -115,7 +118,15 @@ namespace Engine
 		*/
 		std::shared_ptr<UniformBuffer> addUBO(const std::string& key, unsigned int size, UniformLayout& layout);
 
-		//!
+		/*! Adds sound to collection of sounds
+		\param key key associated with a sound
+		\param b3d is sound 3D?
+		\param bLooping should sound loop?
+		\param bStream should sound be streamed?
+		\param minDist minimum distance sound is heard from
+		\param maxDist maximum distance sound is heard from
+		\param rollOff sound roll off type
+		*/
 		std::shared_ptr<Sound> addSound(const std::string& key, bool b3d = true, bool bLooping = false, bool bStream = false, float minDist = 0.25f,
 			float maxDist = 10000.f, RollOff rollOff = RollOff::InverseTapered);
 
@@ -133,9 +144,13 @@ namespace Engine
 			return s_instance;
 		};
 
+		//! Overwrites a VAO in resources \param key resource to be overwritten
 		std::shared_ptr<VertexArray> overwriteVAO(const std::string& key);
+		//! Overwrites a VBO in resources \param key resource to be overwritten \param vertices new vertices \param size new size \param layout new layout
 		std::shared_ptr<VertexBuffer> overwriteVBO(const std::string& key, float* vertices, unsigned int size, BufferLayout& layout);
+		//! Overwrites an EBO in resources \param key resource to be overwritten \param indices new indices \param size new size
 		std::shared_ptr<IndexBuffer> overwriteEBO(const std::string& key, unsigned int* indices, unsigned int size);
+		//! Overwrites a material in resources \param key resource to be overwritten \param shader new shader \param VAO new VAO
 		std::shared_ptr<Material> overwriteMaterial(const std::string& key, const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& VAO);
 
 		AssetManager<VertexArray>& getVAO(); //!< Get collection of the VAOs \return m_VAOs collection of the VAOs
@@ -147,7 +162,7 @@ namespace Engine
 		AssetManager<UniformBuffer>& getUBO(); //!< Get collection of UBOs \return m_UBOs collection of UBOs
 		AssetManager<JsonModel>& getJsonModels(); //!< Get collection of json models \return m_JsonModels collection of json models
 		AssetManager<AssimpModel>& getAssimpModels(); //!< Get collection of assimp models \return m_AssimpModels collection of assimp models
-		AssetManager<Sound>& getSound();
+		AssetManager<Sound>& getSound(); //!< Get collection of sounds \return m_Sounds collection of sounds
 
 		void populateCharacters(std::unordered_map<std::string, unsigned int> fontsAndSizes); //!< Preloads the characters
 		std::shared_ptr<Character> getCharacter(std::string font, unsigned int ASCIIcode); //!< Gets specified character from specified font \return a character

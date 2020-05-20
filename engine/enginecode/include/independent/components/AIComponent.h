@@ -1,5 +1,9 @@
 #pragma once
 
+/*! \file AIComponent.h
+\brief Defines an AI component
+*/
+
 extern "C"
 {
 	#include "lua.h" 
@@ -15,34 +19,46 @@ extern "C"
 
 namespace Engine
 {
+	//! \enum PathType \brief AI path types
 	enum class PathType
 	{
 		Single, Constant, Reversing
 	};
 
+	/*! \class AIComponent
+	\brief Defins an AI component
+	
+		Inherits from component
+	*/
 	class AIComponent : public Component
 	{
 	private:
-		std::deque<glm::vec3> m_waypoints;
-		std::shared_ptr<luabridge::LuaRef> m_lua;
+		std::deque<glm::vec3> m_waypoints; //!< Waypoints
+		std::shared_ptr<luabridge::LuaRef> m_lua; //!< Lua reference
 		
-		int m_currentPathNum;
-		glm::vec3 m_currentPath;
+		int m_currentPathNum; //!< Current path index
+		glm::vec3 m_currentPath; //!< Current path waypoint
 
-		glm::vec3 m_currentPosition;
-		glm::vec3 m_desiredPosition;
+		glm::vec3 m_currentPosition; //!< Current position
+		glm::vec3 m_desiredPosition; //!< Position to go to
 
-		glm::vec3 m_currentRotation;
-		glm::vec3 m_desiredRotation;
+		glm::vec3 m_currentRotation; //!< Current rotation
+		glm::vec3 m_desiredRotation; //!< Rotation to rotate towards
 
 		// These values below should be saved as they are required for the component
-		float m_stopSize;
-		std::string m_aiType;
-		std::string m_scriptName;
-		std::string m_pathTypeName;
-		std::vector<glm::vec3> m_path;
-		int m_pathType;
+		float m_stopSize; //!< Stop distance
+		std::string m_aiType; //!< AI type
+		std::string m_scriptName; //!< Script name
+		std::string m_pathTypeName; //!< Path type name
+		std::vector<glm::vec3> m_path; //!< Path waypoints
+		int m_pathType; //!< Path index
 	public:
+		/*! Custom constructor
+		\param stop stop distance
+		\param type AI type
+		\param scriptName Lua script name
+		\param pathType type of the path
+		*/
 		AIComponent(float stop, std::string type, std::string scriptName, std::string pathType)
 			: m_stopSize(stop), m_aiType(type), m_scriptName(scriptName), m_pathTypeName(pathType)
 		{
@@ -71,6 +87,7 @@ namespace Engine
 			m_desiredPosition = m_waypoints.front();
 		}
 
+		//! Gets an owner \return owner
 		GameObject* getOwner() override { return m_owner; }
 
 		void onDetach() override
@@ -158,48 +175,58 @@ namespace Engine
 			return typeid(decltype(*this));
 		}
 
+		//! Adds a waypoint \param x x-axis coordinate \param y y-axis coordinate \param z z-axis coordinate
 		void addWaypoint(float x, float y, float z)
 		{
 			m_waypoints.push_back(glm::vec3(x, y, z));
 		}
 
+		//! Adds a waypoint to the front \param x x-axis coordinate \param y y-axis coordinate \param z z-axis coordinate
 		void addWaypointFront(float x, float y, float z)
 		{
 			m_waypoints.push_front(glm::vec3(x, y, z));
 		}
 
+		//! Adds a path \param x x-axis coordinate \param y y-axis coordinate \param z z-axis coordinate
 		void addPath(float x, float y, float z)
 		{
 			m_path.push_back(glm::vec3(x, y, z));
 		}
 
+		//! Changes a path at given indes \param index path index \param x x-axis coordinate \param y y-axis coordinate \param z z-axis coordinate
 		void changePath(int index, float x, float y, float z)
 		{
 			m_path[index] = glm::vec3(x, y, z);
 		}
 
+		// Removes last path
 		void removePathBack()
 		{
 			m_path.pop_back();
 		}
 
+		//! Gets path X coordinate \param index path index
 		float pathPosX(int index)
 		{
 			return m_path[index].x;
 		}
 
+		//! Gets path Y coordinate \param index path index
 		float pathPosY(int index)
 		{
 			return m_path[index].y;
 		}
 
+		//! Gets path Z coordinate \param index path index
 		float pathPosZ(int index)
 		{
 			return m_path[index].z;
 		}
 
+		//! Gets number of waypoints \return number of waypoints
 		int numWaypoints() { return m_waypoints.size(); }
 
+		//! Gets current path number \return path index
 		int currentPathNum() 
 		{ 
 			int result;
@@ -214,28 +241,34 @@ namespace Engine
 			return result;
 		}
 
+		//! Gets total paths size \return number of paths
 		int numPath() { return m_path.size(); }
 
+		//! Gets path type \return path type
 		int pathType() 
 		{ 
 			return (int)m_pathType; 
 		}
 
+		//! Gets path type name \return path type name
 		std::string getPathTypeName()
 		{
 			return m_pathTypeName;
 		}
 
+		//! Gets path XYZ coordinates \return path XYZ
 		std::vector<glm::vec3>& getPathWaypoints()
 		{
 			return m_path;
 		}
 
+		//! Sets lua function \param ref new LuaRef
 		void setLuaFunction(const luabridge::LuaRef& ref)
 		{
 			m_lua = std::make_shared<luabridge::LuaRef>(ref);
 		}
 		
+		//! Updates from Lua script
 		void luaUpdate()
 		{
 			if (m_lua)
@@ -252,6 +285,7 @@ namespace Engine
 			}
 		}
 
+		//! Registers a class in Lua
 		void registerClass()
 		{
 			luabridge::getGlobalNamespace(Application::getInstance().getLuaState())
@@ -268,6 +302,7 @@ namespace Engine
 				.endClass();
 		}
 
+		//! Executes Lua file \param luaScriptPath directory \param tableName table name \param luaFuncName function name
 		void doFile(std::string luaScriptPath, std::string tableName, std::string luaFuncName)
 		{
 			if (luaL_dofile(Application::getInstance().getLuaState(), luaScriptPath.c_str()) == 0)
@@ -287,20 +322,29 @@ namespace Engine
 				LogError("Couldn't load {0}", luaScriptPath);
 			}
 		}
-
+		
+		//! Sets stop distance \param dist new stop distance
 		void setStopDist(float dist) { m_stopSize = dist; }
 
+		//! Gets stop distance \return current stop distance
 		float getStopDist()
 		{
 			return m_stopSize;
 		}
 
+		//! Set AI type \param type new AI type
 		void setAiType(std::string type) { m_aiType = type; }
+
+		//! Gets AI type \return current AI type
 		std::string& getAiType() { return m_aiType; }
 
+		//! Sets script name \param scr new script name
 		void setScriptName(std::string scr) { m_scriptName = scr; }
+
+		//! Gets script name \return current script name
 		std::string& getScriptName() { return m_scriptName; }
 
+		//! Destructor
 		~AIComponent()
 		{
 			

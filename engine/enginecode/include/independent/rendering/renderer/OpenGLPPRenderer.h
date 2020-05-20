@@ -1,4 +1,8 @@
 #pragma once
+/*! \file OpenGLPPRenderer.h
+\brief Defines an OpenGL postprocessing renderer
+*/
+
 #include "PPRenderer.h"
 #include "rendering/Buffers.h"
 #include "resources/ResourceManager.h"
@@ -11,17 +15,18 @@ namespace Engine
 	class OpenGLPPRenderer : public PPRenderer
 	{
 	private:
-		std::shared_ptr<Shader> m_shader;
-		unsigned int m_frameBufferID;
-		unsigned int m_colourTexture;
-		unsigned int m_depthTexture;
-		unsigned int m_colourTextureUnit = 14;
-		unsigned int m_depthTextureUnit = 15;
-		unsigned int m_effectIndex = 2;
-		std::shared_ptr<VertexArray> m_screenQuadVAO;	
+		std::shared_ptr<Shader> m_shader; //!< Pointer to a shder
+		unsigned int m_frameBufferID; //!< Frame buffer ID
+		unsigned int m_colourTexture; //!< Colour texture ID
+		unsigned int m_depthTexture; //!< Depth texture ID
+		unsigned int m_colourTextureUnit = 14; //!< Colour texture unit ID
+		unsigned int m_depthTextureUnit = 15; //!< Depth texture unit ID
+		unsigned int m_effectIndex = 2; //!< Postprocessing effect index
+		std::shared_ptr<VertexArray> m_screenQuadVAO; //!< Screen texture
 
 	public:
-		OpenGLPPRenderer(const std::shared_ptr<Shader>& defaultPPShader); //!< Default constructor
+		//! Custom constructor \param defaultPPShader default postprocessing shader
+		OpenGLPPRenderer(const std::shared_ptr<Shader>& defaultPPShader); 
 
 		// Inherited via Renderer
 		void actionCommand(RenderCommand * command) override;
@@ -31,8 +36,6 @@ namespace Engine
 		void flush() override;
 		void setPPShader(std::shared_ptr<Shader> shader) override { m_shader = shader; }
 		void setPPIndex(int PPIndex) override { m_effectIndex = PPIndex; }
-		//const int& getColourTextureUnit() const override { return m_colourTextureUnit; }
-		//const int& getDepthTextureUnit() const override;
 		void setColourTextureUnit(unsigned int unit) { m_colourTextureUnit = unit; }
 		void setDepthTextureUnit(unsigned int unit) { m_depthTextureUnit = unit; }
 		std::shared_ptr<VertexArray> returnVAO() { return m_screenQuadVAO; }

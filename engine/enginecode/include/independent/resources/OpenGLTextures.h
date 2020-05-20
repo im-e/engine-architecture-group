@@ -14,12 +14,11 @@ namespace Engine
 	class OpenGLTexture : public Texture
 	{
 	private:
-		
-
 		unsigned char * m_data; //! Texture data
 		int m_width; //! Texture width
 		int m_height; //! Texture height
 		int m_channels; //! Texture channels
+
 	public:
 		OpenGLTexture(); //!< Default constructor 
 		OpenGLTexture(const std::string path); //!< Custom constructor \param path path to the texture file
@@ -37,6 +36,7 @@ namespace Engine
 		unsigned int getChannels() const override; //!< Get channels of the texture \return channels
 		unsigned int getSlot() const override; //!< Get slot where the texture is stored \return slot
 
+		//! Generates an OpenGL texture
 		void compile() override;
 
 		static unsigned int s_slot; //!< Static slot in the memory where a texture is stored

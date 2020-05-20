@@ -61,11 +61,14 @@ Inheritance diagram for Engine::System:</div>
  <div class="center">
   <img src="class_engine_1_1_system.png" usemap="#Engine::System_map" alt=""/>
   <map id="Engine::System_map" name="Engine::System_map">
-<area href="class_engine_1_1_layer_stack.html" title="Definition of a stack of layers." alt="Engine::LayerStack" shape="rect" coords="0,56,163,80"/>
-<area href="class_engine_1_1_log.html" title="Logger class responsible for printing information the users." alt="Engine::Log" shape="rect" coords="173,56,336,80"/>
-<area href="class_engine_1_1_timer.html" title="Handles measuring time." alt="Engine::Timer" shape="rect" coords="346,56,509,80"/>
-<area href="class_engine_1_1_windows_sys.html" title="Basic class for all windows related systems." alt="Engine::WindowsSys" shape="rect" coords="519,56,682,80"/>
-<area href="class_engine_1_1_g_l_f_w_windows_sys.html" title="Windows system for GLFW implementation." alt="Engine::GLFWWindowsSys" shape="rect" coords="519,112,682,136"/>
+<area href="class_engine_1_1_audio_system.html" title="Handles starting and stopping of audio system." alt="Engine::AudioSystem" shape="rect" coords="0,56,163,80"/>
+<area href="class_engine_1_1_im_gui_system.html" title="Responsible for handling ImGui system." alt="Engine::ImGuiSystem" shape="rect" coords="173,56,336,80"/>
+<area href="class_engine_1_1_layer_stack.html" title="Definition of a stack of layers." alt="Engine::LayerStack" shape="rect" coords="346,56,509,80"/>
+<area href="class_engine_1_1_log.html" title="Logger class responsible for printing information the users." alt="Engine::Log" shape="rect" coords="519,56,682,80"/>
+<area href="class_engine_1_1_physics.html" title="Definition for physics system." alt="Engine::Physics" shape="rect" coords="692,56,855,80"/>
+<area href="class_engine_1_1_timer.html" title="Handles measuring time." alt="Engine::Timer" shape="rect" coords="865,56,1028,80"/>
+<area href="class_engine_1_1_windows_sys.html" title="Basic class for all windows related systems." alt="Engine::WindowsSys" shape="rect" coords="1038,56,1201,80"/>
+<area href="class_engine_1_1_g_l_f_w_windows_sys.html" title="Windows system for GLFW implementation." alt="Engine::GLFWWindowsSys" shape="rect" coords="1038,112,1201,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -149,7 +152,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Start the system. </p>
 
-<p>Implemented in <a class="el" href="class_engine_1_1_windows_sys.html#a0f1f54d2de2282b1158271c362292ef4">Engine::WindowsSys</a>, <a class="el" href="class_engine_1_1_layer_stack.html#a604c627a95f9b32b283a0e2f36512184">Engine::LayerStack</a>, <a class="el" href="class_engine_1_1_g_l_f_w_windows_sys.html#a8765fad34432338bd6f661b2054216e4">Engine::GLFWWindowsSys</a>, <a class="el" href="class_engine_1_1_log.html#af12297af3fcf6f8a8b1e8b401a79267b">Engine::Log</a>, and <a class="el" href="class_engine_1_1_timer.html#a09f725298a2d29499c0dc423b29b13ac">Engine::Timer</a>.</p>
+<p>Implemented in <a class="el" href="class_engine_1_1_audio_system.html#a861f4929fc0e18f1d9c51b9a38423097">Engine::AudioSystem</a>, <a class="el" href="class_engine_1_1_windows_sys.html#a0f1f54d2de2282b1158271c362292ef4">Engine::WindowsSys</a>, <a class="el" href="class_engine_1_1_layer_stack.html#a604c627a95f9b32b283a0e2f36512184">Engine::LayerStack</a>, <a class="el" href="class_engine_1_1_physics.html#a71c0224103d0120ce1f076a21c96c829">Engine::Physics</a>, <a class="el" href="class_engine_1_1_g_l_f_w_windows_sys.html#a8765fad34432338bd6f661b2054216e4">Engine::GLFWWindowsSys</a>, <a class="el" href="class_engine_1_1_log.html#af12297af3fcf6f8a8b1e8b401a79267b">Engine::Log</a>, <a class="el" href="class_engine_1_1_timer.html#a09f725298a2d29499c0dc423b29b13ac">Engine::Timer</a>, and <a class="el" href="class_engine_1_1_im_gui_system.html#ae586528880610c856bd6c6691bf17315">Engine::ImGuiSystem</a>.</p>
 
 </div>
 </div>
@@ -189,7 +192,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Stop the system. </p>
 
-<p>Implemented in <a class="el" href="class_engine_1_1_windows_sys.html#a9fac61d8f33c9504970d70abbe58ada0">Engine::WindowsSys</a>, <a class="el" href="class_engine_1_1_layer_stack.html#af33c404b22738ea0cc9ed04b6c5b6064">Engine::LayerStack</a>, <a class="el" href="class_engine_1_1_log.html#a4d40db4278fb7859c858f8eb0d966395">Engine::Log</a>, <a class="el" href="class_engine_1_1_timer.html#a70945adb69163af5477bb631bc1f4453">Engine::Timer</a>, and <a class="el" href="class_engine_1_1_g_l_f_w_windows_sys.html#abbc1a32ec466ba94c95ab527f7c67384">Engine::GLFWWindowsSys</a>.</p>
+<p>Implemented in <a class="el" href="class_engine_1_1_audio_system.html#af7fdd26e855f6ec28192cb895999ef58">Engine::AudioSystem</a>, <a class="el" href="class_engine_1_1_windows_sys.html#a9fac61d8f33c9504970d70abbe58ada0">Engine::WindowsSys</a>, <a class="el" href="class_engine_1_1_layer_stack.html#af33c404b22738ea0cc9ed04b6c5b6064">Engine::LayerStack</a>, <a class="el" href="class_engine_1_1_physics.html#ad02828e5566b34f5a90b92346a8d1c16">Engine::Physics</a>, <a class="el" href="class_engine_1_1_log.html#a4d40db4278fb7859c858f8eb0d966395">Engine::Log</a>, <a class="el" href="class_engine_1_1_timer.html#a70945adb69163af5477bb631bc1f4453">Engine::Timer</a>, <a class="el" href="class_engine_1_1_g_l_f_w_windows_sys.html#abbc1a32ec466ba94c95ab527f7c67384">Engine::GLFWWindowsSys</a>, and <a class="el" href="class_engine_1_1_im_gui_system.html#ae17e762e2dfc805e29acccf620cae36d">Engine::ImGuiSystem</a>.</p>
 
 </div>
 </div>

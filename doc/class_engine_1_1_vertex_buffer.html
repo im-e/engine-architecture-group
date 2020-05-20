@@ -81,13 +81,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a29ac263f7188d3733a10ca47c9fd4cac"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="class_engine_1_1_buffer_layout.html">BufferLayout</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_vertex_buffer.html#a29ac263f7188d3733a10ca47c9fd4cac">getLayout</a> () const =0</td></tr>
 <tr class="memdesc:a29ac263f7188d3733a10ca47c9fd4cac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns currently bound layout.  <a href="class_engine_1_1_vertex_buffer.html#a29ac263f7188d3733a10ca47c9fd4cac">More...</a><br /></td></tr>
 <tr class="separator:a29ac263f7188d3733a10ca47c9fd4cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae55d5e699892b39a50602211c853967c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_vertex_buffer.html#ae55d5e699892b39a50602211c853967c">edit</a> (float *vertices, unsigned int <a class="el" href="namespace_engine.html#a3ee0451df8c87b41dc929d83568a25f2">size</a>, unsigned int offset)=0</td></tr>
+<tr class="memdesc:ae55d5e699892b39a50602211c853967c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Edit the data stored in the buffer.  <a href="class_engine_1_1_vertex_buffer.html#ae55d5e699892b39a50602211c853967c">More...</a><br /></td></tr>
+<tr class="separator:ae55d5e699892b39a50602211c853967c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67045283c56d2240dbabd18e675e6029"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_vertex_buffer.html#a67045283c56d2240dbabd18e675e6029">getVertexBuff</a> ()</td></tr>
 <tr class="memdesc:a67045283c56d2240dbabd18e675e6029"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns VBO id.  <a href="class_engine_1_1_vertex_buffer.html#a67045283c56d2240dbabd18e675e6029">More...</a><br /></td></tr>
 <tr class="separator:a67045283c56d2240dbabd18e675e6029"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:abe51f5fc663b8e48f481785db9540718"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_engine_1_1_vertex_buffer.html">VertexBuffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_vertex_buffer.html#abe51f5fc663b8e48f481785db9540718">create</a> (float *vertices, unsigned int size, <a class="el" href="class_engine_1_1_buffer_layout.html">BufferLayout</a> &amp;layout)</td></tr>
+<tr class="memitem:abe51f5fc663b8e48f481785db9540718"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_engine_1_1_vertex_buffer.html">VertexBuffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_vertex_buffer.html#abe51f5fc663b8e48f481785db9540718">create</a> (float *vertices, unsigned int <a class="el" href="namespace_engine.html#a3ee0451df8c87b41dc929d83568a25f2">size</a>, <a class="el" href="class_engine_1_1_buffer_layout.html">BufferLayout</a> &amp;layout)</td></tr>
 <tr class="memdesc:abe51f5fc663b8e48f481785db9540718"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates VBO.  <a href="class_engine_1_1_vertex_buffer.html#abe51f5fc663b8e48f481785db9540718">More...</a><br /></td></tr>
 <tr class="separator:abe51f5fc663b8e48f481785db9540718"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -188,6 +191,52 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ae55d5e699892b39a50602211c853967c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae55d5e699892b39a50602211c853967c">&#9670;&nbsp;</a></span>edit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Engine::VertexBuffer::edit </td>
+          <td>(</td>
+          <td class="paramtype">float *&#160;</td>
+          <td class="paramname"><em>vertices</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>offset</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Edit the data stored in the buffer. </p>
+
+<p>Implemented in <a class="el" href="class_engine_1_1_open_g_l_vertex_buffer.html#a6dc3d3a4dfc7b73337c09397a157c8af">Engine::OpenGLVertexBuffer</a>.</p>
+
+</div>
+</div>
 <a id="a29ac263f7188d3733a10ca47c9fd4cac"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a29ac263f7188d3733a10ca47c9fd4cac">&#9670;&nbsp;</a></span>getLayout()</h2>
 
@@ -244,7 +293,7 @@ Protected Attributes</h2></td></tr>
 <p>Returns VBO id. </p>
 <dl class="section return"><dt>Returns</dt><dd>VBO id </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_buffers_8h_source.html#l00125">125</a> of file <a class="el" href="_buffers_8h_source.html">Buffers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_buffers_8h_source.html#l00126">126</a> of file <a class="el" href="_buffers_8h_source.html">Buffers.h</a>.</p>
 
 </div>
 </div>

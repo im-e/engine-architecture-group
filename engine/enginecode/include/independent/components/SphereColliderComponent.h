@@ -1,24 +1,34 @@
 #pragma once
+/*! \file SphereColliderComponent.h
+\brief Defines a sphere collider. Currently not working.
+*/
+
 #include "ColliderComponent.h"
-namespace Engine {
+
+namespace Engine 
+{
+	/*! \class SphereColliderComponent
+	\brief Defines a sphere collider. Currently not working.
+	
+		Inherits from ColliderComponent
+	*/
 	class SphereColliderComponent : public ColliderComponent
 	{
 	private:
-		rp3d::decimal sphereRad;
-		rp3d::CollisionBody *body;
+		rp3d::decimal sphereRad; //!< Radius
+		rp3d::CollisionBody *body; //!< Collision body
 
 	public:
+		//! Default constructor
 		SphereColliderComponent() {};
+		//! Custom constructor \param radius sphere radius
 		SphereColliderComponent(rp3d::decimal radius) 
 		{
 			sphereRad = radius;
 			
 			shape = new rp3d::SphereShape(sphereRad);
-			
-			
 		};
-
-
+		
 		void onAttach(GameObject* owner)override
 		{
 			m_owner = owner;
@@ -27,6 +37,7 @@ namespace Engine {
 			getParentObject()->addCollisionShape(shape, getParentObject()->getTransform(), getParentObject()->getMass()); //Create proxyShape
 			
 		}
+
 		void onUpdate(float timestep) override
 		{
 			//Update render position from rigid body
@@ -56,9 +67,7 @@ namespace Engine {
 		inline const std::type_info& getType() override
 		{
 			return typeid(decltype(*this));
-		}
-
-		
+		}	
 	};
 
 }

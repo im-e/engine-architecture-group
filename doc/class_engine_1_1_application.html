@@ -66,6 +66,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa8a9745dbd56969a77cab6c81a16cdda"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#aa8a9745dbd56969a77cab6c81a16cdda">~Application</a> ()</td></tr>
 <tr class="memdesc:aa8a9745dbd56969a77cab6c81a16cdda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deconstructor.  <a href="class_engine_1_1_application.html#aa8a9745dbd56969a77cab6c81a16cdda">More...</a><br /></td></tr>
 <tr class="separator:aa8a9745dbd56969a77cab6c81a16cdda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a330f799cf2bfca6a879135787fa16419"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_engine_1_1_audio_system.html">AudioSystem</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#a330f799cf2bfca6a879135787fa16419">getAudioSystem</a> ()</td></tr>
+<tr class="separator:a330f799cf2bfca6a879135787fa16419"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a715baf41602421143cd0bed7343493a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#a715baf41602421143cd0bed7343493a6">onEvent</a> (<a class="el" href="class_engine_1_1_event.html">Event</a> &amp;e)</td></tr>
 <tr class="memdesc:a715baf41602421143cd0bed7343493a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function handling events.  <a href="class_engine_1_1_application.html#a715baf41602421143cd0bed7343493a6">More...</a><br /></td></tr>
 <tr class="separator:a715baf41602421143cd0bed7343493a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -108,6 +110,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abd1e0572c8f0ec3030f176606b256005"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#abd1e0572c8f0ec3030f176606b256005">run</a> ()</td></tr>
 <tr class="memdesc:abd1e0572c8f0ec3030f176606b256005"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main loop.  <a href="class_engine_1_1_application.html#abd1e0572c8f0ec3030f176606b256005">More...</a><br /></td></tr>
 <tr class="separator:abd1e0572c8f0ec3030f176606b256005"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f5eeddbc639ba6fd46ce354b9f03dd6"><td class="memItemLeft" align="right" valign="top">lua_State *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#a1f5eeddbc639ba6fd46ce354b9f03dd6">getLuaState</a> ()</td></tr>
+<tr class="memdesc:a1f5eeddbc639ba6fd46ce354b9f03dd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets lua state.  <a href="class_engine_1_1_application.html#a1f5eeddbc639ba6fd46ce354b9f03dd6">More...</a><br /></td></tr>
+<tr class="separator:a1f5eeddbc639ba6fd46ce354b9f03dd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5752997d3b1b43cf881279794ce16cba"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_engine_1_1_physics.html">Physics</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#a5752997d3b1b43cf881279794ce16cba">getPhysics</a> ()</td></tr>
+<tr class="memdesc:a5752997d3b1b43cf881279794ce16cba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets physics world.  <a href="class_engine_1_1_application.html#a5752997d3b1b43cf881279794ce16cba">More...</a><br /></td></tr>
+<tr class="separator:a5752997d3b1b43cf881279794ce16cba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0e6d985a9d4c2b1611a393e275a3326"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#ac0e6d985a9d4c2b1611a393e275a3326">getPhysFactor</a> ()</td></tr>
+<tr class="memdesc:ac0e6d985a9d4c2b1611a393e275a3326"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets Rp3D regulator of matching graphics display with physics.  <a href="class_engine_1_1_application.html#ac0e6d985a9d4c2b1611a393e275a3326">More...</a><br /></td></tr>
+<tr class="separator:ac0e6d985a9d4c2b1611a393e275a3326"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43e6b7b800e4e0da9a7332523cdd7760"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_engine_1_1_layer_stack.html">LayerStack</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#a43e6b7b800e4e0da9a7332523cdd7760">getLayerStack</a> ()</td></tr>
+<tr class="memdesc:a43e6b7b800e4e0da9a7332523cdd7760"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets layer stack.  <a href="class_engine_1_1_application.html#a43e6b7b800e4e0da9a7332523cdd7760">More...</a><br /></td></tr>
+<tr class="separator:a43e6b7b800e4e0da9a7332523cdd7760"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -135,6 +149,15 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:ae73190b85c3cc2a34131037d9e5e10e3"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_engine_1_1_timer.html">Timer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#ae73190b85c3cc2a34131037d9e5e10e3">m_timer</a></td></tr>
 <tr class="memdesc:ae73190b85c3cc2a34131037d9e5e10e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to <a class="el" href="class_engine_1_1_timer.html" title="Handles measuring time.">Timer</a> object.  <a href="class_engine_1_1_application.html#ae73190b85c3cc2a34131037d9e5e10e3">More...</a><br /></td></tr>
 <tr class="separator:ae73190b85c3cc2a34131037d9e5e10e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c321ff16314a9d1b90b54d930fd3cc1"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_engine_1_1_im_gui_system.html">ImGuiSystem</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#a4c321ff16314a9d1b90b54d930fd3cc1">m_imGui</a></td></tr>
+<tr class="memdesc:a4c321ff16314a9d1b90b54d930fd3cc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to <a class="el" href="class_engine_1_1_im_gui_system.html" title="Responsible for handling ImGui system.">ImGuiSystem</a>.  <a href="class_engine_1_1_application.html#a4c321ff16314a9d1b90b54d930fd3cc1">More...</a><br /></td></tr>
+<tr class="separator:a4c321ff16314a9d1b90b54d930fd3cc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab419cdd8e6091e7ac3eb8f9de29a258"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_engine_1_1_audio_system.html">AudioSystem</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#aab419cdd8e6091e7ac3eb8f9de29a258">m_audio</a></td></tr>
+<tr class="memdesc:aab419cdd8e6091e7ac3eb8f9de29a258"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to <a class="el" href="class_engine_1_1_audio_manager.html" title="Provides definition for audio manager.">AudioManager</a>.  <a href="class_engine_1_1_application.html#aab419cdd8e6091e7ac3eb8f9de29a258">More...</a><br /></td></tr>
+<tr class="separator:aab419cdd8e6091e7ac3eb8f9de29a258"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67efa00983f1e771df4a046a037ebb6f"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_engine_1_1_physics.html">Physics</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#a67efa00983f1e771df4a046a037ebb6f">m_physWorld</a></td></tr>
+<tr class="memdesc:a67efa00983f1e771df4a046a037ebb6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to physics world.  <a href="class_engine_1_1_application.html#a67efa00983f1e771df4a046a037ebb6f">More...</a><br /></td></tr>
+<tr class="separator:a67efa00983f1e771df4a046a037ebb6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab19b477debe01ab0a16be2c8b78b7580"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_engine_1_1_window.html">Window</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#ab19b477debe01ab0a16be2c8b78b7580">m_appWindow</a></td></tr>
 <tr class="separator:ab19b477debe01ab0a16be2c8b78b7580"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ec1c874dda3d257fd4b4086ef86b633"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#a4ec1c874dda3d257fd4b4086ef86b633">m_running</a> = true</td></tr>
@@ -146,6 +169,12 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a7af7d2a041a39ca38af575f43c19fae6"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#a7af7d2a041a39ca38af575f43c19fae6">m_timestep</a></td></tr>
 <tr class="memdesc:a7af7d2a041a39ca38af575f43c19fae6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timestep.  <a href="class_engine_1_1_application.html#a7af7d2a041a39ca38af575f43c19fae6">More...</a><br /></td></tr>
 <tr class="separator:a7af7d2a041a39ca38af575f43c19fae6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63f5a3a862d014f273492924cf9710f5"><td class="memItemLeft" align="right" valign="top">lua_State *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#a63f5a3a862d014f273492924cf9710f5">lua</a></td></tr>
+<tr class="memdesc:a63f5a3a862d014f273492924cf9710f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lua state.  <a href="class_engine_1_1_application.html#a63f5a3a862d014f273492924cf9710f5">More...</a><br /></td></tr>
+<tr class="separator:a63f5a3a862d014f273492924cf9710f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af90cc5a59b3a1f9658fc2b8d7d56dd91"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_application.html#af90cc5a59b3a1f9658fc2b8d7d56dd91">m_accumulator</a></td></tr>
+<tr class="memdesc:af90cc5a59b3a1f9658fc2b8d7d56dd91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rp3d regulator to match graphics display.  <a href="class_engine_1_1_application.html#af90cc5a59b3a1f9658fc2b8d7d56dd91">More...</a><br /></td></tr>
+<tr class="separator:af90cc5a59b3a1f9658fc2b8d7d56dd91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
@@ -157,7 +186,7 @@ Static Private Attributes</h2></td></tr>
 <pre class="fragment">Provides implementation and logic handling of the entire program. Is capable of logging messages, measuring time and providing
 API agnostic feature implementation (e.g. graphics), so that it can work with multiple platforms or graphics libraries.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00038">38</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00042">42</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aafb4be83f26204bdebf131e261bbf4e4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aafb4be83f26204bdebf131e261bbf4e4">&#9670;&nbsp;</a></span>Application()</h2>
@@ -184,7 +213,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Constructor. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00017">17</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00021">21</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
@@ -213,11 +242,38 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Deconstructor. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00179">179</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00222">222</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a330f799cf2bfca6a879135787fa16419"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a330f799cf2bfca6a879135787fa16419">&#9670;&nbsp;</a></span>getAudioSystem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="class_engine_1_1_audio_system.html">AudioSystem</a>&gt; Engine::Application::getAudioSystem </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00082">82</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+
+</div>
+</div>
 <a id="aa5d77d6feaafcbc72aa6433f74164902"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa5d77d6feaafcbc72aa6433f74164902">&#9670;&nbsp;</a></span>getInstance()</h2>
 
@@ -243,7 +299,103 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Instance getter from singleton pattern. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00066">66</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00081">81</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+
+</div>
+</div>
+<a id="a43e6b7b800e4e0da9a7332523cdd7760"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43e6b7b800e4e0da9a7332523cdd7760">&#9670;&nbsp;</a></span>getLayerStack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_engine_1_1_layer_stack.html">LayerStack</a> &gt; &amp; Engine::Application::getLayerStack </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets layer stack. </p>
+<dl class="section return"><dt>Returns</dt><dd>layer stack </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00112">112</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a1f5eeddbc639ba6fd46ce354b9f03dd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f5eeddbc639ba6fd46ce354b9f03dd6">&#9670;&nbsp;</a></span>getLuaState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">lua_State * Engine::Application::getLuaState </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets lua state. </p>
+<dl class="section return"><dt>Returns</dt><dd>lua state </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00102">102</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ac0e6d985a9d4c2b1611a393e275a3326"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0e6d985a9d4c2b1611a393e275a3326">&#9670;&nbsp;</a></span>getPhysFactor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Engine::Application::getPhysFactor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets Rp3D regulator of matching graphics display with physics. </p>
+<dl class="section return"><dt>Returns</dt><dd>physics regulator </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00111">111</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+
+</div>
+</div>
+<a id="a5752997d3b1b43cf881279794ce16cba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5752997d3b1b43cf881279794ce16cba">&#9670;&nbsp;</a></span>getPhysics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_engine_1_1_physics.html">Physics</a> &gt; &amp; Engine::Application::getPhysics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets physics world. </p>
+<dl class="section return"><dt>Returns</dt><dd>physics world </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00107">107</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
@@ -265,7 +417,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 <p>Returns current window. </p>
 <dl class="section return"><dt>Returns</dt><dd>currently opened window </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00174">174</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00217">217</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
@@ -287,7 +439,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Gets called on window close event. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00105">105</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00148">148</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
@@ -309,7 +461,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Function handling events. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00074">74</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00117">117</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
@@ -331,7 +483,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Called when users press a key. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00133">133</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00176">176</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
@@ -353,7 +505,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Called when users hold a key. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00138">138</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00181">181</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
@@ -375,7 +527,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Called when users release a key. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00144">144</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00187">187</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
@@ -397,7 +549,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Gets called when user clicks somewhere else than on the window. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00121">121</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00164">164</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
@@ -419,7 +571,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Called when users press a mouse button. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00150">150</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00193">193</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
@@ -441,7 +593,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Called when users release a mouse button. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00156">156</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00199">199</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
@@ -463,7 +615,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Called when users move mouse. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00162">162</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00205">205</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
@@ -485,7 +637,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Called when users scroll mouse. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00168">168</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00211">211</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
@@ -507,7 +659,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Gets called on window resize event. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00112">112</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00155">155</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
@@ -529,7 +681,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Gets called when user moves a window. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00127">127</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00170">170</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
@@ -550,11 +702,63 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Main loop. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00046">46</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8cpp_source.html#l00064">64</a> of file <a class="el" href="application_8cpp_source.html">application.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a63f5a3a862d014f273492924cf9710f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63f5a3a862d014f273492924cf9710f5">&#9670;&nbsp;</a></span>lua</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">lua_State* Engine::Application::lua</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lua state. </p>
+
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00075">75</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+
+</div>
+</div>
+<a id="af90cc5a59b3a1f9658fc2b8d7d56dd91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af90cc5a59b3a1f9658fc2b8d7d56dd91">&#9670;&nbsp;</a></span>m_accumulator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Engine::Application::m_accumulator</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rp3d regulator to match graphics display. </p>
+
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00077">77</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+
+</div>
+</div>
 <a id="ab19b477debe01ab0a16be2c8b78b7580"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab19b477debe01ab0a16be2c8b78b7580">&#9670;&nbsp;</a></span>m_appWindow</h2>
 
@@ -576,7 +780,33 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 </div><div class="memdoc">
 <p>Pointer to a <a class="el" href="class_engine_1_1_window.html" title="Window&#39;s interface.">Window</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00056">56</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00067">67</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+
+</div>
+</div>
+<a id="aab419cdd8e6091e7ac3eb8f9de29a258"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab419cdd8e6091e7ac3eb8f9de29a258">&#9670;&nbsp;</a></span>m_audio</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="class_engine_1_1_audio_system.html">AudioSystem</a>&gt; Engine::Application::m_audio</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pointer to <a class="el" href="class_engine_1_1_audio_manager.html" title="Provides definition for audio manager.">AudioManager</a>. </p>
+
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00059">59</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
 
 </div>
 </div>
@@ -602,7 +832,33 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>FPS count. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00060">60</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00071">71</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+
+</div>
+</div>
+<a id="a4c321ff16314a9d1b90b54d930fd3cc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c321ff16314a9d1b90b54d930fd3cc1">&#9670;&nbsp;</a></span>m_imGui</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="class_engine_1_1_im_gui_system.html">ImGuiSystem</a>&gt; Engine::Application::m_imGui</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pointer to <a class="el" href="class_engine_1_1_im_gui_system.html" title="Responsible for handling ImGui system.">ImGuiSystem</a>. </p>
+
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00057">57</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
 
 </div>
 </div>
@@ -628,7 +884,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Pointer to stack of layers. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00044">44</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00048">48</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
 
 </div>
 </div>
@@ -654,7 +910,33 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Pointer to <a class="el" href="class_engine_1_1_log.html" title="Logger class responsible for printing information the users.">Log</a> object. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00049">49</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00053">53</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+
+</div>
+</div>
+<a id="a67efa00983f1e771df4a046a037ebb6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67efa00983f1e771df4a046a037ebb6f">&#9670;&nbsp;</a></span>m_physWorld</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="class_engine_1_1_physics.html">Physics</a>&gt; Engine::Application::m_physWorld</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pointer to physics world. </p>
+
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00062">62</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
 
 </div>
 </div>
@@ -680,7 +962,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Is the application running? </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00058">58</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00069">69</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
 
 </div>
 </div>
@@ -706,7 +988,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Pointer to <a class="el" href="class_engine_1_1_timer.html" title="Handles measuring time.">Timer</a> object. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00051">51</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00055">55</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
 
 </div>
 </div>
@@ -732,7 +1014,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 
 <p>Timestep. </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00062">62</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00073">73</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
 
 </div>
 </div>
@@ -757,7 +1039,7 @@ API agnostic feature implementation (e.g. graphics), so that it can work with mu
 </div><div class="memdoc">
 <p>Singleton instance of the application </p>
 
-<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00047">47</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="application_8h_source.html#l00051">51</a> of file <a class="el" href="application_8h_source.html">application.h</a>.</p>
 
 </div>
 </div>

@@ -21,7 +21,9 @@
 
 namespace Engine
 {
-	//! Data of each vertex
+	/*! \struct VertexData  
+	\brief Data of each vertex 
+	*/
 	struct VertexData
 	{
 		glm::vec3 position; //!< Position

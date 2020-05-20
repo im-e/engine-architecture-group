@@ -65,60 +65,70 @@ $(function() {
 <div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="class_engine_1_1_asset_manager.html#afdba37d9dd64268eeb6c7cdf67d82f85">   24</a></span>&#160;        <a class="code" href="class_engine_1_1_asset_manager.html">AssetManager&lt;T&gt;</a>() {};</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="class_engine_1_1_asset_manager.html#a5e54af96610a004985c85194d263dc87">contains</a>(<span class="keyword">const</span> std::string&amp; key); </div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_engine_1_1_asset_manager.html#a4648dcdca102527e36ee61bf197f8bf0">add</a>(<span class="keyword">const</span> std::string&amp; key, std::shared_ptr&lt;T&gt;&amp; asset); </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        std::shared_ptr&lt;T&gt; <a class="code" href="class_engine_1_1_asset_manager.html#aca71cab90be35689ff8940a226ea90d1">getAsset</a>(<span class="keyword">const</span> std::string&amp; key); </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        std::shared_ptr&lt;T&gt;&amp; <a class="code" href="class_engine_1_1_asset_manager.html#a120ce2ae103ff5b73bea9bd971f5c73c">getAsset</a>(<span class="keyword">const</span> std::string&amp; key); </div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        std::map&lt;std::string, std::shared_ptr&lt;T&gt;&gt; <a class="code" href="class_engine_1_1_asset_manager.html#a76b858d00363705fbab33424ef2a4d42">getCollection</a>(); </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    };</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="class_engine_1_1_asset_manager.html#a5e54af96610a004985c85194d263dc87">   32</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="class_engine_1_1_asset_manager.html#a5e54af96610a004985c85194d263dc87">AssetManager&lt;T&gt;::contains</a>(<span class="keyword">const</span> std::string &amp; key)</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="comment">//does it exist?</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">if</span> (m_assets.find(key) != m_assets.end())</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    }</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="class_engine_1_1_asset_manager.html#a4648dcdca102527e36ee61bf197f8bf0">   42</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="class_engine_1_1_asset_manager.html#a4648dcdca102527e36ee61bf197f8bf0">AssetManager&lt;T&gt;::add</a>(<span class="keyword">const</span> std::string &amp; key, std::shared_ptr&lt;T&gt;&amp; asset)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">if</span> (contains(key) == <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            m_assets[key] = asset;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <a class="code" href="_log_8h.html#ad52b7c99b2b0ffe32c9faee04371181d">LogWarn</a>(<span class="stringliteral">&quot;Asset at key {0} already exists.&quot;</span>);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="class_engine_1_1_asset_manager.html#aca71cab90be35689ff8940a226ea90d1">   51</a></span>&#160;    <span class="keyword">inline</span> std::shared_ptr&lt;T&gt; <a class="code" href="class_engine_1_1_asset_manager.html#aca71cab90be35689ff8940a226ea90d1">AssetManager&lt;T&gt;::getAsset</a>(<span class="keyword">const</span> std::string &amp; key)</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">if</span> (contains(key) == <span class="keyword">true</span>)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="keywordflow">return</span> m_assets[key];</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <a class="code" href="_log_8h.html#a611dbbfa5c2f148b7190b97a12835b5e">LogError</a>(<span class="stringliteral">&quot;Asset at key {0} does not exist&quot;</span>, key);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        }</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="class_engine_1_1_asset_manager.html#a76b858d00363705fbab33424ef2a4d42">   65</a></span>&#160;    <span class="keyword">inline</span> std::map&lt;std::string, std::shared_ptr&lt;T&gt;&gt; <a class="code" href="class_engine_1_1_asset_manager.html#a76b858d00363705fbab33424ef2a4d42">AssetManager&lt;T&gt;::getCollection</a>()</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">return</span> m_assets;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_engine_1_1_asset_manager.html#a319cd8abdb2c7c199370973bda53a41f">remove</a>(<span class="keyword">const</span> std::string&amp; key); </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    };</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="class_engine_1_1_asset_manager.html#a5e54af96610a004985c85194d263dc87">   33</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="class_engine_1_1_asset_manager.html#a5e54af96610a004985c85194d263dc87">AssetManager&lt;T&gt;::contains</a>(<span class="keyword">const</span> std::string &amp; key)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="comment">//does it exist?</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">if</span> (m_assets.find(key) != m_assets.end())</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    }</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="class_engine_1_1_asset_manager.html#a4648dcdca102527e36ee61bf197f8bf0">   43</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="class_engine_1_1_asset_manager.html#a4648dcdca102527e36ee61bf197f8bf0">AssetManager&lt;T&gt;::add</a>(<span class="keyword">const</span> std::string &amp; key, std::shared_ptr&lt;T&gt;&amp; asset)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">if</span> (contains(key) == <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            m_assets[key] = asset;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <a class="code" href="_log_8h.html#ad52b7c99b2b0ffe32c9faee04371181d">LogWarn</a>(<span class="stringliteral">&quot;Asset at key {0} already exists.&quot;</span>, key);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="class_engine_1_1_asset_manager.html#a120ce2ae103ff5b73bea9bd971f5c73c">   53</a></span>&#160;    <span class="keyword">inline</span> std::shared_ptr&lt;T&gt;&amp; <a class="code" href="class_engine_1_1_asset_manager.html#a120ce2ae103ff5b73bea9bd971f5c73c">AssetManager&lt;T&gt;::getAsset</a>(<span class="keyword">const</span> std::string &amp; key)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">if</span> (contains(key) == <span class="keyword">true</span>)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">return</span> m_assets[key];</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <a class="code" href="_log_8h.html#a611dbbfa5c2f148b7190b97a12835b5e">LogError</a>(<span class="stringliteral">&quot;Asset at key {0} does not exist&quot;</span>, key);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="comment">//return nullptr;</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="class_engine_1_1_asset_manager.html#a76b858d00363705fbab33424ef2a4d42">   67</a></span>&#160;    <span class="keyword">inline</span> std::map&lt;std::string, std::shared_ptr&lt;T&gt;&gt; <a class="code" href="class_engine_1_1_asset_manager.html#a76b858d00363705fbab33424ef2a4d42">AssetManager&lt;T&gt;::getCollection</a>()</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">return</span> m_assets;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="class_engine_1_1_asset_manager.html#a319cd8abdb2c7c199370973bda53a41f">   73</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="class_engine_1_1_asset_manager.html#a319cd8abdb2c7c199370973bda53a41f">AssetManager&lt;T&gt;::remove</a>(<span class="keyword">const</span> std::string &amp; key)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">if</span>(contains(key) == <span class="keyword">true</span>)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            m_assets.erase(key);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="anamespace_engine_html"><div class="ttname"><a href="namespace_engine.html">Engine</a></div><div class="ttdef"><b>Definition:</b> <a href="_component_8h_source.html#l00015">Component.h:15</a></div></div>
+<div class="ttc" id="anamespace_engine_html"><div class="ttname"><a href="namespace_engine.html">Engine</a></div><div class="ttdef"><b>Definition:</b> <a href="audio_geometry_definition_8h_source.html#l00010">audioGeometryDefinition.h:10</a></div></div>
 <div class="ttc" id="aclass_engine_1_1_asset_manager_html"><div class="ttname"><a href="class_engine_1_1_asset_manager.html">Engine::AssetManager</a></div><div class="ttdoc">Templated class to manage various assets.</div><div class="ttdef"><b>Definition:</b> <a href="_asset_manager_8h_source.html#l00018">AssetManager.h:18</a></div></div>
-<div class="ttc" id="aclass_engine_1_1_asset_manager_html_a5e54af96610a004985c85194d263dc87"><div class="ttname"><a href="class_engine_1_1_asset_manager.html#a5e54af96610a004985c85194d263dc87">Engine::AssetManager::contains</a></div><div class="ttdeci">bool contains(const std::string &amp;key)</div><div class="ttdoc">Has the asset been already loaded?</div><div class="ttdef"><b>Definition:</b> <a href="_asset_manager_8h_source.html#l00032">AssetManager.h:32</a></div></div>
-<div class="ttc" id="aclass_engine_1_1_asset_manager_html_a76b858d00363705fbab33424ef2a4d42"><div class="ttname"><a href="class_engine_1_1_asset_manager.html#a76b858d00363705fbab33424ef2a4d42">Engine::AssetManager::getCollection</a></div><div class="ttdeci">std::map&lt; std::string, std::shared_ptr&lt; T &gt; &gt; getCollection()</div><div class="ttdoc">Get full collection of the assets.</div><div class="ttdef"><b>Definition:</b> <a href="_asset_manager_8h_source.html#l00065">AssetManager.h:65</a></div></div>
-<div class="ttc" id="aclass_engine_1_1_asset_manager_html_aca71cab90be35689ff8940a226ea90d1"><div class="ttname"><a href="class_engine_1_1_asset_manager.html#aca71cab90be35689ff8940a226ea90d1">Engine::AssetManager::getAsset</a></div><div class="ttdeci">std::shared_ptr&lt; T &gt; getAsset(const std::string &amp;key)</div><div class="ttdoc">Retrieve asset from storage.</div><div class="ttdef"><b>Definition:</b> <a href="_asset_manager_8h_source.html#l00051">AssetManager.h:51</a></div></div>
+<div class="ttc" id="aclass_engine_1_1_asset_manager_html_a5e54af96610a004985c85194d263dc87"><div class="ttname"><a href="class_engine_1_1_asset_manager.html#a5e54af96610a004985c85194d263dc87">Engine::AssetManager::contains</a></div><div class="ttdeci">bool contains(const std::string &amp;key)</div><div class="ttdoc">Has the asset been already loaded?</div><div class="ttdef"><b>Definition:</b> <a href="_asset_manager_8h_source.html#l00033">AssetManager.h:33</a></div></div>
+<div class="ttc" id="aclass_engine_1_1_asset_manager_html_a76b858d00363705fbab33424ef2a4d42"><div class="ttname"><a href="class_engine_1_1_asset_manager.html#a76b858d00363705fbab33424ef2a4d42">Engine::AssetManager::getCollection</a></div><div class="ttdeci">std::map&lt; std::string, std::shared_ptr&lt; T &gt; &gt; getCollection()</div><div class="ttdoc">Get full collection of the assets.</div><div class="ttdef"><b>Definition:</b> <a href="_asset_manager_8h_source.html#l00067">AssetManager.h:67</a></div></div>
 <div class="ttc" id="a_log_8h_html_a611dbbfa5c2f148b7190b97a12835b5e"><div class="ttname"><a href="_log_8h.html#a611dbbfa5c2f148b7190b97a12835b5e">LogError</a></div><div class="ttdeci">#define LogError(...)</div><div class="ttdef"><b>Definition:</b> <a href="_log_8h_source.html#l00046">Log.h:46</a></div></div>
 <div class="ttc" id="a_log_8h_html_ad52b7c99b2b0ffe32c9faee04371181d"><div class="ttname"><a href="_log_8h.html#ad52b7c99b2b0ffe32c9faee04371181d">LogWarn</a></div><div class="ttdeci">#define LogWarn(...)</div><div class="ttdef"><b>Definition:</b> <a href="_log_8h_source.html#l00042">Log.h:42</a></div></div>
 <div class="ttc" id="aclass_engine_1_1_asset_manager_html_adce3aaa8a25478508b7999ba9a5534ec"><div class="ttname"><a href="class_engine_1_1_asset_manager.html#adce3aaa8a25478508b7999ba9a5534ec">Engine::AssetManager::m_assets</a></div><div class="ttdeci">std::map&lt; std::string, std::shared_ptr&lt; T &gt; &gt; m_assets</div><div class="ttdoc">Storage for the assets.</div><div class="ttdef"><b>Definition:</b> <a href="_asset_manager_8h_source.html#l00021">AssetManager.h:21</a></div></div>
+<div class="ttc" id="aclass_engine_1_1_asset_manager_html_a319cd8abdb2c7c199370973bda53a41f"><div class="ttname"><a href="class_engine_1_1_asset_manager.html#a319cd8abdb2c7c199370973bda53a41f">Engine::AssetManager::remove</a></div><div class="ttdeci">void remove(const std::string &amp;key)</div><div class="ttdoc">Removes an item from the asset manager.</div><div class="ttdef"><b>Definition:</b> <a href="_asset_manager_8h_source.html#l00073">AssetManager.h:73</a></div></div>
+<div class="ttc" id="aclass_engine_1_1_asset_manager_html_a120ce2ae103ff5b73bea9bd971f5c73c"><div class="ttname"><a href="class_engine_1_1_asset_manager.html#a120ce2ae103ff5b73bea9bd971f5c73c">Engine::AssetManager::getAsset</a></div><div class="ttdeci">std::shared_ptr&lt; T &gt; &amp; getAsset(const std::string &amp;key)</div><div class="ttdoc">Retrieve asset from storage.</div><div class="ttdef"><b>Definition:</b> <a href="_asset_manager_8h_source.html#l00053">AssetManager.h:53</a></div></div>
 <div class="ttc" id="a_log_8h_html"><div class="ttname"><a href="_log_8h.html">Log.h</a></div><div class="ttdoc">Handles logging information to the screen.</div></div>
-<div class="ttc" id="aclass_engine_1_1_asset_manager_html_a4648dcdca102527e36ee61bf197f8bf0"><div class="ttname"><a href="class_engine_1_1_asset_manager.html#a4648dcdca102527e36ee61bf197f8bf0">Engine::AssetManager::add</a></div><div class="ttdeci">void add(const std::string &amp;key, std::shared_ptr&lt; T &gt; &amp;asset)</div><div class="ttdoc">Add asset to the storage.</div><div class="ttdef"><b>Definition:</b> <a href="_asset_manager_8h_source.html#l00042">AssetManager.h:42</a></div></div>
+<div class="ttc" id="aclass_engine_1_1_asset_manager_html_a4648dcdca102527e36ee61bf197f8bf0"><div class="ttname"><a href="class_engine_1_1_asset_manager.html#a4648dcdca102527e36ee61bf197f8bf0">Engine::AssetManager::add</a></div><div class="ttdeci">void add(const std::string &amp;key, std::shared_ptr&lt; T &gt; &amp;asset)</div><div class="ttdoc">Add asset to the storage.</div><div class="ttdef"><b>Definition:</b> <a href="_asset_manager_8h_source.html#l00043">AssetManager.h:43</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

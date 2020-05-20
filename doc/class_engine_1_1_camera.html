@@ -82,12 +82,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:add3c3e02ce443ae16a2091c89b9a2e47"><td class="memItemLeft" align="right" valign="top">const glm::mat4 &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_camera.html#add3c3e02ce443ae16a2091c89b9a2e47">getViewProjection</a> ()</td></tr>
 <tr class="memdesc:add3c3e02ce443ae16a2091c89b9a2e47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets view-projection of a camera.  <a href="class_engine_1_1_camera.html#add3c3e02ce443ae16a2091c89b9a2e47">More...</a><br /></td></tr>
 <tr class="separator:add3c3e02ce443ae16a2091c89b9a2e47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c3c16e09f6e2a0bd1362b863df3d0b5"><td class="memItemLeft" align="right" valign="top">const float &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_camera.html#a6c3c16e09f6e2a0bd1362b863df3d0b5">getCutOff</a> ()</td></tr>
+<tr class="separator:a6c3c16e09f6e2a0bd1362b863df3d0b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac32140676aa7d3e6a5034d89b67f206b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_camera.html#ac32140676aa7d3e6a5034d89b67f206b">setPosition</a> (const glm::vec3 pos)=0</td></tr>
 <tr class="memdesc:ac32140676aa7d3e6a5034d89b67f206b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets position of a camera.  <a href="class_engine_1_1_camera.html#ac32140676aa7d3e6a5034d89b67f206b">More...</a><br /></td></tr>
 <tr class="separator:ac32140676aa7d3e6a5034d89b67f206b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a189fd53a9dc02578a162cbed6af999a6"><td class="memItemLeft" align="right" valign="top">virtual glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_camera.html#a189fd53a9dc02578a162cbed6af999a6">getPosition</a> ()=0</td></tr>
-<tr class="memdesc:a189fd53a9dc02578a162cbed6af999a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets current position of a camera.  <a href="class_engine_1_1_camera.html#a189fd53a9dc02578a162cbed6af999a6">More...</a><br /></td></tr>
-<tr class="separator:a189fd53a9dc02578a162cbed6af999a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b506da2e369038c62c4c2023d6a35fb"><td class="memItemLeft" align="right" valign="top">virtual glm::vec3 &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_camera.html#a2b506da2e369038c62c4c2023d6a35fb">getPosition</a> ()=0</td></tr>
+<tr class="memdesc:a2b506da2e369038c62c4c2023d6a35fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets current position of a camera.  <a href="class_engine_1_1_camera.html#a2b506da2e369038c62c4c2023d6a35fb">More...</a><br /></td></tr>
+<tr class="separator:a2b506da2e369038c62c4c2023d6a35fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -107,11 +109,13 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:ac0a7114b868ed28711da4284cb3a6f8c"><td class="memItemLeft" align="right" valign="top">glm::mat4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_camera.html#ac0a7114b868ed28711da4284cb3a6f8c">m_ViewProjection</a></td></tr>
 <tr class="memdesc:ac0a7114b868ed28711da4284cb3a6f8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">View-Projection matrix.  <a href="class_engine_1_1_camera.html#ac0a7114b868ed28711da4284cb3a6f8c">More...</a><br /></td></tr>
 <tr class="separator:ac0a7114b868ed28711da4284cb3a6f8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e3852ab5f5c5f25c148b266fb49f967"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_camera.html#a7e3852ab5f5c5f25c148b266fb49f967">m_cutOff</a> = glm::cos(glm::radians(12.5f))</td></tr>
+<tr class="separator:a7e3852ab5f5c5f25c148b266fb49f967"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base definition of a camera in a scene. </p>
 
-<p class="definition">Definition at line <a class="el" href="_camera_8h_source.html#l00015">15</a> of file <a class="el" href="_camera_8h_source.html">Camera.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_camera_8h_source.html#l00016">16</a> of file <a class="el" href="_camera_8h_source.html">Camera.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="afb39670204855f2464818983059cfedb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afb39670204855f2464818983059cfedb">&#9670;&nbsp;</a></span>create2D()</h2>
@@ -231,8 +235,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a189fd53a9dc02578a162cbed6af999a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a189fd53a9dc02578a162cbed6af999a6">&#9670;&nbsp;</a></span>getPosition()</h2>
+<a id="a6c3c16e09f6e2a0bd1362b863df3d0b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c3c16e09f6e2a0bd1362b863df3d0b5">&#9670;&nbsp;</a></span>getCutOff()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -241,7 +245,34 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual glm::vec3 Engine::Camera::getPosition </td>
+          <td class="memname">const float&amp; Engine::Camera::getCutOff </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_camera_8h_source.html#l00034">34</a> of file <a class="el" href="_camera_8h_source.html">Camera.h</a>.</p>
+
+</div>
+</div>
+<a id="a2b506da2e369038c62c4c2023d6a35fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b506da2e369038c62c4c2023d6a35fb">&#9670;&nbsp;</a></span>getPosition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual glm::vec3&amp; Engine::Camera::getPosition </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -257,7 +288,7 @@ Protected Attributes</h2></td></tr>
 <p>Gets current position of a camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>current position </dd></dl>
 
-<p>Implemented in <a class="el" href="class_engine_1_1_camera3_d.html#a97d922a658ce412ebb81f46d7c50bf86">Engine::Camera3D</a>, and <a class="el" href="class_engine_1_1_camera2_d.html#a33d04bf018bf332f288566c4dd4151b8">Engine::Camera2D</a>.</p>
+<p>Implemented in <a class="el" href="class_engine_1_1_camera3_d.html#aec51f8c471524f370be5778a888b4ab0">Engine::Camera3D</a>, and <a class="el" href="class_engine_1_1_camera2_d.html#aee30813d30cda077786fe4785d0d9fd4">Engine::Camera2D</a>.</p>
 
 </div>
 </div>
@@ -287,7 +318,7 @@ Protected Attributes</h2></td></tr>
 <p>Gets projection of a camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>projection </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_camera_8h_source.html#l00026">26</a> of file <a class="el" href="_camera_8h_source.html">Camera.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_camera_8h_source.html#l00028">28</a> of file <a class="el" href="_camera_8h_source.html">Camera.h</a>.</p>
 
 </div>
 </div>
@@ -317,7 +348,7 @@ Protected Attributes</h2></td></tr>
 <p>Gets view of a camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>view </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_camera_8h_source.html#l00028">28</a> of file <a class="el" href="_camera_8h_source.html">Camera.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_camera_8h_source.html#l00030">30</a> of file <a class="el" href="_camera_8h_source.html">Camera.h</a>.</p>
 
 </div>
 </div>
@@ -347,7 +378,7 @@ Protected Attributes</h2></td></tr>
 <p>Gets view-projection of a camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>VP </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_camera_8h_source.html#l00030">30</a> of file <a class="el" href="_camera_8h_source.html">Camera.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_camera_8h_source.html#l00032">32</a> of file <a class="el" href="_camera_8h_source.html">Camera.h</a>.</p>
 
 </div>
 </div>
@@ -417,6 +448,30 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a7e3852ab5f5c5f25c148b266fb49f967"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e3852ab5f5c5f25c148b266fb49f967">&#9670;&nbsp;</a></span>m_cutOff</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Engine::Camera::m_cutOff = glm::cos(glm::radians(12.5f))</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_camera_8h_source.html#l00022">22</a> of file <a class="el" href="_camera_8h_source.html">Camera.h</a>.</p>
+
+</div>
+</div>
 <a id="ac629e3e7624bce74c451f4f488799148"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac629e3e7624bce74c451f4f488799148">&#9670;&nbsp;</a></span>m_projection</h2>
 
@@ -439,7 +494,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Projection matrix. </p>
 
-<p class="definition">Definition at line <a class="el" href="_camera_8h_source.html#l00018">18</a> of file <a class="el" href="_camera_8h_source.html">Camera.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_camera_8h_source.html#l00019">19</a> of file <a class="el" href="_camera_8h_source.html">Camera.h</a>.</p>
 
 </div>
 </div>
@@ -465,7 +520,7 @@ Protected Attributes</h2></td></tr>
 
 <p>View matrix. </p>
 
-<p class="definition">Definition at line <a class="el" href="_camera_8h_source.html#l00019">19</a> of file <a class="el" href="_camera_8h_source.html">Camera.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_camera_8h_source.html#l00020">20</a> of file <a class="el" href="_camera_8h_source.html">Camera.h</a>.</p>
 
 </div>
 </div>
@@ -491,7 +546,7 @@ Protected Attributes</h2></td></tr>
 
 <p>View-Projection matrix. </p>
 
-<p class="definition">Definition at line <a class="el" href="_camera_8h_source.html#l00020">20</a> of file <a class="el" href="_camera_8h_source.html">Camera.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_camera_8h_source.html#l00021">21</a> of file <a class="el" href="_camera_8h_source.html">Camera.h</a>.</p>
 
 </div>
 </div>

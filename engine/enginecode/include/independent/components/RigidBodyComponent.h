@@ -1,33 +1,52 @@
 #pragma once
+
+/*! \file RigidBodyComponent.h
+\brief Defines a rigidbody.
+*/
+
 #include <components/Component.h>
 #include <components/PositionComponent.h>
 #include "core/application.h"
 
 namespace Engine 
 {
+	/*! \class RigidBodyComponent
+	\brief Defines a physics body
+	
+		Inherits from component
+	*/
 	class RigidBodyComponent : public Component
 	{
 	private:
-		rp3d::RigidBody * body;
+		rp3d::RigidBody * body; //!< RP3D body
 
-		rp3d::Transform bodyTra, curTra, prevTra, intTra;
-		rp3d::Quaternion bodyOri;	
-		rp3d::Vector3 bodyPos;	
-		rp3d::BodyType m_type;
-		float bodyDen = 1.0f;
-		bool m_gravity;
+		rp3d::Transform bodyTra; //!< Body transform 
+		rp3d::Transform curTra; //!< Current body transform 
+		rp3d::Transform prevTra; //!< Previous body transform 
+		rp3d::Transform intTra; //!< Internal body transform
 
-		glm::mat4 m_model;
+		rp3d::Quaternion bodyOri; //!< Body orientation
+		rp3d::Vector3 bodyPos; //!< Body position
+		rp3d::BodyType m_type; //!< Body type
+		float bodyDen = 1.0f; //!< Density
+		bool m_gravity; //!< Is gravity affecting the body?
+
+		glm::mat4 m_model; //!< Rendering model position
+
 	public:
-		rp3d::Vector3 m_linear, m_angular = rp3d::Vector3(0,0,0);
-		glm::vec3 linear, angular = glm::vec3(0, 0, 0);
+		rp3d::Vector3 m_linear; //!< Body linear velocity
+		rp3d::Vector3 m_angular = rp3d::Vector3(0,0,0); //!< Body angular velocity
+		glm::vec3 linear; //!< GLM linear velocity
+		glm::vec3 angular = glm::vec3(0, 0, 0); //!< GLM angular velocity
 		
-		RigidBodyComponent() //default constructor
+		//! Default constructor
+		RigidBodyComponent() 
 		{
 			bodyTra.setPosition(m_owner->getComponent<PositionComponent>()->getRenderPosition());
 			bodyTra.setOrientation(rp3d::Quaternion::identity());
 		} 
 
+		//! Custom constructor \param type body type \param gravity enables gravity
 		RigidBodyComponent(rp3d::BodyType type, bool gravity){
 
 			m_type = type;
@@ -97,6 +116,7 @@ namespace Engine
 			return typeid(decltype(*this));
 		}
 
+		//! Sets rendering position \return rendering position
 		inline glm::vec3 &setRenderPosition()
 		{
 			glm::vec3 temp;
@@ -105,6 +125,8 @@ namespace Engine
 			temp.z = this->getBody()->getTransform().getPosition().z;
 			return temp;
 		}
+
+		//! Sets rendering rotation \return rendering rotation
 		inline glm::vec3 &setRenderRotation()
 		{
 			glm::vec3 temp;
@@ -114,89 +136,106 @@ namespace Engine
 			return temp;
 		}
 
+		//! Changes body type \param type new type
 		void changeType(rp3d::BodyType type)
 		{
 			body->setType(type); //Allows changing of body type
 			m_type = type;
 		}
 
+		//! Sets body position \param position new body position
 		void setPosition(rp3d::Vector3 position)
 		{
 			bodyPos = position;
 			body->setTransform(rp3d::Transform(bodyPos, bodyOri)); //Update position
 		}
 
+		//! Sets body orientation \param orientation new body orientation
 		void setOrientation(rp3d::Quaternion orientation)
 		{
 			bodyOri = orientation;
 			body->setTransform(rp3d::Transform(bodyPos, bodyOri)); //Update orientation
 		}
 
+		//! Sets body mass \param mass new mass
 		void setMass(rp3d::decimal mass) //Set mass
 		{
 			body->setMass(mass);
 		}
 
+		//! Gets current body mass \return body mass
 		rp3d::decimal getMass()
 		{
 			return body->getMass();
 		}
 
+		//! Sets body density \param density new density
 		void setDensity(float density) //Set density
 		{
 			bodyDen = density;
 		}
+		
+		//! Gets current body density \return current density
 		float getDensity()
 		{
 			return bodyDen;
 		}
 
+		//! Temporarily disables rigidbody \param sleep should be disabled
 		void toggleSleep(bool sleep)
 		{
 			body->setIsAllowedToSleep(sleep);
 		}
 
+		//! Toggles gravity \param gravity enables gravity
 		void toggleGravity(bool gravity)
 		{
 			body->enableGravity(gravity);
 		}
 
-
+		//! Gets physics body \return RP3D physics body
 		rp3d::RigidBody* getBody()
 		{
 			return body;
 		}
 
+		//! Gets physics material \return RP3D physics material
 		rp3d::Material getMaterial()
 		{
 			return body->getMaterial();
 		}
 
+		//! Sets restituion \param restitution new body restitution
 		void setRestitution(rp3d::decimal restitution)
 		{
 			body->getMaterial().setBounciness(restitution);
 		}
 
+		//! Gets restitution \return current body restitution
 		rp3d::decimal getRestitution()
 		{
 			return body->getMaterial().getBounciness();
 		}
 
+		//! Sets friction \param friction new body friction
 		void setFriction(rp3d::decimal friction)
 		{
 			body->getMaterial().setFrictionCoefficient(friction);
 		}
 
+		//! Gets friction \return current body friction
 		rp3d::decimal getFriction()
 		{
 			return body->getMaterial().getFrictionCoefficient();
 		}
 
+		//! Sets rolling resistance \param rollingRes new rolling resistance
 		void setRollingRes(rp3d::decimal rollingRes)
 		{
 			body->getMaterial().setRollingResistance(rollingRes);
 		}
 
+		//! Gets rolling resistance \return rolling resistance
 		rp3d::decimal getRollingRes()
 		{
 			return body->getMaterial().getRollingResistance();

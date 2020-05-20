@@ -69,9 +69,9 @@ Inheritance diagram for Engine::OscillateComponent:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a7c6b3e7beb9fe5a5c1e432a9be8bf409"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_oscillate_component.html#a7c6b3e7beb9fe5a5c1e432a9be8bf409">State</a> { <a class="el" href="class_engine_1_1_oscillate_component.html#a7c6b3e7beb9fe5a5c1e432a9be8bf409a1338230a373678fb465bdf5c67d5d192">STOPPED</a> = 0, 
-<a class="el" href="class_engine_1_1_oscillate_component.html#a7c6b3e7beb9fe5a5c1e432a9be8bf409ab194e20299cdb62ab6762fab3eed4999">DOWN</a> = 1, 
-<a class="el" href="class_engine_1_1_oscillate_component.html#a7c6b3e7beb9fe5a5c1e432a9be8bf409a933bcfd158fceeaf7f9552c96d24f0d1">UP</a> = 2
+<tr class="memitem:a7c6b3e7beb9fe5a5c1e432a9be8bf409"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_oscillate_component.html#a7c6b3e7beb9fe5a5c1e432a9be8bf409">State</a> { <a class="el" href="class_engine_1_1_oscillate_component.html#a7c6b3e7beb9fe5a5c1e432a9be8bf409a1338230a373678fb465bdf5c67d5d192">STOPPED</a> = -1, 
+<a class="el" href="class_engine_1_1_oscillate_component.html#a7c6b3e7beb9fe5a5c1e432a9be8bf409ab194e20299cdb62ab6762fab3eed4999">DOWN</a> = 0, 
+<a class="el" href="class_engine_1_1_oscillate_component.html#a7c6b3e7beb9fe5a5c1e432a9be8bf409a933bcfd158fceeaf7f9552c96d24f0d1">UP</a> = 1
  }</td></tr>
 <tr class="memdesc:a7c6b3e7beb9fe5a5c1e432a9be8bf409"><td class="mdescLeft">&#160;</td><td class="mdescRight">Possible states of a component.  <a href="class_engine_1_1_oscillate_component.html#a7c6b3e7beb9fe5a5c1e432a9be8bf409">More...</a><br /></td></tr>
 <tr class="separator:a7c6b3e7beb9fe5a5c1e432a9be8bf409"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -95,13 +95,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a93b6a12b0112ae5b3646dfdc965e6a13"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_oscillate_component.html#a93b6a12b0112ae5b3646dfdc965e6a13">ChangeDirection</a> ()</td></tr>
 <tr class="memdesc:a93b6a12b0112ae5b3646dfdc965e6a13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes direction after timer exceeds maximum time.  <a href="class_engine_1_1_oscillate_component.html#a93b6a12b0112ae5b3646dfdc965e6a13">More...</a><br /></td></tr>
 <tr class="separator:a93b6a12b0112ae5b3646dfdc965e6a13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6818b0a842fe3f205f8e2b6a7e63cfd"><td class="memItemLeft" align="right" valign="top">const std::type_info &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_oscillate_component.html#ab6818b0a842fe3f205f8e2b6a7e63cfd">getType</a> () override</td></tr>
+<tr class="memdesc:ab6818b0a842fe3f205f8e2b6a7e63cfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get type info of the component.  <a href="class_engine_1_1_oscillate_component.html#ab6818b0a842fe3f205f8e2b6a7e63cfd">More...</a><br /></td></tr>
+<tr class="separator:ab6818b0a842fe3f205f8e2b6a7e63cfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86bfe02387d2ccf5a8ae320d8d4a746c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_oscillate_component.html#a86bfe02387d2ccf5a8ae320d8d4a746c">onDetach</a> () override</td></tr>
+<tr class="memdesc:a86bfe02387d2ccf5a8ae320d8d4a746c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when object is being detached from an owner.  <a href="class_engine_1_1_oscillate_component.html#a86bfe02387d2ccf5a8ae320d8d4a746c">More...</a><br /></td></tr>
+<tr class="separator:a86bfe02387d2ccf5a8ae320d8d4a746c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_engine_1_1_component"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_engine_1_1_component')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_engine_1_1_component.html">Engine::Component</a></td></tr>
 <tr class="memitem:aae98a62b1157db012713e6ee16b1341e inherit pub_methods_class_engine_1_1_component"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_engine_1_1_game_object.html">GameObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_component.html#aae98a62b1157db012713e6ee16b1341e">getOwner</a> ()</td></tr>
 <tr class="memdesc:aae98a62b1157db012713e6ee16b1341e inherit pub_methods_class_engine_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets owner of a component.  <a href="class_engine_1_1_component.html#aae98a62b1157db012713e6ee16b1341e">More...</a><br /></td></tr>
 <tr class="separator:aae98a62b1157db012713e6ee16b1341e inherit pub_methods_class_engine_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7c60005f892987efdb69cd9e09c168d inherit pub_methods_class_engine_1_1_component"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_component.html#ab7c60005f892987efdb69cd9e09c168d">onDetach</a> ()</td></tr>
-<tr class="memdesc:ab7c60005f892987efdb69cd9e09c168d inherit pub_methods_class_engine_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when object is being detached from an owner.  <a href="class_engine_1_1_component.html#ab7c60005f892987efdb69cd9e09c168d">More...</a><br /></td></tr>
-<tr class="separator:ab7c60005f892987efdb69cd9e09c168d inherit pub_methods_class_engine_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41edc08bc6423ff89c9be04c849e2636 inherit pub_methods_class_engine_1_1_component"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_component.html#a41edc08bc6423ff89c9be04c849e2636">receiveMessage</a> (const <a class="el" href="class_engine_1_1_component_message.html">ComponentMessage</a> &amp;msg)</td></tr>
 <tr class="memdesc:a41edc08bc6423ff89c9be04c849e2636 inherit pub_methods_class_engine_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receives messages and takes appropriate action.  <a href="class_engine_1_1_component.html#a41edc08bc6423ff89c9be04c849e2636">More...</a><br /></td></tr>
 <tr class="separator:a41edc08bc6423ff89c9be04c849e2636 inherit pub_methods_class_engine_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -298,6 +301,38 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="ab6818b0a842fe3f205f8e2b6a7e63cfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6818b0a842fe3f205f8e2b6a7e63cfd">&#9670;&nbsp;</a></span>getType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::type_info&amp; Engine::OscillateComponent::getType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get type info of the component. </p>
+<dl class="section return"><dt>Returns</dt><dd>unique type of the ptr to the component </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_engine_1_1_component.html#aca2a7cc691a59a4eaadda7a8d95f76f5">Engine::Component</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_oscillate_component_8h_source.html#l00107">107</a> of file <a class="el" href="_oscillate_component_8h_source.html">OscillateComponent.h</a>.</p>
+
+</div>
+</div>
 <a id="a9ecefd40ccd27019011cb9b707034ed2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9ecefd40ccd27019011cb9b707034ed2">&#9670;&nbsp;</a></span>onAttach()</h2>
 
@@ -333,6 +368,37 @@ Additional Inherited Members</h2></td></tr>
 <p>Reimplemented from <a class="el" href="class_engine_1_1_component.html#a65426ef991ca092058d365cff80f5bb4">Engine::Component</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_oscillate_component_8h_source.html#l00041">41</a> of file <a class="el" href="_oscillate_component_8h_source.html">OscillateComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="a86bfe02387d2ccf5a8ae320d8d4a746c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86bfe02387d2ccf5a8ae320d8d4a746c">&#9670;&nbsp;</a></span>onDetach()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Engine::OscillateComponent::onDetach </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Called when object is being detached from an owner. </p>
+
+<p>Reimplemented from <a class="el" href="class_engine_1_1_component.html#ab7c60005f892987efdb69cd9e09c168d">Engine::Component</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_oscillate_component_8h_source.html#l00112">112</a> of file <a class="el" href="_oscillate_component_8h_source.html">OscillateComponent.h</a>.</p>
 
 </div>
 </div>

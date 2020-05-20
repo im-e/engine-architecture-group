@@ -1,27 +1,35 @@
 #pragma once
-#include "ColliderComponent.h"
-namespace Engine {
 
+/*! \file CapsuleColliderComponent.h
+\brief Defines a capsule collider. Currently not working.
+*/
+
+#include "ColliderComponent.h"
+
+namespace Engine 
+{
+	/*! \class CapsuleColliderComponent
+	\brief Defines a capsule collider. Currently not working.
+	*/
 	class CapsuleColliderComponent : public ColliderComponent
 	{
 	private:
-		rp3d::decimal capRad, capHeight;
-		rp3d::CollisionBody *body;
+		rp3d::decimal capRad; //!< Capsule radius
+		rp3d::decimal capHeight; //!< Capsule height
+		rp3d::CollisionBody *body; //!< Collision body
 
 	public:
-
+		//! Default constructor
 		CapsuleColliderComponent() { };
+
+		//! Custom constructor \param radius capsule radius \param height capsule height
 		CapsuleColliderComponent( rp3d::decimal radius, rp3d::decimal height)
 		{
 			capRad = radius;
 			capHeight = height;
 
-			shape = new rp3d::CapsuleShape(capRad, capHeight);
-
-			
-			
+			shape = new rp3d::CapsuleShape(capRad, capHeight);		
 		};
-
 
 		void onAttach(GameObject* owner)override
 		{
@@ -30,6 +38,7 @@ namespace Engine {
 			body = Application::getInstance().getPhysics()->getWorld()->createCollisionBody(getParentObject()->getTransform()); //Create body in physics world
 			getParentObject()->addCollisionShape(shape, getParentObject()->getTransform(), getParentObject()->getMass()); //Create proxyShape
 		}
+
 		void onUpdate(float timestep) override
 		{
 			//Update render position from rigid body

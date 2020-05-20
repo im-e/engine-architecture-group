@@ -83,6 +83,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aede551450248e7c366666e44226bf183"><td class="memItemLeft" align="right" valign="top">glm::vec3 &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_velocity_component.html#aede551450248e7c366666e44226bf183">getAngular</a> ()</td></tr>
 <tr class="memdesc:aede551450248e7c366666e44226bf183"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets angular velocity of a component.  <a href="class_engine_1_1_velocity_component.html#aede551450248e7c366666e44226bf183">More...</a><br /></td></tr>
 <tr class="separator:aede551450248e7c366666e44226bf183"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a246e690ac3955863c11064b57912eeb6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_velocity_component.html#a246e690ac3955863c11064b57912eeb6">setLinear</a> (glm::vec3 newLin)</td></tr>
+<tr class="memdesc:a246e690ac3955863c11064b57912eeb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets linear velocity.  <a href="class_engine_1_1_velocity_component.html#a246e690ac3955863c11064b57912eeb6">More...</a><br /></td></tr>
+<tr class="separator:a246e690ac3955863c11064b57912eeb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8d044f84852bea60be85566bbf34aea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_velocity_component.html#aa8d044f84852bea60be85566bbf34aea">setAngular</a> (glm::vec3 newAng)</td></tr>
+<tr class="memdesc:aa8d044f84852bea60be85566bbf34aea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets angular velocity.  <a href="class_engine_1_1_velocity_component.html#aa8d044f84852bea60be85566bbf34aea">More...</a><br /></td></tr>
+<tr class="separator:aa8d044f84852bea60be85566bbf34aea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8361729cdd8fd6193f2294f33a7aaea8"><td class="memItemLeft" align="right" valign="top">const std::type_info &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_velocity_component.html#a8361729cdd8fd6193f2294f33a7aaea8">getType</a> () override</td></tr>
+<tr class="memdesc:a8361729cdd8fd6193f2294f33a7aaea8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get type info of the component.  <a href="class_engine_1_1_velocity_component.html#a8361729cdd8fd6193f2294f33a7aaea8">More...</a><br /></td></tr>
+<tr class="separator:a8361729cdd8fd6193f2294f33a7aaea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16896dc8017353e779ab328268645cbe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_velocity_component.html#a16896dc8017353e779ab328268645cbe">onDetach</a> () override</td></tr>
+<tr class="memdesc:a16896dc8017353e779ab328268645cbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when object is being detached from an owner.  <a href="class_engine_1_1_velocity_component.html#a16896dc8017353e779ab328268645cbe">More...</a><br /></td></tr>
+<tr class="separator:a16896dc8017353e779ab328268645cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1249eed00b40250078dedf4827cde625"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_velocity_component.html#a1249eed00b40250078dedf4827cde625">~VelocityComponent</a> ()</td></tr>
 <tr class="memdesc:a1249eed00b40250078dedf4827cde625"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor.  <a href="class_engine_1_1_velocity_component.html#a1249eed00b40250078dedf4827cde625">More...</a><br /></td></tr>
 <tr class="separator:a1249eed00b40250078dedf4827cde625"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -90,9 +102,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aae98a62b1157db012713e6ee16b1341e inherit pub_methods_class_engine_1_1_component"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_engine_1_1_game_object.html">GameObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_component.html#aae98a62b1157db012713e6ee16b1341e">getOwner</a> ()</td></tr>
 <tr class="memdesc:aae98a62b1157db012713e6ee16b1341e inherit pub_methods_class_engine_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets owner of a component.  <a href="class_engine_1_1_component.html#aae98a62b1157db012713e6ee16b1341e">More...</a><br /></td></tr>
 <tr class="separator:aae98a62b1157db012713e6ee16b1341e inherit pub_methods_class_engine_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7c60005f892987efdb69cd9e09c168d inherit pub_methods_class_engine_1_1_component"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_component.html#ab7c60005f892987efdb69cd9e09c168d">onDetach</a> ()</td></tr>
-<tr class="memdesc:ab7c60005f892987efdb69cd9e09c168d inherit pub_methods_class_engine_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when object is being detached from an owner.  <a href="class_engine_1_1_component.html#ab7c60005f892987efdb69cd9e09c168d">More...</a><br /></td></tr>
-<tr class="separator:ab7c60005f892987efdb69cd9e09c168d inherit pub_methods_class_engine_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa235f9b05864c178696b957fade68d20 inherit pub_methods_class_engine_1_1_component"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_component.html#aa235f9b05864c178696b957fade68d20">onEvent</a> (<a class="el" href="class_engine_1_1_event.html">Event</a> &amp;e)</td></tr>
 <tr class="memdesc:aa235f9b05864c178696b957fade68d20 inherit pub_methods_class_engine_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on an appropriate event.  <a href="class_engine_1_1_component.html#aa235f9b05864c178696b957fade68d20">More...</a><br /></td></tr>
 <tr class="separator:aa235f9b05864c178696b957fade68d20 inherit pub_methods_class_engine_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,6 +120,8 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a4bafcfdaa66fa00d83f2f85b9420a896"><td class="memItemLeft" align="right" valign="top">glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_velocity_component.html#a4bafcfdaa66fa00d83f2f85b9420a896">m_angular</a></td></tr>
 <tr class="memdesc:a4bafcfdaa66fa00d83f2f85b9420a896"><td class="mdescLeft">&#160;</td><td class="mdescRight">Angular velocity.  <a href="class_engine_1_1_velocity_component.html#a4bafcfdaa66fa00d83f2f85b9420a896">More...</a><br /></td></tr>
 <tr class="separator:a4bafcfdaa66fa00d83f2f85b9420a896"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a14e80ffc86781e840538ed99e142a7"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_velocity_component.html#a6a14e80ffc86781e840538ed99e142a7">m_diffOffset</a> = 0.001f</td></tr>
+<tr class="separator:a6a14e80ffc86781e840538ed99e142a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -178,7 +189,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00023">23</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00024">24</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
 
 </div>
 </div>
@@ -207,7 +218,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Virtual destructor. </p>
 
-<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00071">71</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00320">320</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
 
 </div>
 </div>
@@ -238,7 +249,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Gets angular velocity of a component. </p>
 <dl class="section return"><dt>Returns</dt><dd>angular velocity </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00068">68</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00283">283</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
 
 </div>
 </div>
@@ -268,7 +279,39 @@ Additional Inherited Members</h2></td></tr>
 <p>Gets linear velocity of a component. </p>
 <dl class="section return"><dt>Returns</dt><dd>linear velocity </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00066">66</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00281">281</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="a8361729cdd8fd6193f2294f33a7aaea8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8361729cdd8fd6193f2294f33a7aaea8">&#9670;&nbsp;</a></span>getType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::type_info&amp; Engine::VelocityComponent::getType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get type info of the component. </p>
+<dl class="section return"><dt>Returns</dt><dd>unique type of the ptr to the component </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_engine_1_1_component.html#aca2a7cc691a59a4eaadda7a8d95f76f5">Engine::Component</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00297">297</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
 
 </div>
 </div>
@@ -306,7 +349,38 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_engine_1_1_component.html#a65426ef991ca092058d365cff80f5bb4">Engine::Component</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00033">33</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00034">34</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="a16896dc8017353e779ab328268645cbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16896dc8017353e779ab328268645cbe">&#9670;&nbsp;</a></span>onDetach()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Engine::VelocityComponent::onDetach </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Called when object is being detached from an owner. </p>
+
+<p>Reimplemented from <a class="el" href="class_engine_1_1_component.html#ab7c60005f892987efdb69cd9e09c168d">Engine::Component</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00302">302</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
 
 </div>
 </div>
@@ -344,7 +418,79 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_engine_1_1_component.html#addbf4c39ae043652de01a214129ff3fe">Engine::Component</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00027">27</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00028">28</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="aa8d044f84852bea60be85566bbf34aea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8d044f84852bea60be85566bbf34aea">&#9670;&nbsp;</a></span>setAngular()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Engine::VelocityComponent::setAngular </td>
+          <td>(</td>
+          <td class="paramtype">glm::vec3&#160;</td>
+          <td class="paramname"><em>newAng</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets angular velocity. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newAng</td><td>new angular velocity </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00292">292</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="a246e690ac3955863c11064b57912eeb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a246e690ac3955863c11064b57912eeb6">&#9670;&nbsp;</a></span>setLinear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Engine::VelocityComponent::setLinear </td>
+          <td>(</td>
+          <td class="paramtype">glm::vec3&#160;</td>
+          <td class="paramname"><em>newLin</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets linear velocity. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newLin</td><td>new linear velocity </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00286">286</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
 
 </div>
 </div>
@@ -372,6 +518,30 @@ Additional Inherited Members</h2></td></tr>
 <p>Angular velocity. </p>
 
 <p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00020">20</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="a6a14e80ffc86781e840538ed99e142a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a14e80ffc86781e840538ed99e142a7">&#9670;&nbsp;</a></span>m_diffOffset</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Engine::VelocityComponent::m_diffOffset = 0.001f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_velocity_component_8h_source.html#l00021">21</a> of file <a class="el" href="_velocity_component_8h_source.html">VelocityComponent.h</a>.</p>
 
 </div>
 </div>

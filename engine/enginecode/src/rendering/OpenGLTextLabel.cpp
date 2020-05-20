@@ -11,10 +11,6 @@ namespace Engine
 	{
 		setFont(fontName);
 		setCharSize(charSize);
-		/*setPosition(position);
-		setOrientation(orientation);
-		setScale(scale);
-		setColour(colour);*/
 		setName(key);
 
 		m_textShader = ResourceManagerInstance->getShader().getAsset("TextShaderFT");

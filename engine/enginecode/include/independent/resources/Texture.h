@@ -28,12 +28,12 @@ namespace Engine
 		virtual unsigned int getChannels() const = 0; //!< Get channels \return number of channels of the texture
 		virtual unsigned int getSlot() const = 0; //!< Get slot \return texture storage in a memory
 
-		/*!Creates a texture based on current RenderAPI 
+		/*! Creates a texture from file based on current RenderAPI 
 		\param path path to the texture on the disc
 		\return new RenderAPI specific texture
 		*/
 		static Texture* createFromFile(const std::string& path);
-		/*!  Creates a texture based on current RenderAPI 
+		/*!  Creates a texture from raw data based on current RenderAPI 
 		\param width width of the texture 
 		\param height height of the texture 
 		\param channels channels of the texture 
@@ -41,6 +41,13 @@ namespace Engine
 		\return new RenderAPI specific texture
 		*/
 		static Texture* createFromRawData(unsigned int width, unsigned int height, unsigned int channels, unsigned char* texData);
+		/*!  Creates a depth texture based on current RenderAPI
+		\param width width of the texture
+		\param height height of the texture
+		\param channels channels of the texture
+		\param texData pointer to texture data in the memory
+		\return new RenderAPI specific texture
+		*/
 		static Texture* createDepth(unsigned int width, unsigned int height, unsigned int channels, unsigned char* texData);
 
 		//! Generates texture
