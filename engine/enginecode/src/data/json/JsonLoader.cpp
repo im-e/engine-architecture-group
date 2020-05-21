@@ -1551,11 +1551,23 @@ namespace Engine
 							ImGui::SameLine(100.0f);
 							if (ImGui::Button("Remove"))
 							{
-								if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>())
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<BoxColliderComponent>())
 								{
-									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>();
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<BoxColliderComponent>();
 									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
-									LogWarn("Collider component removed");
+									LogWarn("Collider removed");
+								}
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<CapsuleColliderComponent>())
+								{
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<CapsuleColliderComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+									LogWarn("Collider removed");
+								}
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<SphereColliderComponent>())
+								{
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<SphereColliderComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+									LogWarn("Collider removed");
 								}
 								if (lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>())
 								{
@@ -1664,9 +1676,19 @@ namespace Engine
 							ImGui::SameLine(100.0f);
 							if (ImGui::Button("Remove"))
 							{
-								if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>())
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<BoxColliderComponent>())
 								{
-									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>();
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<BoxColliderComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+								}
+								else if (lay->getGameObjects()[layer.getGOName()]->getComponent<CapsuleColliderComponent>())
+								{
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<CapsuleColliderComponent>();
+									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
+								}
+								else if (lay->getGameObjects()[layer.getGOName()]->getComponent<SphereColliderComponent>())
+								{
+									auto comp = lay->getGameObjects()[layer.getGOName()]->getComponent<SphereColliderComponent>();
 									lay->getGameObjects()[layer.getGOName()]->removeComponent(comp);
 								}
 								else
