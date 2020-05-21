@@ -1624,6 +1624,11 @@ namespace Engine
 
 							if (ImGui::Button("Add"))
 							{
+								if (lay->getGameObjects()[layer.getGOName()]->getComponent<RigidBodyComponent>() == nullptr)
+								{
+									LogWarn("Rigidbody required for colliders!");
+									return;
+								}
 								if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>() == nullptr)
 								{
 									std::shared_ptr<ColliderComponent> cc;
@@ -1648,7 +1653,7 @@ namespace Engine
 										lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
 									}
 
-									LogError("Colliders are currently unsupported!");
+									LogError("Component added, but colliders are currently unsupported!");
 								}
 								else
 								{
