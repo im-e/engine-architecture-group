@@ -67,7 +67,19 @@ namespace Engine
 		inline const std::type_info& getType() override
 		{
 			return typeid(decltype(*this));
-		}	
+		}
+
+		//! Sets sphere radius \param newRad new radius
+		void setRadius(float newRad)
+		{
+			sphereRad = newRad;
+		}
+
+		//! Gets sphere radius \return sphere collider radius
+		float getRadius()
+		{
+			return sphereRad;
+		}
 	};
 
 }

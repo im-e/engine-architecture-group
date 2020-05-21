@@ -105,6 +105,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a653fb8bfe95691f230f773448a1a5267"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_rigid_body_component.html#a653fb8bfe95691f230f773448a1a5267">setMass</a> (rp3d::decimal mass)</td></tr>
 <tr class="memdesc:a653fb8bfe95691f230f773448a1a5267"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets body mass.  <a href="class_engine_1_1_rigid_body_component.html#a653fb8bfe95691f230f773448a1a5267">More...</a><br /></td></tr>
 <tr class="separator:a653fb8bfe95691f230f773448a1a5267"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73b0de1565bc87735b80cbc8017d24b8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_rigid_body_component.html#a73b0de1565bc87735b80cbc8017d24b8">getGravity</a> ()</td></tr>
+<tr class="memdesc:a73b0de1565bc87735b80cbc8017d24b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is gravity enabled?  <a href="class_engine_1_1_rigid_body_component.html#a73b0de1565bc87735b80cbc8017d24b8">More...</a><br /></td></tr>
+<tr class="separator:a73b0de1565bc87735b80cbc8017d24b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adae9959a2d790d6beb5fe66f0e865ca7"><td class="memItemLeft" align="right" valign="top">rp3d::decimal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_1_1_rigid_body_component.html#adae9959a2d790d6beb5fe66f0e865ca7">getMass</a> ()</td></tr>
 <tr class="memdesc:adae9959a2d790d6beb5fe66f0e865ca7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets current body mass.  <a href="class_engine_1_1_rigid_body_component.html#adae9959a2d790d6beb5fe66f0e865ca7">More...</a><br /></td></tr>
 <tr class="separator:adae9959a2d790d6beb5fe66f0e865ca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -371,7 +374,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Gets physics body. </p>
 <dl class="section return"><dt>Returns</dt><dd>RP3D physics body </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00197">197</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00203">203</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
 
 </div>
 </div>
@@ -401,7 +404,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Gets current body density. </p>
 <dl class="section return"><dt>Returns</dt><dd>current density </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00179">179</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00185">185</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
 
 </div>
 </div>
@@ -431,7 +434,37 @@ Additional Inherited Members</h2></td></tr>
 <p>Gets friction. </p>
 <dl class="section return"><dt>Returns</dt><dd>current body friction </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00227">227</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00233">233</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="a73b0de1565bc87735b80cbc8017d24b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73b0de1565bc87735b80cbc8017d24b8">&#9670;&nbsp;</a></span>getGravity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Engine::RigidBodyComponent::getGravity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Is gravity enabled? </p>
+<dl class="section return"><dt>Returns</dt><dd>true if enabled </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00167">167</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
 
 </div>
 </div>
@@ -461,7 +494,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Gets current body mass. </p>
 <dl class="section return"><dt>Returns</dt><dd>body mass </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00167">167</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00173">173</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
 
 </div>
 </div>
@@ -491,7 +524,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Gets physics material. </p>
 <dl class="section return"><dt>Returns</dt><dd>RP3D physics material </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00203">203</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00209">209</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
 
 </div>
 </div>
@@ -521,7 +554,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Gets restitution. </p>
 <dl class="section return"><dt>Returns</dt><dd>current body restitution </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00215">215</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00221">221</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
 
 </div>
 </div>
@@ -551,7 +584,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Gets rolling resistance. </p>
 <dl class="section return"><dt>Returns</dt><dd>rolling resistance </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00239">239</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00245">245</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
 
 </div>
 </div>
@@ -726,7 +759,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00173">173</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00179">179</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
 
 </div>
 </div>
@@ -762,7 +795,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00221">221</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00227">227</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
 
 </div>
 </div>
@@ -966,7 +999,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00209">209</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00215">215</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
 
 </div>
 </div>
@@ -1002,7 +1035,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00233">233</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00239">239</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
 
 </div>
 </div>
@@ -1038,7 +1071,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00191">191</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00197">197</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
 
 </div>
 </div>
@@ -1074,7 +1107,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00185">185</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_rigid_body_component_8h_source.html#l00191">191</a> of file <a class="el" href="_rigid_body_component_8h_source.html">RigidBodyComponent.h</a>.</p>
 
 </div>
 </div>

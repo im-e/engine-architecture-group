@@ -1,9 +1,9 @@
 {
-  "GameObject": 
-  [
+  "GameObject": [
     {
       "name": "Cube",
-      "material": {
+      "material": 
+      {
         "type": "assimp",
         "model": "box",
         "shader": "ParallaxShader"
@@ -42,6 +42,16 @@
           "y": 0.000000,
           "z": 0.000000
         }
+      },
+      "rb": {
+        "type": "Dynamic",
+        "gravity": 1
+      },
+      "collider": {
+        "type": "Box",
+        "sizeX": 2.000000,
+        "sizeY": 2.000000,
+        "sizeZ": 2.000000
       }
     },
     {
@@ -73,6 +83,15 @@
           "y": 0.100000,
           "z": 10.000000
         }
+      },
+      "rb": {
+        "type": "Static",
+        "gravity": 0
+      },
+      "collider": {
+        "type": "Capsule",
+        "radius": 2.000000,
+        "height": 2.000000
       }
     },
     {
@@ -156,8 +175,8 @@
       },
       "velocity": {
         "linear": {
-          "x": 0.707107,
-          "y": 0.707107,
+          "x": -0.707107,
+          "y": -0.707107,
           "z": 0.000000
         },
         "angular": {
@@ -169,7 +188,7 @@
       "sound": {
         "soundName": "assets/audio/music/song.wav",
         "audioType": "Editor Layer",
-        "volume": 0.2,
+        "volume": 0.200000,
         "playOnAwake": 1
       }
     },
@@ -202,6 +221,15 @@
           "y": 1.000000,
           "z": 1.000000
         }
+      },
+      "rb": {
+        "type": "Dynamic",
+        "gravity": 0
+      },
+      "collider": {
+        "type": "Sphere",
+        "radius": 2.000000
       }
     }
-  ] }
+  ]
+}

@@ -270,6 +270,61 @@ namespace Engine
 
 							outputStream << "\"sound\": { \"soundName\": \"" + soundName + "\", \"audioType\": \"" + audioType + "\", \"volume\": " + std::to_string(volume) + ", \"playOnAwake\": " + std::to_string(playOnAwake);
 						}
+						else if (c->getType().hash_code() == typeid(RigidBodyComponent).hash_code())
+						{
+							std::shared_ptr<RigidBodyComponent> comp = std::static_pointer_cast<RigidBodyComponent>(c);
+
+							rp3d::BodyType rbType = comp->getBody()->getType();
+							bool grav = comp->getGravity();
+
+							std::string type = "";
+
+							switch (rbType)
+							{
+							case rp3d::BodyType::STATIC:
+								type = "Static";
+								break;
+							case rp3d::BodyType::KINEMATIC:
+								type = "Kinematic";
+								break;
+							case rp3d::BodyType::DYNAMIC:
+								type = "Dynamic";
+								break;
+							}
+
+							outputStream << "\"rb\": { \"type\": \"" + type + "\", \"gravity\": " + std::to_string(grav);
+
+						}
+						else if (c->getType().hash_code() == typeid(BoxColliderComponent).hash_code())
+						{
+							std::shared_ptr<BoxColliderComponent> comp = std::static_pointer_cast<BoxColliderComponent>(c);
+
+							std::string colliderType = "Box";
+							float sizeX = comp->getSize().x;
+							float sizeY = comp->getSize().y;
+							float sizeZ = comp->getSize().z;
+
+							outputStream << "\"collider\": { \"type\": \"" + colliderType + "\", \"sizeX\": " + std::to_string(sizeX) + ", \"sizeY\": " + std::to_string(sizeY) + ", \"sizeZ\": " + std::to_string(sizeZ);
+						}
+						else if (c->getType().hash_code() == typeid(CapsuleColliderComponent).hash_code())
+						{
+							std::shared_ptr<CapsuleColliderComponent> comp = std::static_pointer_cast<CapsuleColliderComponent>(c);
+
+							std::string colliderType = "Capsule";
+							float radius = comp->getRadius();
+							float height = comp->getHeight();
+
+							outputStream << "\"collider\": { \"type\": \"" + colliderType + "\", \"radius\": " + std::to_string(radius) + ", \"height\": " + std::to_string(height);
+						}
+						else if (c->getType().hash_code() == typeid(SphereColliderComponent).hash_code())
+						{
+							std::shared_ptr<SphereColliderComponent> comp = std::static_pointer_cast<SphereColliderComponent>(c);
+
+							std::string colliderType = "Sphere";
+							float radius = comp->getRadius();
+
+							outputStream << "\"collider\": { \"type\": \"" + colliderType + "\", \"radius\": " + std::to_string(radius);
+						}
 
 						if (j < comps.size() - 1)
 						{

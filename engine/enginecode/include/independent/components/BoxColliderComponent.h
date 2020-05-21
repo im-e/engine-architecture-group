@@ -70,6 +70,36 @@ namespace Engine
 		{
 			return typeid(decltype(*this));
 		}
+
+		//! Sets size of the collider box \param newSize new collider size
+		void setSize(rp3d::Vector3 newSize)
+		{
+			boxDim = newSize;
+		}
+
+		//! Sets size of the collider on X axis \param value size on given axis
+		void setXSize(float value)
+		{
+			boxDim.x = value;
+		}
+
+		//! Sets size of the collider on Y axis \param value size on given axis
+		void setYSize(float value)
+		{
+			boxDim.y = value;
+		}
+
+		//! Sets size of the collider on Z axis \param value size on given axis
+		void setZSize(float value)
+		{
+			boxDim.z = value;
+		}
+
+		//! Gets size of the collider \return size of the collider box
+		rp3d::Vector3 getSize()
+		{
+			return boxDim;
+		}
 	};
 
 }

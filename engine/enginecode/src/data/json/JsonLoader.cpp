@@ -699,6 +699,59 @@ namespace Engine
 						(SoundComponent(ResourceManagerInstance->getSound().getAsset(soundName), soundName, soundType, vol, (bool)awake));
 					gameObject->addComponent(sound);
 				}
+
+				if (go.count("rb") > 0)
+				{
+					std::shared_ptr<RigidBodyComponent> rb;
+					rp3d::BodyType t;
+
+					std::string rbType = go["rb"]["type"].get<std::string>();
+					int grav = go["rb"]["gravity"].get<int>();
+
+					if (rbType == "Static") t = rp3d::BodyType::STATIC;
+					if (rbType == "Kinematic") t = rp3d::BodyType::KINEMATIC;
+					if (rbType == "Dynamic") t = rp3d::BodyType::DYNAMIC;
+
+					rb = std::make_shared<RigidBodyComponent>(RigidBodyComponent(t, (bool)grav));
+					gameObject->addComponent(rb);
+				}
+
+				if (go.count("collider") > 0)
+				{
+					std::string type = go["collider"]["type"].get<std::string>();
+
+					if (type == "Box")
+					{
+						std::shared_ptr<BoxColliderComponent> cc;
+
+						rp3d::Vector3 size = rp3d::Vector3(go["collider"]["sizeX"].get<float>(), go["collider"]["sizeY"].get<float>(), go["collider"]["sizeZ"].get<float>());
+
+						cc = std::make_shared<BoxColliderComponent>(BoxColliderComponent(size));
+						cc->setColliderType(type);
+						gameObject->addComponent(cc);
+					}
+					if (type == "Capsule")
+					{
+						std::shared_ptr<CapsuleColliderComponent> cc;
+
+						float rad = go["collider"]["radius"].get<float>();
+						float height = go["collider"]["height"].get<float>();
+
+						cc = std::make_shared<CapsuleColliderComponent>(CapsuleColliderComponent(rad, height));
+						cc->setColliderType(type);
+						gameObject->addComponent(cc);
+					}
+					if (type == "Sphere")
+					{
+						std::shared_ptr<SphereColliderComponent> cc;
+
+						float rad = go["collider"]["radius"].get<float>();
+
+						cc = std::make_shared<SphereColliderComponent>(SphereColliderComponent(rad));
+						cc->setColliderType(type);
+						gameObject->addComponent(cc);
+					}
+				}
 			}
 		}
 	}
@@ -1573,26 +1626,29 @@ namespace Engine
 							{
 								if (lay->getGameObjects()[layer.getGOName()]->getComponent<ColliderComponent>() == nullptr)
 								{
+									std::shared_ptr<ColliderComponent> cc;
+
 									if (currentItem == "Box")
 									{
-										std::shared_ptr<BoxColliderComponent> cc;
 										cc = std::make_shared<BoxColliderComponent>(BoxColliderComponent(size));
-
+										cc->setColliderType(currentItem);
 										lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
 
 									}
 									if (currentItem == "Capsule")
 									{
-										std::shared_ptr<CapsuleColliderComponent> cc;
 										cc = std::make_shared<CapsuleColliderComponent>(CapsuleColliderComponent(radius, length));
+										cc->setColliderType(currentItem);
 										lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
 									}
 									if (currentItem == "Sphere")
 									{
-										std::shared_ptr<SphereColliderComponent> cc;
 										cc = std::make_shared<SphereColliderComponent>(SphereColliderComponent(radius));
+										cc->setColliderType(currentItem);
 										lay->getGameObjects()[layer.getGOName()]->addComponent(cc);
 									}
+
+									LogError("Colliders are currently unsupported!");
 								}
 								else
 								{

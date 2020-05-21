@@ -163,6 +163,12 @@ namespace Engine
 			body->setMass(mass);
 		}
 
+		//! Is gravity enabled? \return true if enabled
+		bool getGravity()
+		{
+			return m_gravity;
+		}
+
 		//! Gets current body mass \return body mass
 		rp3d::decimal getMass()
 		{

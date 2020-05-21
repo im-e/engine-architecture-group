@@ -69,6 +69,30 @@ namespace Engine
 		{
 			return typeid(decltype(*this));
 		}
+
+		//! Sets radius \param newRad new capsule radius
+		void setRadius(float newRad)
+		{
+			capRad = newRad;
+		}
+
+		//! Sets height \param newHeight new capsule height
+		void setHeight(float newHeight)
+		{
+			capHeight = newHeight;
+		}
+
+		//! Gets capsule radius \return capsule radius
+		float getRadius()
+		{
+			return capRad;
+		}
+
+		//! Gets capsule height \return capsule height
+		float getHeight()
+		{
+			return capHeight;
+		}
 	};
 
 }

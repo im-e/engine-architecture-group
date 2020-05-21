@@ -28,7 +28,7 @@ namespace Engine {
 		rp3d::RigidBody *parentObject; //!< Parent physics body
 		rp3d::ProxyShape *proxy; //!< Proxy shape
 		rp3d::CollisionShape *shape; //!< Collision shape
-
+		std::string m_type; //!< Collider type
 	public:
 
 		//! Default constructor
@@ -69,6 +69,18 @@ namespace Engine {
 		rp3d::ProxyShape *getProxyShape()
 		{
 			return proxy;
+		}
+
+		//! Sets collider type \param t new type
+		void setColliderType(std::string t)
+		{
+			m_type = t;
+		}
+
+		//! Gets collider type \return collider type
+		std::string getColliderType()
+		{
+			return m_type;
 		}
 
 		//! Sets a proxy shape \param shape new proxy shape
