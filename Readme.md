@@ -1,4 +1,4 @@
-# game-engine-architecture
+# engine-architecture-group 
 
 Game engine using C++ and OpenGL.
 
