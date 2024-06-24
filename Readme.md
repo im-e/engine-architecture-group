@@ -2,20 +2,6 @@
 
 Game engine using C++ and OpenGL.
 
-Authors:
-
-Jan Kalinowski
-
-Charlie Jenkinson
-
-Reece Carey
-
-Thomas Stillman-Allbones
-
-Alfie Barton
-
-Imogen Burgham
-
 Engine provides debugging functionality, such as logging and timing events. The code's been abstracted and would easily be translated to work with various platforms and graphics libraries.
 
 It is capable of:
